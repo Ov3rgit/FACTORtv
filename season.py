@@ -119,6 +119,106 @@ def _slugify(s):
     return re.sub(r"[^a-z0-9]+", "_", (s or "").lower()).strip("_") or "career"
 
 
+# -- FINDING A CAREER LEFT IN AN OLDER COPY OF THE OVERLAY --------------------
+#
+# The saves live next to the executable, so a player who updates by extracting
+# the new zip into a NEW folder — which is what Windows suggests, every time —
+# gets an empty career screen while his real one sits in the folder next door.
+# Nothing has been destroyed and there is no way for him to know that.
+#
+# So: when there is nothing here, look one directory up and see whether an
+# earlier copy is sitting beside this one. It is a HEURISTIC and it is treated
+# like one — it OFFERS, it never imports on its own, it never overwrites, and it
+# says exactly which folder it found so the player can tell whether the answer is
+# the right one.
+_ORPHANS = None                  # scanned once per run; the disk does not change
+
+
+def orphan_careers(force=False):
+    """Careers found in a sibling folder, or [] — newest first.
+
+    Empty whenever this copy already HAS careers, because then there is nothing
+    to recover and offering to import would only invite a player to merge two
+    copies of the same championship by accident.
+    """
+    global _ORPHANS
+    if _ORPHANS is not None and not force:
+        return _ORPHANS
+    _ORPHANS = []
+    try:
+        if glob.glob(os.path.join(CAREER_DIR, "*.json")):
+            return _ORPHANS
+        here = os.path.normcase(os.path.abspath(_DIR))
+        parent = os.path.dirname(os.path.abspath(_DIR))
+        found = []
+        for name in sorted(os.listdir(parent)):
+            folder = os.path.join(parent, name)
+            if not os.path.isdir(folder):
+                continue
+            if os.path.normcase(os.path.abspath(folder)) == here:
+                continue          # this copy, which we already know is empty
+            for path in glob.glob(os.path.join(folder, "careers", "*.json")):
+                try:
+                    with open(path, "r", encoding="utf-8") as f:
+                        d = json.load(f)
+                except Exception:
+                    continue
+                # A SAVE IS A SAVE ONLY IF IT HAS A DRIVER IN IT. Anything else
+                # in a `careers` folder is somebody else's file and none of our
+                # business.
+                if not d.get("me"):
+                    continue
+                found.append({
+                    "path": path,
+                    "folder": name,
+                    "slug": os.path.splitext(os.path.basename(path))[0],
+                    "name": d.get("name", "?"),
+                    "me": d.get("me", ""),
+                    "rounds": len(d.get("rounds") or ()),
+                    "when": os.path.getmtime(path),
+                })
+        found.sort(key=lambda x: -x["when"])
+        _ORPHANS = found
+    except Exception:
+        _ORPHANS = []
+    return _ORPHANS
+
+
+def import_careers(items=None):
+    """Copy those saves in beside this build. Returns how many arrived.
+
+    NEVER OVERWRITES. A name already in use here is skipped rather than
+    replaced — the whole point of this is to recover a career, and the one
+    unacceptable outcome is destroying one.
+    """
+    global _ORPHANS
+    items = orphan_careers() if items is None else items
+    done = 0
+    try:
+        if not os.path.isdir(CAREER_DIR):
+            os.makedirs(CAREER_DIR)
+    except Exception:
+        return 0
+    for it in items or ():
+        src = it.get("path") if isinstance(it, dict) else it
+        if not src or not os.path.isfile(src):
+            continue
+        dst = os.path.join(CAREER_DIR, os.path.basename(src))
+        if os.path.exists(dst):
+            continue
+        try:
+            with open(src, "r", encoding="utf-8") as f:
+                blob = f.read()
+            with open(dst, "w", encoding="utf-8") as f:
+                f.write(blob)
+            done += 1
+        except Exception:
+            continue
+    if done:
+        _ORPHANS = None          # there are careers here now; stop offering
+    return done
+
+
 def list_careers():
     """Every saved career, newest first, as light summaries for the menu."""
     out = []

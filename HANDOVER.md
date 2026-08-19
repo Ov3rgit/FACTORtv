@@ -3566,6 +3566,54 @@ the user can drive it after step 1 rather than waiting for all of it.
 
 ---
 
+## UPDATING WITHOUT LOSING A CAREER
+
+Saves live in `careers/` beside the executable — `_DIR` is
+`dirname(sys.executable)` when frozen — so the folder a player extracts into
+decides whether he can still see his championship. Windows suggests a NEW folder
+every time, and `FACTORtv-0.0.1-beta (2)` starts with an empty career screen while
+the real one sits next door. Nothing is destroyed, and there is no way for him to
+know that.
+
+Neither archive contains save data of any kind (checked, not assumed: no
+`careers/`, no `_settings.json`, no `_bag.json`), so **extracting over the
+existing folder and replacing files is completely safe** and that is what the
+user is telling his tester to do. `SETUP.md` now has an "Updating" section saying
+exactly that, including the one rule that matters: do not delete the old folder
+first.
+
+Belt as well as braces, at his instruction: `season.orphan_careers()` looks one
+directory up when this copy has no careers of its own and reports any it finds
+beside it, and the career screen offers to bring them across.
+
+  * IT OFFERS, IT NEVER ACTS. Importing somebody's championship without being
+    asked is worse than one click, and the row names the folder it found so he
+    can judge whether the answer is the right one.
+  * IT NEVER OVERWRITES. A name already in use here is skipped.
+  * NOTHING IS OFFERED once this copy has a career, so it cannot invite a player
+    to merge two copies of the same season.
+  * It is a HEURISTIC and the row reads like one. A player who extracted
+    somewhere unrelated still has to copy the folder by hand, which `SETUP.md`
+    tells him how to do.
+
+**A broad `except` hid the first version completely.** `orphan_careers` used
+`io.open` and `season.py` does not import `io`, so every call raised NameError
+into `except Exception: _ORPHANS = []` and the feature silently found nothing. The
+test caught it; reading the code did not. A bare `except Exception` around a whole
+function body will swallow a typo as readily as a missing file.
+
+### AND HIS SAVE WAS REPAIRED
+
+Rolled back to the Formula 3 rung at his instruction, with round one rebuilt from
+**rF2's own results XML** rather than from anything the overlay wrote — the
+overlay is what got it wrong. `2026_08_19_20_01_04-84R1.xml`: Montreal GP, 13
+starters, sixth over seven laps, finished normally. The seven letters about a
+promotion that had not happened were withdrawn along with their `mail_seen`
+entries, so they will arrive properly when the call-up actually comes at round
+three. rF2 files him as "Your Name"; the career name is substituted on the way in.
+
+---
+
 ## ONE RACE, TWO ROUNDS — the phantom weekend (LAW 0)
 
 **He was right and the archive was wrong.** He said *"I never raced 2 F3 rounds? I

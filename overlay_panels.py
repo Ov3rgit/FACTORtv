@@ -1263,11 +1263,48 @@ class PanelsMixin(object):
         n = inbox_mod.unread(car)
         return "%d unread" % n if n else "all read"
 
+    def _rows_orphans(self):
+        """Rows offering to bring a career across from an older copy, or []."""
+        try:
+            import season as season_mod
+            found = season_mod.orphan_careers()
+        except Exception:
+            return []
+        msg = getattr(self, "_orphan_msg", "")
+        if not found:
+            # WHAT HAPPENED, AFTER THE CLICK. A click that silently does nothing
+            # is how a player concludes the career really is gone, and once the
+            # import has run there are no orphans left to list.
+            return [{"label": msg, "kind": "info"}] if msg else []
+        rows = [{"label": "Found %d career%s in an older copy"
+                          % (len(found), "" if len(found) == 1 else "s"),
+                 "kind": "info", "note": "in %s" % found[0]["folder"][:18]}]
+        for it in found[:3]:
+            # THE DRIVER'S NAME IS THE THING HE RECOGNISES, so it gets the room
+            # rather than being clipped to fit a division beside it.
+            rows.append({"label": "  %s" % it["me"][:24], "kind": "info",
+                         "note": "%s, %d rd" % (it["name"][:12], it["rounds"])})
+        rows.append({"label": "Bring them into this copy",
+                     "key": "importcareers", "kind": "action",
+                     "hot": True, "note": "nothing is overwritten"})
+        return rows
+
     def _rows_career(self):
         car = getattr(self, "season", None)
         rows = []
         if car is None:
             rows.append({"label": "No career loaded", "kind": "info"})
+            # A CAREER LEFT IN AN OLDER COPY OF THE OVERLAY. Saves live beside
+            # the executable, so a player who updates by extracting the new zip
+            # into a NEW folder — what Windows suggests every time — sees an
+            # empty career screen while his real one sits next door. Nothing is
+            # destroyed and there is no way for him to know that.
+            #
+            # IT OFFERS, IT DOES NOT ACT. Importing somebody's championship
+            # without being asked is worse than making him click once, and the
+            # row names the folder it found so he can tell whether the answer is
+            # the right one before he takes it.
+            rows += self._rows_orphans()
         else:
             rows.append({"label": car.name, "kind": "info"})
             rows.append({"label": "Progress", "kind": "info",
@@ -2887,6 +2924,19 @@ class PanelsMixin(object):
         self._season_round = None
 
     def _menu_toggle(self, key):
+        if key == "importcareers":
+            try:
+                import season as season_mod
+                n = season_mod.import_careers()
+            except Exception:
+                n = 0
+            # THE ROW SAYS WHAT HAPPENED. A click that silently does nothing is
+            # how a player concludes the career really is gone.
+            self._orphan_msg = (
+                "Brought %d career%s across - open Load career"
+                % (n, "" if n == 1 else "s") if n
+                else "Nothing could be copied")
+            return
         if key == "roundcount":
             car = getattr(self, "season", None)
             nxt = car.next_round() if car is not None else None

@@ -836,5 +836,65 @@ check(len(L.career_paths()) == 5, "which is still five", str(len(L.career_paths(
 
 shutil.rmtree(_tmp, ignore_errors=True)
 
+print("\n19. A CAREER LEFT IN AN OLDER COPY CAN BE FOUND AND BROUGHT ACROSS")
+# Saves live beside the executable, so a player who updates by extracting the new
+# zip into a NEW folder — which is what Windows suggests every time — gets an
+# empty career screen while his real one sits in the folder next door. Nothing is
+# destroyed and there is no way for him to know that.
+import io as _io
+import json as _json
+import os as _os
+_root = tempfile.mkdtemp()
+_old = _os.path.join(_root, "FACTORtv-0.0.1-beta", "careers")
+_new = _os.path.join(_root, "FACTORtv-0.0.1-beta (2)", "careers")
+_os.makedirs(_old)
+_os.makedirs(_new)
+_save = {"me": "Paul Van Rooyen", "name": "Formula 3", "version": 1,
+         "rounds": [{"n": 1, "pos": 6}], "preset": "open"}
+with _io.open(_os.path.join(_old, "karting.json"), "w", encoding="utf-8") as _f:
+    _f.write(_json.dumps(_save))
+# Somebody else's file in the same folder is none of our business.
+with _io.open(_os.path.join(_old, "notes.json"), "w", encoding="utf-8") as _f:
+    _f.write('{"hello": 1}')
+
+_dir_was, _cd_was = S._DIR, S.CAREER_DIR
+S._DIR = _os.path.join(_root, "FACTORtv-0.0.1-beta (2)")
+S.CAREER_DIR = _new
+S._ORPHANS = None
+
+_found = S.orphan_careers(force=True)
+check(len(_found) == 1, "the career next door is found", str(len(_found)))
+if _found:
+    check(_found[0]["me"] == "Paul Van Rooyen" and _found[0]["rounds"] == 1,
+          "with the driver and the rounds it holds", str(_found[0]["me"]))
+    check("(2)" not in _found[0]["folder"],
+          "and it is the OTHER folder, never this one", _found[0]["folder"])
+# NOTHING IS OFFERED WHEN THERE IS NOTHING TO RECOVER, because a copy that
+# already has careers must never invite a player to merge two of them.
+with _io.open(_os.path.join(_new, "karting.json"), "w", encoding="utf-8") as _f:
+    _f.write(_json.dumps(dict(_save, name="Formula 2")))
+S._ORPHANS = None
+check(not S.orphan_careers(force=True),
+      "and nothing is offered once this copy has a career of its own")
+# AND AN IMPORT NEVER OVERWRITES ONE.
+_before = _io.open(_os.path.join(_new, "karting.json"), encoding="utf-8").read()
+check(S.import_careers(_found) == 0,
+      "so importing over an existing name copies nothing")
+check(_io.open(_os.path.join(_new, "karting.json"), encoding="utf-8").read()
+      == _before, "and leaves the career that was already there untouched")
+# ...WHILE AN EMPTY COPY TAKES IT.
+_os.remove(_os.path.join(_new, "karting.json"))
+S._ORPHANS = None
+check(S.import_careers(S.orphan_careers(force=True)) == 1,
+      "an empty copy brings the career across")
+_got = _json.load(_io.open(_os.path.join(_new, "karting.json"), encoding="utf-8"))
+check(_got.get("me") == "Paul Van Rooyen",
+      "and it is the same save, driver and all", str(_got.get("me")))
+check(not S.orphan_careers(force=True),
+      "and the offer stops once it has been taken")
+S._DIR, S.CAREER_DIR = _dir_was, _cd_was
+S._ORPHANS = None
+shutil.rmtree(_root, ignore_errors=True)
+
 print("\n" + ("FAILED: %d" % len(fails) if fails else "ALL PASSED"))
 sys.exit(1 if fails else 0)

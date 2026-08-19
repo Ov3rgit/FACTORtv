@@ -165,6 +165,36 @@ The log is overwritten each run, so it is always about the session you just drov
 
 ---
 
+## Updating to a newer build — WITHOUT losing your career
+
+**Extract the new zip over the folder you already have, and choose "Replace the
+files in the destination".** That is the whole procedure.
+
+It is safe because the download contains no save data of any kind — no careers,
+no settings, no line history. It ships code, artwork and dialogue only, so there
+is nothing in it that can land on top of your progress.
+
+**Do NOT delete the old folder first, and do not extract to a new one.** Your
+career lives in a `careers` folder next to `FACTORtv.exe`, so a fresh folder
+somewhere else starts an empty career while your real one sits in the old
+location. Nothing is destroyed by that, but the career screen will look empty
+and you will think it is.
+
+If you have already extracted to a new folder, copy these across from the old
+one and everything comes back:
+
+    careers\            every championship you have raced
+    _settings.json      your overlay settings
+
+The rF2 plugin is not part of this. It lives in the game folder, an overlay
+update does not touch it, and you do not need to run `INSTALL.bat` again — though
+it is harmless if you do, because it never overwrites artwork that is already
+there.
+
+If the overlay ever misbehaves straight after an update, the clean reset is:
+delete everything in the folder EXCEPT `careers\` and `_settings.json`, then
+extract the zip again.
+
 ## What is NOT in the build, and is not a fault
 
 **The artwork ships, but it is not where the overlay reads it until you run
