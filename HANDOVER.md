@@ -3573,6 +3573,44 @@ since the pass work was written, and it answered four reports in one read —
 including the discovery that **the headline feature of the product had been dead
 since the day it was built.** Read the section under LAW 24 first.
 
+### THE HISTORIC TOUR AS A REWARD — decided 2026-08-19, NOT YET BUILT
+
+The user's idea: *"you know we have the historic races, can those races be
+unlocked through an invite the player receives after completing their
+championship, so if I beat 2021 then I get invited to compete in the 1988 F1
+season as a reward as well."*
+
+**IT FITS BECAUSE THE TOUR WAS ALREADY THE ODD ONE OUT.** `career_paths()`
+excludes the historic path from the 100% — it has no final championship to win,
+and counting it would put completion permanently out of reach. That is exactly
+what makes it the right thing to give away: the one path with nothing to lose by
+being optional.
+
+The machinery is nearly there too. `advance("newpath")` is already granted only
+to a driver who WON the final championship of a path, and it is already framed
+in-world as the FIA granting permission to compete elsewhere. An invitation to
+1988 is that mechanic with different words, delivered the way every other reward
+in this career is — as a letter.
+
+**HIS THREE ANSWERS, WHICH SETTLE THE DESIGN:**
+
+1. **FORMULA ONE ONLY.** Winning the top championship of the single-seater path
+   is what invites him. He was explicit: *"specific, so F1 to F1 historic."* A
+   NASCAR champion being invited to a 1988 Grand Prix season is a stranger
+   sentence than it first looks.
+2. **ONE ERA PER CHAMPIONSHIP WON.** Not the whole tour at once — four rewards
+   instead of one, and the eighties is the one to unlock first because a 2021
+   champion being handed the Senna-Prost season is the best version of this.
+3. **IT COUNTS FOR NOTHING.** A bonus, recorded normally but outside the 100%,
+   exactly as the tour is today. The reward is the invitation and the racing.
+
+**WHAT IT NEEDS**: an `historic_unlocked` list in the career store, the invitation
+letter (FIA, and it should read like an invitation rather than a promotion), a
+gate so an era cannot be entered before it is offered, and the era ordered
+eighties -> nineties -> seventies -> sixties so the first reward is the best one.
+**The 100% arithmetic does not change**, which is the whole reason this is safe to
+add late.
+
 ### THE DEVELOPMENT YEAR IS DRIVEN NOW — the 2020 test programme
 
 The user found F1 2020 by A&M on the workshop and asked what the year out was
