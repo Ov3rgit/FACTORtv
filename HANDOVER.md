@@ -3622,6 +3622,52 @@ tutorial's pointer, accent for a season waiting to be decided.
 **The lesson for any future mark on a corner control:** the canvas is not the
 screen. A panel is a window, and a window clips.
 
+## THE SEAT GATE — a rival's car is not a round of his season
+
+He went looking for this one on purpose: *"i started the next quakyfying session
+in a DAMS F2 car instead to see if the campaign would shut off if i was not in the
+right car and sadly it didnt which is very imersion breaking"*.
+
+He was right, and it is the gate the whole arc rests on. **The seat lock only ever
+covered FORMULA ONE** — `_programme_seat`, which works on DRIVER names because
+both Mercedes report the same constructor. Formula 2 and Formula 3 put the entire
+grid in ONE class, so the class lock cannot tell ART Grand Prix from DAMS, and
+nothing else was looking.
+
+**THE ENTRANT IS NOT IN THE LIVE SESSION.** rF2's scoring gives `mVehicleName` —
+`2019 - #06 Nicholas Latifi` — which names the driver of the entry and never the
+team. The team is only in the result XML (`TeamName`), and `Career.team_of`
+already learned those pairings from his own files: his store knows the entire 2019
+Formula 2 grid, Latifi at DAMS and Mazepin at ART. `team_for_entry` turns "which
+car is he in" into "whose car is he in", the booth passes it to `Season.match`,
+and `_programme_team` says which entrant this rung's rounds belong to.
+
+    ART car   -> round 3 counts
+    DAMS car  -> OFF-CAREER
+    unknown   -> counts
+
+**REFUSED ONLY WHEN THE CAR POSITIVELY BELONGS TO SOMEBODY ELSE.** An entrant
+nothing has learned about falls through, exactly like an unknown class and an
+unknown year: a career that stops counting for want of a fact is a worse failure
+than one that counts a race it should not have.
+
+`_same_team` compares by CONTAINMENT after folding, because the real spellings do
+not line up — "Sauber Junior Team by Charouz" against "Charouz", "ART Grand Prix"
+against "ART GP". A gate that shuts a career down over a missing word is worse
+than no gate.
+
+The log now names the reason too: *"off-career — that is a DAMS car and your seat
+is at ART Grand Prix"*. Off-career with a list of facts leaves him guessing which
+one was wrong, and this is the one refusal a player will actively go and test.
+
+### AND THE TEST THAT ALMOST LIED
+
+The first version of that test passed a slug taken from an unraced round of an
+open season — which is `""`, and `match` refuses everything when the circuit is
+empty. **The three REFUSAL checks passed without testing anything.** A test whose
+setup makes the answer inevitable is worse than no test: it reports the feature
+working. The accepts failing is the only reason I looked.
+
 ### A DEAD BUTTON, AND THE AUDIT THAT FOUND A SECOND ONE
 
 *"the simulate rounds button isnt working"*. The dashboard asked for

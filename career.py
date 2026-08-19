@@ -602,6 +602,24 @@ class History(object):
                 return v
         return ""
 
+    def team_for_entry(self, vehicle, cls):
+        """Which team the LOADED CAR belongs to, or "" if it cannot be known.
+
+        The live session names the entry after its driver — `2019 - #06 Nicholas
+        Latifi` — and says nothing about the entrant. `team_of` knows the pairing
+        from the result files, so the two together turn "which car is he in" into
+        "whose car is he in", which is the question the junior arc rests on.
+
+        "" IS A REAL ANSWER and every caller has to treat it as "cannot tell"
+        rather than as "wrong team". A grid nobody has raced yet has no pairings
+        at all, and a career that silently stops counting is the worst failure
+        this store has.
+        """
+        if not vehicle or not cls:
+            return ""
+        drv = _veh_driver(vehicle, cartype=cls)
+        return self.team_of(drv, cls) if drv else ""
+
     def team_mates(self, cls):
         """{driver: team} for this class, or {} if nothing is known."""
         cl = (self.data.get("classes") or {}).get(cls) or {}

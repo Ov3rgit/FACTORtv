@@ -420,6 +420,39 @@ def delete(slug):
 
 
 
+def _fold_team(name):
+    """An entrant reduced to something two spellings can agree on.
+
+    Mods and result files write a team three ways — "ART Grand Prix", "ART GP",
+    "Prema Racing" against "Prema" — and a gate that shuts a career down over a
+    missing word is worse than no gate at all.
+    """
+    keep = "".join(ch for ch in (name or "").lower() if ch.isalnum())
+    for noise in ("grandprix", "racing", "motorsports", "motorsport",
+                  "junior", "team", "gp", "by"):
+        keep = keep.replace(noise, "")
+    return keep
+
+
+def _same_team(a, b):
+    """Are these two names the same entrant?
+
+    CONTAINMENT, NOT EQUALITY, because the real spellings do not line up even
+    after folding: a mod writes "Sauber Junior Team by Charouz" where the
+    programme file says "Charouz", and "ART Grand Prix" against "ART GP". One
+    name sitting inside the other is the same entrant every time it happens
+    here; three characters is the floor, so a two-letter fragment cannot make
+    everything match everything.
+    """
+    x, y = _fold_team(a), _fold_team(b)
+    if not x or not y:
+        return False
+    if x == y:
+        return True
+    short, long_ = (x, y) if len(x) <= len(y) else (y, x)
+    return len(short) >= 3 and short in long_
+
+
 def _names_driver(vehicle, name):
     """Does this rF2 entry belong to that driver?
 
@@ -619,7 +652,36 @@ class Career(object):
         _team, mine, theirs = got
         return (mine, theirs) if (mine and theirs) else None
 
-    def match(self, slug, cls=None, year=None, vehicle=""):
+    def _programme_team(self):
+        """The entrant whose car this season's rounds must be driven in, or "".
+
+        THE ARC IS A SEAT, NOT A CATEGORY. He signs for a junior programme and
+        that programme puts him in ONE team; the whole story of the climb is that
+        the seat was given to him. Driving a rival's car and having the
+        championship count anyway is the immersion break he reported: *"i started
+        the next quakyfying session in a DAMS F2 car instead to see if the
+        campaign would shut off if i was not in the right car and sadly it
+        didnt"*.
+
+        Only while he is on the rung the programme placed him on. The Formula One
+        season has its own, narrower lock — `_programme_seat` — because there both
+        cars are the same constructor and only the driver differs.
+        """
+        try:
+            import programme as prog_mod
+        except Exception:
+            return ""
+        _key, block = prog_mod.signed(self)
+        if not block:
+            return ""
+        if prog_mod.on_f2(self):
+            return block.get("f2_team") or ""
+        if prog_mod.on_f3(self):
+            return block.get("f3_team") or block.get("f2_team") or ""
+        return ""
+
+    def match(self, slug, cls=None, year=None, vehicle="",
+              team=""):
         """Which round of this season the loaded session is, if any.
 
         Returns {"n", "event", "slug", "done"} or None. `done` means this
@@ -630,6 +692,11 @@ class Career(object):
         date it. Only used by a rung that locks its year — Formula One is
         2021 in this career and only 2021 — and ignored entirely everywhere
         else, including when it is None.
+
+        `team` is the ENTRANT that entry belongs to, which the live session
+        cannot see — see `Career.team_for_entry`. The junior arc rests on it:
+        the programme placed him at one team, and a rival's car is not a round
+        of his season.
 
         `vehicle` is the ENTRY he loaded — rF2 names each one for its driver
         ("#77 - Valtteri Bottas"). Used only by a junior-programme seat, which
@@ -694,8 +761,25 @@ class Career(object):
             seat = self._programme_seat()
             if seat and vehicle:
                 mine, theirs = seat
-                if theirs and _names_driver(vehicle, theirs)                         and not _names_driver(vehicle, mine):
+                if (theirs and _names_driver(vehicle, theirs)
+                        and not _names_driver(vehicle, mine)):
                     return None
+            # AND THE JUNIOR SEASONS ARE A TEAM SEAT.
+            #
+            # Formula 2 and Formula 3 put every car in ONE class, so the
+            # class lock cannot tell ART Grand Prix from DAMS — and the arc
+            # is entirely about which of them gave him a drive. The entrant
+            # is not in the live session at all; it is learned from the
+            # result files, which is what `Career.team_for_entry` is for.
+            #
+            # REFUSED ONLY WHEN THE CAR POSITIVELY BELONGS TO SOMEBODY
+            # ELSE. An unknown entrant falls through, exactly like an
+            # unknown class and an unknown year: a career that stops
+            # counting for want of a fact is a worse failure than one that
+            # counts a race it should not have.
+            want = self._programme_team()
+            if want and team and not _same_team(team, want):
+                return None
 
         locked = self.data.get("cls")
         members = self.data.get("cls_any") or []

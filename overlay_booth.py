@@ -49,6 +49,7 @@ import stings as stings_mod
 from overlay_common import (STRIKE_GAP, spoken_place, spoken_gap,
                             spoken_lap, spoken_rank)
 from rf2_session import fmt_gap
+from season import _same_team
 
 # Global gap between ANY two booth lines. The single most important number
 # here: too low and the booth never draws breath, too high and it misses the
@@ -2105,6 +2106,24 @@ class BoothMixin(object):
     #   standings table that silently banked an abandoned attempt is wrong in
     #   a way the user cannot see.
 
+    def _entry_team(self, car):
+        """Which team the loaded car belongs to, or "" when it cannot be known.
+
+        Learned rather than read: `mVehicleName` names the DRIVER of the entry
+        and never the entrant, so the pairing comes out of the result files
+        through `Career.team_for_entry`. An empty answer means "cannot tell", and
+        every caller treats that as a reason to say nothing rather than as a
+        reason to refuse.
+        """
+        hist = getattr(self, "career", None)
+        if hist is None or car is None:
+            return ""
+        try:
+            return hist.team_for_entry(getattr(car, "vehicle", ""),
+                                       getattr(car, "cls", "") or "")
+        except Exception:
+            return ""
+
     def _season_arm(self, s):
         """Work out which round of the active career this session is.
 
@@ -2148,7 +2167,14 @@ class BoothMixin(object):
                                           or circuit.slug,
                                           getattr(car, "cls", None),
                                           year=getattr(_e, "year", None),
-                                          vehicle=getattr(car, "vehicle", ""))
+                                          vehicle=getattr(car, "vehicle", ""),
+                                          # WHOSE CAR IT IS. The live session
+                                          # cannot see the entrant, so it comes
+                                          # from what the result files have
+                                          # taught the store — and the junior
+                                          # arc is a seat at one team, so a
+                                          # rival's car is not a round of it.
+                                          team=self._entry_team(car))
         # The default is to count it. The user can decline from the prompt or
         # drop the result afterwards from the menu, and both of those are
         # easier to reach for than a race that quietly failed to count.
@@ -2190,11 +2216,25 @@ class BoothMixin(object):
                       % (rnd.get("n"), getattr(career, "name", "") or "?",
                          (" at %s" % rnd.get("slug")) if rnd.get("slug") else ""))
         else:
-            self._log("SEASON", "no round matched — off-career "
-                                "(circuit=%r class=%r year=%s)"
-                      % (getattr(circuit, "key", "") or getattr(circuit, "slug", ""),
-                         getattr(car, "cls", None),
-                         getattr(_e, "year", None)))
+            # NAME THE REASON WHEN IT IS KNOWABLE. "Off-career" with a list of
+            # facts leaves him guessing which of them was wrong, and the seat
+            # gate is the one refusal a player will actively test.
+            _mine = ""
+            try:
+                _mine = career._programme_team()
+            except Exception:
+                _mine = ""
+            _theirs = self._entry_team(car)
+            if _mine and _theirs and not _same_team(_theirs, _mine):
+                self._log("SEASON", "off-career — that is a %s car and your "
+                                    "seat is at %s" % (_theirs, _mine))
+            else:
+                self._log("SEASON", "no round matched — off-career "
+                                    "(circuit=%r class=%r year=%s team=%r)"
+                          % (getattr(circuit, "key", "")
+                             or getattr(circuit, "slug", ""),
+                             getattr(car, "cls", None),
+                             getattr(_e, "year", None), _theirs))
 
     # THE IN-SESSION PROMPT IS GONE, AND ITS ABSENCE IS THE FEATURE.
     #

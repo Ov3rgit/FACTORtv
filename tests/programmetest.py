@@ -870,6 +870,58 @@ check(P.bar_state(_fresh) is None,
 check(P.called_up(_fresh),
       "but he is a called-up driver, which is knowable without a measurement")
 
+print("\n7l. A RIVAL'S CAR IS NOT A ROUND OF HIS SEASON")
+# THE GATE HE WENT LOOKING FOR, and the most important one in the arc: "i started
+# the next quakyfying session in a DAMS F2 car instead to see if the campaign
+# would shut off if i was not in the right car and sadly it didnt which is very
+# imersion breaking".
+#
+# He was right. The seat lock only covered FORMULA ONE, where both cars are the
+# same constructor and only the driver differs. Formula 2 and Formula 3 put the
+# whole grid in one class, so the class lock cannot tell ART Grand Prix from DAMS
+# — and the arc is entirely about which of them gave him a drive.
+#
+# THE ENTRANT IS NOT IN THE LIVE SESSION. rF2 names each entry after its driver
+# and never its team, so the pairing is learned from the result files
+# (`Career.team_for_entry`) and applied live.
+_seat = to_f2(f3_career(rounds=10), "ferrari")
+_want = P.signed(_seat)[1].get("f2_team")
+check(_want == "Prema Racing", "the programme placed him at a team", str(_want))
+check(_seat._programme_team() == _want,
+      "and the season knows which one", str(_seat._programme_team()))
+# A REAL CIRCUIT. An unraced round of an open season has no slug yet, and an
+# empty one makes `match` return None for every case — which would have made the
+# REFUSALS below pass without testing anything.
+_slug = "montreal"
+_cls = "Formula 2 2019"
+# HIS OWN CAR COUNTS.
+check(_seat.match(_slug, cls=_cls, vehicle="2019 - #20 Sean Gelael",
+                  team="Prema Racing"),
+      "his own team's car is a round of the championship")
+# A RIVAL'S DOES NOT.
+check(_seat.match(_slug, cls=_cls, vehicle="2019 - #06 Nicholas Latifi",
+                  team="DAMS") is None,
+      "a DAMS car is not, and the campaign goes off")
+check(_seat.match(_slug, cls=_cls, team="ART Grand Prix") is None,
+      "nor anybody else's")
+# AN UNKNOWN ENTRANT FALLS THROUGH. A grid nobody has raced has no pairings, and
+# a career that stops counting for want of a fact is the worse failure.
+check(_seat.match(_slug, cls=_cls, vehicle="2019 - #99 Nobody", team=""),
+      "an entrant nothing has learned yet still counts")
+# SPELLINGS DIFFER IN REAL FILES, and a gate that shuts a career over a missing
+# word is worse than no gate.
+for _spelling in ("Prema", "PREMA Racing", "Prema  Racing"):
+    check(_seat.match(_slug, cls=_cls, team=_spelling),
+          "and %r is the same entrant" % _spelling)
+# ...AND A CAREER WITH NO PROGRAMME HAS NO TEAM GATE AT ALL.
+_plain = S.create("open", me=ME, rounds=5, ladder_path="single_seater",
+                  tier_index=3)
+check(_plain._programme_team() == "",
+      "a career off the arc is not tied to an entrant",
+      repr(_plain._programme_team()))
+check(_plain.match("montreal", cls=_cls, team="DAMS"),
+      "so any car in the category counts for it")
+
 print("\n8. NOTHING ABOUT IT SURVIVES A CAREER THAT DID NOT EARN IT")
 fresh = f2_career()
 check(P.state(fresh) == P.OFFERED and not P.signed(fresh)[0],
