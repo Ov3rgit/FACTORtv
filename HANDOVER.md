@@ -3596,6 +3596,48 @@ name in our own standings. **The team drops its driver for form instead.**
     named while Correa, Hubert, Latifi, Ghiotto, Aitken, Mazepin and Zhou are
     not.
 
+### THE FEED NOW COVERS THE ARC, AND KNOWS WHAT HE ACTUALLY DID
+
+He took one of the three seats and could not tell what he had taken — *"it
+wasnt speicifc to what year, there are so many f3 years so which car am i
+talking lol?"* The offer letter still described "the Formula 2 season" from when
+the arc started a rung higher, and named no car. `programme.rung_facts()` now
+answers three questions off his own installation: the championship, the car and
+the mod it lives in (through `ladder.tier_cars`, the same source the eligible
+letter uses) and the year, READ out of the F2 mod alias `f 2 2019` rather than
+picked. No aliases with a year in them, no year in the letter.
+
+Then the news, which was covering none of it. Six new pools:
+
+  * `news_prog_signed` — choosing the academy, which he reported as missing.
+  * `news_prog_callup` — the biggest move in the arc, previously unreported. It
+    cannot go through `_arrival`, which fires on round one: a called-up season
+    has rounds one and two already gone as absences. It also must not borrow
+    `news_arrival_promoted`, which says the seat "was earned on results rather
+    than granted" — true of a promotion, the exact opposite of this.
+  * `news_prog_bar` / `news_prog_won` / `news_prog_late_win` — the verdict, and
+    **which of the three it is matters more than anything else in this arc.**
+    Clearing a podium bar is not winning a championship, winning one outright is,
+    and a mid-season replacement who wins it anyway is a third thing that
+    neither of the other two can describe without saying something false. All
+    three are reachable, so all three are written.
+  * `news_prog_missed` / `news_prog_dropped` — another go, and the end of it.
+  * `news_prog_chase` / `news_prog_hold` — the months in between, which nothing
+    was writing: he is not fighting for a title, so `_title_fight` stays silent.
+
+**`signed()` RETURNS THE STATIC PROGRAMME DEFINITION.** It reads
+`programmes.json` and knows nothing about this career, so
+`signed(career)[1].get("called")` is None however called up he is — which is
+exactly how the first draft of the verdict piece filed a mid-season replacement
+as an outright champion, in the one place the user had explicitly warned about.
+`programme.called_up(career)` exists so no caller has to know the difference.
+
+Two faults were caught by reading a driven season back rather than by a test:
+the hold piece said "first is precisely where he needs to finish" about a man
+leading the championship (the requirement is third, and the sentence reused the
+wrong slot), and the chase piece asserted the title was "gone" — a sum it had
+not done and cannot do.
+
 ### THE LAST SEASON OF EVERY DIVISION IS TEN ROUNDS, AND HE CANNOT CHOOSE
 
 His words: the challenge gap before F1. `FINALE_ROUNDS = 10`,

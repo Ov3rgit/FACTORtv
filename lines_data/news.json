@@ -1233,5 +1233,139 @@
     "There is no trophy attached to this and nobody is pretending otherwise. What there is instead is a set of rounds in the best car he has ever been given and a paddock that will draw its conclusions by December."
    ]
   }
+ ],
+ "news_prog_bar": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} takes the seat without taking the title",
+   "body": [
+    "{drv} has finished {pos} in the {year} {champ} standings and that is the number that mattered, because {prog} asked for a podium in the championship rather than the championship itself. The seat at {f1team} is his.",
+    "It is worth saying what he did and what he did not do. He did not win this championship - he arrived in the car with rounds already gone and nothing on the board, and third was always what was in front of him. What he did was clear a bar set by people who knew exactly how hard it was when they set it, which is a different achievement and not a smaller one."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{prog} confirm {drv} for {f1team}",
+   "body": [
+    "{prog} have confirmed {drv} will move up to {f1team}, on the back of a {pos}-place finish in the {year} {champ} standings. The requirement was third; he made third.",
+    "A driver put into a car mid-season is being asked a narrow question, and the answer here was yes. There will be people who point out that somebody else won the championship, and they will be right - it was never the brief. The brief was to be quick enough, quickly enough, in front of the people who decide, and he was."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Promoted: {drv} moves up to {f1team}",
+   "body": [
+    "The promotion is official. {drv} ends the {year} {champ} season {pos} in the standings and moves to {f1team}, completing a climb that started with a Formula 3 seat and a mid-season telephone call.",
+    "Nothing about the year was tidy. He lost one championship to a driver change he had no part in and joined another one late, then spent the rest of it doing arithmetic. What the programme wanted to know was whether he could handle the car and the attention at the same time, and the standings say he could."
+   ]
+  }
+ ],
+ "news_prog_won": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} wins the {champ} championship",
+   "body": [
+    "{drv} is the {year} {champ} champion, finishing {pos} in a season he led on merit, and with it comes the seat at {f1team} that {prog} have been holding for whoever earned it.",
+    "This is the version of the story that needs no qualification. He contested every round, the bar was the championship, and he cleared it. The step that follows is the one that has ended more careers than it has made, and he arrives at it with the strongest possible case for being there."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{champ} champion: {drv} to {f1team}",
+   "body": [
+    "It is done, and it is done properly. {drv} takes the {year} {champ} title and moves up to {f1team} with {prog} behind him.",
+    "A champion out of this category arrives in Formula One with something a promoted driver does not have, which is the settled knowledge that he was the best of a field who all thought they were. Whether that survives contact with the machinery he is about to be handed is a different question, and one nobody can answer for him."
+   ]
+  }
+ ],
+ "news_prog_missed": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} misses the mark, and gets another year",
+   "body": [
+    "{drv} finishes the {year} {champ} season {pos}, short of what {prog} asked of him, and the Formula One seat stays where it is for now. The programme has kept him on.",
+    "A junior programme that dropped every driver who missed a target once would have very few drivers, and the ones it had would all be cautious. Another season is not a favour and it is not a punishment - it is the same question asked again, with the disadvantage that he now knows exactly how it feels to be asked it."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Another season for {drv} at {f2team}",
+   "body": [
+    "{prog} will keep {drv} in the {champ} car after a {pos}-place finish in the {year} standings left him outside the requirement for a step up.",
+    "The hard part of a second attempt is not the driving. It is that everybody in the paddock now has a season of evidence about him, and he has to beat that as well as the field. Drivers have come through this stronger and drivers have quietly disappeared inside it, and there is no way to tell in advance which one this is."
+   ]
+  }
+ ],
+ "news_prog_dropped": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{prog} and {drv} part company",
+   "body": [
+    "{drv} is no longer a {prog} driver. A {pos}-place finish in the {year} {champ} standings, on a second attempt at a target he did not meet, has ended an association that began with a Formula 3 seat.",
+    "This is how most of these stories end and it is why the paddock is careful about the word talent. Nothing about him got slower; the queue behind him simply got shorter, and a programme with a seat to fill has to fill it with somebody. He keeps every result he has - a career and a programme are not the same thing, whatever the press release implies."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The programme ends for {drv}",
+   "body": [
+    "{prog} have confirmed they will not continue with {drv} beyond the {year} season, after he finished {pos} in the {champ} standings and missed the requirement for a second time.",
+    "The door that closes here is a specific one rather than all of them. What he loses is the backing, the introductions and the shortcut; what he keeps is the licence, the record and the fact that he was quick enough to be picked in the first place. Plenty of drivers have built the rest of a career out of exactly that, and plenty have not."
+   ]
+  }
+ ],
+ "news_prog_chase": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} {gap} points off the seat with {left} to go",
+   "body": [
+    "{drv} sits {pos} in the {champ} standings with {left} rounds remaining, {gap} points behind {rival}, who currently holds the {bar} place that {prog} have made the price of a Formula One seat.",
+    "It is an unusual way to watch a championship. Whatever happens at the front of the table, the number that decides his career is a single position in the middle of it, which means every result has to be read against one rival rather than against the field. Two bad afternoons for the man in front of him would do more for him than two good ones of his own."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The arithmetic facing {drv} with {left} rounds left",
+   "body": [
+    "With {left} rounds of the {year} {champ} season to run, {drv} is {pos} and {gap} points adrift of {rival} in the {bar} place his programme has told him to reach.",
+    "Nobody in the garage is pretending the deficit is an accident. He joined the championship with rounds already gone and no points at all, so what is left is a straight race against one number in one direction. The team's view is that the pace has been there since his second weekend in the car; the standings do not care when it arrived."
+   ]
+  }
+ ],
+ "news_prog_hold": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} holds the position that matters, by {gap} points",
+   "body": [
+    "{drv} is {pos} in the {champ} standings with {left} rounds to go, {gap} points clear of {rival} - and {bar} is what {prog} have said he needs to finish for the Formula One seat to open.",
+    "Defending a position is a different discipline to taking one, and a worse one to have to learn in public. He arrived in this car with nothing on the board and has driven himself inside the mark the programme asked for, which means every remaining weekend is about not losing something rather than about gaining it. Drivers describe that as the hardest way to end a season."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{gap} points is what {drv} has to protect",
+   "body": [
+    "The margin is {gap} points over {rival} with {left} rounds of the {year} {champ} season remaining, and {drv} is {pos} - inside the {bar} place his programme set as the requirement when it put him in the car mid-season.",
+    "The temptation from here is to drive for the position rather than for the race, and it is usually the wrong instinct: a driver managing a gap tends to find the gap managing him. What the seat above actually rewards is the same thing it rewarded when they picked him, which is speed that shows up on ordinary weekends."
+   ]
+  }
+ ],
+ "news_prog_late_win": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} wins {champ} from a seat he was handed mid-season",
+   "body": [
+    "{drv} is the {year} {champ} champion, which was not the requirement, was not the expectation and by most people's arithmetic was not available. He took the car over with the season part-run and nothing on the board, and he has finished {pos}.",
+    "The programme asked him for a podium in the standings and would have moved him to {f1team} for it. What it got instead is the awkward kind of result that makes a paddock re-read its own notes about a driver, because the rounds he was not in are still on the record and he won it with them missing."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The one nobody had on the sheet: {drv} takes the title",
+   "body": [
+    "A driver who joined the {year} {champ} season late, in a seat that came free because a team changed its mind about somebody else, has won the championship. {drv} finishes {pos} and moves up to {f1team} with {prog}.",
+    "It is worth being exact, because it flatters nobody to overstate it: he did not race the whole year, and the drivers he beat did. That cuts both ways. The points he did not have the chance to score are the reason this looked impossible in September, and they are also the reason the ones he did score have to be taken seriously."
+   ]
+  }
  ]
 }

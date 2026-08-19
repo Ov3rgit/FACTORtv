@@ -564,6 +564,92 @@ if cu:
     for real in ("correa", "hubert", "latifi", "ghiotto", "aitken", "mazepin"):
         check(real not in cbody, "and it names no real driver: %s" % real)
 
+print("\n7f. THE VERDICT IS REPORTED, AND IT REPORTS WHAT HE ACTUALLY DID")
+# The highest-stakes moment in the arc had no coverage at all: the title pieces
+# only fire for championships and clearing a podium bar deliberately is not one.
+import news as N
+FIELD6 = ["Rival A", "Rival B", "Rival C", "Rival D", "Rival E"]
+
+
+def _season_to(finish, rounds=10):
+    """A called-up season driven to the flag with him finishing `finish`."""
+    c = f3_career(rounds=rounds)
+    inbox.refresh(c)
+    P.accept(c, "ferrari")
+    inbox.refresh(c)
+    for i in range(4):
+        n = len(c.rounds) + 1
+        c.record({"n": n, "slug": "t%d" % n, "pos": 2, "laps": 9,
+                  "race_laps": 9, "classified": [(ME, 2), ("Rival A", 1)]})
+        inbox.refresh(c)
+    while len(c.rounds) < c.total_rounds:
+        n = len(c.rounds) + 1
+        order = list(FIELD6)
+        order.insert(finish - 1, ME)
+        c.record({"n": n, "slug": "t%d" % n, "pos": finish, "laps": 9,
+                  "race_laps": 9,
+                  "classified": [(nm, i + 1) for i, nm in enumerate(order)]})
+        inbox.refresh(c)
+        N.refresh(c)
+    P.apply_verdict(c)
+    inbox.refresh(c)
+    N.refresh(c)
+    return c
+
+
+def _piece(c, kind):
+    got = [m for m in inbox.messages(c) if m["kind"] == kind]
+    return (" ".join(got[0]["body"]) + " " + got[0]["subject"]) if got else ""
+
+
+# HE WAS CALLED UP, so the flag has to be readable — `signed()` returns the
+# static programmes.json entry and has no idea, which is how the feed came to
+# file a mid-season replacement as an outright champion.
+bar_c = _season_to(3)
+check(P.called_up(bar_c), "the call-up is readable off the career",
+      str(P.called_up(bar_c)))
+barbody = _piece(bar_c, "news_prog_bar")
+check(barbody, "clearing the bar is reported", str(P.state(bar_c)))
+check("did not win this championship" in barbody or "never the brief" in barbody
+      or "not by winning" in barbody.lower(),
+      "and it says plainly that he did not win the championship", barbody[:70])
+check(not _piece(bar_c, "news_prog_won"),
+      "and the champion's piece is not filed for him")
+
+# ...AND A REPLACEMENT WHO WINS IT ANYWAY IS A THIRD STORY. Reachable, and
+# neither of the other two pools can describe it without saying something false.
+win_c = _season_to(1)
+late = _piece(win_c, "news_prog_late_win")
+check(late, "a called-up driver who wins outright gets his own piece")
+check(not _piece(win_c, "news_prog_bar"),
+      "not the one that says he did not win it")
+check("contested every round" not in late,
+      "and nothing claims he raced a season he joined late")
+
+# MISSING IT IS ALSO NEWS, and so is the end of the programme.
+miss_c = _season_to(5)
+check(_piece(miss_c, "news_prog_missed"), "missing the bar is reported",
+      str(P.state(miss_c)))
+N.refresh(miss_c); N.refresh(miss_c)
+check(len([m for m in inbox.messages(miss_c)
+           if m["kind"] == "news_prog_missed"]) == 1,
+      "once, however often the feed is asked")
+
+print("\n7g. THE CHASE IS THE STORY OF THOSE MONTHS")
+# He arrives on nothing with rounds gone, and `_title_fight` stays silent
+# because he is not fighting for a title.
+chase = _piece(_season_to(8), "news_prog_chase")
+check(chase, "a driver behind the mark is written about")
+check("third place" in chase or "third" in chase,
+      "and the piece names the position that decides it", chase[:70])
+check("title is gone" not in chase and "that is gone" not in chase,
+      "without claiming a championship is mathematically lost")
+hold = _piece(_season_to(1), "news_prog_hold")
+check(hold, "and so is one holding it")
+check("third is what" in hold or "third place" in hold,
+      "with the requirement stated as third, not as wherever he happens to be",
+      hold[:70])
+
 print("\n8. NOTHING ABOUT IT SURVIVES A CAREER THAT DID NOT EARN IT")
 fresh = f2_career()
 check(P.state(fresh) == P.OFFERED and not P.signed(fresh)[0],

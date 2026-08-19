@@ -214,6 +214,18 @@ def take_callup(career):
     return True
 
 
+def called_up(career):
+    """Was he PUT in this seat mid-season rather than starting the year in it?
+
+    Public because the flag lives on the career block and `signed()` returns the
+    static programme definition out of `programmes.json` — a caller reaching for
+    `signed(career)[1].get("called")` gets None however called up he is, which
+    is exactly how the news feed came to file a mid-season replacement as an
+    outright champion.
+    """
+    return bool(_block(career).get("called"))
+
+
 def state(career):
     """Where he is in the programme story. Never raises."""
     b = _block(career)

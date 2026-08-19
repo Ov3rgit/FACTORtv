@@ -320,6 +320,13 @@ def refresh(career, era=None, now=None):
     # the exact opposite of what happened here.
     new += _prog_callup(career, when=now)
 
+    # THE VERDICT AND THE CHASE. The highest-stakes moment in the arc — the bar
+    # cleared and the Formula One seat granted, or missed, or the programme
+    # ended — was reported by nothing at all, because the title pieces only fire
+    # for championships and this deliberately is not one.
+    new += _prog_verdict(career, when=now)
+    new += _prog_chase(career, when=now)
+
     # THE YEAR OUT. Outside the per-round loop, because there are no rounds
     # in a development year — that is the whole point of it.
     new += _dev_year(career, when=now)
@@ -567,6 +574,142 @@ def _finale(career, n, when, kw, base, sn):
     # into: a rotation keyed on something that does not vary is not a rotation.
     return [_post(career, kind, "finale:%s" % base, k, when=when, rnd=n,
                   variant=n + sn)]
+
+
+def _prog_facts(career, block):
+    """The slots every programme piece fills, so three of them cannot disagree."""
+    try:
+        import programme as prog_mod
+    except Exception:
+        return {}
+    facts = prog_mod.rung_facts(career, prog_mod.F2_KEY)
+    return {"drv": career.me or "",
+            "prog": block.get("name", ""),
+            "f2team": block.get("f2_team", ""),
+            "f3team": block.get("f3_team") or block.get("f2_team", ""),
+            "f1team": block.get("f1_team", ""),
+            "seat": block.get("f1_seat", ""),
+            "lead": block.get("f1_lead", ""),
+            "champ": facts.get("champ", ""),
+            "year": facts.get("year", ""),
+            "car": facts.get("car", ""),
+            "series": facts.get("champ", "")}
+
+
+def _prog_verdict(career, when=None):
+    """ONE piece when the programme decides: the seat, another go, or the door.
+
+    WHAT HE ACTUALLY DID DECIDES THE WORDING, and the two are not the same
+    story. A driver called up mid-season is judged on finishing third in the
+    standings, so his piece says he finished third and that the seat follows
+    from it. A driver who contested the whole championship is judged on winning
+    it, and only his piece says he won anything. The user's ruling, and the one
+    thing this arc may not get wrong: *"if i meet the requirements then the
+    commentator mustnt say He has won the F2 championship, it must be along the
+    story of being promoted"*.
+
+    THE POSITION IS MEASURED, NOT ASSUMED. It comes from the table, and a piece
+    that cannot read it is not filed — the same rule every number in this module
+    follows.
+    """
+    try:
+        import programme as prog_mod
+    except Exception:
+        return []
+    st = prog_mod.state(career)
+    key, block = prog_mod.signed(career)
+    if not block or st not in (prog_mod.WON, prog_mod.RETRY, prog_mod.DROPPED,
+                              prog_mod.DEV, prog_mod.SEAT):
+        return []
+    if not career.season_done():
+        return []
+    pos = career.my_position()
+    if not pos:
+        return []
+    k = _prog_facts(career, block)
+    k["pos"] = _spoken_ordinal(pos)
+    # THE FLAG IS ON THE CAREER, NOT ON THE PROGRAMME DEFINITION.
+    called = prog_mod.called_up(career)
+    if st in (prog_mod.WON, prog_mod.DEV, prog_mod.SEAT):
+        # THREE WAYS TO ARRIVE AT THE SAME SEAT, and each needs its own words.
+        # A driver who contested the year and won it did something a mid-season
+        # replacement cannot be said to have done; a replacement who won it
+        # ANYWAY did something neither of the others did, and the piece that
+        # says "he did not win this championship" would be plainly false about
+        # him. All three are reachable, so all three are written.
+        if pos > 1:
+            kind = "news_prog_bar"
+        else:
+            kind = "news_prog_late_win" if called else "news_prog_won"
+    elif st == prog_mod.RETRY:
+        kind = "news_prog_missed"
+    else:
+        kind = "news_prog_dropped"
+    # KEYED ON THE STAGE as well as the programme, because a career that misses
+    # the bar and then clears it on the second attempt has two of these to file
+    # and they are different stories.
+    return [_post(career, kind, "progverdict:%s:%s" % (key, st), k, when=when)]
+
+
+def _prog_chase(career, when=None):
+    """ONE piece mid-season on whether third in the standings is still on.
+
+    This is the story of those months and nothing else was writing it: he
+    arrives with rounds already gone and nothing on the board, and
+    `_title_fight` stays silent because he is not fighting for a title.
+
+    THE GAP IS THE ARTICLE. Two wordings, chosen by where he actually is — a
+    piece about closing a deficit he has already closed is worse than no piece —
+    and the number comes off the table or the piece is not filed.
+    """
+    try:
+        import programme as prog_mod
+    except Exception:
+        return []
+    key, block = prog_mod.signed(career)
+    # ASK THE CAREER, not the programme definition — see `called_up`.
+    if not block or not prog_mod.called_up(career):
+        return []
+    if not prog_mod.on_f2(career) or career.season_done():
+        return []
+    raced = len([r for r in career.rounds if not r.get("absent")])
+    total = career.total_rounds or 0
+    left = total - len(career.rounds)
+    # MID-SEASON, and it has to be genuinely mid: three races of his own for
+    # there to be any form to talk about, and two rounds still to come or it is
+    # a piece about a season that is already decided.
+    if raced < 3 or left < 2:
+        return []
+    table = career.standings() or []
+    mine = dict(table).get(career.me or "")
+    if mine is None:
+        return []
+    bar = prog_mod.CALLUP_BAR
+    k = _prog_facts(career, block)
+    k["left"] = _spoken_count(left)
+    k["bar"] = _spoken_ordinal(bar)
+    where = [i for i, (n, _p) in enumerate(table) if n == (career.me or "")]
+    place = (where[0] + 1) if where else 0
+    if not place:
+        return []
+    k["pos"] = _spoken_ordinal(place)
+    if place <= bar:
+        kind = "news_prog_hold"
+        # THE MAN BEHIND HIM IS THE STORY when he is the one being chased.
+        below = table[place] if place < len(table) else None
+        if below:
+            k["gap"] = _spoken_count(max(0, mine - below[1]))
+            k["rival"] = below[0]
+        else:
+            return []
+    else:
+        kind = "news_prog_chase"
+        third = table[bar - 1] if len(table) >= bar else None
+        if not third:
+            return []
+        k["gap"] = _spoken_count(max(0, third[1] - mine))
+        k["rival"] = third[0]
+    return [_post(career, kind, "progchase:%s" % key, k, when=when)]
 
 
 def _prog_callup(career, when=None):
