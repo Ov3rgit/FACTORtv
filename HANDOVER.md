@@ -3638,6 +3638,24 @@ leading the championship (the requirement is third, and the sentence reused the
 wrong slot), and the chase piece asserted the title was "gone" — a sum it had
 not done and cannot do.
 
+### THE LAST TWO GAPS — the winter, and the era
+
+`news_prog_interest` covers the only moment in the arc that is about something
+UNDECIDED: three programmes circling a driver who has not signed. It fires while
+he is on the F3 rung with an offer open and no rounds raced, and it promises
+nothing, because being talked about is not being signed.
+
+`news_tour_open` covers the invitation, which was arriving as a single email
+despite being the biggest reward in the product. It READS `tour_unlocked` and
+grants nothing — `tour_grant` is called where the letter is sent, and two places
+banking the same era is how a career ends up with one it cannot remember winning.
+It also says plainly that the tour counts towards nothing, per the user's ruling.
+
+One wording fault, again caught by reading the output rather than by a test: the
+eras are named "The eighties", so "the {era} season" rendered as "the The
+eighties season". The news slot strips the article; the invitation LETTER uses
+the name standalone and keeps it.
+
 ### THE LAST SEASON OF EVERY DIVISION IS TEN ROUNDS, AND HE CANNOT CHOOSE
 
 His words: the challenge gap before F1. `FINALE_ROUNDS = 10`,

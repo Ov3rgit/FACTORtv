@@ -327,6 +327,12 @@ def refresh(career, era=None, now=None):
     new += _prog_verdict(career, when=now)
     new += _prog_chase(career, when=now)
 
+    # THE WINTER BEFORE HE SIGNS, and the era he has just earned the right to
+    # race. Both outside the round loop: one happens before round one exists,
+    # the other is a reward for a championship and belongs to no round at all.
+    new += _prog_interest(career, when=now)
+    new += _tour_unlocked(career, when=now)
+
     # THE YEAR OUT. Outside the per-round loop, because there are no rounds
     # in a development year — that is the whole point of it.
     new += _dev_year(career, when=now)
@@ -574,6 +580,75 @@ def _finale(career, n, when, kw, base, sn):
     # into: a rotation keyed on something that does not vary is not a rotation.
     return [_post(career, kind, "finale:%s" % base, k, when=when, rnd=n,
                   variant=n + sn)]
+
+
+def _prog_interest(career, when=None):
+    """ONE piece while the three seats are on the table and unsigned.
+
+    IT IS ABOUT NOT KNOWING, which is the only moment in the arc that has that
+    shape — after this every piece is about something that has been decided. It
+    fires while he is on the Formula 3 rung with an offer open and no rounds
+    raced, so a driver who signs the moment he reads his post gets it and one who
+    sits on the decision for a fortnight gets it too, once.
+
+    IT PROMISES NOTHING. Three programmes are named as interested because three
+    seats are genuinely on the table, and the piece is careful that being talked
+    about is not the same as being signed — which is also the honest thing to
+    write about a junior nobody has heard of.
+    """
+    try:
+        import programme as prog_mod
+    except Exception:
+        return []
+    if prog_mod.state(career) != prog_mod.OFFERED:
+        return []
+    if not prog_mod.offer(career):
+        return []
+    k = {"drv": career.me or "",
+         "champ": prog_mod.rung_facts(career, prog_mod.F3_KEY).get("champ", ""),
+         "series": prog_mod.rung_facts(career, prog_mod.F3_KEY).get("champ", "")}
+    return [_post(career, "news_prog_interest", "proginterest", k, when=when)]
+
+
+def _tour_unlocked(career, when=None):
+    """ONE piece per era he has earned the right to race.
+
+    THE INVITATION IS THE PRIZE and the feed had nothing to say about it, which
+    made the biggest reward in the product arrive as a single email. It reads
+    `tour_unlocked` rather than granting anything: `tour_grant` is called where
+    the letter is sent, and two places banking the same era is how a career ends
+    up with an era it cannot remember winning.
+
+    NOT A CHAMPIONSHIP HE HAS WON. The era is something he may now enter, and the
+    piece says so — a bonus tour that does not count towards the hundred per
+    cent, at the user's instruction.
+    """
+    got = [str(x) for x in (career.data.get("tour_unlocked") or ()) if x]
+    if not got:
+        return []
+    try:
+        import ladder as ladder_mod
+        eras = dict((t.get("key"), t) for _i, t in ladder_mod.tour_eras())
+    except Exception:
+        return []
+    out = []
+    for key in got:
+        tier = eras.get(key)
+        if not tier:
+            continue
+        # "The eighties" IS THE ERA'S NAME and these sentences put an article in
+        # front of it, so the slot carries the name without one: "the The
+        # eighties season" is the first thing that makes a page read as
+        # generated. The invitation LETTER uses the name standalone and keeps it.
+        _era = tier.get("name", "")
+        if _era[:4].lower() == "the ":
+            _era = _era[4:]
+        k = {"drv": career.me or "", "era": _era,
+             "titles": _spoken_count(career.f1_titles()),
+             "series": tier.get("name", "")}
+        out.append(_post(career, "news_tour_open", "touropen:%s" % key, k,
+                         when=when))
+    return [m for m in out if m]
 
 
 def _prog_facts(career, block):

@@ -1367,5 +1367,41 @@
     "It is worth being exact, because it flatters nobody to overstate it: he did not race the whole year, and the drivers he beat did. That cuts both ways. The points he did not have the chance to score are the reason this looked impossible in September, and they are also the reason the ones he did score have to be taken seriously."
    ]
   }
+ ],
+ "news_prog_interest": [
+  {
+   "from": "FACTORtv News",
+   "subject": "Three programmes, one unsigned driver",
+   "body": [
+    "All three of the junior programmes on the {champ} grid are understood to have made an approach to {drv}, who is out of contract and has not yet said which of them he will drive for. Nothing has been signed and nobody involved is commenting on the detail.",
+    "It is worth keeping the perspective that everybody in this paddock loses by the end of February. Three approaches means three teams have watched enough to be curious, which is a long way from three teams being convinced - and the driver who picks wrong here spends a season being competent in the wrong car and is never heard of again."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} has a decision to make, and not much time",
+   "body": [
+    "The {champ} silly season has produced an unusual situation: {drv} is holding offers from teams tied to all three Formula One junior programmes, and the choice is his rather than theirs.",
+    "That sounds like the good end of the sport and it is not, particularly. Each of these programmes has a queue, a car above this one and a limited quantity of patience, and the differences between them will not be visible from the outside until it is far too late for him to change his mind. He is choosing who will be watching him, which is the only part of a junior career nobody else can do for him."
+   ]
+  }
+ ],
+ "news_tour_open": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} invited to race the {era} season",
+   "body": [
+    "{drv} has been invited to take part in a historic running of the {era} Formula One season, an invitation that exists because of what he has already won rather than because of anything he is about to.",
+    "These events are not championships and nobody pretends otherwise - there is no title at the end of it and it counts towards nothing. What there is instead is the cars, which are the reason anybody watches film of that year in the first place, and a field of drivers who have earned the right to be sat in them."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The {era} cars, and an invitation for {drv}",
+   "body": [
+    "An invitation to the {era} season has been extended to {drv}, whose {titles} Formula One championships have opened a door that is closed to almost everybody.",
+    "It is a bonus rather than a step, and the distinction matters to the people who organise these things. Nothing that happens in those cars will change a single line of his record. That tends to be exactly why drivers describe the experience the way they do - it is the only racing they ever do with nothing whatsoever at stake except how it feels."
+   ]
+  }
  ]
 }

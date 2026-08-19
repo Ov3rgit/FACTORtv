@@ -650,6 +650,66 @@ check("third is what" in hold or "third place" in hold,
       "with the requirement stated as third, not as wherever he happens to be",
       hold[:70])
 
+print("\n7h. THE WINTER BEFORE HE SIGNS, AND THE ERA HE HAS EARNED")
+# The only piece in the arc about something UNDECIDED, and the last two gaps in
+# the coverage.
+winter = f3_career()
+inbox.refresh(winter)
+N.refresh(winter)
+wp = [m for m in inbox.messages(winter) if m["kind"] == "news_prog_interest"]
+check(wp, "three programmes circling an unsigned driver is a story")
+if wp:
+    wbody = " ".join(wp[0]["body"])
+    check("Nothing has been signed" in wbody or "has not yet said" in wbody
+          or "the choice is his" in wbody,
+          "and it is careful that nothing has been decided", wbody[:70])
+P.accept(winter, "ferrari")
+N.refresh(winter); N.refresh(winter)
+check(len([m for m in inbox.messages(winter)
+           if m["kind"] == "news_prog_interest"]) == 1,
+      "and it does not keep arriving once he has signed")
+# ...AND NOT TO A CAREER WITH NO OFFER ON THE TABLE. A career off the ladder
+# has no arc at all, and one that has started racing has closed the offer —
+# a driver signs for a team BEFORE the season, not after round two.
+none_c = S.create("open", me=ME, rounds=3)
+N.refresh(none_c)
+check(not [m for m in inbox.messages(none_c)
+           if m["kind"] == "news_prog_interest"],
+      "nor to a career off the ladder, which has no arc")
+late = f3_career()
+race(late, 2, 1)
+N.refresh(late)
+check(not [m for m in inbox.messages(late)
+           if m["kind"] == "news_prog_interest"],
+      "nor once the season has started and the seats are gone")
+
+# THE HISTORIC INVITATION. Read off `tour_unlocked` rather than granting
+# anything: `tour_grant` is called where the letter is sent, and two places
+# banking the same era is how a career gets one it cannot remember winning.
+tour = f3_career()
+eras = L.tour_eras()
+if eras:
+    ekey = eras[0][1].get("key")
+    tour.data["tour_unlocked"] = [ekey]
+    tour.save()
+    N.refresh(tour)
+    tp = [m for m in inbox.messages(tour) if m["kind"] == "news_tour_open"]
+    check(tp, "an unlocked era is reported")
+    if tp:
+        tbody = " ".join(tp[0]["body"]) + " " + tp[0]["subject"]
+        check("the The" not in tbody and "the the" not in tbody,
+              "with the era's article not doubled up", tp[0]["subject"])
+        check("not championships" in tbody or "counts towards nothing" in tbody
+              or "bonus rather than a step" in tbody,
+              "and it says the tour counts towards nothing", tbody[:70])
+    N.refresh(tour); N.refresh(tour)
+    check(len([m for m in inbox.messages(tour)
+               if m["kind"] == "news_tour_open"]) == 1,
+          "once per era, however often the feed is asked")
+    check(tour.data.get("tour_unlocked") == [ekey],
+          "and reporting it unlocks nothing further",
+          str(tour.data.get("tour_unlocked")))
+
 print("\n8. NOTHING ABOUT IT SURVIVES A CAREER THAT DID NOT EARN IT")
 fresh = f2_career()
 check(P.state(fresh) == P.OFFERED and not P.signed(fresh)[0],
