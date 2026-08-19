@@ -3598,6 +3598,32 @@ is frozen when it is sent. What this guarantees is that HIS result cannot be los
 by leaving a session there is no reason to stay in: **a provisional table is a
 smaller wrongness than a missing race.**
 
+### THE PROVISIONAL PLACE IS NOT HIS PLACE ON THE ROAD
+
+The first version of this fix banked `me.place`, and that is a flattering lie: a
+driver who retires while running ninth is not ninth, because every car still
+circulating is going to finish ahead of him. Banked as ninth, and he leaves the
+session — which is exactly what a driver with no fuel does — and he keeps ninth
+AND the points for it. **The same error as the P4 banked for a tenth-place
+finish, in a new place, introduced by the fix for the missing round.**
+
+So a provisional classification puts the stopped cars at the back, ranked by the
+distance they actually covered, and the cars behind them move up.
+
+**ONLY WHEN THE FIELD IS ALREADY A CLEAN 1..N.** Two earlier attempts were wrong:
+
+  * Renumbering the whole field unconditionally RENUMBERED A CLASS
+    CHAMPIONSHIP. `field` is filtered by class, so its places are rF2's absolute
+    ones with gaps (3, 7, 9, 12) — reindexing those turned fourth on the road
+    into third, and `lifecycletest` §13 caught it.
+  * Demoting only the retirement left a HOLE where he had been and placed him
+    thirteenth of twelve.
+
+When the places are not a clean set, nothing is touched and the road position
+stands, which is what this has always done. At the FLAG none of it applies: rF2's
+own classification is authoritative and already puts retirements where they
+belong.
+
 ### A BOUNDARY THIS DELIBERATELY DOES NOT CROSS
 
 Quitting a race WITHOUT retiring — alt-F4, or back to the monitor while the car

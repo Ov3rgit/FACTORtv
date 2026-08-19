@@ -2506,9 +2506,13 @@ class BoothMixin(object):
         # may yet be corrected by the flag — the same rule `_season_resettle`
         # documents.
         if self._season_record(s, final=False) is not None:
-            self._log("RESULT", "his race ended early — banked P%s status=%s "
-                                "laps=%s provisionally"
-                      % (me.place, me.finish_status, me.laps))
+            _car = getattr(self, "season", None)
+            banked = ((_car.rounds or [{}])[-1].get("pos")
+                      if _car is not None else None)
+            self._log("RESULT", "his race ended early — banked P%s "
+                                "(P%s on the road) status=%s laps=%s "
+                                "provisionally"
+                      % (banked, me.place, me.finish_status, me.laps))
 
     def _season_resettle(self, s, now):
         """Re-bank the result while the player's own race is still going.
@@ -2599,16 +2603,69 @@ class BoothMixin(object):
         race_laps = max((c.laps or 0 for c in field), default=0)
         fastest = min((c for c in field if c.best_lap),
                       key=lambda c: c.best_lap, default=None)
+        # A CAR THAT HAS STOPPED IS BEHIND EVERY CAR THAT HAS NOT.
+        #
+        # `place` is his position ON THE ROAD, and for a provisional write that
+        # is a flattering lie: a driver who retires on lap four while running
+        # ninth of thirteen is not ninth, because the nine cars still circulating
+        # are all going to finish ahead of him. Banked as ninth — and if he
+        # leaves the session, which is exactly what a driver with no fuel does —
+        # he keeps ninth and the points for it.
+        #
+        # This is the same error as the P4 banked for a tenth-place finish, in a
+        # new place, and it was introduced by the fix for the missing round.
+        #
+        # So the provisional order is rebuilt: cars still running keep their
+        # order at the front, retired cars sit behind them ranked by the distance
+        # they actually covered. At the FLAG none of this applies — rF2's own
+        # classification is authoritative and already puts retirements where they
+        # belong.
+        # ONLY THE STOPPED CARS MOVE. The first version of this re-indexed the
+        # whole field 1..N, which quietly RENUMBERED a class championship: with
+        # cars of another class filtered out of `field`, a driver fourth on the
+        # road came out third. Running cars keep the place rF2 gave them; cars
+        # that have stopped are placed after the last of them, ordered by the
+        # distance they actually covered.
+        # A CAR THAT HAS STOPPED GOES TO THE BACK, and the cars behind it move
+        # up — which is a renumbering of the whole field, not a demotion of one
+        # car. Demoting only the retirement left a hole where he had been and put
+        # him thirteenth of twelve.
+        #
+        # ONLY WHEN THE FIELD IS ALREADY A CLEAN 1..N. A class championship's
+        # `field` is filtered, so its places are rF2's absolute ones with gaps in
+        # them (3, 7, 9, 12) — renumbering those would silently change what a
+        # class result MEANS, and a driver fourth on the road came out third in
+        # the first version of this. When the places are not a clean set, nothing
+        # is touched and the road position stands, which is the behaviour this
+        # has always had.
+        place_of = None
+        if not final and any(getattr(c, "finish_status", 0) for c in field):
+            places = sorted((c.place or 0) for c in field)
+            if places == list(range(1, len(field) + 1)):
+                running = sorted((c for c in field
+                                  if not getattr(c, "finish_status", 0)),
+                                 key=lambda c: c.place or 99)
+                stopped = sorted((c for c in field
+                                  if getattr(c, "finish_status", 0)),
+                                 key=lambda c: -(c.laps or 0))
+                place_of = dict((id(c), i + 1)
+                                for i, c in enumerate(running + stopped))
+
+        def _place(car):
+            if place_of is None:
+                return car.place
+            return place_of.get(id(car), car.place)
+
         result = {
             "n": rnd["n"], "slug": rnd["slug"],
             "event": rnd.get("event") or getattr(s.circuit, "name", ""),
             "when": time.time(), "cls": cls if real_class else "",
             "me": me.display_name,
-            "pos": me.place, "grid": getattr(me, "started_place", 0) or 0,
+            "pos": _place(me), "grid": getattr(me, "started_place", 0) or 0,
             "field": len(field), "laps": me.laps or 0,
             "race_laps": race_laps,
             "dnf": me.finish_status in (2, 3),
-            "classified": [(c.display_name, c.place) for c in field],
+            "classified": [(c.display_name, _place(c)) for c in field],
             "fastest": fastest.display_name if fastest is not None else "",
         }
         # THE MAN IN THE OTHER SIDE OF THE GARAGE, recorded with the result.
@@ -2626,7 +2683,7 @@ class BoothMixin(object):
         if mate is not None:
             result["team"] = cls
             result["mate"] = mate.display_name
-            result["mate_pos"] = mate.place
+            result["mate_pos"] = _place(mate)
         # `Career.record` applies THE LAW again and can still refuse this.
         # That duplication is deliberate: the caller is the thing most likely
         # to be wrong, so the store does not trust it.

@@ -885,8 +885,12 @@ check(_rb._season_count and _rb._season_round,
       "the round arms", str(_rb._season_round))
 # HE RUNS OUT OF FUEL. The race is still running — the leader has not finished,
 # so `s.finished` is false and always will be as far as he is concerned.
+# HIS PLACE IS WHATEVER THE FIELD ALREADY GIVES HIM. Setting it by hand made two
+# cars ninth and nobody first, and the code correctly refuses to renumber a field
+# whose places are not a clean 1..N — so the fixture, not the product, was what
+# broke the first version of this check.
 _me = _rs.player
-_me.place = 9
+_road = _me.place
 _me.laps = 4
 _me.finish_status = 2            # rF2: 2 and 3 are the retirements
 _rb.update_booth(_rs)
@@ -896,7 +900,25 @@ check(len(_rc.rounds) == 1,
 if _rc.rounds:
     _r = _rc.rounds[0]
     check(_r.get("dnf"), "recorded as a retirement", str(_r.get("dnf")))
-    check(_r.get("pos") == 9, "where he actually stopped", str(_r.get("pos")))
+    # BEHIND EVERY CAR STILL RUNNING, not where he was on the road. He stopped
+    # ninth of twelve; the eleven cars still circulating are all going to finish
+    # ahead of him, so banking ninth would hand him a flattering result AND the
+    # points for it if he then leaves. This is the P4-for-a-tenth-place error in
+    # a new place, and the first version of this fix reintroduced it.
+    check(_r.get("pos") == _r.get("field"),
+          "classified behind everyone still running",
+          "P%s banked, P%s on the road, %s in the field"
+          % (_r.get("pos"), _road, _r.get("field")))
+    # THE CLASSIFICATION AGREES WITH THE POSITION. The fake field names the
+    # player's car whatever the harness names it, so look him up by the position
+    # rather than by a name this test does not own.
+    _cl = dict(_r.get("classified") or ())
+    check(sorted(_cl.values()) == list(range(1, len(_cl) + 1)),
+          "and the classification is a clean 1..N with no repeats",
+          str(sorted(_cl.values())))
+    check(len([p for p in _cl.values() if p == len(_cl)]) == 1,
+          "with last place given out exactly once",
+          str([n for n, p in _cl.items() if p == len(_cl)]))
     check(_r.get("laps") == 4, "on the lap he actually reached",
           str(_r.get("laps")))
 # NO RESULT SHEET YET, because the figure may still be corrected by the flag and
