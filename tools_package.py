@@ -44,10 +44,15 @@ CODE_EXT = (".py",)
 ASSET_EXT = (".ttf", ".wav")
 
 # Named top-level files that are neither code nor obviously an asset.
-EXTRA = ("requirements.txt", "README.md", "SETUP.md", ".gitignore")
+EXTRA = ("requirements.txt", "README.md", "SETUP.md", "THIRD_PARTY.md",
+         ".gitignore")
 
 # Whole directories that ship as they are.
-DIRS = ("lines_data", "tests")
+# THE ARTWORK SHIPS. The user's call, and the release is free: the division
+# logos and the news photographs go in `art/`, and `install.py` copies them into
+# the tester's own Pictures folder — the overlay reads them from there, so a
+# tester who adds his own is not fighting the installer.
+DIRS = ("lines_data", "tests", "art")
 
 # Top-level images the UI draws. Named by PREFIX rather than by extension so a
 # screenshot dropped in the folder cannot ride along.
@@ -94,8 +99,11 @@ def collect():
                 # which threw out `tests/_transcript_demo.py` and
                 # `tests/_season_demo.py` — two of the preview tools the handover
                 # tells the next person to run.
-                (skip if fn.endswith((".png", ".txt", ".log")) else
-                 inc).append(rel)
+                if top == "art":
+                    inc.append(rel)       # every file under art/ IS the payload
+                else:
+                    (skip if fn.endswith((".png", ".txt", ".log")) else
+                     inc).append(rel)
                 continue
             if os.sep in rel:
                 odd.append(rel)          # a subfolder nobody has classified

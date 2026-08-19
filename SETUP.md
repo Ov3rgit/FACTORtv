@@ -4,8 +4,31 @@ A broadcast overlay and commentary booth for **rFactor 2**: three voices, a
 timing tower, a telemetry dash, a career that climbs six ladders, an inbox and
 three news feeds.
 
-Read the four numbered steps. Step 1 is the one that everything else depends on,
-and it is the one people skip.
+Run step 0, then read the four numbered steps. Step 1 is the one everything
+else depends on, and it is the one people skip.
+
+---
+
+## 0. Run the installer first
+
+```bash
+python install.py
+```
+
+Or double-click `INSTALL.bat`. It copies the artwork where the overlay looks for
+it, finds your rFactor 2, and tells you whether the plugin below is in place —
+with the exact path if it is not. It never overwrites anything you already have,
+so it is safe to run twice.
+
+If you have already downloaded the plugin DLL, hand it over and the installer
+puts it in the right place:
+
+```bash
+python install.py --plugin \path\to\rFactor2SharedMemoryMapPlugin64.dll
+Factor2SharedMemoryMapPlugin64.dll
+```
+
+`python install.py --check` says what is missing and changes nothing.
 
 ---
 
@@ -118,15 +141,20 @@ The log is overwritten each run, so it is always about the session you just drov
 
 ## What is NOT in the build, and is not a fault
 
-**No division logos or news photographs.** The art is loaded from
-`Pictures/Factor Overlay/<Division>/<Category>/` in your user folder — logos, on
-track, drama, podiums — and the files on the author's machine include marks
-belonging to the FIA and others, which is not something to redistribute in a
-public repository. With no art folder the overlay draws no logo and prints no
-photograph, which is a supported state rather than a broken one. `python
-newsart.py` shows what it can see.
+**The artwork ships, but it is not where the overlay reads it until you run
+the installer.** `art/` in this build holds the division logos and the news
+photographs; the overlay reads them from `Pictures/Factor Overlay/<Division>/
+<Category>/` in your own user folder, and `install.py` is what copies them
+across. Add your own photographs to those folders if you like — the installer
+never overwrites, and `python newsart.py` prints what it can see. With no art at
+all the overlay draws no logo, which is a supported state rather than a fault.
 
 **No career, no settings, no rendered audio.** All local state, all rebuilt.
+
+**The plugin is not bundled**, for the reason in `THIRD_PARTY.md`: it is
+somebody else's work under the GPL, a link discharges every obligation that
+shipping the binary would carry, and the upstream release is always the current
+build. The installer will place it for you.
 
 **The 2020 test programme needs a mod.** F1 2020 by A&M, from the Steam Workshop.
 Without it the junior-programme development year still runs, on letters alone.
