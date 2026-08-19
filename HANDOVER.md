@@ -3573,7 +3573,7 @@ since the pass work was written, and it answered four reports in one read —
 including the discovery that **the headline feature of the product had been dead
 since the day it was built.** Read the section under LAW 24 first.
 
-### THE HISTORIC TOUR AS A REWARD — decided 2026-08-19, NOT YET BUILT
+### THE HISTORIC TOUR AS A REWARD — BUILT 2026-08-19
 
 The user's idea: *"you know we have the historic races, can those races be
 unlocked through an invite the player receives after completing their
@@ -3604,12 +3604,38 @@ in this career is — as a letter.
 3. **IT COUNTS FOR NOTHING.** A bonus, recorded normally but outside the 100%,
    exactly as the tour is today. The reward is the invitation and the racing.
 
-**WHAT IT NEEDS**: an `historic_unlocked` list in the career store, the invitation
-letter (FIA, and it should read like an invitation rather than a promotion), a
-gate so an era cannot be entered before it is offered, and the era ordered
-eighties -> nineties -> seventies -> sixties so the first reward is the best one.
-**The 100% arithmetic does not change**, which is the whole reason this is safe to
-add late.
+**AS BUILT.** `Career.f1_titles()` counts wins of the TOP rung of the
+single-seater path — from the archive plus the season he is standing in, exactly
+as `title_count` does and for the same reason: on the afternoon he wins it,
+nothing has been archived yet. `tour_state()` derives what is owed from that
+count and WRITES NOTHING, so the menu and the paper can never disagree about
+which eras are open.
+
+**THE INVITATION IS WHERE THE ERA IS BANKED.** `tour_grant` is called by the
+letter that announces it — `tour_invite`, three wordings from the FIA's Heritage
+Commission — so an era he can race is an era he has a letter about, and there is
+no way to unlock something silently. The same pattern `advance_dev` follows.
+
+**`TOUR_ORDER` IS EIGHTIES, NINETIES, SEVENTIES, SIXTIES**, not the order in the
+data file, which is chronological. Chronological is the right way to READ a tour
+and the wrong way to give one away: a 2021 champion handed the Senna-Prost season
+is the best version of this reward, and a reward that opens with its weakest item
+is a worse one.
+
+**A LOCKED ERA IS STILL LISTED**, with "win Formula One" beside it — the same
+reasoning as the divisions view naming a rung he owns no car for. Knowing the
+content exists is information; hiding it makes the game look smaller than it is.
+
+**THE UNLOCKS TRAVEL INTO THE NEW CAREER FILE**, and this is the one place the
+"a new career is a clean slate" rule is deliberately bent. It has to be: taking up
+the invitation MEANS starting a career on the tour, so an invitation that did not
+carry across would be unusable by construction. Only the eras already earned are
+copied, and nothing else.
+
+`laddertest.py` §18 holds all of it, including the two refusals that matter: a
+NASCAR champion is not invited to 1988, and the tour is still outside
+`career_paths()`, so **the 100% arithmetic is untouched** — which is what made
+this safe to add this late.
 
 ### THE DEVELOPMENT YEAR IS DRIVEN NOW — the 2020 test programme
 
