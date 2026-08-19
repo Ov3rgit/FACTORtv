@@ -145,6 +145,31 @@ check(len(h4.tts.said) == len(T.steps()),
       "and it plays in the garage, which is where a driver reads things",
       "%d lines" % len(h4.tts.said))
 
+print("\n4b. AND IT STILL FINISHES WHEN HE PRESSES DRIVE")
+# Reported after one evening with it: "i think it plays everytime i open the
+# overlay". The flag is written by the tick AFTER the last line — and that tick
+# returned at the green-flag gate, because he had pressed drive the moment the
+# engineer stopped talking. Nothing was ever saved, so it played again on every
+# launch.
+#
+# RECORDING THAT SOMETHING HAPPENED IS NOT SPEAKING, and it must not sit behind a
+# gate that exists to stop the talking. The same mistake in the same shape as
+# qualifying banked below the on-air gate.
+h9 = Host()
+_run(h9, _Sess(started=False))
+check(len(h9.tts.said) == len(T.steps()), "the whole script plays in the garage",
+      "%d lines" % len(h9.tts.said))
+h9.cfg.pop(T.FLAG, None)          # as it stood on the tick before it was marked
+h9.update_tutorial(_Sess(started=True, green=True))
+check(T.done(h9.cfg),
+      "and it is marked heard even if the next tick is a green flag",
+      str(h9.cfg))
+# ...AND A GREEN FLAG STILL BUYS SILENCE for a script that has NOT finished.
+h10 = Host()
+h10.update_tutorial(_Sess(started=True, green=True))
+check(not h10.tts.said, "while an unfinished one stays quiet on track",
+      str(len(h10.tts.said)))
+
 print("\n5. IT POINTS AT THE THING IT IS TALKING ABOUT")
 h5 = Host()
 seen = []

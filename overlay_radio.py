@@ -273,17 +273,29 @@ class RadioMixin(object):
             # said something, and shouting the introduction at him anyway is not
             # a welcome. It stays owed until he turns him back on.
             return
-        # NEVER OVER A GREEN FLAG. `s` is None on the menu, which is the calmest
-        # moment there is and a fine time to talk.
-        if s is not None and (getattr(s, "started", False)
-                              or getattr(s, "green", False)):
-            return
+        # FINISHING COMES FIRST, ABOVE EVERY OTHER GATE.
+        #
+        # It was below the green-flag check, and the consequence is exactly what
+        # a player does: the ninth line ends, he presses drive, the session goes
+        # green — and the tick that would have written "heard" returns at the
+        # gate instead. Nothing is ever saved, so it plays again on the next
+        # launch, and the next. He reported it in one word: *"i think it plays
+        # everytime i open the overlay"*.
+        #
+        # RECORDING THAT SOMETHING HAPPENED IS NOT SPEAKING, and it must not sit
+        # behind a gate that exists to stop the talking. The same mistake, in the
+        # same shape, as qualifying banked below the on-air gate.
         script = tut.steps()
         i = getattr(self, "_tut_i", 0)
         if i >= len(script):
             if tut.mark_done(cfg):
                 self._tut_save()
             self._tut_point = ""
+            return
+        # NEVER OVER A GREEN FLAG. `s` is None on the menu, which is the calmest
+        # moment there is and a fine time to talk.
+        if s is not None and (getattr(s, "started", False)
+                              or getattr(s, "green", False)):
             return
         now = time.time()
         if getattr(self, "tts", None) is not None and self.tts.speaking:

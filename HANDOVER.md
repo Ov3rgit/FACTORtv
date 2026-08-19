@@ -3595,6 +3595,33 @@ The rules are the feature:
 
 `tests/tutorialtest.py` drives all of that.
 
+### THE INTRODUCTION'S TWO FAULTS, BOTH FOUND BY RUNNING IT
+
+**It played on every launch.** The flag is written by the tick AFTER the last
+line — and that tick returned at the green-flag gate, because he pressed drive the
+moment the engineer stopped talking. Nothing was ever saved.
+
+**RECORDING THAT SOMETHING HAPPENED IS NOT SPEAKING**, and it must not sit behind
+a gate that exists to stop the talking. The completion check now runs above every
+other gate. This is the FOURTH instance of one mistake in this project — the other
+three were qualifying banked below the on-air gate, a settle that needed the
+winner's flag, and a result that needed the leader to finish. The shape is always
+the same: **bookkeeping hung off a condition that exists to control output.**
+
+**And nothing was ever highlighted.** Each corner button is a Toplevel *exactly
+the size of the button*, so a ring drawn three pixels outside it is clipped by the
+window and never reaches the screen. The tutorial's pointer had never been
+visible — and neither had the season-over ring I added to the trophy earlier the
+same evening, which explains why he never mentioned seeing that either.
+
+`_mark_button` draws INSIDE the edges: a coloured ring inset by its own width,
+plus a dark one hard against the border, because these buttons sit on whatever the
+game happens to be drawing and one line can vanish into it. Green for the
+tutorial's pointer, accent for a season waiting to be decided.
+
+**The lesson for any future mark on a corner control:** the canvas is not the
+screen. A panel is a window, and a window clips.
+
 ### AND THEN HE USED THE DASHBOARD
 
 **New career and Load career went to the settings page.** The router maps the name

@@ -464,6 +464,23 @@ class PanelsMixin(object):
             ry += rh
 
     # -- menu button ------------------------------------------------------------
+    def _mark_button(self, c, x, y, sz, colour):
+        """Ring one of the corner buttons to say "look here".
+
+        INSIDE ITS OWN EDGES. Each button is a Toplevel exactly the size of the
+        button, so a ring drawn a few pixels OUTSIDE it is clipped away by the
+        window and never appears — which is why neither the tutorial's pointer
+        nor the season-over ring was ever visible on screen.
+
+        Two rings, one dark and one bright, because the buttons sit on whatever
+        the game happens to be drawing and a single line can vanish into it.
+        """
+        w = max(2, UI(3))
+        c.create_rectangle(x + w, y + w, x + sz - w, y + sz - w,
+                           outline=colour, width=w)
+        c.create_rectangle(x + 1, y + 1, x + sz - 1, y + sz - 1,
+                           outline=shade(TH.panel, 0.4), width=1)
+
     def draw_menu_button(self):
         """A hamburger in the top-left corner.
 
@@ -488,9 +505,7 @@ class PanelsMixin(object):
         # THE INTRODUCTION POINTS AT THINGS. "Top left is the menu" teaches far
         # less than the menu button lighting up while he says it.
         if getattr(self, "_tut_point", "") == "menu":
-            c.create_rectangle(x - UI(3), y - UI(3), x + sz + UI(3),
-                               y + sz + UI(3), outline=TH.good,
-                               width=max(2, UI(3)))
+            self._mark_button(c, x, y, sz, TH.good)
         self._menu_btn_rect = (x, y, x + sz, y + sz)
 
     def draw_inbox_button(self):
@@ -612,15 +627,11 @@ class PanelsMixin(object):
         # whole button rather than a second badge: the count is already a badge,
         # and two marks in one 30px square is a mess.
         if getattr(self, "_tut_point", "") == "trophy":
-            c.create_rectangle(x - UI(3), y - UI(3), x + sz + UI(3),
-                               y + sz + UI(3), outline=TH.good,
-                               width=max(2, UI(3)))
+            self._mark_button(c, x, y, sz, TH.good)
         self._career_waiting = bool(car is not None
                                     and self._ladder_waiting(car))
-        if self._career_waiting:
-            c.create_rectangle(x - UI(2), y - UI(2), x + sz + UI(2),
-                               y + sz + UI(2), outline=TH.accent,
-                               width=max(2, UI(2)))
+        if self._career_waiting and getattr(self, "_tut_point", "") != "trophy":
+            self._mark_button(c, x, y, sz, TH.accent)
         self._inbox_btn_rect = (x, y, x + sz, y + sz)
 
     def _mail_ping(self):
