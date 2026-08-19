@@ -74,6 +74,39 @@ NEVER_DIRS = ("careers", "stings", "_voice_cache", "_voice_tmp", "__pycache__",
               "dist", "build", ".git")
 
 
+# ---------------------------------------------------------------------------
+# THE ONE FILE THAT IS REWRITTEN ON THE WAY INTO AN ARCHIVE
+#
+# `lines_data/mynames.json` is the author's own list of driver names — the career
+# menu cannot take typed input (the overlay never holds the keyboard), so the
+# names a player can race under live in a file he edits. Shipping the author's
+# list means a tester picking a name from somebody else's career.
+#
+# So the release carries the TESTER'S name instead, and the working copy keeps
+# the author's. Substituted here rather than by editing the file, because the
+# file is used every day on this machine and a build step must not disturb it.
+#
+# IT IS STILL VERIFIED. The check below compares the archive against this
+# substitution rather than against the file on disk, so "byte-identical" stays a
+# real claim and this one file is named in the report.
+RELEASE_NAMES = ("Paul Van Rooyen",)
+MYNAMES = os.path.join("lines_data", "mynames.json")
+
+
+def release_overrides():
+    """{relative path: bytes} — what an archive carries instead of the file."""
+    import json
+    src = os.path.join(_DIR, MYNAMES)
+    try:
+        with io.open(src, encoding="utf-8") as f:
+            data = json.load(f)
+    except Exception:
+        return {}
+    data["names"] = list(RELEASE_NAMES)
+    body = json.dumps(data, indent=1, ensure_ascii=False) + chr(10)
+    return {MYNAMES: body.encode("utf-8")}
+
+
 def _skip_dir(rel):
     parts = rel.replace("\\", "/").split("/")
     return any(p in NEVER_DIRS for p in parts)
@@ -157,9 +190,18 @@ def package_exe():
             files.append(rel)
     os.makedirs(OUT_DIR, exist_ok=True)
     path = os.path.join(OUT_DIR, name)
+    over = release_overrides()
     with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as z:
         for rel in files:
-            z.write(os.path.join(EXE_DIR, rel), os.path.join(root, rel))
+            member = os.path.join(root, rel)
+            key = rel.replace("/", os.sep)
+            if key in over:
+                z.writestr(member, over[key])
+            else:
+                z.write(os.path.join(EXE_DIR, rel), member)
+    if over:
+        print("  substituted for the release: %s -> %s"
+              % (", ".join(sorted(over)), ", ".join(RELEASE_NAMES)))
     raw = sum(os.path.getsize(os.path.join(EXE_DIR, r)) for r in files)
     print("FACTORtv %s STANDALONE — %d files" % (version.full(), len(files)))
     print("  uncompressed: %.1f MB" % (raw / 1048576.0))
@@ -177,8 +219,12 @@ def package_exe():
             member = os.path.join(root, rel).replace(chr(92), "/")
             with z.open(member) as f:
                 a = hashlib.sha256(f.read()).hexdigest()
-            with open(os.path.join(EXE_DIR, rel), "rb") as f:
-                b = hashlib.sha256(f.read()).hexdigest()
+            key = rel.replace("/", os.sep)
+            if key in over:
+                b = hashlib.sha256(over[key]).hexdigest()
+            else:
+                with open(os.path.join(EXE_DIR, rel), "rb") as f:
+                    b = hashlib.sha256(f.read()).hexdigest()
             if a != b:
                 bad.append(rel)
     if bad:
@@ -214,18 +260,25 @@ def main():
         return
     os.makedirs(OUT_DIR, exist_ok=True)
     path = os.path.join(OUT_DIR, name)
+    over = release_overrides()
     with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as z:
         for rel in inc:
             # EVERYTHING UNDER ONE FOLDER, so unzipping cannot scatter thirty
             # loose files into whatever directory the tester happened to be in.
-            z.write(os.path.join(_DIR, rel),
-                    os.path.join("FACTORtv-%s" % version.full(), rel))
+            member = os.path.join("FACTORtv-%s" % version.full(), rel)
+            if rel in over:
+                z.writestr(member, over[rel])
+            else:
+                z.write(os.path.join(_DIR, rel), member)
+    if over:
+        print("  substituted for the release: %s -> %s"
+              % (", ".join(sorted(over)), ", ".join(RELEASE_NAMES)))
     print("wrote %s  (%.1f MB compressed)"
           % (path, os.path.getsize(path) / 1048576.0))
-    verify(path, inc)
+    verify(path, inc, over)
 
 
-def verify(path, inc):
+def verify(path, inc, over=None):
     """Re-open the archive and prove every file in it matches the source.
 
     ASKED DIRECTLY — *"is the version I have now and the shipped version byte
@@ -240,6 +293,7 @@ def verify(path, inc):
     files are the same".
     """
     import hashlib
+    over = over or {}
     root = "FACTORtv-%s" % version.full()
     bad, missing = [], []
     with zipfile.ZipFile(path) as z:
@@ -251,8 +305,13 @@ def verify(path, inc):
                 continue
             with z.open(member) as f:
                 zipped = hashlib.sha256(f.read()).hexdigest()
-            with open(os.path.join(_DIR, rel), "rb") as f:
-                ondisk = hashlib.sha256(f.read()).hexdigest()
+            if rel in over:
+                # Verified against what it is MEANT to be, not against the file
+                # on disk — which is the author's list and is supposed to differ.
+                ondisk = hashlib.sha256(over[rel]).hexdigest()
+            else:
+                with open(os.path.join(_DIR, rel), "rb") as f:
+                    ondisk = hashlib.sha256(f.read()).hexdigest()
             if zipped != ondisk:
                 bad.append(rel)
         extra = sorted(n for n in names

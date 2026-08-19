@@ -3706,6 +3706,41 @@ The tick therefore lives in the frame (`_test_watch`) rather than in the booth: 
 must not sit behind a gate that is guaranteed to be shut, and it must not depend
 on the commentary being switched on.
 
+### THE RELEASE CARRIES THE TESTER'S NAME, NOT THE AUTHOR'S
+
+`lines_data/mynames.json` is the list of names a career can be raced under, and it
+exists because THE OVERLAY NEVER HOLDS THE KEYBOARD — the menu cannot take typed
+input, so a name a player invented has to come from a file he edits.
+
+Shipping the author's list means a tester picking a name out of somebody else's
+career, so `tools_package.py` SUBSTITUTES it on the way into an archive
+(`RELEASE_NAMES`) and the working copy is left alone. Substituted rather than
+edited, because that file is used here every day and a build step must not disturb
+it — and the verification compares the archive against the SUBSTITUTION rather
+than against the file on disk, so "byte-identical" stays a real claim and the one
+rewritten file is named in the build report.
+
+**STILL OWED, AND THE USER HAS ASKED FOR IT: a way for a player to use his own
+name without editing a file.** The constraint is real — the overlay is
+click-through and never takes focus, so there is no text entry anywhere in it. The
+options worth weighing when it is built:
+
+* **rF2's own profile name.** The game knows who is driving, and the tracker
+  already substitutes it for "Your Name" everywhere. Offering it in the picker
+  costs nothing and needs no typing. The profile name lives under
+  `UserData\player\`, and it was NOT at the top level of that folder on this
+  machine — so where it can be read from is the first thing to establish.
+* **An on-screen keyboard in the menu.** The panel machinery already handles
+  clicks and pages, so a 30-key grid is a page like any other. Slow to type on,
+  and the only option that needs nothing outside the overlay.
+* **A first-run text file** with a clear prompt, which is what happens today —
+  the difference would be telling him about it rather than expecting him to find
+  it.
+
+Whichever it is, the shipped list stays a list: a career raced under an invented
+name gets no record and no history, only what the overlay watched, and that rule
+is what keeps `drivers.json` honest.
+
 ### THE FIRST BUILD TO LEAVE THIS MACHINE — 0.0.1-beta
 
 A play tester needs a copy, so: `git init`, `version.py`, `requirements.txt`,
