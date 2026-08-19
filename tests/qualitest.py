@@ -809,5 +809,60 @@ check(len(_qc.data.get("quali_results") or []) == 1,
       "once, not once per tick",
       str(len(_qc.data.get("quali_results") or [])))
 
+print("\n20. ONE RACE IS ONE ROUND, WHATEVER HAPPENS AFTER THE FLAG")
+# He drove ONE Formula 3 race and his career recorded TWO rounds and twelve
+# points. His words: "I never raced 2 F3 rounds? I only did round 1 then was
+# promoted on the second round so i never got to even race a second f3 race" —
+# and the phantom round is what promoted him, because `callup_due` counted it.
+#
+#   [2100.9s] RESULT  settled P6  status=1 laps=7   <- the race he drove
+#   [2342.1s] SESSION  | test | phase=garage | 0 cars
+#             RESULT  settled P10 status=1 laps=6   <- nobody's race
+#
+# The pending settle exists to correct a result while his own race finishes. It
+# was not bound to the round it was created for, so once round one was banked and
+# re-arming matched the next UNRACED round, the leftover write landed on round
+# two.
+_1c = _S3.create("open", me="Kandasamy", rounds=5)
+_1b = Booth()
+_1b.season = _1c
+_1b.career = None
+_1s = FakeSession(grid(), kind="race")
+_1s.circuit = _C3()
+_1s.on_air = True
+_1s.started = True
+_1s.green = True
+_1b.update_booth(_1s)
+check(_1b._season_round is not None and _1b._season_count,
+      "the session arms as round one", str(_1b._season_round))
+# He crosses the line with his own race unfinished, so a settle is pending.
+_me = _1s.player
+_me.place = 6
+_me.finish_status = 0
+_1s.finished = True
+_1s.green = False
+_1b.update_booth(_1s)
+check(len(_1c.rounds) == 1, "one race banks one round", str(len(_1c.rounds)))
+check(getattr(_1b, "_season_settle", None),
+      "with a correction still pending, because his race is not over")
+# NOW THE SESSION GOES AWAY — he leaves the race. Re-arming would match round
+# TWO, since round one is taken, and the pending write must not follow it there.
+_1b._season_round = {"n": 2, "slug": "montreal"}
+_1s2 = FakeSession(grid(), kind="race")
+_1s2.circuit = _C3()
+_1s2.order = []
+_1s2.player = None
+_1s2.on_air = False
+_1s2.started = False
+_1s2.finished = False
+_1b.update_booth(_1s2)
+check(len(_1c.rounds) == 1,
+      "and an empty session banks nothing at all", str(len(_1c.rounds)))
+check(not getattr(_1b, "_season_settle", None),
+      "the pending write is dropped rather than redirected")
+check([r.get("n") for r in _1c.rounds] == [1],
+      "so the career holds round one and nothing else",
+      str([r.get("n") for r in _1c.rounds]))
+
 print("\n" + ("FAILED: %d" % len(fails) if fails else "ALL PASSED"))
 sys.exit(1 if fails else 0)

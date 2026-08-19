@@ -36,6 +36,7 @@ missed spin costs nothing, a phantom spin destroys trust in the whole booth.
 """
 import io
 import os
+import sys
 import time
 
 import cast as cast_mod
@@ -1010,6 +1011,19 @@ class _Snap(object):
         self.sector = c.sector
 
 
+# WHO MAY WRITE TO `_session_log.txt`. A WHITELIST, not a test-detector: the
+# file persists between runs and `_log` appends to it whenever it exists, so
+# every suite, probe and one-line experiment I ran appended to the log he was
+# driving into. 23 lines of zandvoort and "F1 Test 2025" landed in the middle of
+# the evidence for a live bug, and evidence that has to be argued with before it
+# can be read is worth much less than it looks.
+#
+# The live entry points are the two that create the file in the first place.
+_LIVE_RUN = bool(getattr(sys, "frozen", False)) or os.path.basename(
+    (sys.argv[0] if sys.argv else "") or "").lower() in (
+        "main.py", "testrun.py", "factortv.exe")
+
+
 class BoothMixin(object):
     """Commentary direction. Mixed into the Overlay."""
 
@@ -1103,7 +1117,7 @@ class BoothMixin(object):
         self._said_launch = False    # the "career mode is running" opener
         self._season_done = False    # result banked, once, at the flag
         # HIS RACE MAY NOT BE OVER WHEN THE RACE IS. See `_season_settle`.
-        self._season_settle = None    # (started, last place written) or None
+        self._season_settle = None    # (started, last written, round) or None
         self._story = {}            # car id -> {best, worst, now} place arc
         self._led_laps = {}         # car id -> laps completed while leading
         self._lead_changes = 0      # how many times the lead has actually moved
@@ -1904,7 +1918,11 @@ class BoothMixin(object):
                            and not getattr(me, "finish_status", 0))
                 self._season_record(s, final=not waiting)
                 if waiting:
-                    self._season_settle = (now, me.place)
+                    # THE ROUND IS PART OF THE PENDING WRITE, and it has to be.
+                    # See `_season_resettle`: without it, a settle created for
+                    # round one can land on round two.
+                    self._season_settle = (now, me.place,
+                                           (self._season_round or {}).get("n"))
             cat, kw = self._win_call(s)
             # The plain `win` pool is the fallback, and it always exists — a
             # race that ends without a victory call is unforgivable, and a
@@ -2454,9 +2472,26 @@ class BoothMixin(object):
         pend = getattr(self, "_season_settle", None)
         if not pend or not s.valid:
             return
-        started, last = pend
+        started, last, for_round = pend
         me = s.player
-        if me is None:
+        # THE SESSION HAS TO STILL BE THERE. He drove one Formula 3 race, and the
+        # log banked TWO results:
+        #
+        #   [2100.9s] RESULT  settled P6  status=1 laps=7   <- the race he drove
+        #   [2342.1s] SESSION  | test | phase=garage | 0 cars
+        #             RESULT  settled P10 status=1 laps=6   <- nobody's race
+        #
+        # He said so plainly: "I never raced 2 F3 rounds". The second write went
+        # into round TWO, because round one had been banked and re-arming
+        # matches the next UNRACED round — so a pending settle from round one
+        # invented a whole weekend, and `callup_due` counted it and promoted him
+        # out of a championship he had raced once.
+        #
+        # THE ROUND IS PART OF THE PENDING WRITE. A settle that would land on a
+        # different round than the one it was created for is not a correction to
+        # anything; it is a new result for a race nobody drove.
+        if (me is None or not s.order
+                or for_round != (getattr(self, "_season_round", None) or {}).get("n")):
             self._season_settle = None
             return
         done = bool(getattr(me, "finish_status", 0))
@@ -2478,7 +2513,7 @@ class BoothMixin(object):
                          me.laps,
                          "" if done else " (timed out)"))
         else:
-            self._season_settle = (started, last)
+            self._season_settle = (started, last, for_round)
 
     def _season_record(self, s, final=True):
         """Bank the result. `final` decides whether the POST goes out with it.
@@ -3006,6 +3041,13 @@ class BoothMixin(object):
         except Exception:
             pass
         try:
+            # THE TEST SUITES MUST NOT WRITE INTO IT. 23 lines of zandvoort and
+            # "F1 Test 2025" landed in the middle of the log he sent me, from my
+            # own suites running while he drove — and the file is the primary
+            # evidence for every live bug. A log with somebody else's sessions in
+            # it is a log that has to be argued with before it can be read.
+            if not _LIVE_RUN:
+                return
             path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 "_session_log.txt")
             if os.path.exists(path):

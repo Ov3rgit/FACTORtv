@@ -3566,6 +3566,55 @@ the user can drive it after step 1 rather than waiting for all of it.
 
 ---
 
+## ONE RACE, TWO ROUNDS — the phantom weekend (LAW 0)
+
+**He was right and the archive was wrong.** He said *"I never raced 2 F3 rounds? I
+only did round 1 then was promoted on the second round"*, and his save recorded
+`rounds: 2, points: 12` for Formula 3. The log:
+
+    [2100.9s] RESULT  settled P6  status=1 laps=7      <- the race he drove
+    [2342.1s] SESSION  | test | phase=garage | 0 cars  <- he left the race
+              RESULT  settled P10 status=1 laps=6      <- nobody's race
+
+`_season_settle` exists to correct a result while HIS race finishes after the
+winner's flag — the fuel-out fix. It was a tuple of `(started, last_place)` and
+carried **no round number**. Once round one was banked, the next arm matched the
+next UNRACED round, so the leftover pending write landed on **round two** with
+stale data. `record` replaces a round with the same number, which is why this
+looked safe: it was never the same number.
+
+Then `callup_due` counted two rounds done and promoted him out of a championship
+he had raced once. The missing result letter I chased first was a symptom two
+levels down from this.
+
+The pending settle now carries the round it was created for and is dropped —
+never redirected — if the armed round has changed or the session has no field.
+
+**THIS IS LAW 0 AT ITS PLAINEST.** The store held a race that did not happen, and
+everything downstream was honest about it: the standings, the archive, the
+promotion, the letters. A fake cannot be allowed to falsify, and this one
+falsified a championship and a career move.
+
+### THE TEST SUITES WERE WRITING INTO HIS LOG
+
+23 lines of zandvoort and "F1 Test 2025" sat in the middle of the log he sent —
+my own suites, appending while he drove, because `_log` writes to
+`_session_log.txt` whenever the file exists and the file persists between runs.
+Evidence that has to be argued with before it can be read is worth much less than
+it looks. `_LIVE_RUN` is a whitelist of the entry points that create the file —
+`main.py`, `testrun.py`, the frozen exe — rather than a test-detector, because a
+detector only catches the runners I thought of.
+
+### AND A NOTE ON HOW THIS WAS FOUND
+
+I diagnosed the missing letter, said the result itself was fine, and he
+contradicted the premise. The save agreed with him. **Read the numbers in the
+save against what the player says he did before explaining anything** — twelve
+points across two rounds was visible in the first dump of that file, and I
+explained the letter instead of asking why there were two rounds at all.
+
+---
+
 ## WHAT THE 20:03 LOG SAID — the call-up, driven
 
 The three fixes from the 18:26 log are all confirmed live in this one:
