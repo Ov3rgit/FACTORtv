@@ -1,36 +1,14 @@
 @echo off
-title FACTORtv
+REM FACTORtv. Start rFactor 2 first, or start this first — it waits for the game
+REM either way and attaches on its own.
 cd /d "%~dp0"
-
-echo.
-echo   FACTORtv  -  rFactor 2 broadcast overlay
-echo   ---------------------------------------
-echo   Waiting for rFactor 2. Start the game whenever you like.
-echo.
-echo   Ctrl+Shift+O  hide/show     Ctrl+Shift+C  commentary
-echo   Ctrl+Shift+R  team radio    Ctrl+Shift+V  relative panel
-echo   Ctrl+Shift+E  tower         Ctrl+Shift+T  dash
-echo   Ctrl+Shift+M  gap mode      Ctrl+Shift+D  debug
-echo   Ctrl+Shift+Q  quit
-echo.
-
-where py >nul 2>&1
-if %errorlevel%==0 (
-    start "" /b pyw -3 "factor_tv.py"
-    goto done
+set PY=
+where python >nul 2>nul && set PY=python
+if "%PY%"=="" (where py >nul 2>nul && set PY=py)
+if "%PY%"=="" (
+    echo   Python is not installed or not on your PATH. Run INSTALL.bat first.
+    pause
+    exit /b 1
 )
-where pythonw >nul 2>&1
-if %errorlevel%==0 (
-    start "" /b pythonw "factor_tv.py"
-    goto done
-)
-where python >nul 2>&1
-if %errorlevel%==0 (
-    python "factor_tv.py"
-    goto done
-)
-echo   ERROR: Python was not found. Install Python 3.11+ with
-echo   "Add python.exe to PATH" ticked.
-pause
-
-:done
+%PY% factor_tv.py
+if errorlevel 1 pause

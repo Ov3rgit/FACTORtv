@@ -10,16 +10,25 @@ artwork and the installer.
 
 ## Setting it up
 
-1. Install **TheIronWolf's rF2 Shared Memory Map plugin** into
-   `<rFactor 2>\Bin64\Plugins\`:
-   <https://github.com/TheIronWolfModding/rF2SharedMemoryMapPlugin/releases>
-2. Unzip this release anywhere and run `INSTALL.bat` (or `python install.py`).
+**You need Python 3.9 or newer first** — <https://www.python.org/downloads/> —
+and you must **tick "Add python.exe to PATH"** on the installer's first screen.
+It is off by default and it is the box everybody misses. That is the only thing
+`INSTALL.bat` cannot do for you, and it will tell you so plainly if it is missing.
 
-That is the whole setup. The installer copies the artwork where the overlay reads
-it, **switches the plugin on in rF2's own config** — the step everybody misses,
-because a plugin that is present but not enabled publishes nothing — installs the
-three Python packages, and finishes by telling you READY or exactly what is
-wrong. Close rFactor 2 before running it.
+Then unzip anywhere you can write to — `C:\FACTORtv` is fine, **not** Program Files
+and not inside the rFactor 2 folder — and run `INSTALL.bat` (or
+`python install.py`). Close rFactor 2 first.
+
+That is the whole setup, in one command. The installer:
+
+* installs the **shared-memory plugin** (bundled — rF2 publishes nothing without
+  it) and **switches it on in rF2's own config**, which is the step everybody
+  misses, because a plugin that is present but not enabled does nothing;
+* copies the artwork where the overlay reads it;
+* installs the three Python packages;
+* and finishes by saying READY, or exactly what is still wrong.
+
+Leave about 400MB free: the first run renders its own audio.
 
 Then start the game, load a session, and run `Start FACTORtv.bat`.
 

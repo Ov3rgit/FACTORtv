@@ -329,6 +329,13 @@ class Tts(object):
         self._speaking = None
         self.now_playing = None     # (persona, text, started_at) while audible
         self.sapi_falls = 0         # lines that dropped to the offline voice
+        # WAS THE FIRST LINE OF THE SESSION A REAL VOICE? Asked directly — "I
+        # want to make sure the voices come out the same way mine do" — and it is
+        # a fair worry, because the failure is SILENT: edge-tts cannot be reached,
+        # the overlay drops to Windows SAPI, and the tester hears a 1998 screen
+        # reader without ever being told why. Recorded here so the startup report
+        # can state it in words rather than leaving it as an impression.
+        self.edge_ok = None         # None = nothing rendered yet
         self._alive = True
         self._cache_index = set()
         self._scan_cache()
@@ -556,12 +563,16 @@ class Tts(object):
                     srate, samples = self._edge(text, v, rate, pitch, vol)
                 except Exception:
                     samples = None
+        if samples is not None and self.edge_ok is None:
+            self.edge_ok = True
         if samples is None:
             # Genuinely offline, or the service is refusing. The voice will
             # sound wrong and that is the correct outcome — silence would be
             # worse — but it is COUNTED so a test run can show how often it
             # happened instead of leaving it as a mystery.
             self.sapi_falls += 1
+            if self.edge_ok is None:
+                self.edge_ok = False
             try:
                 srate, samples = self._sapi(text)
             except Exception:
@@ -668,6 +679,23 @@ class Tts(object):
             e = p * p * (3.0 - 2.0 * p)          # smoothstep ease
             out.append(_gentle(x * (g0 + (g1 - g0) * e)))
         return srate, out, True
+
+    def voice_report(self):
+        """One line a non-technical tester can act on. "" while unknown.
+
+        THE FALLBACK IS SILENT AND SOUNDS LIKE A FAULT IN THE PRODUCT. Nobody
+        should have to know what edge-tts is to work out that their commentary is
+        robotic because their machine could not reach a service.
+        """
+        if self.edge_ok is None:
+            return ""
+        if self.edge_ok and not self.sapi_falls:
+            return "VOICES   neural voices OK — this is how it is meant to sound"
+        if self.edge_ok:
+            return ("VOICES   %d line(s) fell back to the robotic Windows voice "
+                    "— check your connection" % self.sapi_falls)
+        return ("VOICES   COULD NOT REACH THE VOICE SERVICE. The commentary will "
+                "sound robotic; check your internet connection.")
 
     def _sapi(self, text):
         """Offline fallback. Noticeably more robotic — that is expected, not

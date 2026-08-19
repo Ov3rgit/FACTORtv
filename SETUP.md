@@ -9,9 +9,9 @@ else depends on, and it is the one people skip.
 
 ---
 
-## 0. Install the plugin, then run the installer. That is the whole setup.
+## 0. Run the installer. That is the whole setup.
 
-**Do the plugin first (step 1 below) and this is a one-command install.**
+**One command. The plugin ships with this build, so there is nothing to download.**
 
 ```bash
 python install.py
@@ -21,7 +21,8 @@ Or double-click `INSTALL.bat`. In one run it:
 
 * copies the artwork into `Pictures\Factor Overlay\...` where the overlay reads
   it — never overwriting anything you have added yourself;
-* finds rFactor 2 and checks the plugin is in `Bin64\Plugins`;
+* finds rFactor 2 and installs the shared-memory plugin from `plugin/` into
+  `Bin64\Plugins` — backing up anything already there;
 * **switches the plugin ON in rF2's own config**, which is the step people miss —
   a plugin that is present but not enabled publishes nothing, and the overlay then
   sits there saying it is waiting for the game;
@@ -43,13 +44,18 @@ Factor2SharedMemoryMapPlugin64.dll
 
 ---
 
-## 1. The shared-memory plugin (without this, nothing works)
+## 1. The shared-memory plugin (the installer does this — here is what it did)
 
-The overlay reads rFactor 2 through **The Iron Wolf's rF2 Shared Memory Map
-plugin**. rF2 publishes nothing without it, so the overlay will start, draw its
-menu, and then sit there saying it is waiting for the game.
+The overlay reads rFactor 2 through **TheIronWolf's rF2 Shared Memory Map
+plugin**, and rF2 publishes nothing without it: without the plugin the overlay
+starts, draws its menu, and sits there saying it is waiting for the game.
 
-Install the plugin into:
+It is bundled in `plugin/` with its GPL licence text and a link to its source —
+see `THIRD_PARTY.md`. The reason it is bundled rather than linked is that the
+upstream project has never attached a binary to a release, so "download it" is
+advice that ends in a search.
+
+The file belongs at:
 
 ```
 <your rFactor 2>\Bin64\Plugins\rFactor2SharedMemoryMapPlugin64.dll
@@ -166,10 +172,10 @@ all the overlay draws no logo, which is a supported state rather than a fault.
 
 **No career, no settings, no rendered audio.** All local state, all rebuilt.
 
-**The plugin is not bundled**, for the reason in `THIRD_PARTY.md`: it is
-somebody else's work under the GPL, a link discharges every obligation that
-shipping the binary would carry, and the upstream release is always the current
-build. The installer will place it for you.
+**The voices are not bundled and cannot be** — see step 3. Bundling the plugin
+has no bearing on them: the plugin publishes the game's telemetry, the voices come
+from a Microsoft service over the internet, and the two share nothing. The overlay
+prints a `VOICES` line on the first rendered call saying which it got.
 
 **The 2020 test programme needs a mod.** F1 2020 by A&M, from the Steam Workshop.
 Without it the junior-programme development year still runs, on letters alone.

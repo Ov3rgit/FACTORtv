@@ -52,7 +52,7 @@ EXTRA = ("requirements.txt", "README.md", "SETUP.md", "THIRD_PARTY.md",
 # logos and the news photographs go in `art/`, and `install.py` copies them into
 # the tester's own Pictures folder — the overlay reads them from there, so a
 # tester who adds his own is not fighting the installer.
-DIRS = ("lines_data", "tests", "art")
+DIRS = ("lines_data", "tests", "art", "plugin")
 
 # Top-level images the UI draws. Named by PREFIX rather than by extension so a
 # screenshot dropped in the folder cannot ride along.
@@ -99,8 +99,8 @@ def collect():
                 # which threw out `tests/_transcript_demo.py` and
                 # `tests/_season_demo.py` — two of the preview tools the handover
                 # tells the next person to run.
-                if top == "art":
-                    inc.append(rel)       # every file under art/ IS the payload
+                if top in ("art", "plugin"):
+                    inc.append(rel)       # these folders ARE the payload
                 else:
                     (skip if fn.endswith((".png", ".txt", ".log")) else
                      inc).append(rel)

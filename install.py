@@ -45,6 +45,13 @@ PLUGIN_URL = ("https://github.com/TheIronWolfModding/rF2SharedMemoryMapPlugin"
               "/releases")
 PLUGIN_TAIL = os.path.join("Bin64", "Plugins")
 
+# THE PLUGIN TRAVELS WITH THE RELEASE. There is nowhere to send a tester: the
+# upstream project has never attached a binary to a GitHub release, so "download
+# it from the releases page" is advice that ends in a search. The unmodified DLL
+# sits in `plugin/` with its GPL text and a link to its source, which is what the
+# licence asks for — and this script installs it without anybody needing to know.
+PLUGIN_SRC = os.path.join(_DIR, "plugin", PLUGIN_NAME)
+
 
 def art_dest():
     """`Pictures\\Factor Overlay`, the folder `newsart.py` reads."""
@@ -246,6 +253,11 @@ def main():
     print("  game: %s" % (game or "NOT FOUND — is rFactor 2 installed?"))
     copy_art(check=check)
     ok, dst = plugin_state(game)
+    if not src and not ok and os.path.isfile(PLUGIN_SRC):
+        # BUNDLED, SO ONE RUN IS STILL ONE RUN. An explicit --plugin still wins:
+        # a tester who has a newer build than this release carries should be able
+        # to use it without editing anything.
+        src = PLUGIN_SRC
     if src:
         install_plugin(game, src, check=check)
         ok, dst = plugin_state(game)

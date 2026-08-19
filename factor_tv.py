@@ -523,6 +523,22 @@ class Overlay(DrawMixin, PanelsMixin, DashMixin, BoothMixin, RadioMixin,
         if self._frames % 20 == 1:      # re-locate the game ~1/s, not per frame
             self._lock_to_game()
 
+        # WHICH VOICES DID HE ACTUALLY GET? Printed ONCE, the first time the
+        # answer is known — a tester should not have to wonder whether the
+        # robotic voice he can hear is the product or his connection.
+        if not getattr(self, "_said_voices", False):
+            try:
+                line = self.tts.voice_report()
+            except Exception:
+                line = ""
+            if line:
+                self._said_voices = True
+                print(line)
+                try:
+                    self._log("VOICES", line.split(None, 1)[1])
+                except Exception:
+                    pass
+
         plugin = self.tracker.plugin_present
         s = self.tracker.update() if plugin else None
 
