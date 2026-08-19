@@ -551,6 +551,10 @@ class Overlay(DrawMixin, PanelsMixin, DashMixin, BoothMixin, RadioMixin,
             # with it, which meant a career could only be configured while
             # already sitting in a race. That is precisely the wrong moment:
             # setting one up before going on track is the whole point.
+            # THE INTRODUCTION, before anything else on the tick. It only ever
+            # speaks when there is no session or the car is not out, which is
+            # exactly the state this branch is for.
+            self.update_tutorial(s)
             self.draw_menu_button()
             self.draw_inbox_button()
             self.draw_mode_badge()
@@ -595,6 +599,7 @@ class Overlay(DrawMixin, PanelsMixin, DashMixin, BoothMixin, RadioMixin,
         # depend on the commentary being switched on: this is career bookkeeping,
         # like the badge beside it.
         self._test_watch(s)
+        self.update_tutorial(s)
         self.draw_menu_button()
         self.draw_inbox_button()
         self.draw_mode_badge()

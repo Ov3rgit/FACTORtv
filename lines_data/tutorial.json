@@ -1,0 +1,64 @@
+{
+ "_comment": [
+  "FACTORtv — THE FIRST-RUN INTRODUCTION, spoken by the race engineer.",
+  "",
+  "Asked for: 'when someone first launches there can be voice tutorial on what",
+  "buttons do what, so like the first load they will get a caption card being",
+  "narrated by the enginner to show them exactly how to use it'.",
+  "",
+  "AN ORDERED SCRIPT, NOT A POOL. Every other line in this product is one of",
+  "several ways to say a thing, chosen at random and varied on purpose. This is",
+  "the opposite: it is a sequence, it has to arrive in order, and a driver hears",
+  "it once. So it is a list rather than a bag, and nothing here rotates.",
+  "",
+  "`point` names a thing on screen to mark while the line is spoken — the words",
+  "'top left' are worth much less than the button lighting up as he says them.",
+  "Only 'menu' and 'trophy' exist; anything else marks nothing, which is a",
+  "silence rather than a fault.",
+  "",
+  "IT IS THE ENGINEER, and it stays in his register: what to do, in the fewest",
+  "words, with no sales pitch. He does not welcome anybody to an experience.",
+  "",
+  "KEEP IT SHORT. Nine lines is already most of a minute of talking at a moment",
+  "when the player wants to go driving, and the one thing worse than no",
+  "introduction is one he sits through resenting."
+ ],
+ "steps": [
+  {
+   "t": "Right, before you go anywhere. I am your engineer, and I will be on this channel all weekend.",
+   "point": ""
+  },
+  {
+   "t": "Top left is the menu. Everything the overlay draws is switched on and off in there.",
+   "point": "menu"
+  },
+  {
+   "t": "Next to it, the trophy. That is your career: your championship, your results, and your post.",
+   "point": "trophy"
+  },
+  {
+   "t": "If you have not started a career, open the trophy and start one. Every race you run after that counts towards it.",
+   "point": "trophy"
+  },
+  {
+   "t": "The number on the trophy is unread post. Letters from the team, the governing body, and people who matter to you.",
+   "point": "trophy"
+  },
+  {
+   "t": "In the car you get the timing tower, the relative panel and your dash. Turn off what you do not want to look at.",
+   "point": "menu"
+  },
+  {
+   "t": "There are commentators on the race and on qualifying, and they know your career. They do not talk over practice, so practice is you and me.",
+   "point": ""
+  },
+  {
+   "t": "One last thing. If you want a race that does not count, switch the round off in the career screen first, and none of us will treat it as a championship round.",
+   "point": "trophy"
+  },
+  {
+   "t": "That is everything. Go and drive, and talk to me about the car.",
+   "point": ""
+  }
+ ]
+}

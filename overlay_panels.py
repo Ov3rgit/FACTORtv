@@ -485,6 +485,12 @@ class PanelsMixin(object):
             ly = y + sz * (0.3 + i * 0.2)
             c.create_line(x + sz * 0.25, ly, x + sz * 0.75, ly,
                           fill=bar, width=max(2, UI(2)))
+        # THE INTRODUCTION POINTS AT THINGS. "Top left is the menu" teaches far
+        # less than the menu button lighting up while he says it.
+        if getattr(self, "_tut_point", "") == "menu":
+            c.create_rectangle(x - UI(3), y - UI(3), x + sz + UI(3),
+                               y + sz + UI(3), outline=TH.good,
+                               width=max(2, UI(3)))
         self._menu_btn_rect = (x, y, x + sz, y + sz)
 
     def draw_inbox_button(self):
@@ -605,6 +611,10 @@ class PanelsMixin(object):
         # he nearly missed the Formula 4 seat once already. A ring around the
         # whole button rather than a second badge: the count is already a badge,
         # and two marks in one 30px square is a mess.
+        if getattr(self, "_tut_point", "") == "trophy":
+            c.create_rectangle(x - UI(3), y - UI(3), x + sz + UI(3),
+                               y + sz + UI(3), outline=TH.good,
+                               width=max(2, UI(3)))
         self._career_waiting = bool(car is not None
                                     and self._ladder_waiting(car))
         if self._career_waiting:
@@ -1512,6 +1522,11 @@ class PanelsMixin(object):
             # setting, but this is the page somebody opens when asked "what
             # version have you got?".
             {"label": "Build", "kind": "info", "note": _build_note()},
+            # HAND THE INTRODUCTION BACK. It plays once, so the only way to hear
+            # it again is to ask — and somebody who switched the engineer off
+            # during it has never heard it at all.
+            {"label": "Play the introduction", "key": "intro_replay",
+             "kind": "action", "note": "the engineer explains"},
         ]
 
     def _inbox_note(self, car):
@@ -1607,13 +1622,36 @@ class PanelsMixin(object):
         wins = len([r for r in car.rounds if r.get("pos") == 1])
         pods = len([r for r in car.rounds
                     if r.get("pos") and 1 <= r.get("pos") <= 3])
+        rows.append({"kind": "band", "label": "This season"})
         rows.append({"kind": "tiles", "tiles": [
+            # A POSITION HE DOES NOT HAVE IS A DASH; POINTS HE HAS NOT SCORED
+            # ARE ZERO. Both are measured: he is genuinely not in the table yet,
+            # and he genuinely has no points. "-" for the score would be hiding
+            # a number this code knows.
             {"val": ("P%d" % pos) if pos else "-", "label": "champ",
              "hot": bool(pos and pos <= 3)},
-            {"val": pts if pts is not None else "-", "label": "points"},
+            {"val": pts if pts is not None else 0, "label": "points"},
             {"val": wins, "label": "wins", "hot": bool(wins)},
             {"val": pods, "label": "podiums"},
         ]})
+        # ...AND THE CAREER, from `resume()` — the same source the career record
+        # page and the booth both read, so the three of them cannot disagree
+        # about how many races he has run.
+        _r = None
+        try:
+            _r = car.resume()
+        except Exception:
+            _r = None
+        if _r:
+            rows.append({"kind": "band", "label": "Career"})
+            rows.append({"kind": "tiles", "tiles": [
+                {"val": _r.get("races", 0), "label": "races"},
+                {"val": _r.get("wins", 0), "label": "wins",
+                 "hot": bool(_r.get("wins"))},
+                {"val": _r.get("podiums", 0), "label": "podiums"},
+                {"val": _r.get("title_count", 0), "label": "titles",
+                 "hot": bool(_r.get("title_count"))},
+            ]})
 
         # -- what the season is for, when there is a bar on it ---------------
         try:
@@ -1927,7 +1965,7 @@ class PanelsMixin(object):
         car = getattr(self, "season", None)
         if car is None:
             return [{"label": "No career loaded", "kind": "info"},
-                    {"label": "Back", "key": "page_main", "kind": "nav",
+                    {"label": "Back", "key": "page_dash", "kind": "nav",
                      "note": "<"}]
         inbox_mod.refresh(car)
         news_mod.refresh(car)
@@ -2005,7 +2043,7 @@ class PanelsMixin(object):
             rows.append({"label": "Mark all read",
                          "key": "mail_readall:%s" % feed,
                          "kind": "action", "note": ""})
-        rows.append({"label": "Back", "key": "page_main", "kind": "nav",
+        rows.append({"label": "Back", "key": "page_dash", "kind": "nav",
                      "note": "<"})
         return rows
 
@@ -2224,7 +2262,7 @@ class PanelsMixin(object):
         car = getattr(self, "season", None)
         if car is None:
             return [{"label": "No career loaded", "kind": "info"},
-                    {"label": "Back", "key": "page_career", "kind": "nav",
+                    {"label": "Back", "key": "page_dash", "kind": "nav",
                      "note": "<"}]
         table = car.standings()
         rows = []
@@ -2256,7 +2294,7 @@ class PanelsMixin(object):
         elif sc and sc.get("decided"):
             rows.append({"label": "The title is decided", "kind": "info",
                          "note": "mathematically"})
-        rows.append({"label": "Back", "key": "page_career", "kind": "nav",
+        rows.append({"label": "Back", "key": "page_dash", "kind": "nav",
                      "note": "<"})
         return rows
 
@@ -2273,7 +2311,7 @@ class PanelsMixin(object):
         car = getattr(self, "season", None)
         if car is None:
             return [{"label": "No career loaded", "kind": "info"},
-                    {"label": "Back", "key": "page_career", "kind": "nav",
+                    {"label": "Back", "key": "page_dash", "kind": "nav",
                      "note": "<"}]
         rows = []
         mark = self._season_mark()
@@ -2299,7 +2337,7 @@ class PanelsMixin(object):
             rows.append({"label": "%2d  %s" % (rnd.get("n") or 0,
                                               str(where)[:20]),
                          "kind": "info", "note": note})
-        rows.append({"label": "Back", "key": "page_career", "kind": "nav",
+        rows.append({"label": "Back", "key": "page_dash", "kind": "nav",
                      "note": "<"})
         return rows
 
@@ -2318,7 +2356,7 @@ class PanelsMixin(object):
         if not r:
             return [{"label": "No ladder career", "kind": "info",
                      "note": "start one"},
-                    {"label": "Back", "key": "page_career", "kind": "nav",
+                    {"label": "Back", "key": "page_dash", "kind": "nav",
                      "note": "<"}]
         rows = [{"label": (car.me or "Driver")[:24], "kind": "info",
                  "note": r["tier_name"][:20]}]
@@ -2343,7 +2381,7 @@ class PanelsMixin(object):
                                   else "P%d" % pos if pos else "unfinished")})
         rows.append({"label": "Divisions", "key": "page_divisions",
                      "kind": "nav", "note": ">"})
-        rows.append({"label": "Back", "key": "page_career", "kind": "nav",
+        rows.append({"label": "Back", "key": "page_dash", "kind": "nav",
                      "note": "<"})
         return rows
 
@@ -2358,7 +2396,7 @@ class PanelsMixin(object):
         prog = car.ladder if car is not None else None
         if prog is None:
             return [{"label": "No ladder career", "kind": "info"},
-                    {"label": "Back", "key": "page_career", "kind": "nav",
+                    {"label": "Back", "key": "page_dash", "kind": "nav",
                      "note": "<"}]
         rows = [{"label": (ladder_name(prog.path) or "Path")[:24],
                  "kind": "info",
@@ -2380,7 +2418,9 @@ class PanelsMixin(object):
                 note = "no car — " + note
             rows.append({"label": t["name"][:22], "kind": "info",
                          "note": note[:22]})
-        rows.append({"label": "Back", "key": "page_record", "kind": "nav",
+        rows.append({"label": "Back",
+                     "key": "page_%s" % getattr(self, "_div_back", "dash"),
+                     "kind": "nav",
                      "note": "<"})
         return rows
 
@@ -2815,6 +2855,17 @@ class PanelsMixin(object):
     # -- clicks -----------------------------------------------------------------
     def menu_click(self, sx, sy):
         """Handle a click at screen coordinates. True if it hit something."""
+        # ANY CLICK ENDS THE INTRODUCTION. A player who has started pressing
+        # things does not need to be told where they are, and being talked at
+        # while trying to use a menu is the definition of a tutorial nobody
+        # finishes. The click still does whatever it was going to do.
+        if getattr(self, "_tut_i", 0) and not getattr(self, "_tut_done_seen",
+                                                      False):
+            try:
+                self.tutorial_stop()
+                self._tut_done_seen = True
+            except Exception:
+                pass
         b = getattr(self, "_inbox_btn_rect", None)
         if b and b[0] <= sx <= b[2] and b[1] <= sy <= b[3]:
             # THE TROPHY OPENS THE CAREER DASHBOARD, or closes it if that is
@@ -2888,7 +2939,14 @@ class PanelsMixin(object):
             if key == "page_ladder":
                 self._ladder_back = ("inbox"
                                      if getattr(self, "menu_page", "") == "inbox"
-                                     else "career")
+                                     else "dash")
+            if key == "page_divisions":
+                # Straight off the dashboard, or one level down from the career
+                # record. Both are real routes and Back has to honour whichever
+                # he took.
+                self._div_back = ("record"
+                                  if getattr(self, "menu_page", "") == "record"
+                                  else "dash")
             self.menu_page = {"career": "career", "new": "career_new",
                               "load": "career_load", "delete": "career_delete",
                               "len": "career_len", "cls": "career_cls",
@@ -3291,6 +3349,14 @@ class PanelsMixin(object):
         self._season_round = None
 
     def _menu_toggle(self, key):
+        if key == "intro_replay":
+            try:
+                self.tutorial_replay()
+                self._tut_done_seen = False
+                self.menu_open = False      # he is about to be shown the buttons
+            except Exception:
+                pass
+            return
         if key == "importcareers":
             try:
                 import season as season_mod

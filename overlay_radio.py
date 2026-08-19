@@ -249,6 +249,84 @@ class RadioMixin(object):
         self._prev_player = None
 
     # -- main ----------------------------------------------------------------
+    # -- the first-run introduction -------------------------------------------
+    #
+    # Between two lines of it the player is looking at a caption and a marked
+    # button, which is the only teaching this product does. The rules it has to
+    # hold are in `tutorial.py`; this is the loop.
+    TUT_GAP = 1.1            # a beat between lines, so nine do not run together
+
+    def update_tutorial(self, s):
+        """Speak the next line of the introduction, if it is owed one.
+
+        DRIVEN FROM ABOVE THE ON-AIR GATE, because the whole point is that it
+        happens before he goes on track — in the garage, or on the menu with no
+        session at all. `update_radio` returns immediately when off air, which is
+        exactly when this has to work.
+        """
+        import tutorial as tut
+        cfg = getattr(self, "cfg", None)
+        if cfg is None or tut.done(cfg):
+            return
+        if not getattr(self, "radio_enabled", True):
+            # NO VOICE, NO LESSON. A player who has switched the engineer off has
+            # said something, and shouting the introduction at him anyway is not
+            # a welcome. It stays owed until he turns him back on.
+            return
+        # NEVER OVER A GREEN FLAG. `s` is None on the menu, which is the calmest
+        # moment there is and a fine time to talk.
+        if s is not None and (getattr(s, "started", False)
+                              or getattr(s, "green", False)):
+            return
+        script = tut.steps()
+        i = getattr(self, "_tut_i", 0)
+        if i >= len(script):
+            if tut.mark_done(cfg):
+                self._tut_save()
+            self._tut_point = ""
+            return
+        now = time.time()
+        if getattr(self, "tts", None) is not None and self.tts.speaking:
+            return
+        if now - getattr(self, "_tut_last", 0.0) < self.TUT_GAP:
+            return
+        step = script[i]
+        try:
+            self.tts.speak(step["t"], cast_mod.ENGINEER, intensity=0)
+            self._push_msg(cast_mod.ENGINEER, step["t"], now)
+        except Exception:
+            # A VOICE THAT WILL NOT PLAY MUST NOT WEDGE THE INTRODUCTION. The
+            # caption is the half that teaches; losing the audio costs a line,
+            # never the sequence (LAW 22).
+            pass
+        self._tut_point = step.get("point") or ""
+        self._tut_i = i + 1
+        self._tut_last = now
+
+    def tutorial_stop(self, heard=False):
+        """Skip the rest of it. A click is an answer, so skipping counts."""
+        import tutorial as tut
+        self._tut_i = len(tut.steps())
+        self._tut_point = ""
+        if tut.mark_done(getattr(self, "cfg", None)):
+            self._tut_save()
+
+    def tutorial_replay(self):
+        """Hand it back, from the top."""
+        import tutorial as tut
+        tut.replay(getattr(self, "cfg", None))
+        self._tut_i = 0
+        self._tut_last = 0.0
+        self._tut_point = ""
+        self._tut_save()
+
+    def _tut_save(self):
+        try:
+            import factor_tv
+            factor_tv.save_settings(self.cfg)
+        except Exception:
+            pass
+
     def update_radio(self, s):
         if not self.radio_enabled or s is None or not s.valid:
             return

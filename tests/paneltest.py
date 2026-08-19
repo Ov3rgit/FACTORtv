@@ -1027,6 +1027,105 @@ check(not _bad,
       "and every page_ key on every page resolves to a real page",
       "; ".join(_bad[:4]))
 
+# BACK GOES WHERE HE CAME FROM.
+#
+# Reported: "when i click inbox, then click back it takes me back into the
+# setting screen rather than the career screen again, same boes for news, please
+# audit this". Five pages moved onto the dashboard and every one of them still
+# went back to wherever it used to be reached from — the inbox to settings, the
+# record and the standings to the old career page.
+#
+# THE ROUTER AUDIT ABOVE CANNOT CATCH THIS, and the distinction is the useful
+# part: those keys were all valid pages. They were the WRONG pages. Where a Back
+# button goes is a fact about the ROUTE, so it needs the route written down.
+#
+# The rule: a page you can only reach from the dashboard goes back to the
+# dashboard. A page reached from another page goes back to that one.
+_HOME = {
+    "inbox": "dash",            # the post lives inside the career now
+    "standings": "dash",
+    "results": "dash",
+    "record": "dash",
+    # Divisions is reached from the dashboard AND from the career record, so it
+    # remembers which — `_div_back`, the same trick the end-of-season page uses.
+    "divisions": "dash",
+    "career": "dash",           # Manage career hangs off the dashboard
+    "dash": "main",             # ...and the dashboard itself off settings
+    "career_new": "career",     # the manage sub-pages belong to manage
+    "career_load": "career",
+    "career_delete": "career",
+    "career_nation": "career",
+    "legal": "main",            # the disclaimer is reached from settings
+    "mail": "inbox",            # a letter returns to the list it was in
+}
+_wrong = []
+h._div_back = "dash"
+h._ladder_back = "dash"
+for _pg, _want in _HOME.items():
+    h.menu_page = _pg
+    try:
+        _rows = h._menu_rows()
+    except Exception as _e:
+        _wrong.append("%s raised %s" % (_pg, _e))
+        continue
+    _backs = [r for r in _rows if str(r.get("label", "")).strip() == "Back"]
+    if not _backs:
+        _wrong.append("%s has no Back at all" % _pg)
+        continue
+    _got = str(_backs[-1].get("key") or "")[5:]
+    if _got != _want:
+        _wrong.append("%s -> %s (wanted %s)" % (_pg, _got or "?", _want))
+h.menu_page = "main"
+check(not _wrong, "every page goes back where it was reached from",
+      "; ".join(_wrong[:4]))
+# ARRIVING FROM THE RECORD. `_div_back` is what the click handler sets on the way
+# in, so setting it here is the state that navigation produces.
+h._div_back = "record"
+h.menu_page = "divisions"
+_dback = [r for r in h._menu_rows()
+          if str(r.get("label", "")).strip() == "Back"][-1]
+check(_dback.get("key") == "page_record",
+      "and arriving at divisions from the record returns there instead",
+      str(_dback.get("key")))
+h._div_back = "dash"
+h.menu_page = "main"
+
+# THE TILES SHOW A CAREER AS WELL AS A SEASON.
+#
+# He put the career record page beside the dashboard: the record said 13 races,
+# 2 wins, 6 podiums, and the dashboard said 0 wins, 0 podiums, no points. Both
+# were right — the tiles were THIS SEASON and his season was two simulated
+# absences — and a dashboard that appears to have forgotten a career is worse
+# than one with a row too many.
+if h.season is not None:
+    h.menu_page = "dash"
+    _drow = h._rows_dash()
+    _tilerows = [r for r in _drow if r.get("kind") == "tiles"]
+    check(len(_tilerows) == 2, "the dashboard shows two rows of numbers",
+          "%d" % len(_tilerows))
+    _bands = [str(r.get("label", "")).lower() for r in _drow
+              if r.get("kind") == "band"]
+    check("this season" in _bands and "career" in _bands,
+          "and says which is which", str(_bands))
+    if len(_tilerows) == 2:
+        _career_t = {t["label"]: t["val"] for t in _tilerows[1]["tiles"]}
+        _res = h.season.resume() or {}
+        check(_career_t.get("races") == _res.get("races"),
+              "with the career figures read from `resume`, like the record page",
+              "%s vs %s" % (_career_t.get("races"), _res.get("races")))
+        check(_career_t.get("podiums") == _res.get("podiums"),
+              "so the two screens cannot disagree about his podiums",
+              "%s vs %s" % (_career_t.get("podiums"), _res.get("podiums")))
+    # POINTS HE HAS NOT SCORED ARE ZERO, not a dash: a dash hides a number this
+    # code knows. A POSITION he does not have stays a dash, because he genuinely
+    # is not in the table.
+    _season_t = {t["label"]: t["val"] for t in _tilerows[0]["tiles"]}
+    check(_season_t.get("points") is not None
+          and str(_season_t.get("points")) != "-",
+          "and points are a number even when the number is nothing",
+          str(_season_t.get("points")))
+    h.menu_page = "main"
+
 print("\n" + ("FAILED: %d" % len(fails) if fails else "ALL PASSED"))
 root.destroy()
 sys.exit(1 if fails else 0)

@@ -3566,6 +3566,69 @@ the user can drive it after step 1 rather than waiting for all of it.
 
 ---
 
+## THE FIRST-RUN INTRODUCTION, AND THREE DASHBOARD FAULTS HE FOUND BY USING IT
+
+### THE ENGINEER EXPLAINS THE BUTTONS, ONCE
+
+His idea: *"when someone first launches there can be voice tutorial on what
+buttons do what ... narrated by the enginner"*. The engineer is the right voice —
+the booth describes a race to a viewer, the engineer tells the DRIVER what to do,
+which is what an introduction is.
+
+`tutorial.py` holds the state and the rules; `lines_data/tutorial.json` holds nine
+ordered steps. **It is a SCRIPT, not a pool** — the only sequenced dialogue in the
+product, so it is a list and nothing rotates. Each step may `point` at `menu` or
+`trophy`, and that button is ringed in green while the line plays: "top left is
+the menu" teaches far less than the menu lighting up as he says it.
+
+The rules are the feature:
+
+  * ONCE, on a flag in `_settings.json`, with a settings row to hand it back.
+  * NEVER over a green flag. It runs in the garage or on the menu with no session
+    at all, driven from ABOVE the on-air gate.
+  * ANY CLICK ends it, and skipping counts as heard: a player pressing things has
+    told you he does not need this.
+  * ONE LINE AT A TIME, gated on the voice actually finishing rather than on a
+    timer, or nine lines arrive as one noise.
+  * RADIO OFF, NO LESSON — and it stays OWED rather than being marked heard, so
+    it is still there when he turns the engineer back on.
+
+`tests/tutorialtest.py` drives all of that.
+
+### AND THEN HE USED THE DASHBOARD
+
+**New career and Load career went to the settings page.** The router maps the name
+after `page_` through a table and falls back to `"main"` for anything it does not
+recognise — so a mistyped key does not fail, it silently lands on settings. The
+dashboard asked for `page_career_new`; the router knows `page_new`. The suite
+passed because **the tests asserted the keys I had invented rather than the keys
+the router understands.** Every page is now walked against the router's own table
+and a nav key that resolves to the fallback is a failure.
+
+**Back went to the wrong place from five pages.** The inbox returned to settings;
+the standings, results, record and divisions returned to the old career page. All
+five had moved onto the dashboard and none of their exits had. The router audit
+CANNOT catch this and the distinction is the useful part: those keys were all
+valid pages — they were the wrong pages. **Where a Back button goes is a fact
+about the ROUTE**, so `paneltest` now writes the route down: a page reached only
+from the dashboard goes back to the dashboard, a sub-page goes back to its parent.
+Divisions is reached from both the dashboard and the record, so it remembers which
+(`_div_back`) — the same trick `_ladder_back` already used.
+
+**The tiles looked like a forgotten career.** He put the career record page beside
+the dashboard: the record said 13 races, 2 wins, 6 podiums; the dashboard said 0
+wins, 0 podiums, no points, no position. Both were right — the tiles were THIS
+SEASON and his season was two simulated absences with nothing raced. A dashboard
+that appears to have forgotten a career is worse than one with a row too many, so
+there are now two labelled rows, and the career row reads `resume()` — the same
+source the record page and the booth use, so the three cannot disagree.
+
+Points he has not scored are **0**, not a dash: a dash hides a number this code
+knows. A position he does not hold stays a dash, because he genuinely is not in the
+table.
+
+---
+
 ## THE CAREER DASHBOARD — and the door that nearly got bricked up
 
 His verdict on the career page, with a dashboard screenshot for reference:
