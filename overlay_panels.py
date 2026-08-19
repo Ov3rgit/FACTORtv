@@ -124,6 +124,15 @@ MAP_BAKE_STEP = 25
 MAP_SS = 2
 
 
+def _build_note():
+    """The build string for the settings page, short enough for the note column."""
+    try:
+        import version
+        return version.BUILD if version.BUILD != "dev" else "dev copy"
+    except Exception:
+        return ""
+
+
 class PanelsMixin(object):
 
     # -- sector strip -----------------------------------------------------------
@@ -1499,6 +1508,10 @@ class PanelsMixin(object):
             # up unsure which screen he is meant to be on.
             {"label": "Disclaimer", "key": "page_legal", "kind": "nav",
              "note": "fiction"},
+            # WHICH BUILD HE IS RUNNING, where a tester can read it back. Not a
+            # setting, but this is the page somebody opens when asked "what
+            # version have you got?".
+            {"label": "Build", "kind": "info", "note": _build_note()},
         ]
 
     def _inbox_note(self, car):
@@ -1552,9 +1565,9 @@ class PanelsMixin(object):
             rows = [{"label": "No career", "kind": "info",
                      "note": "nothing running"}]
             rows += self._rows_orphans()
-            rows.append({"label": "New career", "key": "page_career_new",
+            rows.append({"label": "New career", "key": "page_new",
                          "kind": "action", "hot": True, "note": "start one >"})
-            rows.append({"label": "Load career", "key": "page_career_load",
+            rows.append({"label": "Load career", "key": "page_load",
                          "kind": "nav", "note": ">"})
             rows.append({"label": "Back", "key": "page_main", "kind": "nav",
                          "note": "<"})
@@ -1667,7 +1680,7 @@ class PanelsMixin(object):
             _w = self._ladder_waiting(car)
             if _w:
                 rows.append({"label": self._waiting_label(_w),
-                             "key": "page_career_ladder", "kind": "action",
+                             "key": "page_ladder", "kind": "action",
                              "hot": True, "note": "season over >"})
             else:
                 rows.append({"label": "Season complete", "kind": "info",
@@ -1703,9 +1716,9 @@ class PanelsMixin(object):
         car = getattr(self, "season", None)
         if car is None:
             return [{"label": "No career", "kind": "info"},
-                    {"label": "New career", "key": "page_career_new",
+                    {"label": "New career", "key": "page_new",
                      "kind": "action", "hot": True, "note": "start one >"},
-                    {"label": "Load career", "key": "page_career_load",
+                    {"label": "Load career", "key": "page_load",
                      "kind": "nav", "note": ">"},
                     {"label": "Back", "key": "page_dash", "kind": "nav",
                      "note": "<"}]
@@ -1719,20 +1732,20 @@ class PanelsMixin(object):
                      "val": bool(getattr(self, "season_record", True))})
         rows.append({"label": "Racing as", "kind": "info",
                      "note": (car.me or "")[:20]})
-        rows.append({"label": "Nationality", "key": "page_career_nation",
+        rows.append({"label": "Nationality", "key": "page_nation",
                      "kind": "action", "note": car.nationality or "-"})
         if car.rounds:
             rows.append({"label": "Undo last result", "key": "confirm:undo",
                          "kind": "action", "danger": True,
                          "note": "round %d" % car.rounds[-1].get("n", 0)})
         rows.append({"kind": "band", "label": "Other careers"})
-        rows.append({"label": "New career", "key": "page_career_new",
+        rows.append({"label": "New career", "key": "page_new",
                      "kind": "nav", "note": ">"})
-        rows.append({"label": "Load career", "key": "page_career_load",
+        rows.append({"label": "Load career", "key": "page_load",
                      "kind": "nav", "note": ">"})
         rows.append({"label": "Close career", "key": "career_close",
                      "kind": "action", "note": "keeps the file"})
-        rows.append({"label": "Delete career", "key": "page_career_delete",
+        rows.append({"label": "Delete career", "key": "page_delete",
                      "kind": "nav", "danger": True, "note": ">"})
         rows.append({"label": "Back", "key": "page_dash", "kind": "nav",
                      "note": "<"})
@@ -2857,9 +2870,6 @@ class PanelsMixin(object):
         # THE NEWS IS THE INBOX WITH THE OTHER FEED SELECTED, and the dashboard
         # links straight to it — a driver who wants the news should not have to
         # open the post and then switch tabs.
-        if key == "page_dash":
-            self.menu_page = "dash"
-            return
         if key == "page_news":
             self._mail_feed = "news"
             self._mail_offset = 0
@@ -2890,6 +2900,7 @@ class PanelsMixin(object):
                               "path": "career_path", "plen": "career_plen",
                               "ladder": "career_ladder",
                               "nextlen": "career_nextlen",
+                              "dash": "dash",
                               "main": "main"}.get(key[5:], "main")
             return
         if key in ("confirm_yes", "confirm_no"):

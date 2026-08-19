@@ -283,7 +283,12 @@ def main():
     except Exception:
         pass
 
-    banner("FACTORtv TEST RUN  %s" % time.strftime("%Y-%m-%d %H:%M:%S"))
+    # THE BUILD, IN THE FIRST LINE OF THE LOG. This is the whole point of the
+    # stamp: every log this project has been sent had to be dated by hand against
+    # a memory of what was shipped when.
+    import version as _v
+    banner("FACTORtv %s  %s"
+           % (_v.stamped(), time.strftime("%Y-%m-%d %H:%M:%S")))
 
     # --- stage 1: the plugin -------------------------------------------------
     banner("PLUGIN CHECK")

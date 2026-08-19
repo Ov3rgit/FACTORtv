@@ -21,6 +21,18 @@ has had was found by driving it. A play tester is the point.
 VERSION = "0.0.1"
 STAGE = "beta"
 
+# WHICH BUILD THIS IS, and it exists because two copies of 0.0.1-beta were
+# indistinguishable. The tester re-downloads the same filename and the same
+# version string every time, so neither he nor the author could tell whether a
+# reported bug was against today's code or last night's — and the answer changes
+# what you look at first.
+#
+# SET BY `tools_stamp.py` BEFORE A BUILD, never by hand: it reads the date and the
+# commit, so a stamp cannot claim a state the repository was not in. "dev" means
+# nobody has stamped this working copy, which is the honest answer for a source
+# tree somebody is editing.
+BUILD = "dev"
+
 # What a tester is actually being asked to look at, in the order it matters.
 # Kept here so the release notes and the setup guide cannot drift from it.
 KNOWN_GAPS = (
@@ -37,3 +49,13 @@ KNOWN_GAPS = (
 def full():
     """"0.0.1-beta", the string a human should see."""
     return "%s-%s" % (VERSION, STAGE) if STAGE else VERSION
+
+
+def stamped():
+    """"0.0.1-beta (2026-08-19 a7d14d5)" — the string a BUG REPORT should carry.
+
+    One line a tester can read back, and the first line of every session log, so
+    a log identifies the code that wrote it without anybody having to remember.
+    """
+    return "%s (%s)" % (full(), BUILD) if BUILD and BUILD != "dev" else \
+        "%s (unstamped working copy)" % full()

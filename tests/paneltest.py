@@ -544,7 +544,7 @@ try:
     # it whenever a decision is waiting.
     h.menu_page = "dash"
     _drows = h._rows_dash()
-    check(any(r.get("key") == "page_career_ladder" and r.get("hot")
+    check(any(r.get("key") == "page_ladder" and r.get("hot")
               for r in _drows),
           "the dashboard marks the decision as well",
           str([r.get("key") for r in _drows if r.get("hot")]))
@@ -894,14 +894,14 @@ if _dc is not None:
           "the post and the news are rows on the dashboard", str(_keys))
     # ...AND THE HOUSEKEEPING IS NOT, because the first version of this page came
     # out taller than the screen, which defeats the point of a dashboard.
-    check("page_career_delete" not in _keys and "career_close" not in _keys,
+    check("page_delete" not in _keys and "career_close" not in _keys,
           "while deleting and closing a career are one row further in",
           str(_keys))
     check("page_career" in _keys, "which the dashboard links to")
     _mrows = h._rows_manage()
     _mkeys = [r.get("key") for r in _mrows]
-    for _k in ("career_quali", "page_career_nation", "career_close",
-               "page_career_delete"):
+    for _k in ("career_quali", "page_nation", "career_close",
+               "page_delete"):
         check(_k in _mkeys, "manage career holds %s" % _k, str(_mkeys))
     check(any(r.get("key") == "page_dash" for r in _mrows),
           "and gets back to the dashboard", str(_mkeys[-2:]))
@@ -977,11 +977,55 @@ for _lbl, _car in (("with no career at all", None),
 _none = _BtnHost(None)
 _nrows = _none._rows_dash()
 _nkeys = [r.get("key") for r in _nrows]
-check("page_career_new" in _nkeys,
+check("page_new" in _nkeys,
       "with no career, the dashboard offers to start one", str(_nkeys))
-check("page_career_load" in _nkeys, "and to load one")
+check("page_load" in _nkeys, "and to load one")
 check(any(r.get("hot") for r in _nrows),
       "and the way in is marked, because it is the only thing to do")
+
+# EVERY NAV KEY ON EVERY PAGE HAS TO LEAD SOMEWHERE.
+#
+# The router maps the short name after `page_` through a table and falls back to
+# `"main"` for anything it does not recognise — so a mistyped key does not fail,
+# it SILENTLY SENDS THE PLAYER TO THE SETTINGS PAGE. The dashboard shipped with
+# `page_career_new` where the router knows `page_new`, and the whole suite passed
+# because the tests asserted the keys I had invented rather than the keys the
+# router understands. He found it in one click: "when i pres load career or new
+# career it just takes me back to the settings page".
+#
+# THE TABLE IS THE ONLY AUTHORITY, and this walks every page against it.
+import io as _io2
+import re as _re
+_src = _io2.open(_op.__file__, encoding="utf-8").read()
+_i = _src.index('self.menu_page = {"career": "career"')
+_j = _src.index("}.get(key[5:]", _i)
+_router = set(_re.findall(r'"(\w+)":\s*"', _src[_i:_j]))
+check(len(_router) > 15, "the router's page table can be read",
+      "%d names" % len(_router))
+
+_PAGES = ("main", "dash", "career", "career_new", "career_load",
+          "career_delete", "career_nation", "career_path", "career_plen",
+          "career_ladder", "career_nextlen", "inbox", "record", "standings",
+          "results", "divisions", "legal")
+_special = {"page_inbox", "page_news"}      # handled above the table, by name
+_bad = []
+for _pg in _PAGES:
+    h.menu_page = _pg
+    try:
+        _rows = h._menu_rows()
+    except Exception as _e:
+        _bad.append("%s raised %s" % (_pg, _e))
+        continue
+    for _r in _rows:
+        _k = str(_r.get("key") or "")
+        if not _k.startswith("page_") or _k in _special:
+            continue
+        if _k[5:] not in _router:
+            _bad.append("%s -> %s" % (_pg, _k))
+h.menu_page = "main"
+check(not _bad,
+      "and every page_ key on every page resolves to a real page",
+      "; ".join(_bad[:4]))
 
 print("\n" + ("FAILED: %d" % len(fails) if fails else "ALL PASSED"))
 root.destroy()
