@@ -2638,15 +2638,20 @@ class BoothMixin(object):
         # the first version of this. When the places are not a clean set, nothing
         # is touched and the road position stands, which is the behaviour this
         # has always had.
+        # STATUS 1 IS "FINISHED NORMALLY" AND IS NOT A RETIREMENT. Treating every
+        # non-zero status as stopped banked a race WIN as last of the field: he
+        # crossed the line first, `mFinishStatus` went to 1, and the demotion put
+        # him behind eleven cars still circulating. Only 2 and 3 are retirements.
+        def _out(car):
+            return getattr(car, "finish_status", 0) in (2, 3)
+
         place_of = None
-        if not final and any(getattr(c, "finish_status", 0) for c in field):
+        if not final and any(_out(c) for c in field):
             places = sorted((c.place or 0) for c in field)
             if places == list(range(1, len(field) + 1)):
-                running = sorted((c for c in field
-                                  if not getattr(c, "finish_status", 0)),
+                running = sorted((c for c in field if not _out(c)),
                                  key=lambda c: c.place or 99)
-                stopped = sorted((c for c in field
-                                  if getattr(c, "finish_status", 0)),
+                stopped = sorted((c for c in field if _out(c)),
                                  key=lambda c: -(c.laps or 0))
                 place_of = dict((id(c), i + 1)
                                 for i, c in enumerate(running + stopped))

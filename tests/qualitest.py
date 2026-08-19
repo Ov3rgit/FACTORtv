@@ -959,5 +959,74 @@ _gb.update_booth(_gs)
 check(not _gc.rounds, "a race in progress records nothing at all",
       str(len(_gc.rounds)))
 
+print("\n21b. RESTARTING THE RACE IS THE SAME ROUND, NOT THE NEXT ONE")
+# The obvious question once a retirement banks immediately: "what about
+# restarting? how does it tell the difference?" If a restart armed the NEXT
+# unraced round, one weekend at one circuit would put a retirement in round two
+# and a finish in round three — the phantom-round mechanism in a new guise.
+#
+# It does not, and the reason is that a round is keyed on the CIRCUIT rather than
+# on the session: `Season.match` returns the most recent round when its slug is
+# the one loaded, flagged `done`, and `record` replaces a round with the same
+# number. A restart therefore lands on the round it just banked.
+_sc = _S3.create("open", me="Kandasamy", rounds=5)
+_sb = Booth()
+_sb.season = _sc
+_sb.career = None
+
+
+def _sess(green=True, et=100.0):
+    _x = FakeSession(grid(), kind="race")
+    _x.circuit = _C3()
+    _x.on_air = True
+    _x.started = green
+    _x.green = green
+    _x.et = et
+    return _x
+
+
+_s1 = _sess()
+_sb.update_booth(_s1)
+check((_sb._season_round or {}).get("n") == 1, "he arms round one",
+      str(_sb._season_round))
+# HE RETIRES. Round one is banked as a DNF, last of the field.
+_s1.player.finish_status = 2
+_s1.player.laps = 3
+_sb.update_booth(_s1)
+check(len(_sc.rounds) == 1 and _sc.rounds[0].get("dnf"),
+      "and it goes down as a retirement", str(_sc.rounds[:1]))
+_dnf_pos = _sc.rounds[0].get("pos")
+
+# NOW HE RESTARTS. The clock going backwards is the signal `_new_session`
+# already trusts, and it clears the armed round.
+_s2 = _sess(et=2.0)
+_sb.update_booth(_s2)
+check((_sb._season_round or {}).get("n") == 1,
+      "the restart arms round ONE again, not round two",
+      str(_sb._season_round))
+check((_sb._season_round or {}).get("done"),
+      "and it knows the round already has a result on it",
+      str((_sb._season_round or {}).get("done")))
+# HE FINISHES IT PROPERLY THIS TIME.
+_s2.player.finish_status = 1
+_s2.player.laps = 12
+_sb.update_booth(_s2)
+check(len(_sc.rounds) == 1,
+      "one weekend is still one round, however many times he restarts it",
+      str([r.get("n") for r in _sc.rounds]))
+check(not _sc.rounds[0].get("dnf"),
+      "and the finish REPLACES the retirement rather than joining it",
+      str(_sc.rounds[0].get("dnf")))
+check(_sc.rounds[0].get("laps") == 12,
+      "with the laps he did on the run that counted",
+      str(_sc.rounds[0].get("laps")))
+# HE WON IT ON THE RESTART, so the record says he won it. Status 1 is "finished
+# normally" and is NOT a retirement: treating every non-zero finish status as
+# stopped banked a race WIN as last of the field, because the demotion put a man
+# who had crossed the line behind eleven cars still circulating.
+check(_sc.rounds[0].get("pos") == 1,
+      "and a driver who FINISHED is not demoted behind the field",
+      "was P%s, now P%s" % (_dnf_pos, _sc.rounds[0].get("pos")))
+
 print("\n" + ("FAILED: %d" % len(fails) if fails else "ALL PASSED"))
 sys.exit(1 if fails else 0)

@@ -3624,6 +3624,41 @@ stands, which is what this has always done. At the FLAG none of it applies: rF2'
 own classification is authoritative and already puts retirements where they
 belong.
 
+### RESTARTING IS THE SAME ROUND, AND NOTHING HAD TO BE ADDED FOR IT
+
+His question, and it is the right one to ask of anything that banks early: *"what
+about restarting? how does it tell the difference?"*
+
+It does not have to, because **a round is keyed on the CIRCUIT, not on the
+session.** `Season.match` returns the most recent round when its slug is the one
+loaded, flagged `done: True`, and `record` replaces a round with the same number.
+A restart therefore lands on the round it just banked and the new result
+overwrites the old one — retirement replaced by finish, and one weekend stays one
+round however many times it is restarted. `_new_session` already detects the
+restart itself (green to pre-green, or the session clock going backwards), which
+clears `_season_done` and `_season_retired` so the new run can bank at all.
+
+**THE FLIP SIDE, and it is a real limitation:** in an open season, two CONSECUTIVE
+rounds at the same circuit collide — the second one is read as a re-run of the
+first and overwrites it. That is the same rule working as designed, and it is the
+price of restart detection needing no cooperation from the player. If somebody
+wants back-to-back rounds at one track it needs an explicit "this is a new round"
+action rather than a cleverer guess.
+
+### STATUS 1 IS NOT A RETIREMENT
+
+`mFinishStatus`: 0 still going, **1 finished normally**, 2 and 3 the retirements.
+The demotion above treated every non-zero value as stopped, so a driver who
+crossed the line FIRST was banked as last of the field — a race win recorded as
+twelfth, because the man who had finished was placed behind eleven cars still
+circulating. Only 2 and 3 demote.
+
+Three wrong versions of one twenty-line function, each caught by a test written
+before it was believed: renumbering a class field, leaving a hole and a
+thirteenth of twelve, and demoting the winner. **The lesson is not "be careful" —
+it is that the provisional-classification problem has more cases than it looks
+like, and every one of them is a wrong number in somebody's championship.**
+
 ### A BOUNDARY THIS DELIBERATELY DOES NOT CROSS
 
 Quitting a race WITHOUT retiring — alt-F4, or back to the monitor while the car
