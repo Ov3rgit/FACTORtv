@@ -3566,6 +3566,66 @@ the user can drive it after step 1 rather than waiting for all of it.
 
 ---
 
+## WHAT CHANGED ON 2026-08-19 (fourth session) — F3, THE CALL-UP, AND A FIXED FINALE
+
+### THE JUNIOR PROGRAMME NOW STARTS IN F3, AND HE IS CALLED UP MID-SEASON
+
+He asked to start the arc on the F3 rung, because the official F3 cars are
+already in the game and the seat is believable. So `programme.py` offers on
+`F3_KEY = "f3"` (`_on_rung`, `on_f3`) with `f3_team` names out of
+`programmes.json`.
+
+Then the plot twist. His first idea was a fatal crash opening the F2 seat, built
+on the real 2019 Spa weekend — no driver named, no circuit named, an easter egg
+of the year. I recommended against it and he agreed: the 2019 F2 roster this
+project already ships includes a driver who was in that crash and survived it
+badly, so a career-advancing "seat opens up" letter would be sitting next to his
+name in our own standings. **The team drops its driver for form instead.**
+
+  * `CALLUP_AFTER = 4` — no letter before the fourth F3 round.
+  * `callup_round()`, `callup_due()`, `callup(tier_index=None, names=None)`.
+  * The F3 season is archived `cut_short` with `of` set, so the record says
+    four of ten rather than pretending it was a whole year.
+  * `_start_rung(..., CALLUP_ROUNDS, how="callup")`, then `record_absence()` for
+    `CALLUP_SIM = 2` rounds. He starts on **0 points** with the leader already
+    scoring, and those two rounds are positions and points — never events.
+  * The bar is **P3 in the standings**, not the title: `CALLUP_BAR = 3`, applied
+    in `season_verdict` only when `_block(career).get("called")`.
+  * The letter is `prog_won_callup`. `programmetest.py` §2b asserts no line in
+    it congratulates him on a championship he did not win, and that "Prema" is
+    named while Correa, Hubert, Latifi, Ghiotto, Aitken, Mazepin and Zhou are
+    not.
+
+### THE LAST SEASON OF EVERY DIVISION IS TEN ROUNDS, AND HE CANNOT CHOOSE
+
+His words: the challenge gap before F1. `FINALE_ROUNDS = 10`,
+`CALLUP_ROUNDS = 10`, `_is_finale(tier)`; forced in `_start_rung` and in
+`create()` when `tier_index` is the last tier and this is not a historic tour.
+Simulating those rounds is still allowed — the point is the length, not the
+labour.
+
+### THE LAST LETTER NOW OUTRANKS THE SCHEDULE — a real bug the fixed finale found
+
+`personal.py` paces the sister's thread with a per-season budget (`allowed`) and
+a spacing rule (`gap`), and below both of them sat the rule that exists to make
+sure the thread always finishes: skip to the last beat when the season is
+running out. **Below** them. So a finale that had already spent its letters
+returned empty before it ever reached the rescue, the thread stalled three notes
+short, and `_offer` — which waits for the thread — never opened. On a six-round
+season the budget happened to be generous enough to hide it; the fixed ten-round
+finale exposed it.
+
+The condition is now computed as `lastgasp` directly under `last_season`, above
+both gates, and both gates defer to it. Ordinary letters are texture; the last
+one is the story, and it is allowed to break the cadence to arrive.
+
+Two of the six `personaltest.py` failures were the fixture (a fixed
+`for _ in range(5)` loop cannot find a window that moved), so those sections now
+drive the season the way the game does — race, settle, repeat, until the offer is
+on the table or the window closes. The rest were this bug.
+
+---
+
 ## WHAT CHANGED ON 2026-08-19 (third session) — THE SAFETY CAR, THE PASS, AND THE FLAG
 
 He drove it. `_session_log.txt` from 10:31 is the first log this project has had

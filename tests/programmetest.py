@@ -23,6 +23,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import inbox
 import personal
 import programme as P
+import ladder as L
 import season as S
 
 fails = []
@@ -37,22 +38,76 @@ S.CAREER_DIR = _tmp
 ME = "Kandasamy"
 
 
-def f2_career(rounds=3):
-    """A career sitting on the Formula 2 rung, where the arc begins."""
+# THE ARC NOW BEGINS ON THE FORMULA 3 RUNG, at the user's call: the F3 mod names
+# real teams per entry, so a seat can be verified against what he selected in the
+# game, and academies sign drivers INTO F3 and prove them in F2 — which is the
+# real ladder rather than a compressed version of it.
+F3_TIER = next(i for i, t in enumerate(L.tiers("single_seater"))
+               if t["key"] == "f3")
+F2_TIER = next(i for i, t in enumerate(L.tiers("single_seater"))
+               if t["key"] == "f2")
+
+
+def f3_career(rounds=3):
+    """A career on the Formula 3 rung, where the arc is offered."""
     return S.create("open", me=ME, rounds=rounds,
-                    ladder_path="single_seater", tier_index=3)
+                    ladder_path="single_seater", tier_index=F3_TIER)
+
+
+def f2_career(rounds=3):
+    """Signed, called up, and now racing Formula 2 — the state most of these
+    sections were written against, reached the way the game reaches it.
+
+    `rounds` is the length of the F2 season, so the F3 half is sized to leave
+    exactly that many rounds after the call-up.
+    """
+    call_at = 4
+    c = S.create("open", me=ME, rounds=rounds + call_at,
+                 ladder_path="single_seater", tier_index=F3_TIER)
+    return c
+
+
+def to_f2(c, key="mercedes", pos=2):
+    """Sign for a programme, race the Formula 3 half, take the call-up.
+
+    THE JOURNEY, NOT A SHORTCUT. Setting the rung by hand would test a state the
+    game cannot reach; this goes through `offer` -> `accept` -> the call-up letter,
+    which is the only route that exists.
+    """
+    P.accept(c, key)
+    for n in range(1, c.callup_round() + 1):
+        race(c, pos, n)
+    inbox.refresh(c)              # the letter is what moves him
+    return c
+
+
+# A REAL FIELD, because the programme's bar is now a POSITION IN THE STANDINGS
+# rather than a win — and with two cars classified, "he finished fourth" makes him
+# second in the table, which is not a test of anything.
+FIELD = ("Marcus Vinter", "Theo Vasseur", "Sam Okonkwo", "Ahti Jyrki",
+         "Norbert Truls")
 
 
 def race(c, pos, n):
-    other = 1 if pos != 1 else 2
+    order = list(FIELD)
+    order.insert(max(0, pos - 1), ME)
     c.record({"n": n, "slug": "t%d" % n, "pos": pos, "laps": 20,
               "race_laps": 20,
-              "classified": [(ME, pos), ("A Rival", other)]})
+              "classified": [(nm, i + 1) for i, nm in enumerate(order)]})
 
 
-def season(c, pos, rounds=3):
-    for n in range(1, rounds + 1):
-        race(c, pos, n)
+def season(c, pos, rounds=None):
+    """Race whatever is LEFT of this season.
+
+    Not "race N rounds": a called-up season already has its opening rounds on the
+    board as absences, and a finale is a fixed ten whatever the career chose. Every
+    caller here means "finish the season", so that is what this does.
+    """
+    total = c.total_rounds or rounds or 3
+    done = {r.get("n") for r in c.rounds if r.get("n")}
+    for n in range(1, total + 1):
+        if n not in done:
+            race(c, pos, n)
 
 
 # ---------------------------------------------------------------------------
@@ -107,25 +162,111 @@ check(P.signed(c)[0] == "ferrari", "the programme is remembered")
 
 
 # ---------------------------------------------------------------------------
+print("\n2b. THE CALL-UP — Formula 3 to Formula 2, mid-season")
+# The user's plot twist: signed into F3 by an academy, and four rounds in the
+# academy's F2 team makes a change and puts him in the car for the rest of that
+# year. It also solves the year problem — F3 2019 into F2 2019 is ONE season, not
+# two arcs occupying the same period.
+#
+# HIS FIRST IDEA WAS A FATAL CRASH, drawn from Spa 2019, and it was dropped for a
+# concrete reason: Juan Manuel Correa is in the F2 2019 mod's roster. He was
+# critically injured in that crash. The seat logic names the man whose place is
+# taken, so the arc could have handed the player HIS seat with a crash as the
+# stated cause. "The team dropped him for form" gives identical mechanics — and
+# NOBODY IS NAMED even so, because that is a claim about a real driver.
+cu = f3_career(10)
+check(P.on_f3(cu) and not P.on_f2(cu),
+      "the arc is offered on the Formula 3 rung now")
+check(all(o.get("f3_team") for o in P.offer(cu)) and P.offer(cu),
+      "and every seat names a Formula 3 team he can actually select")
+P.accept(cu, "ferrari")
+check(not P.callup_ready(cu), "no call-up before he has raced")
+for _n in (1, 2, 3):
+    race(cu, 2, _n)
+check(not P.callup_ready(cu), "nor three rounds in")
+race(cu, 2, 4)
+check(P.callup_ready(cu), "four rounds in, the seat opens")
+
+_got = inbox.refresh(cu)
+_call = [m for m in (_got or []) if m and m["kind"] == "prog_callup"]
+check(bool(_call), "and the LETTER is what moves him")
+_txt = " ".join(_call[0]["body"]) if _call else ""
+check(_call and "Prema" in (_call[0]["subject"] + _txt),
+      "naming the team whose car he is taking")
+_real = ("Correa", "Hubert", "Latifi", "Ghiotto", "Aitken", "Mazepin", "Zhou")
+check(not [n for n in _real if n in _txt],
+      "and never naming the driver who lost the seat", _txt[:70])
+check(P.on_f2(cu), "he is on the Formula 2 rung from that moment")
+
+# THE SEASON HE JOINS IS ALREADY UNDER WAY. Two rounds simulated as ABSENCES —
+# positions and points, never events — so the field has scored and he has not.
+check(cu.total_rounds == 10, "a called-up season is a fixed ten rounds",
+      str(cu.total_rounds))
+check(len(cu.rounds) == 2, "with its opening rounds already run",
+      str(len(cu.rounds)))
+check(all((r.get("pos") or 0) == 0 for r in cu.rounds),
+      "and he is not classified in any of them")
+_st = cu.title_state() or {}
+check((_st.get("leader_points") or 0) > 0 and not _st.get("my_points"),
+      "so somebody leads the championship and he is on nothing",
+      "leader %s on %s" % (_st.get("leader"), _st.get("leader_points")))
+_hist = (cu.data.get("ladder_history") or [])[-1]
+check(_hist.get("cut_short") and _hist.get("rounds") == 4
+      and _hist.get("of") == 10,
+      "and Formula 3 is recorded as CUT SHORT, four of ten",
+      str({k: _hist.get(k) for k in ("rounds", "of", "cut_short")}))
+
+# THE BAR IS A PODIUM, AND WHAT MAY BE SAID ABOUT IT IS DIFFERENT.
+season(cu, 3)
+check(P.season_verdict(cu) == P.WON,
+      "third in the standings is what the academy asked for")
+P.apply_verdict(cu)
+inbox.refresh(cu)
+_won = [m for m in inbox.messages(cu) if m["kind"].startswith("prog_won")]
+check(_won and _won[0]["kind"] == "prog_won_callup",
+      "and the letter is the PROMOTION one, not the championship one",
+      str([m["kind"] for m in _won]))
+_wtxt = " ".join(_won[0]["body"]).lower() if _won else ""
+# NOT A KEYWORD SWEEP. The best of these letters says "nobody is calling you a
+# champion and nor should you", which is the exact sentence wanted — so what must
+# be absent is the CLAIM, not the word.
+check("congratulations on the championship" not in _wtxt,
+      "which never congratulates him on a championship he did not win",
+      _wtxt[:80])
+check("you are the champion" not in _wtxt and "champion of" not in _wtxt,
+      "and never states he is one")
+check("third" in _wtxt, "and says what he actually did")
+
+
+
+# ---------------------------------------------------------------------------
 print("\n3. WINNING IT MEANS WINNING IT")
 # The ladder's own bar for leaving Formula 2 is third. The programme's bar is
 # the championship — which is what puts two different stakes on the same
 # afternoon, and is the whole reason the last round matters.
-won = f2_career(); P.accept(won, "mercedes")
+won = to_f2(f2_career(), "mercedes")
 check(P.season_verdict(won) is None, "mid-season there is nothing to judge")
 season(won, 1)
 check(P.season_verdict(won) == P.WON, "first place wins the seat")
 
-third = f2_career(); P.accept(third, "red_bull")
+# THE BAR IS A PODIUM IN THE STANDINGS FOR A CALLED-UP SEASON, not the title:
+# he arrives two rounds down with nothing on the board, so a championship is out
+# of reach and a bar nobody can clear is not a bar. Fourth is the failure now.
+third = to_f2(f2_career(), "red_bull")
 season(third, 3)
-check(P.season_verdict(third) == P.RETRY,
-      "third is a promotion on the ladder and NOT enough here",
+check(P.season_verdict(third) == P.WON,
+      "a podium in the championship is what a mid-season signing is asked for",
       str(P.season_verdict(third)))
+
+fourth = to_f2(f2_career(), "red_bull")
+season(fourth, 4)
+check(P.season_verdict(fourth) == P.RETRY,
+      "and fourth is not enough", str(P.season_verdict(fourth)))
 
 
 # ---------------------------------------------------------------------------
 print("\n4. THEY WAIT ONCE, AND THEN THEY STOP WAITING")
-r = f2_career(); P.accept(r, "red_bull")
+r = to_f2(f2_career(), "red_bull")
 season(r, 4)
 check(P.apply_verdict(r) == P.RETRY, "a missed season keeps the seat open")
 check(r.data["programme"]["attempts"] == 2, "and is counted")
@@ -180,9 +321,8 @@ print("\n5b. THE TEST PROGRAMME — three practice outings in last year's car")
 # THE PARAMETERS ARE CHECKABLE ON ARRIVAL, which is the whole reason it works:
 # session type, car and circuit are all known the moment he is on track, so the
 # overlay never judges whether he has tested ENOUGH.
-t = f2_career()
-P.accept(t, "mercedes")
-season(t, 1)   # won F2 for the Mercedes programme
+t = to_f2(f2_career(), "mercedes")   # signed in F3, called up to F2
+season(t, 1)                         # and won it from there
 P.apply_verdict(t)
 P.take_deal(t)
 check(P.state(t) == P.DEV, "the development year is running")
@@ -275,6 +415,13 @@ check(len(inbox.messages(c2)) == before,
 
 # THE SENDER IS THE TEAM. `{team}` in a FROM line is the most visible slot
 # failure available, because an inbox is a list of senders and subjects.
+#
+# Raced THROUGH the call-up: the seat letter only exists once the Formula 2 half
+# has been won, and the Formula 2 half only exists once the academy has moved him
+# into it.
+for _n in range(1, c2.callup_round() + 1):
+    race(c2, 2, _n)
+inbox.refresh(c2)                    # the call-up letter moves him
 season(c2, 1); P.apply_verdict(c2); inbox.refresh(c2)
 senders = {m["from"] for m in inbox.messages(c2)}
 check(not [s for s in senders if "{" in s],
@@ -317,7 +464,7 @@ print("\n7b. THE SEAT IS A CAR, NOT A TEAM")
 #
 # THE CLASS LOCK CANNOT DO THIS. Both cars report `Mercedes`; only the entry
 # name differs, and rF2 names each one for its driver.
-seat_c = f2_career(); P.accept(seat_c, "mercedes")
+seat_c = to_f2(f2_career(), "mercedes")
 season(seat_c, 1)
 P.apply_verdict(seat_c); P.take_deal(seat_c)
 # THE YEAR IS LETTERS AND TESTING NOW, so serving it means both — the seat is
@@ -349,7 +496,7 @@ check(seat_c.match("spa", cls="Mercedes", year=2021, vehicle=""),
 
 # ...AND IT ONLY APPLIES ONCE THE SEAT IS ACTUALLY HIS. Before the
 # development year is served there is nothing to be locked out of.
-early = f2_career(); P.accept(early, "mercedes")
+early = to_f2(f2_career(), "mercedes")
 check(early.match("t1", cls="Formula 2 2019",
                   vehicle="#44 - Lewis Hamilton"),
       "in Formula 2 the seat lock does not apply yet")

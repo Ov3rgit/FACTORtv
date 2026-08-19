@@ -53,6 +53,15 @@ DATA = os.path.join(_DIR, "lines_data", "programmes.json")
 
 # The rung this happens on. Written as a KEY rather than an index because the
 # single-seater path could gain a rung and an index would silently move.
+# WHERE THE ARC BEGINS, AND IT MOVED. It used to open on the Formula 2 rung; it
+# now opens on FORMULA 3, at the user's call and for two good reasons:
+#
+#   * the F3 mod names REAL TEAMS per entry — ART, Prema, Carlin, Trident and the
+#     rest — so a seat can be verified against what he actually selected in the
+#     game, the same way the Formula One seat already is;
+#   * academies sign drivers INTO F3 and prove them in F2, which is the real
+#     ladder rather than a compressed version of it.
+F3_KEY = "f3"
 F2_KEY = "f2"
 F1_KEY = "f1"
 
@@ -101,13 +110,107 @@ def _block(career):
     return (career.data.get("programme") or {}) if career is not None else {}
 
 
-def on_f2(career):
-    """Is this career sitting on the Formula 2 rung right now?"""
+def _on_rung(career, key):
     if career is None or not getattr(career, "on_ladder", False):
         return False
     prog = career.ladder
     tier = (prog.tier() or {}) if prog is not None else {}
-    return tier.get("key") == F2_KEY
+    return tier.get("key") == key
+
+
+def on_f2(career):
+    """Is this career sitting on the Formula 2 rung right now?"""
+    return _on_rung(career, F2_KEY)
+
+
+def on_f3(career):
+    """...and the rung the arc now STARTS on."""
+    return _on_rung(career, F3_KEY)
+
+
+# THE CALL-UP. Four rounds into the Formula 3 season, the academy's Formula 2
+# team makes a change and he finishes the year in the bigger car.
+#
+# NOBODY IS NAMED. "Dropped for form" is a claim about a real person's competence,
+# and the F2 2019 field is a real grid — so the letter says the team has made a
+# change and never says who. The one thing this product may not do is state
+# something false about a real driver.
+CALLED = "called"       # the F2 seat is his, mid-season, and he is in it
+
+# WHAT A CALLED-UP SEASON HAS TO DELIVER. Not the championship: he arrives with
+# two rounds already gone and nothing on the board, so a title is out of reach and
+# a bar nobody can clear is not a bar. The user's call — *"the target be like
+# finish P3 in the standings"* — and it is the right shape, because it is what a
+# team actually asks of a mid-season signing: be on the podium of the
+# championship by December and the seat above is yours.
+#
+# IT ALSO CHANGES WHAT MAY BE SAID. Clearing this is a PROMOTION EARNED, never a
+# championship won, and the letters that mark it are their own pool for exactly
+# that reason.
+CALLUP_BAR = 3
+
+
+def callup_ready(career):
+    """Should the call-up letter go out now?
+
+    Signed to a programme, still on the F3 rung, and far enough into the season
+    for a seat to be worth opening.
+    """
+    if career is None:
+        return False
+    b = _block(career)
+    if b.get("stage") != SIGNED or b.get("called"):
+        return False
+    return on_f3(career) and bool(career.callup_due())
+
+
+def _f2_field(career):
+    """Names to fill the rounds he missed, or () if we do not know any.
+
+    Read from what the overlay has actually SEEN — `career.py` folds every result
+    file on the machine, so the Formula 2 grid is known the moment he has loaded
+    the mod once. Nothing is invented: no roster, no simulated rounds, and the
+    season simply starts clean.
+    """
+    try:
+        import career as career_mod
+        import ladder as ladder_mod
+        hist = career_mod.History()
+        prog = career.ladder
+        want = (prog.path, prog.reached + 1) if prog is not None else None
+        if not want:
+            return ()
+        for cls, blk in (hist.data.get("classes") or {}).items():
+            try:
+                if ladder_mod.tier_of(car_class=cls) != want:
+                    continue
+            except Exception:
+                continue
+            names = [n for n in ((blk or {}).get("drivers") or ())
+                     if n and n != career.me]
+            if names:
+                return tuple(sorted(names))
+    except Exception:
+        pass
+    return ()
+
+
+def take_callup(career):
+    """Move him into the F2 seat for the rest of the season. True if it happened.
+
+    THE LETTER IS WHAT DOES IT, so a player who never opens his post is not
+    quietly moved to another championship — the same rule the development year's
+    beats follow.
+    """
+    if not callup_ready(career):
+        return False
+    if career.callup(names=_f2_field(career)) is None:
+        return False
+    b = dict(_block(career))
+    b["called"] = True
+    career.data["programme"] = b
+    career.save()
+    return True
 
 
 def state(career):
@@ -116,7 +219,7 @@ def state(career):
     st = b.get("stage") or NONE
     if st != NONE:
         return st
-    return OFFERED if on_f2(career) else NONE
+    return OFFERED if on_f3(career) else NONE
 
 
 def signed(career):
@@ -129,11 +232,11 @@ def signed(career):
 def offer(career):
     """The three seats, or [] if this is not the moment for them.
 
-    Offered on the Formula 2 rung and only before a season has been raced:
+    Offered on the Formula 3 rung and only before a season has been raced:
     a driver signs for a team BEFORE the year, and offering him a seat after
     round four is a letter about a season that is already happening.
     """
-    if not on_f2(career) or state(career) not in (OFFERED,):
+    if not on_f3(career) or state(career) not in (OFFERED,):
         return []
     if career.rounds:
         return []
@@ -148,7 +251,7 @@ def accept(career, key):
     career delete are.
     """
     b = get(key)
-    if b is None or not on_f2(career) or career.rounds:
+    if b is None or not on_f3(career) or career.rounds:
         return None
     career.data["programme"] = {"key": key, "stage": SIGNED, "attempts": 1}
     career.save()
@@ -171,10 +274,21 @@ def season_verdict(career):
     b = _block(career)
     if b.get("stage") not in (SIGNED, RETRY):
         return None
+    # ONLY THE FORMULA 2 SEASON IS JUDGED. The arc now begins on the F3 rung, and
+    # without this an F3 season that ran its full length — a call-up he never got
+    # because the season was too short, say — would be marked against the
+    # programme's Formula 2 bar and could end the whole story on the wrong
+    # championship.
+    if not on_f2(career):
+        return None
     if not career.season_done():
         return None
     pos = career.my_position()
-    if pos == 1:
+    # THE BAR DEPENDS ON HOW HE GOT HERE. A driver who was called up mid-season
+    # is judged on a podium in the standings; one who contested the whole
+    # championship is judged on winning it.
+    bar = CALLUP_BAR if _block(career).get("called") else 1
+    if pos and pos <= bar:
         return WON
     return RETRY if int(b.get("attempts") or 1) < MAX_ATTEMPTS else DROPPED
 

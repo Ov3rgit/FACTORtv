@@ -753,6 +753,15 @@ def _test_car_name(state):
     return team or mod or "%d car" % prog_mod.TEST_YEAR
 
 
+def _spoken_ordinal(n):
+    """"third", for a letter. Positions are prose in correspondence — "P3 in the
+    championship" is a timing screen, not a sentence somebody writes to you."""
+    words = ("", "first", "second", "third", "fourth", "fifth", "sixth",
+             "seventh", "eighth", "ninth", "tenth")
+    n = int(n or 0)
+    return words[n] if 0 < n < len(words) else ("%dth" % n if n else "")
+
+
 def _programme_mail(career, base, kw, now):
     """The junior-programme thread. See `programme.py` for the state machine.
 
@@ -779,6 +788,9 @@ def _programme_mail(career, base, kw, now):
         k.update({
             "prog": block.get("name", ""),
             "f2team": block.get("f2_team", ""),
+            # The arc starts on the F3 rung now, and the same three teams run in
+            # both championships — which is exactly why these seats work.
+            "f3team": block.get("f3_team") or block.get("f2_team", ""),
             "f1team": block.get("f1_team", ""),
             "seat": block.get("f1_seat", ""),
             "lead": block.get("f1_lead", ""),
@@ -796,6 +808,22 @@ def _programme_mail(career, base, kw, now):
               prog_mod.SEAT, prog_mod.DROPPED):
         out.append(_post(career, _compose_any(
             "prog_signed", "prog:signed:%s" % key, k, when=now)))
+    # THE CALL-UP. Four rounds into the Formula 3 season the academy's Formula 2
+    # team makes a change, and he finishes the year in the bigger car. THE LETTER
+    # IS WHAT MOVES HIM — a player who never opens his post is not quietly
+    # transferred to another championship, which is the same rule the development
+    # year's beats follow.
+    #
+    # NOBODY IS NAMED. "Dropped for form" is a claim about a real person's
+    # competence and the Formula 2 2019 grid is a real one, so the letter says the
+    # team has made a change and never says who.
+    if prog_mod.callup_ready(career):
+        m = _post(career, _compose_any(
+            "prog_callup", "prog:callup:%s" % key, k, when=now))
+        if m:
+            out.append(m)
+            prog_mod.take_callup(career)
+
     if st == prog_mod.RETRY:
         out.append(_post(career, _compose_any(
             "prog_retry", "prog:retry:%s:%d" % (
@@ -805,8 +833,18 @@ def _programme_mail(career, base, kw, now):
         out.append(_post(career, _compose_any(
             "prog_dropped", "prog:dropped:%s" % key, k, when=now)))
     if st in (prog_mod.WON, prog_mod.DEV, prog_mod.SEAT):
+        # A PROMOTION EARNED IS NOT A CHAMPIONSHIP WON, and the letter must not
+        # blur them. The user was explicit: *"if I meet the requirements then the
+        # commentator mustn't say 'he has won the F2 championship', it must be
+        # along the story of being promoted."* A driver called up mid-season
+        # clears a PODIUM bar, so unless he genuinely finished first the wording
+        # comes from its own pool, which says so in as many words.
+        _pos = career.my_position() or 0
+        _called = bool((career.data.get("programme") or {}).get("called"))
+        _kind = ("prog_won_callup" if _called and _pos != 1 else "prog_won")
         out.append(_post(career, _compose_any(
-            "prog_won", "prog:won:%s" % key, k, when=now)))
+            _kind, "prog:won:%s" % key,
+            dict(k, pos=_spoken_ordinal(_pos) if _pos else ""), when=now)))
     if st == prog_mod.DEV:
         # THE SPEC SHEET, ONCE, AT THE TOP OF THE YEAR. The user asked for the
         # parameters IN the letter — session type and car — because the feature

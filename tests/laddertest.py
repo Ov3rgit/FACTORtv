@@ -229,6 +229,14 @@ def _season(pos_each, length=3, path="single_seater", tier=0, name="Tester"):
     `pos_each` in every round. Two cars, so a championship exists at all."""
     car = S.create("open", me=name, rounds=length,
                    ladder_path=path, tier_index=tier)
+    # THE LAST DIVISION OF A PATH IS A FIXED TEN ROUNDS, whatever length was
+    # asked for — it is the championship that finishes an arc and counts toward
+    # the 100%, so its length is not the career's to choose. A test that asks for
+    # three rounds at the top rung is asking for a season that cannot finish, so
+    # the pattern it gives is repeated across the real length instead.
+    want = car.total_rounds or length
+    if pos_each and len(pos_each) < want and len(pos_each) >= length:
+        pos_each = list(pos_each) + [pos_each[-1]] * (want - len(pos_each))
     for i, pos in enumerate(pos_each, start=1):
         other = 1 if pos != 1 else 2
         car.record({"n": i, "slug": "trk%d" % i, "pos": pos,
@@ -382,7 +390,10 @@ r = champ.resume()
 check(r["title_count"] == 1 and r["reigning"] == "Super GT500",
       "the reigning champion of the division he just left", str(r["reigning"]))
 check(r["arc_names"] == ["Touring"], "and the arc he finished", str(r["arc_names"]))
-check(r["seasons"] == 1 and r["races"] == 3,
+# TEN RACES, because the last division of a path is a fixed ten rounds — see
+# `_start_rung`. A three-round finale would finish an arc and count toward the
+# 100%, which is the one place the whole ladder could be short-circuited.
+check(r["seasons"] == 1 and r["races"] == 10,
       "with a career length measured in seasons and races",
       "%s seasons / %s races" % (r["seasons"], r["races"]))
 check(r["tier_name"] == "Formula One", "and where he is now", r["tier_name"])
@@ -766,7 +777,9 @@ check(not [m for m in _inbox.messages(tour) if m["kind"] == "tour_invite"],
 check(not tour.tour_open("eighties"),
       "the eras are shut until one is earned")
 
-for _n in (1, 2, 3):
+# THE WHOLE SEASON, and the top rung is a fixed ten rounds — a title that never
+# completes cannot invite him anywhere.
+for _n in range(1, (tour.total_rounds or 3) + 1):
     tour.record({"n": _n, "slug": "t%d" % _n, "pos": 1, "laps": 20,
                  "race_laps": 20,
                  "classified": [("Tester", 1), ("A Rival", 2)]})
@@ -793,7 +806,7 @@ check(not [m for m in (_inbox.refresh(tour) or []) if m
 
 # A SECOND TITLE OPENS THE NEXT ONE, not the same one again.
 tour.advance("retry")
-for _n in (1, 2, 3):
+for _n in range(1, (tour.total_rounds or 3) + 1):
     tour.record({"n": _n, "slug": "s%d" % _n, "pos": 1, "laps": 20,
                  "race_laps": 20,
                  "classified": [("Tester", 1), ("A Rival", 2)]})
@@ -806,7 +819,7 @@ check(tour.tour_state()["unlocked"] == ["eighties", "nineties"],
 # season — the user was explicit, and it is the stranger sentence.
 other = S.create("open", me="Tester", rounds=3, ladder_path="stock_car",
                  tier_index=len(L.tiers("stock_car")) - 1)
-for _n in (1, 2, 3):
+for _n in range(1, (other.total_rounds or 3) + 1):
     other.record({"n": _n, "slug": "n%d" % _n, "pos": 1, "laps": 20,
                   "race_laps": 20,
                   "classified": [("Tester", 1), ("A Rival", 2)]})

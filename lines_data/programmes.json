@@ -24,6 +24,7 @@
  "ferrari": {
   "name": "the Ferrari Driver Academy",
   "f2_team": "Prema Racing",
+  "f3_team": "Prema Racing",
   "f1_team": "Ferrari",
   "f1_seat": "Carlos Sainz",
   "f1_lead": "Charles Leclerc",
@@ -32,6 +33,7 @@
  "red_bull": {
   "name": "the Red Bull Junior Team",
   "f2_team": "Carlin",
+  "f3_team": "Carlin",
   "f1_team": "Red Bull",
   "f1_seat": "Sergio Perez",
   "f1_lead": "Max Verstappen",
@@ -40,6 +42,7 @@
  "mercedes": {
   "name": "the Mercedes junior programme",
   "f2_team": "ART Grand Prix",
+  "f3_team": "ART Grand Prix",
   "f1_team": "Mercedes",
   "f1_seat": "Valtteri Bottas",
   "f1_lead": "Lewis Hamilton",

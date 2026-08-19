@@ -2062,6 +2062,22 @@ class PanelsMixin(object):
             return int(pend)
         return int((car.total_rounds if car is not None else 0) or 0)
 
+    def _next_is_finale(self, car):
+        """Is the rung he is about to move into the LAST of its path?"""
+        try:
+            import ladder as ladder_mod
+            if car is None or not car.on_ladder:
+                return False
+            prog = car.ladder
+            if prog is None:
+                return False
+            ts = ladder_mod.tiers(prog.path)
+            if not ts or (ladder_mod.path(prog.path) or {}).get("tour"):
+                return False
+            return (prog.reached + 1) == len(ts) - 1
+        except Exception:
+            return False
+
     def _rows_nextlen(self):
         """How many rounds the division he is moving into should run to.
 
@@ -2072,6 +2088,25 @@ class PanelsMixin(object):
         car = getattr(self, "season", None)
         cur = int((car.total_rounds if car is not None else 0) or 0)
         pend = getattr(self, "_next_len", None)
+        # A FINALE IS NOT A CHOICE, so the page must not pretend to offer one.
+        # The last division of a path always runs to ten rounds — it is the
+        # championship that finishes an arc and counts toward the 100%, and a
+        # three-round version of it would skip the whole challenge. Offering a
+        # picker the store will overrule is worse than not offering one.
+        import season as season_mod
+        fin = self._next_is_finale(car)
+        if fin:
+            return [{"label": "Next season", "kind": "info",
+                     "note": "%d races" % season_mod.FINALE_ROUNDS},
+                    {"label": "The last division of this path", "kind": "info",
+                     "note": "fixed"},
+                    {"label": "It is the championship that finishes the arc",
+                     "kind": "text", "quiet": True},
+                    {"label": "and the one the 100%% counts, so its length is "
+                              "not yours to set.", "kind": "text",
+                     "quiet": True},
+                    {"label": "Back", "key": "page_ladder", "kind": "nav",
+                     "note": "<"}]
         rows = [{"label": "Next season", "kind": "info",
                  "note": "%d races" % self._next_length(car)}]
         if cur:
@@ -2138,9 +2173,11 @@ class PanelsMixin(object):
             # whichever of them he takes — the seat above, another go at this
             # division, a switch, a new path — so it belongs beside all four
             # rather than on a page he would have to know to visit first.
+            _fin = self._next_is_finale(car)
             rows.append({"label": "Next season length", "key": "page_nextlen",
                          "kind": "nav",
-                         "note": "%d races >" % self._next_length(car)})
+                         "note": ("10 races, fixed >" if _fin
+                                  else "%d races >" % self._next_length(car))})
             rows.append({"label": "Stay in %s" % ev["tier_name"],
                          "key": "adv:retry", "kind": "action",
                          "note": "go again"})

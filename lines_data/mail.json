@@ -527,6 +527,35 @@
    ]
   }
  ],
+ "prog_callup": [
+  {
+   "from": "{team}",
+   "subject": "You are in the {f2team} car from the next round",
+   "body": [
+    "We have made a change in our Formula 2 line-up and the seat is yours for the rest of the season. You will make your debut at the next round. Your Formula 3 campaign ends here — you do not go back, whatever happens between now and December.",
+    "You should understand what has happened, because it will happen to you one day if you let it. The decision was about form over a season, not about one bad afternoon, and it was made by people who had watched every lap. That is the standard the seat is held to, and from the next round it is the standard you are held to.",
+    "Get your things to the factory this week. The car will not wait for you to be ready for it."
+   ]
+  },
+  {
+   "from": "{team}",
+   "subject": "Formula 2 — you are racing at the next round",
+   "body": [
+    "Effective immediately you are promoted to our Formula 2 entry with {f2team} for the remainder of the season. The Formula 3 programme is closed: you will not be returning to it, and the results you have there stand as they are.",
+    "The seat became available because the team has changed its driver, and the reasons are the team's own. What matters to you is the timescale: you have the rest of this season to show that the decision to put you in the car was the right one, in a category where everybody on the grid was the best in the world at the one you have just left.",
+    "You will be at the factory on Wednesday for a seat fit. Come prepared to listen more than you talk."
+   ]
+  },
+  {
+   "from": "{team}",
+   "subject": "A seat has opened, and it is yours",
+   "body": [
+    "The Formula 2 seat at {f2team} is available and the academy has put your name to it. You race the remaining rounds of the season in it, starting at the next event, and your Formula 3 year finishes today with whatever is already on the board.",
+    "This is earlier than we planned and it is not a favour. A team that has just changed one driver has no patience left for a second mistake, so the first thing asked of you is not speed but reliability — be where you are meant to be, do what the engineers ask, and finish races.",
+    "Congratulations. Say very little about it publicly until the entry is confirmed."
+   ]
+  }
+ ],
  "prog_won": [
   {
    "from": "{team}",
@@ -535,6 +564,35 @@
     "Congratulations on the championship. The seat is yours - {f1team}, alongside {lead}, taking over from {seat}. That is not a sentence we write often and it was not written lightly.",
     "There is a condition and it is not negotiable. You do not step into the car next season. You will spend a year with us in development - simulator, tyre work, the test programme, and a great deal of time in rooms rather than cars - and you will start in the 2021 season. Every driver we have promoted has done this year and every one of them has told us afterwards that it was the year they learned the most.",
     "It is a year of your career and we are asking for it up front. If you would rather race, say so now and we will part on good terms. If you want the seat, sign it and we will see you at the factory."
+   ]
+  }
+ ],
+ "prog_won_callup": [
+  {
+   "from": "{team}",
+   "subject": "{pos} in the championship, and the seat is yours",
+   "body": [
+    "You finished {pos} in the championship having joined it two rounds late and with nothing on the board, and that is what we asked of you. The Formula One seat is yours — {f1team}, alongside {lead}, taking over from {seat}. Nobody is calling you a champion and nor should you; what you are is a driver who did the job he was given in a car he had no time to learn.",
+    "There is a condition and it is not negotiable. You do not step into the car next season. You will spend a year with us in development — the simulator, tyre work, the test programme, a great deal of time in rooms rather than cars — and you start in the 2021 season.",
+    "Take a week. Then come and see us, because the year begins immediately and the people who will decide whether you keep this seat have already started forming opinions."
+   ]
+  },
+  {
+   "from": "{team}",
+   "subject": "You did what we asked",
+   "body": [
+    "{pos} in the final standings, from two rounds down and a mid-season debut. That is the result the academy set as the condition, and the Formula One seat is confirmed: {f1team}, alongside {lead}, in place of {seat}.",
+    "Be clear about what this is. You have not won a championship and we are not pretending you have — the man who won it is the man who won it. What you have shown is that you can be dropped into unfamiliar machinery, halfway through a year, against drivers who have been in it since February, and be quick enough to matter. That is a rarer thing than a title, and it is the thing that gets a driver into Formula One.",
+    "The seat comes with a development year first. You start in the 2021 season, and the work starts now."
+   ]
+  },
+  {
+   "from": "{team}",
+   "subject": "The seat, and the condition attached to it",
+   "body": [
+    "Finishing {pos} in a championship you joined two rounds into is the reason this letter exists. The seat is yours: {f1team}, alongside {lead}, taking over from {seat}.",
+    "The championship itself went elsewhere and that is not held against you — you were not in the car for the opening rounds and everybody who matters knows it. The judgement was always going to be about the rate you improved, not the trophy, and the rate was enough.",
+    "You will do a development year before you race for us — simulator, testing, procedures — and you start in the 2021 season. Say nothing publicly until the entry list is out."
    ]
   }
  ],

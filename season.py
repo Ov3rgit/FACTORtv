@@ -83,6 +83,11 @@ from career import MIN_SHARE      # noqa: E402  (deliberate, see above)
 SEASON_LATE = 0.7
 
 # How many qualifying results to keep. Only the recent ones are ever quoted.
+# THE LAST DIVISION OF EVERY PATH RUNS TO TEN ROUNDS, and so does a season he is
+# called up into. Both are fixed rather than chosen: see `_start_rung`.
+FINALE_ROUNDS = 10
+CALLUP_ROUNDS = 10
+
 QUALI_KEEP = 40
 
 # `load()` DISCARDS A CAREER WHOSE VERSION DOES NOT MATCH, so this is bumped
@@ -268,6 +273,15 @@ def create(preset_key, me="", name=None, rounds=0, only_installed=True,
     if ladder_path:
         data["ladder"] = ladder_mod.Progress(ladder_path,
                                              tier_index).to_json()
+        # ...AND A CAREER THAT BEGINS AT THE TOP OF A PATH GETS THE SAME FIXED
+        # FINALE AS ONE THAT CLIMBS TO IT. `entry_options` lets a proven driver
+        # join at the first professional rung, which on a short path IS the last
+        # one — and a three-round title there would finish an arc, count toward
+        # the 100%, and skip the challenge the length exists to impose.
+        _ts = ladder_mod.tiers(ladder_path)
+        if (_ts and 0 <= tier_index == len(_ts) - 1
+                and not (ladder_mod.path(ladder_path) or {}).get("tour")):
+            data["length"] = FINALE_ROUNDS
         # Seasons already completed on this ladder, newest last. Kept as
         # SUMMARIES rather than whole seasons: the standings of a karting year
         # three rungs ago is not something anything will ever read back, and a
@@ -840,7 +854,7 @@ class Career(object):
         self.save()
         return rnd
 
-    def record_absence(self, n=None, slug="", event=""):
+    def record_absence(self, n=None, slug="", event="", names=None):
         """Bank a round the player did not attend. Returns the stored round.
 
         THE ONLY WAY A CHOICE CAN COST HIM ANYTHING. A skipped round where
@@ -874,13 +888,23 @@ class Career(object):
                 got = tally.setdefault(name, [0, 0])
                 got[0] += int(pos)
                 got[1] += 1
-        if not tally:
+        if not tally and names:
+            # A FIELD CAN BE HANDED IN when the season genuinely has no history
+            # to read form from — which is the case for the rounds of a
+            # championship he was called up INTO, where the racing happened
+            # before he arrived. The order given is used as it stands: unknown
+            # form is not a licence to invent a hierarchy, and it must be
+            # deterministic or the same save would produce a different
+            # championship every time it was loaded.
+            order = [n for n in names if n and n != self.me]
+        elif not tally:
             # Nobody has raced yet, so there is no form to simulate from and
             # no championship to miss. Refusing is better than inventing a
             # grid: the story's cost has to be a real one.
             return None
-        order = sorted(tally, key=lambda k: (tally[k][0] / float(tally[k][1]),
-                                             k))
+        else:
+            order = sorted(tally, key=lambda k: (tally[k][0]
+                                                 / float(tally[k][1]), k))
         rnd = {
             "n": n,
             "slug": slug,
@@ -1806,6 +1830,108 @@ class Career(object):
             "since": int(self.data.get("created") or 0),
         }
 
+    # -- THE MID-SEASON CALL-UP ---------------------------------------------
+    #
+    # The user's plot twist, and it is a better arc than the one it replaces: he
+    # is signed into Formula 3 by an academy, and four rounds in, the academy's
+    # Formula 2 team drops its driver for form and puts him in the car for the
+    # rest of that season. Signed in F3 2019, racing F2 by mid-2019.
+    #
+    # IT ALSO SOLVES THE YEAR PROBLEM. F3 2019 into F2 2019 is not two arcs
+    # occupying the same period — it is one season, which is exactly how a real
+    # call-up works, and it is the only version of this that does not need a mod
+    # from a year nobody has.
+    #
+    # HIS FIRST IDEA WAS A FATAL CRASH, drawn from Spa 2019, and it was dropped
+    # for a concrete reason worth recording: **Juan Manuel Correa is in the F2
+    # 2019 mod's roster.** He was critically injured in that crash and spent two
+    # years recovering. The seat logic names the man whose place is taken, so the
+    # arc could have handed the player HIS seat with a crash as the stated cause.
+    # Even unnamed, the year and the category identify that death exactly. The
+    # team dropping a driver for form gives the identical mechanics and costs
+    # nobody anything real — and NOBODY IS NAMED even so, because "dropped for
+    # form" is a claim about a real person's competence when the grid is real.
+    CALLUP_AFTER = 4          # rounds of the junior season before the call comes
+    # HOW MUCH OF THE BIGGER CHAMPIONSHIP HAS ALREADY RUN when he arrives. Two,
+    # so the deficit is real and the target is still reachable — the whole point
+    # of the arc is that he has to climb, not that he cannot.
+    CALLUP_SIM = 2
+
+    def callup_round(self):
+        """Which round of this season the call-up lands after. 0 if it cannot.
+
+        Four rounds where the season is long enough, half-distance where it is
+        not, and never the last round — a call-up with nothing left to race is a
+        letter about a seat he will never sit in.
+        """
+        total = self.total_rounds or 0
+        if total < 2:
+            return 0
+        return min(self.CALLUP_AFTER, max(1, total // 2))
+
+    def callup_due(self):
+        """Has he raced far enough for the seat to open? True/False."""
+        n = self.callup_round()
+        if not n:
+            return False
+        done = len({r.get("n") for r in self.rounds if r.get("n")})
+        return done >= n and done < (self.total_rounds or 0)
+
+    def callup(self, tier_index=None, names=None):
+        """Move up a rung MID-SEASON. Returns the new tier, or None.
+
+        THE SEASON IS CUT SHORT, NOT FINISHED, and the record has to say so or a
+        four-round campaign reads as a whole year he did badly in. The remaining
+        rounds carry over, so the year still totals the length he chose.
+        """
+        p = self.ladder
+        if p is None:
+            return None
+        cur = p.tier() or {}
+        ts = ladder_mod.tiers(p.path)
+        nxt = (tier_index if tier_index is not None else p.reached + 1)
+        if not (0 <= nxt < len(ts)):
+            return None
+        total = self.total_rounds or 0
+        pos = self.my_position()
+        if pos:
+            p.results[cur.get("key", "")] = int(pos)
+        self._archive_season(cur, pos)
+        # CUT SHORT, and marked as such on the summary that was just written.
+        hist = self.data.get("ladder_history") or []
+        if hist:
+            hist[-1]["cut_short"] = True
+            hist[-1]["of"] = total
+        p.reached = nxt
+        self._put_ladder(p)
+        # A FULL-LENGTH SEASON, NOT THE REMAINDER OF THE OLD ONE. In 2019 the
+        # Formula 3 and Formula 2 championships ran alongside each other, so
+        # leaving one part-way through does not shorten the other — he joins a
+        # season already under way.
+        # TEN ROUNDS, NOT WHATEVER HE PICKED. A called-up season is the challenge
+        # gap before Formula One: two rounds already gone, nothing on the board,
+        # and a podium in the standings to find. That does not work over three
+        # races, and it is not a length he chooses.
+        self._start_rung(ts[nxt], CALLUP_ROUNDS, how="callup")
+        # ...AND THE ROUNDS HE MISSED ACTUALLY HAPPENED. The user's call:
+        # *"you will need to simulate the first few rounds ... the player will
+        # start on 0 pts but must manage a P3 for the rest of the season."*
+        #
+        # Simulated as ABSENCES, which is the machinery that already exists for
+        # the story's one choice: the field scores, he scores nothing, `pos` is 0
+        # so he is out of every points sum, and THE RULE HOLDS — positions and
+        # points, never events. Nothing here can be narrated as though the booth
+        # watched it, because he was not there and neither was it.
+        #
+        # No roster, no simulation. The season then starts clean, which is a
+        # smaller lie than inventing a grid — and `CALLUP_SIM` rounds of nothing
+        # is exactly what a career that has never loaded the car would deserve.
+        for i in range(self.CALLUP_SIM):
+            if not self.record_absence(i + 1, names=names or ()):
+                break
+        self.save()
+        return ts[nxt]
+
     def _archive_season(self, tier, pos):
         """Keep a summary of the season just finished, and only a summary.
 
@@ -1831,6 +1957,19 @@ class Career(object):
             "podiums": podiums,
             "when": int(time.time()),
         })
+
+    def _is_finale(self, tier):
+        """Is this the LAST rung of its path? The tour has no finale."""
+        try:
+            p = self.ladder
+            if p is None:
+                return False
+            ts = ladder_mod.tiers(p.path)
+            if not ts or (ladder_mod.path(p.path) or {}).get("tour"):
+                return False
+            return (tier or {}).get("key") == ts[-1].get("key")
+        except Exception:
+            return False
 
     def _start_rung(self, tier, rounds=None, how=None):
         """Wipe the season and open a new one at this rung.
@@ -1864,6 +2003,22 @@ class Career(object):
             self.data.pop("arrived_by", None)
         if rounds:
             self.data["length"] = int(rounds)
+        # THE LAST DIVISION OF A PATH IS ALWAYS TEN ROUNDS, and it is not his to
+        # choose. The user's call: *"for the final season for each division the
+        # player has to complete 10 rounds, no choices ... the point is the
+        # challenge is there."*
+        #
+        # It is the right shape for two reasons beyond the challenge. A path is
+        # FINISHED by winning its last championship — that is what `ARC_WIN` means
+        # and what the 100% counts — so a three-round title at the top was the one
+        # place the whole ladder could be short-circuited. And a ten-round finale
+        # gives the title arithmetic something to work with: `title_scenarios`
+        # needs a declared length and a run-in to say "he needs fifth on Sunday".
+        #
+        # SIMULATING IS STILL ALLOWED. The requirement is that the season EXISTS
+        # at full length, not that every round is driven by hand.
+        if self._is_finale(tier):
+            self.data["length"] = FINALE_ROUNDS
 
     # -- which car he is racing this season ---------------------------------
     def car_pick(self):

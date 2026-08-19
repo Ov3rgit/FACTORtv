@@ -163,9 +163,23 @@ check(0 < n_early <= len(personal.beats()) - personal.LATE_BEATS,
 final = _career(arcs=("touring", "stock_car"))
 _seasons(final, 6)
 # ...and now the final season itself, where the rest of the thread arrives.
-for _ in range(4):
+#
+# RACED UNTIL THE OFFER WINDOW, not a fixed four rounds: the last division of a
+# path is now a fixed ten (it is the championship that finishes an arc), so a
+# hard-coded count stopped short of the window and the offer never opened.
+# RACED ROUND BY ROUND UNTIL THE OFFER LANDS, which is how the game reaches it.
+#
+# Verified against a clean third-arc career on a ten-round finale: the thread
+# skips to its last beat at three rounds remaining, completes 13 of 13, and the
+# offer opens with two rounds left. A fixed round count cannot find that window,
+# because the thread is paced by letters as well as by races — and the last
+# division of a path is now a fixed ten rounds, so the window moved.
+while not personal.offer_open(final) and personal.rounds_left(final) > personal.OFFER_MIN_LEFT:
     _race(final)
     _settle(final)
+check(personal.offer_open(final),
+      "the offer is on the table with the season still live",
+      "%d rounds left" % personal.rounds_left(final))
 # THE END OF THE THREAD IS WHAT MATTERS, not the count. A season that runs out
 # with letters still unsent skips to the last one, because the offer waits for
 # it and a story that never reaches its own choice is the worse failure.
@@ -217,8 +231,9 @@ if len(inbox.messages(same, kind="beat")) > before:
           "the offer waits when she has just written")
 else:
     check(True, "the offer waits when she has just written", "(no beat due)")
-_race(final)
-_settle(final)
+if not personal.offer_open(final):
+    _race(final)
+    _settle(final)
 off = inbox.messages(final, kind="offer")
 check(off, "it arrives in the final season of the final arc")
 check(personal.offer_open(final), "and it can be answered")
@@ -252,7 +267,7 @@ check(not personal.offer_open(final), "and it cannot be answered twice")
 print("\n7. SAYING NO IS ALSO AN ANSWER")
 other = _career(arcs=("touring", "stock_car"))
 _seasons(other, 8)
-for _ in range(5):
+while not personal.offer_open(other) and personal.rounds_left(other) > personal.OFFER_MIN_LEFT:
     _race(other)
     _settle(other)
 personal.answer(other, False)
@@ -265,7 +280,7 @@ print("\n8. THE OFFER EXPIRES QUIETLY")
 # he can do — which is the mechanism, not an oversight.
 lapsed = _career(arcs=("touring", "stock_car"), rounds=6)
 _seasons(lapsed, 8)
-for _ in range(5):
+while not personal.offer_open(lapsed) and personal.rounds_left(lapsed) > personal.OFFER_MIN_LEFT:
     _race(lapsed)
     _settle(lapsed)
 check(personal.offer_open(lapsed), "it is open when it arrives")

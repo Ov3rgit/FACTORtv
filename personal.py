@@ -313,15 +313,24 @@ def _beats(career, st, now):
         sent = 0
     left = len(all_beats) - i
     last_season = _final_arc(career) and _at_the_top(career)
+    # THE LAST LETTER OUTRANKS THE SCHEDULE, so it is worked out HERE, above
+    # the per-season budget and the spacing rule, and not below them. Both of
+    # those can be spent: a final season that has already had its letters — a
+    # fixed ten-round finale reached with the thread three notes short — would
+    # return empty before ever looking at the rule that exists to rescue it,
+    # and the offer waits on the thread. Ordinary letters are texture. The last
+    # one is the story, and it is allowed to break the cadence to arrive.
+    lastgasp = (last_season and i < len(all_beats) - 1
+                and rounds_left(career) <= OFFER_MIN_LEFT + 1)
     # ONE A SEASON, TWO ONCE THE THIRD ARC STARTS, AND WHATEVER IS LEFT IN THE
     # LAST ONE. The cadence cannot simply be "one per season": thirteen beats
     # would then need thirteen seasons, the thread would still be arriving when
     # the career ended, and the offer — which waits for it — would never come.
     # So it loosens as the story tightens, which is also how it reads.
     allowed = left if last_season else (2 if _final_arc(career) else 1)
-    if sent >= allowed:
+    if sent >= allowed and not lastgasp:
         return []
-    if sent:
+    if sent and not lastgasp:
         # Spread whatever a season is allowed ACROSS that season, so the
         # loosening never turns into three letters in a fortnight. The final
         # season aims to be done by the time the offer needs to go out.
@@ -338,8 +347,7 @@ def _beats(career, st, now):
     # This is the one place the schedule is allowed to lose content, and it
     # loses the RIGHT content: the ordinary letters are texture, the last one
     # is the story.
-    if (last_season and i < len(all_beats) - 1
-            and rounds_left(career) <= OFFER_MIN_LEFT + 1):
+    if lastgasp:
         i = len(all_beats) - 1
     m = _post(career, "beat", "beat:%d" % i, now, pool=[all_beats[i]])
     if m is None:
