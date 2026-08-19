@@ -1953,5 +1953,37 @@
    "t": "Same as ever. Clean out-lap, honest feedback, and the rest takes care of itself.",
    "i": 0
   }
+ ],
+ "eng_callup_first": [
+  {
+   "t": "First time in this car for you. Nobody expects a lap time yet - build into it.",
+   "i": 0
+  },
+  {
+   "t": "You have had no test in this, so we do this together. Talk to me about the rear end.",
+   "i": 0
+  },
+  {
+   "t": "New car, new category, same job. Get the tyres in and go from there.",
+   "i": 0
+  },
+  {
+   "t": "Take the first few laps to learn it. We are not chasing anything today except mileage.",
+   "i": 0
+  }
+ ],
+ "eng_callup_bar": [
+  {
+   "t": "Reminder of the brief: {bar} in the championship. You are {pos}.",
+   "i": 0
+  },
+  {
+   "t": "{gap} points to {rival} and {left} rounds. Clean races get that done.",
+   "i": 0
+  },
+  {
+   "t": "We need {bar} by the end of the year. Nothing today has to be heroic.",
+   "i": 0
+  }
  ]
 }

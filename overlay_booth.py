@@ -266,6 +266,14 @@ PRIORITY = {
     "div_f1": 16, "div_hatch": 16,
     "prog_stake": 30, "prog_last_chance": 44, "prog_debut": 46,
     "prog_measured": 28,
+    # HIS FIRST SESSION IN A CAR HE WAS PUT INTO outranks the ordinary
+    # programme line the way a debut does, and the last round with the seat on
+    # it outranks everything — it is what the afternoon is for.
+    "prog_callup_debut": 46, "prog_callup_stake": 30,
+    "prog_callup_last": 44,
+    # The chase itself is a standings fact with a career on it: worth more than
+    # the table, less than the moment it is decided.
+    "prog_bar_chase": 34, "prog_bar_hold": 34,
     # The resolution of a named fight - the payoff for a battle the booth
     # has been telling the story of. Same worth as the leader escaping.
     "battle_escaped": 58,
@@ -394,6 +402,11 @@ LADDER_CATS = (# THE JUNIOR PROGRAMME IS A CAREER LINE. "There is a Formula
                # family gate rather than being able to follow each other.
                "prog_stake", "prog_last_chance", "prog_debut",
                "prog_measured",
+               # THE CALL-UP, ON AIR. The arc's biggest move was covered by
+               # letters and news and the booth did not know it had happened —
+               # in a product where the commentary IS the gameplay.
+               "prog_callup_debut", "prog_callup_stake", "prog_callup_last",
+               "prog_bar_chase", "prog_bar_hold",
                "ladder_first_race", "ladder_reigning", "ladder_climb",
                "ladder_record", "ladder_arc", "ladder_promotion",
                "ladder_last_chance", "ladder_title_run",
@@ -2684,6 +2697,34 @@ class BoothMixin(object):
                                 else pblock.get("f1_lead", "")),
                        "f2team": pblock.get("f2_team", "")})
             if pstate in (prog_mod.SIGNED, prog_mod.RETRY):
+                # A REPLACEMENT DRIVER IS NOT AUDITIONING FOR THE SAME THING.
+                # He was put in the car mid-season with rounds already gone and
+                # nothing on the board, and the number he is chasing is third in
+                # the standings rather than the championship — so the ordinary
+                # stake lines are the wrong sentences and the podium bar has to
+                # be sayable out loud.
+                if prog_mod.called_up(career):
+                    bar = self._guard("bar_state", prog_mod.bar_state, career,
+                                      fallback=None)
+                    if bar:
+                        kw.update({
+                            "pos": drivers_mod.spoken_ordinal(bar["pos"]),
+                            "bar": drivers_mod.spoken_ordinal(bar["bar"]),
+                            "gap": drivers_mod.spoken_number(bar["gap"]),
+                            "rival": bar["rival"],
+                            "left": drivers_mod.spoken_number(bar["left"]),
+                        })
+                    # HIS FIRST TIME IN THIS CAR, once. The rounds he was not
+                    # there for are on the record as absences, so "has he raced
+                    # it yet" is a question about rounds he actually drove.
+                    if not [r for r in career.rounds if not r.get("absent")]:
+                        return "prog_callup_debut", kw
+                    if bar and last_round:
+                        return "prog_callup_last", kw
+                    if bar:
+                        return ("prog_bar_hold" if bar["holding"]
+                                else "prog_bar_chase"), kw
+                    return "prog_callup_stake", kw
                 # The last round with the title AND the seat on it is the
                 # biggest thing this booth can be told about a season.
                 if last_round:

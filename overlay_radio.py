@@ -665,6 +665,33 @@ class RadioMixin(object):
         # driver's standing in the sport is the most useful thing his engineer
         # can be thinking about, and gets out of the way afterwards so the
         # career greeting can do its own job.
+        # A CAR HE HAS NEVER TESTED. The engineer is the one voice who would
+        # mention that, and the call-up letter says in as many words that there
+        # is no test — so the first session in it gets his own opening, and the
+        # brief gets restated after that with the number in it.
+        #
+        # It goes ABOVE the status greeting because "you are a riser, get up to
+        # speed" is the wrong thing to say to a driver sitting in a car he has
+        # not driven.
+        try:
+            import programme as prog_mod
+            if prog_mod.called_up(career):
+                driven = [r for r in career.rounds if not r.get("absent")]
+                if not driven:
+                    return "eng_callup_first", kw
+                bar = prog_mod.bar_state(career)
+                if bar:
+                    import drivers as drivers_mod
+                    kw.update({
+                        "pos": drivers_mod.spoken_ordinal(bar["pos"]),
+                        "bar": drivers_mod.spoken_ordinal(bar["bar"]),
+                        "gap": drivers_mod.spoken_number(bar["gap"]),
+                        "rival": bar["rival"],
+                        "left": drivers_mod.spoken_number(bar["left"]),
+                    })
+                    return "eng_callup_bar", kw
+        except Exception:
+            pass
         if getattr(career, "on_ladder", False) and not career.rounds:
             cat = {"rookie": "eng_status_rookie", "riser": "eng_status_riser",
                    "contender": "eng_status_contender",

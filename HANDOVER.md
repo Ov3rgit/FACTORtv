@@ -3566,6 +3566,59 @@ the user can drive it after step 1 rather than waiting for all of it.
 
 ---
 
+## THE COMMENTARY IS THE GAME — read this before building another arc beat
+
+His steer, and it reorders the priorities of everything in this project:
+
+> *"remremeber the commentary is the actual main gameplay, and most of what
+> happens in the arc needs to happen or be said on track"*
+
+The junior arc had been built letters-first. Every beat existed — the offer, the
+signing, the call-up, the verdict, the chase — and almost all of it lived in the
+inbox and the news feed, which are the RECORD. The booth, which is the GAME, did
+not know the biggest move in the arc had happened: he asked whether the
+commentators would mention going from F3 to F2 and the answer was no.
+
+**So the test for a new arc beat is no longer "is it in the story". It is "can he
+hear it while he is driving".**
+
+What was added, at his instruction (he said yes to both questions: the booth MAY
+say why the seat came free, and the standings chase DOES get on-air coverage):
+
+  * `prog_callup_debut` — his first session in the car, once. It says he was in
+    Formula 3 a fortnight ago, that the team made a change, and that he has had
+    no test. NOBODY IS NAMED, the same restraint the letters keep.
+  * `prog_callup_stake` — replaces `prog_stake` all season for a called-up
+    driver, because a replacement is not auditioning for the same thing.
+  * `prog_bar_chase` / `prog_bar_hold` — the chase, out loud, with the position,
+    the gap, the rival and the rounds left in the sentence.
+  * `prog_callup_last` — the final round with the seat on it.
+  * `eng_callup_first` / `eng_callup_bar` — the engineer is the one voice who
+    would mention a car the driver has never tested, and he restates the brief
+    with the number in it. It sits ABOVE the status greeting, because "you are a
+    riser, get up to speed" is the wrong thing to say to a man in a car he has
+    not driven.
+
+**`programme.bar_state()` IS THE ONLY MEASUREMENT.** The booth says it, the
+engineer says it, and the news feed writes it up — three voices, one arithmetic,
+because two implementations of "how far off third is he" would eventually
+disagree in public. It returns None the moment any part cannot be read (he has
+not scored yet, the table has no third place), and every caller treats that as
+"say nothing".
+
+### AND ONE LINE THAT WAS FLATLY WRONG FOR HIM
+
+`div_f2` contained *"A driver who wins Formula 2 usually gets a chance. A driver
+who finishes third usually does not, and everybody out there can do that
+arithmetic."* His bar IS third — the booth would have told the viewer that what
+his programme asked of him is not enough.
+
+Reworded rather than gated, and the reason matters: **booth line gates are
+era-based** (`year`, `disc`, `needs`) and know nothing about a career. A line that
+cannot be made conditional has to be true in every case it can air.
+
+---
+
 ## UPDATING WITHOUT LOSING A CAREER
 
 Saves live in `careers/` beside the executable — `_DIR` is

@@ -242,6 +242,46 @@ def signed(career):
     return (k, get(k)) if k else (None, None)
 
 
+def bar_state(career):
+    """Where he stands against the podium bar, or None if it cannot be read.
+
+    {"pos", "bar", "gap", "rival", "left", "holding"} — every number MEASURED off
+    the table, and None the moment one of them cannot be. A called-up driver is
+    judged on finishing third, so this is the only arithmetic that matters to him
+    all season and it belongs in one place: the booth says it out loud, the news
+    writes it up, and two implementations of it would eventually disagree in
+    public.
+
+    ONLY FOR A CALLED-UP SEASON. A driver who contested the whole championship is
+    judged on winning it, and `_title_fight` already covers that fight.
+    """
+    if career is None or not called_up(career) or not on_f2(career):
+        return None
+    table = list(career.standings() or ())
+    me = career.me or ""
+    mine = None
+    place = 0
+    for i, (name, pts) in enumerate(table):
+        if name == me:
+            mine, place = pts, i + 1
+            break
+    if mine is None or not place:
+        return None
+    bar = CALLUP_BAR
+    total = career.total_rounds or 0
+    left = max(0, total - len(career.rounds))
+    holding = place <= bar
+    # THE MAN WHO MATTERS is whoever he is measured against: the driver holding
+    # the bar if he is below it, the driver chasing him if he is on it.
+    other = table[place] if holding and place < len(table) else (
+        table[bar - 1] if not holding and len(table) >= bar else None)
+    if other is None:
+        return None
+    gap = abs(mine - other[1])
+    return {"pos": place, "bar": bar, "gap": gap, "rival": other[0],
+            "left": left, "holding": holding, "points": mine}
+
+
 def rung_facts(career, key=None):
     """What to CALL the seat he is being offered: {"champ", "car", "year"}.
 

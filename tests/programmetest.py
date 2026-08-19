@@ -775,6 +775,70 @@ check(not [m for m in inbox.messages(_up) if m["kind"] == "testing"
       str([m.get("id") for m in inbox.messages(_up)
            if m["kind"] == "testing"]))
 
+print("\n7j. THE CALL-UP IS SAID ON TRACK, WHICH IS WHERE THE GAME IS")
+# His steer, and it reorders the whole arc's priorities: "remremeber the
+# commentary is the actual main gameplay, and most of what happens in the arc
+# needs to happen or be said on track". Letters and news pieces are the record;
+# the booth is the game.
+import lines as _lines
+import era as _era
+_E = _era.classify("F2_2019", "")
+for _pool in ("prog_callup_debut", "prog_callup_stake", "prog_bar_chase",
+              "prog_bar_hold", "prog_callup_last", "eng_callup_first",
+              "eng_callup_bar"):
+    check(_lines.pool(_pool), "the booth has lines for %s" % _pool)
+
+# THE NUMBERS ARE MEASURED, and there is no state where they are guessed.
+_bc = to_f2(f3_career(rounds=10), "ferrari")
+check(P.bar_state(_bc) is None,
+      "with nothing on the board there is no chase to describe",
+      str(P.bar_state(_bc)))
+# He races, and now he is in the table.
+race(_bc, 4, len(_bc.rounds) + 1)
+_st = P.bar_state(_bc)
+check(_st, "once he has scored, the chase can be measured", str(_st))
+if _st:
+    check(_st["bar"] == P.CALLUP_BAR,
+          "against third in the standings, not against the title",
+          str(_st["bar"]))
+    _table = dict(_bc.standings())
+    check(_st["gap"] == abs(_table[ME] - _table[_st["rival"]]),
+          "and the gap is the real difference between two real totals",
+          str(_st["gap"]))
+    check(_st["rival"] != ME, "measured against somebody else", _st["rival"])
+    # EVERY SLOT THE LINES ASK FOR IS FILLED, or the line cannot air.
+    import drivers as _drv
+    _kw = {"drv": ME, "prog": "x", "f2team": "y", "f1team": "z",
+           "pos": _drv.spoken_ordinal(_st["pos"]),
+           "bar": _drv.spoken_ordinal(_st["bar"]),
+           "gap": _drv.spoken_number(_st["gap"]),
+           "rival": _st["rival"],
+           "left": _drv.spoken_number(_st["left"])}
+    for _pool in ("prog_bar_chase", "prog_bar_hold", "prog_callup_last",
+                  "prog_callup_debut", "prog_callup_stake"):
+        _bad = []
+        for _ in range(12):
+            _t, _i, _who = _lines.pick(_pool, _E, _kw)
+            if _t is None or "{" in _t:
+                _bad.append(_t)
+        check(not _bad, "%s renders with nothing missing" % _pool, str(_bad[:1]))
+    # AND NO LINE TAKES AN ARTICLE IN FRONT OF A TEAM NAME. "a ART Grand Prix
+    # seat" aired in the first draft of this.
+    for _pool in ("prog_callup_debut", "prog_callup_stake", "prog_bar_chase",
+                  "prog_bar_hold", "prog_callup_last"):
+        for _x in _lines.pool(_pool) or ():
+            _t = _x.get("t", "")
+            check(" a {f2team}" not in _t and " a {prog}" not in _t
+                  and " a {rival}" not in _t,
+                  "no article before a name in %s" % _pool, _t[:50])
+# ...AND A DRIVER WHO WAS NEVER CALLED UP HEARS NONE OF IT, because he is
+# auditioning for a championship rather than defending a podium place.
+_ord = f2_career()
+P.accept(_ord, "ferrari")
+check(P.bar_state(_ord) is None,
+      "a driver who was not called up has no bar to chase",
+      str(P.bar_state(_ord)))
+
 print("\n8. NOTHING ABOUT IT SURVIVES A CAREER THAT DID NOT EARN IT")
 fresh = f2_career()
 check(P.state(fresh) == P.OFFERED and not P.signed(fresh)[0],

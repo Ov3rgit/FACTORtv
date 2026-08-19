@@ -664,5 +664,110 @@
    "t": "The hardest part of arriving here is not the speed, it is the other side of the garage. {lead} has been doing this for years.",
    "i": 2
   }
+ ],
+ "prog_callup_debut": [
+  {
+   "t": "This is {drv}'s first time racing this car. He was in Formula 3 a fortnight ago, {f2team} made a change, and here he is.",
+   "i": 2,
+   "who": "PLAY"
+  },
+  {
+   "t": "A mid-season call-up for {drv}, and no test to prepare for it. The seat came free, {prog} put their own driver in it, and this is the afternoon that starts.",
+   "i": 2,
+   "who": "PLAY"
+  },
+  {
+   "t": "Worth saying what we are watching: {drv} has been handed a seat at {f2team} with the season already running. Nothing about that is normal and everybody in that garage knows it.",
+   "i": 2,
+   "who": "PLAY"
+  },
+  {
+   "t": "He has not raced this car before today. {prog} moved him up when the seat opened, and the first laps he does in anger are the ones we are about to watch.",
+   "i": 2,
+   "who": "ANALYST"
+  }
+ ],
+ "prog_callup_stake": [
+  {
+   "t": "{drv} is in this car because {f2team} changed their line-up mid-season. What he does with the rest of it decides whether he keeps it.",
+   "i": 1,
+   "who": "PLAY"
+  },
+  {
+   "t": "Remember he arrived here with the season part-run and nothing on the board. Every point he has, he has scored since.",
+   "i": 1,
+   "who": "PLAY"
+  },
+  {
+   "t": "A replacement driver is asked a narrow question, and {drv} is being asked it in public, one weekend at a time.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{prog} did not promote him for winning anything. They promoted him because a seat came free and they had somebody they wanted to look at.",
+   "i": 1,
+   "who": "ANALYST"
+  }
+ ],
+ "prog_bar_chase": [
+  {
+   "t": "{drv} is {pos} in this championship and {gap} points off {rival}, who holds the {bar} place his programme has told him to reach.",
+   "i": 1,
+   "who": "PLAY"
+  },
+  {
+   "t": "The number that matters to {drv} is not the leader's. It is {rival}'s - {gap} points up the road in {bar}, with {left} rounds to run.",
+   "i": 1,
+   "who": "PLAY"
+  },
+  {
+   "t": "{gap} points, {left} rounds, and one position. That is {drv}'s season, and it is a strange way to have to race.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "He needs to finish {bar} in the standings for the seat above to open. He is {pos}. Everything else out here is detail.",
+   "i": 1,
+   "who": "ANALYST"
+  }
+ ],
+ "prog_bar_hold": [
+  {
+   "t": "{drv} is {pos} in the standings, which is exactly where he needs to be - and {rival} is {gap} points behind him with {left} rounds left.",
+   "i": 1,
+   "who": "PLAY"
+  },
+  {
+   "t": "He is inside the mark his programme set, by {gap} points. From here it stops being a chase and starts being something he can lose.",
+   "i": 1,
+   "who": "PLAY"
+  },
+  {
+   "t": "{drv} came into this car with nothing and he is {pos}. What he is defending now is a Formula One seat, not a trophy.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{gap} points over {rival}, {left} rounds to go. Drivers will tell you defending a position is the hardest way to end a season.",
+   "i": 1,
+   "who": "ANALYST"
+  }
+ ],
+ "prog_callup_last": [
+  {
+   "t": "Last round, and {drv} is {pos} with the {bar} place the whole thing depends on. {gap} points between him and {rival}.",
+   "i": 3,
+   "who": "PLAY"
+  },
+  {
+   "t": "This is it. Finish {bar} today and the Formula One seat opens; finish behind {rival} and it does not. {gap} points is the margin.",
+   "i": 3,
+   "who": "PLAY"
+  },
+  {
+   "t": "Everything {drv} has done since he was handed this car comes down to the next hour or so, and to one position in a table.",
+   "i": 3,
+   "who": "ANALYST"
+  }
  ]
 }
