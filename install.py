@@ -168,6 +168,45 @@ def enable_plugin(game, check=False):
                 % (PLUGIN_CFG, e))
 
 
+def dll_version(path):
+    """The FileVersion of a DLL as "3.7.15.1", or "". Windows API, no deps.
+
+    ASKED BY THE FIRST TESTER BEFORE HE HAD DOWNLOADED ANYTHING: *"I do still
+    have the plugin for CrewChief on my laptop, it's the same one right?"* Yes —
+    CrewChief bundles this same plugin, which is how most people end up with it,
+    and it is why the upstream project has never needed to attach a binary to a
+    release. But the VERSION can differ, and the overlay reads the Extended
+    buffer whose layout has changed across 3.x. So "the same plugin" and "the
+    same build" are two different claims, and this turns the second one into a
+    number anybody can read.
+    """
+    try:
+        import ctypes
+        import struct
+        from ctypes import wintypes
+        ver = ctypes.WinDLL("version.dll")
+        size = ver.GetFileVersionInfoSizeW(ctypes.c_wchar_p(path), None)
+        if not size:
+            return ""
+        buf = ctypes.create_string_buffer(size)
+        if not ver.GetFileVersionInfoW(ctypes.c_wchar_p(path), 0, size, buf):
+            return ""
+        block = ctypes.c_void_p()
+        length = wintypes.UINT()
+        # The language-neutral fixed block, so this does not have to guess which
+        # translation table the file happens to carry. The sub-block name for it
+        # is a single backslash, spelled out rather than escaped.
+        if not ver.VerQueryValueW(buf, ctypes.c_wchar_p(chr(92)),
+                                  ctypes.byref(block), ctypes.byref(length)):
+            return ""
+        raw = ctypes.string_at(block, length.value)
+        # VS_FIXEDFILEINFO: dwFileVersionMS at offset 8, dwFileVersionLS at 12.
+        ms, ls = struct.unpack_from("<II", raw, 8)
+        return "%d.%d.%d.%d" % (ms >> 16, ms & 0xFFFF, ls >> 16, ls & 0xFFFF)
+    except Exception:
+        return ""
+
+
 def plugin_state(game):
     """(installed, path). An empty game folder answers (False, "")."""
     if not game:
@@ -262,7 +301,24 @@ def main():
         install_plugin(game, src, check=check)
         ok, dst = plugin_state(game)
     elif ok:
-        print("  plugin: already installed at %s" % dst)
+        # ALREADY THERE — most likely CrewChief's copy, which is the same plugin
+        # from the same author. It is LEFT ALONE on purpose: another program
+        # depends on it, and an installer that silently swaps a shared component
+        # is not one to trust. But the versions are compared and reported, because
+        # "the same plugin" and "the same build" are two different claims.
+        mine = dll_version(PLUGIN_SRC) if os.path.isfile(PLUGIN_SRC) else ""
+        theirs = dll_version(dst)
+        print("  plugin: already installed, version %s" % (theirs or "unknown"))
+        if mine and theirs and mine != theirs:
+            print("      this build was tested against %s — yours will very "
+                  "likely work." % mine)
+            print("      If the overlay misreads the session, swap it:")
+            print("          python install.py --plugin plugin\\%s"
+                  % PLUGIN_NAME)
+            print("      Your copy is backed up, so CrewChief can have it back.")
+        elif mine and theirs:
+            print("      the same build this overlay was tested against — "
+                  "nothing to do")
     else:
         print("  plugin: NOT INSTALLED")
         print("      1. download it:  %s" % PLUGIN_URL)
