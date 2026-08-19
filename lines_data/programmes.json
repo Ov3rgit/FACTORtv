@@ -1,0 +1,48 @@
+{
+ "_note": [
+  "THE THREE JUNIOR PROGRAMMES, and the seats they lead to.",
+  "",
+  "f2_team is the Formula 2 entrant the programme BACKS - which is how junior",
+  "academies actually work, and is deliberately not a claim that one team owns",
+  "another. The 2019 affiliations are the real ones as far as they go: Ferrari",
+  "placed its academy drivers at Prema, Red Bull has run juniors at Carlin for",
+  "years, and ART is the traditional Mercedes-adjacent seat. Two of the three",
+  "are approximations rather than contracts, which the disclaimer already",
+  "covers - this is a dramatisation of a career, not a claim about anybody's",
+  "paperwork.",
+  "",
+  "f1_seat is the driver whose car he takes, and f1_lead is the man he then",
+  "races alongside. ALWAYS THE SECOND SEAT: he is the junior arrival next to",
+  "an established number one, which is both how it works and what gives the",
+  "booth somebody to measure him against for years.",
+  "",
+  "The names are the ones the F1 2021 mod reports in the user's own result",
+  "files, so the seat he is told to load is a car that exists on his disk.",
+  "IF THE F2 MOD NAMES ITS TEAMS DIFFERENTLY, f2_team is the field to fix -",
+  "it is checked against the mod after the first F2 race."
+ ],
+ "ferrari": {
+  "name": "the Ferrari Driver Academy",
+  "f2_team": "Prema Racing",
+  "f1_team": "Ferrari",
+  "f1_seat": "Carlos Sainz",
+  "f1_lead": "Charles Leclerc",
+  "tone": "the most watched junior programme in the sport, and the least patient"
+ },
+ "red_bull": {
+  "name": "the Red Bull Junior Team",
+  "f2_team": "Carlin",
+  "f1_team": "Red Bull",
+  "f1_seat": "Sergio Perez",
+  "f1_lead": "Max Verstappen",
+  "tone": "a programme that promotes early and drops early, and makes no secret of either"
+ },
+ "mercedes": {
+  "name": "the Mercedes junior programme",
+  "f2_team": "ART Grand Prix",
+  "f1_team": "Mercedes",
+  "f1_seat": "Valtteri Bottas",
+  "f1_lead": "Lewis Hamilton",
+  "tone": "slow to promise anything and slower still to go back on it"
+ }
+}

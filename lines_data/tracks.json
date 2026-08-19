@@ -1,0 +1,2021 @@
+{
+ "_comment": [
+  "Circuit knowledge, keyed by canonical slug (see track.py for the alias",
+  "resolution that maps rF2's names onto these).",
+  "",
+  "  name        how the booth says it",
+  "  country     for the header and scene-setting",
+  "  character   what the circuit DEMANDS — used as analyst colour",
+  "  overtaking  where a pass actually happens, for battle commentary",
+  "  facts       booth colour, third person, no first-person claims",
+  "  corners     in lap order; track.corner(frac) indexes into this",
+  "",
+  "NOTE ON VOICE: these are deliberately NOT written as an ex-driver's",
+  "personal memories. Chuck Brannigan raced NASCAR 1985-2006 — he did not",
+  "win at Spa in an F1 car, and lines claiming he did would contradict the",
+  "biography that makes him credible everywhere else. Where a first-person",
+  "note is appropriate, it is gated by discipline in the pools, not here.",
+  "",
+  "`sectors` - three clauses, one per timing sector, saying what THAT part of",
+  "the lap asks of a driver. The engineer uses it when he can see which sector",
+  "you are losing time in.",
+  "",
+  "Written per circuit rather than derived from the corner list, because sector",
+  "boundaries are not evenly spaced by corner count and naming a corner in the",
+  "wrong sector is exactly the small wrongness that stops him being believed.",
+  "A circuit without `sectors` gets no coaching at all, which is the correct",
+  "failure.",
+  "",
+  "Each clause completes '...that is where it is going, <clause>' - so present",
+  "tense, no leading article, no terminal full stop.",
+  "",
+  "A FACT MAY CARRY `year: [lo, hi]`, exactly as a dialogue line does, and is",
+  "then only offered for a LAYOUT inside that range. `Track.year` is scraped",
+  "from the rF2 folder name.",
+  "",
+  "This matters more than it looks. A historic circuit is not a shorter",
+  "version of the modern one, it is a DIFFERENT ROAD. Spa in 1966 was over",
+  "fourteen kilometres of public road; the modern entry told the booth the lap",
+  "was 'over seven kilometres, the longest on the calendar' and it aired over",
+  "the 1966 circuit.",
+  "",
+  "THE RULE: a fact about the PLACE - its history, its geography, what it was",
+  "built on, who died there - stays undated and is true of every layout. A",
+  "fact about the ROAD - how long it is, which corners it has, how fast it is",
+  "- carries a year range.",
+  "",
+  "A layout with NO year in its folder name gets the undated facts only.",
+  "Fewer facts, none of them wrong.",
+  "",
+  "`identity_only` - the booth can NAME this circuit and a calendar can point",
+  "at it, but there is no lore, so the scene-setting and fact lines never",
+  "fire. `fictional` marks the ones that are not real places at all: those",
+  "have no country, because inventing one would be inventing a fact about",
+  "somewhere that does not exist. A real circuit we simply know little about",
+  "still gets its country.",
+  "",
+  "`corners_history` - corner lists for layouts that differ from the modern",
+  "one, each with a `year` range. `Track.corners()` picks the matching block.",
+  "",
+  "The default `corners` list is the CURRENT road, and using it for a historic",
+  "layout names corners that do not exist: Silverstone's includes Village, the",
+  "Loop and the Wellington Straight, which are the Arena section built in",
+  "2010, and they were being named during a 1991 race."
+ ],
+ "spa": {
+  "name": "Spa-Francorchamps",
+  "country": "Belgium",
+  "character": "Fast, sweeping and utterly committed. Seven kilometres through the Ardennes forest, with more elevation change than anywhere else on the calendar.",
+  "overtaking": "Into Les Combes at the top of the hill, and into the Bus Stop chicane.",
+  "facts": [
+   "Eau Rouge and Raidillon: a compression at the bottom, blind over the crest, and the car goes light exactly when you need it not to.",
+   {
+    "t": "The old circuit ran over fourteen kilometres on public roads through the Ardennes.",
+    "year": [
+     1979,
+     2100
+    ]
+   },
+   "The Kemmel straight after Raidillon is where the slipstream does its work.",
+   "Spa makes its own weather. It can be dry at La Source and raining at Stavelot.",
+   "Pouhon is a double-left taken far quicker than it looks, and it punishes a car that will not rotate.",
+   "The run from Eau Rouge to Les Combes climbs over forty metres.",
+   "Blanchimont is flat in a modern car and was a genuine corner in an older one.",
+   {
+    "t": "The lap is over seven kilometres, the longest on the Formula One calendar.",
+    "year": [
+     1983,
+     2100
+    ]
+   },
+   {
+    "t": "The circuit is long enough that it can be raining at one end and completely dry at the other.",
+    "year": [
+     1950,
+     2100
+    ]
+   },
+   {
+    "t": "This is the old Spa — over fourteen kilometres of public road through the Ardennes villages, and more than twice the length of the modern circuit.",
+    "year": [
+     1950,
+     1978
+    ]
+   },
+   {
+    "t": "The old circuit ran through Malmedy and Stavelot on ordinary roads, with houses, hedges and telegraph poles at the edge of it.",
+    "year": [
+     1950,
+     1978
+    ]
+   },
+   {
+    "t": "Average speeds here approached two hundred and forty kilometres an hour in the sixties, on a road with almost no barriers.",
+    "year": [
+     1958,
+     1978
+    ]
+   },
+   {
+    "t": "A Grand Prix here began in a rainstorm that caught half the field on the opening lap — Jackie Stewart was trapped in his car in a ditch, and it changed his view of safety for ever.",
+    "year": [
+     1960,
+     1972
+    ]
+   }
+  ],
+  "corners": [
+   "La Source",
+   "Eau Rouge",
+   "Raidillon",
+   "the Kemmel straight",
+   "Les Combes",
+   "Malmedy",
+   "Rivage",
+   "the descent to Pouhon",
+   "Pouhon",
+   "Fagnes",
+   "Campus",
+   "Stavelot",
+   "Blanchimont",
+   "the Bus Stop"
+  ],
+  "sectors": [
+   "carrying speed up through Eau Rouge",
+   "rhythm through Pouhon and Stavelot",
+   "a tidy exit from the Bus Stop"
+  ],
+  "corners_history": [
+   {
+    "year": [
+     1950,
+     1978
+    ],
+    "corners": [
+     "Eau Rouge",
+     "Burnenville",
+     "Malmedy",
+     "the Masta kink",
+     "Stavelot",
+     "La Carriere",
+     "Blanchimont",
+     "La Source"
+    ]
+   }
+  ]
+ },
+ "monza": {
+  "name": "Monza",
+  "country": "Italy",
+  "character": "The Temple of Speed. Long straights, heavy braking, minimum downforce — and a slipstream that makes every straight a negotiation.",
+  "overtaking": "Into the first chicane, and into Ascari if you are brave.",
+  "facts": [
+   "Monza is the fastest permanent circuit in Formula One, with cars flat out for most of the lap.",
+   {
+    "t": "The old banking still stands in the trees, crumbling but visible from the modern track.",
+    "year": [
+     1972,
+     2100
+    ]
+   },
+   {
+    "t": "Low downforce here means the car is quick on the straights and nervous everywhere else.",
+    "year": [
+     1968,
+     2100
+    ]
+   },
+   "Lesmo one and two tighten as you go through, which is why so many cars run wide at the second.",
+   "The Parabolica is a long, patient right-hander where the exit onto the main straight is everything.",
+   {
+    "t": "Ascari is a fast left-right-left that rewards a car with a stable rear.",
+    "year": [
+     1972,
+     2100
+    ]
+   },
+   {
+    "t": "It has hosted a Grand Prix every year since 1950 bar one, more than any other circuit.",
+    "year": [
+     1981,
+     2100
+    ]
+   },
+   {
+    "t": "This is Monza before the chicanes — flat out almost the whole way, with slipstreaming packs of cars crossing the line together.",
+    "year": [
+     1950,
+     1971
+    ]
+   },
+   {
+    "t": "The banked oval was still standing and still used in this era, and the combined circuit ran on both.",
+    "year": [
+     1955,
+     1969
+    ]
+   },
+   {
+    "t": "Races here in the sixties were decided by the slipstream on the run to the line, and the winning margins were measured in hundredths.",
+    "year": [
+     1955,
+     1971
+    ]
+   }
+  ],
+  "corners": [
+   "the Rettifilo chicane",
+   "Curva Grande",
+   "the Roggia chicane",
+   "Lesmo one",
+   "Lesmo two",
+   "the back straight",
+   "Ascari",
+   "the run to Parabolica",
+   "the Parabolica"
+  ],
+  "sectors": [
+   "the first chicane, easy to lock up",
+   "Ascari, the corner that makes the lap",
+   "patience on entry to Parabolica"
+  ],
+  "corners_history": [
+   {
+    "year": [
+     1950,
+     1971
+    ],
+    "corners": [
+     "Curva Grande",
+     "the first Lesmo",
+     "the second Lesmo",
+     "the Serraglio straight",
+     "Vialone",
+     "Parabolica"
+    ]
+   }
+  ]
+ },
+ "zandvoort": {
+  "name": "Zandvoort",
+  "country": "the Netherlands",
+  "character": "Narrow and relentless, built into the dunes, with barely a straight worth the name and almost nowhere to pass.",
+  "overtaking": "Into Tarzan, and that is close to the whole list.",
+  "facts": [
+   "Zandvoort is built in the dunes, and sand blows onto the circuit all weekend.",
+   "The track is narrow by modern standards, which is exactly why the racing is so close.",
+   "Track position matters more here than almost anywhere — the pit lane decides races Zandvoort will not.",
+   "Tarzan at the end of the main straight is the one real overtaking spot on the lap, and everything in a driver's afternoon is built around it.",
+   "Scheivlak is the corner the drivers talk about: fast, blind, downhill, and the sand is waiting if you get it wrong.",
+   "The circuit was laid out on roads the occupying army had built during the war, which is why it wanders the way it does.",
+   {
+    "year": [
+     2020,
+     2099
+    ],
+    "t": "The final corner is banked at eighteen degrees, one of the steepest in Formula One, and cars can run side by side through it."
+   },
+   {
+    "year": [
+     2020,
+     2099
+    ],
+    "t": "Hugenholtz is banked as well, and it loads the car up in a way that punishes anything understeering."
+   },
+   {
+    "year": [
+     2020,
+     2099
+    ],
+    "t": "Two banked corners on one lap is almost unheard of — most circuits do not have a single one."
+   },
+   {
+    "year": [
+     2020,
+     2099
+    ],
+    "t": "The banking was added so cars could follow each other through the last corner and still have a run to Tarzan. That was the entire point of it."
+   },
+   {
+    "year": [
+     1900,
+     2019
+    ],
+    "t": "The last corner is flat and conventional here, so a driver who loses the exit has no way of staying with the car in front down the straight."
+   },
+   {
+    "year": [
+     1900,
+     2019
+    ],
+    "t": "Hugenholtz is a tight, awkward left with no banking to help the car turn — get it wrong and the whole middle sector is compromised."
+   },
+   {
+    "year": [
+     1900,
+     2019
+    ],
+    "t": "This is a circuit that rewards a driver who can carry speed without the road helping him do it."
+   }
+  ],
+  "corners": [
+   "Tarzan",
+   "Gerlachbocht",
+   "Hugenholtz",
+   "Hunserug",
+   "Rob Slotemakerbocht",
+   "Scheivlak",
+   "Mastersbocht",
+   "Renaultbocht",
+   "the Kumho corner",
+   "Arie Luyendyk"
+  ],
+  "sectors": [
+   "a late apex at Tarzan",
+   "the blind stuff through the dunes",
+   "power on early in the banked last corner"
+  ],
+  "corners_history": [
+   {
+    "year": [
+     1900,
+     2019
+    ],
+    "corners": [
+     "Tarzan",
+     "Gerlachbocht",
+     "Hugenholtz",
+     "Hunserug",
+     "Rob Slotemakerbocht",
+     "Scheivlak",
+     "Mastersbocht",
+     "Renaultbocht",
+     "the Audi S",
+     "Bosuitbocht"
+    ]
+   }
+  ],
+  "sectors_history": [
+   {
+    "year": [
+     1900,
+     2019
+    ],
+    "sectors": [
+     "a late apex at Tarzan",
+     "the blind stuff through the dunes",
+     "a clean exit from the last corner, because there is no banking to save it"
+    ]
+   }
+  ]
+ },
+ "hockenheim": {
+  "name": "Hockenheim",
+  "country": "Germany",
+  "character": "A stop-start rhythm — heavy braking zones linked by short bursts, then a stadium section that never lets up.",
+  "overtaking": "Into the hairpin, and into the Spitzkehre at the end of the long run.",
+  "facts": [
+   "The Motodrom stadium section packs the crowd right against the fence — the noise inside it is extraordinary.",
+   {
+    "t": "Traction out of the hairpin is what sets the lap up, because the run afterwards is long.",
+    "year": [
+     2002,
+     2100
+    ]
+   },
+   "The Sachskurve is a long right that loads the left front hard and hurts a car with any understeer.",
+   {
+    "t": "Braking stability into the Spitzkehre is worth more here than outright downforce.",
+    "year": [
+     2002,
+     2100
+    ]
+   },
+   {
+    "t": "The original circuit ran deep into the forest on enormous straights; the modern lap is a fraction of its length.",
+    "year": [
+     1990,
+     2100
+    ]
+   },
+   "Jim Clark was killed here in a Formula Two race in 1968, on the old forest layout.",
+   {
+    "t": "This is the old Hockenheim — two enormous straights running deep into the forest, joined by chicanes, and then the stadium.",
+    "year": [
+     1970,
+     2001
+    ]
+   },
+   {
+    "t": "The forest section was so fast that the cars spent most of the lap at full throttle and the stadium was the only real cornering.",
+    "year": [
+     1970,
+     2001
+    ]
+   }
+  ],
+  "corners": [
+   "the Nordkurve",
+   "the run to the hairpin",
+   "the Spitzkehre",
+   "the Parabolika",
+   "the Mercedes hairpin",
+   "Mobil 1 kurve",
+   "Sachskurve",
+   "the Stadium",
+   "the Suedkurve"
+  ],
+  "sectors": [
+   "traction out of the slow corners",
+   "braking stability into the stadium",
+   "the stadium section, tight and banked"
+  ],
+  "corners_history": [
+   {
+    "year": [
+     1970,
+     2001
+    ],
+    "corners": [
+     "the Nordkurve",
+     "the first chicane",
+     "the Ostkurve",
+     "the second chicane",
+     "the Agip curve",
+     "the Motodrom"
+    ]
+   }
+  ]
+ },
+ "interlagos": {
+  "name": "Interlagos",
+  "country": "Brazil",
+  "character": "Short, bumpy and run anti-clockwise, with a long uphill drag to the line that makes the last corner the most important on the lap.",
+  "overtaking": "Into turn one at the bottom of the hill, and into the Senna S.",
+  "facts": [
+   "Interlagos runs anti-clockwise, which loads the drivers' necks the opposite way to almost everywhere else.",
+   "The circuit is built on uneven ground and has never been smooth — the bumps are part of its character.",
+   "The climb from Juncao to the line is where a good exit turns into an overtake at turn one.",
+   "It is one of the shortest laps in racing, so traffic arrives constantly.",
+   "Sao Paulo weather changes fast, and a dry race here has often ended wet.",
+   "The circuit runs anticlockwise, which is unusual and physically demanding over a race distance.",
+   "It sits on a plateau around eight hundred metres up, so the cars run slightly more wing than the layout suggests.",
+   "The lap is short, so traffic in qualifying is a genuine problem and the field is compressed.",
+   "The surface is famously bumpy, and the run up the hill to the line is far steeper than television makes it look."
+  ],
+  "corners": [
+   "the Senna S",
+   "Curva do Sol",
+   "the Reta Oposta",
+   "Descida do Lago",
+   "Ferradura",
+   "Laranja",
+   "Pinheirinho",
+   "Bico de Pato",
+   "Mergulho",
+   "Juncao",
+   "the climb to the line"
+  ],
+  "sectors": [
+   "turning in late at the Senna S",
+   "the infield climb, slow and technical",
+   "a patient exit from the last corner"
+  ]
+ },
+ "lemans": {
+  "name": "Le Mans",
+  "country": "France",
+  "character": "Thirteen kilometres of public road and circuit, most of it flat out. Gearing, aerodynamics and bravery, and very little else.",
+  "overtaking": "Into the Mulsanne corner, and under braking for the chicanes.",
+  "facts": [
+   "The Mulsanne straight ran uninterrupted for nearly six kilometres before the chicanes were added in 1990.",
+   "Most of the lap is public road, closed for the race and open to traffic the rest of the year.",
+   "The Porsche Curves are among the fastest sequences in motorsport and the least forgiving.",
+   "Cars spend the vast majority of the lap at full throttle, which makes gearing and drag the whole setup.",
+   "Indianapolis and Arnage arrive after enormous speed and demand the car be genuinely slowed.",
+   "Night running here is a different circuit entirely — the braking markers simply are not there.",
+   "The race runs through the night, and drivers deal with traffic across several classes at wildly different speeds."
+  ],
+  "corners": [
+   "the Dunlop chicane",
+   "the Esses",
+   "Tertre Rouge",
+   "the Mulsanne straight",
+   "the first chicane",
+   "the second chicane",
+   "Mulsanne corner",
+   "Indianapolis",
+   "Arnage",
+   "the Porsche Curves",
+   "Ford chicane"
+  ],
+  "sectors": [
+   "braking into the Dunlop chicane",
+   "patience down the Mulsanne",
+   "the Porsche curves, pure commitment"
+  ]
+ },
+ "daytona": {
+  "name": "Daytona",
+  "country": "the United States",
+  "character": "Thirty-one degrees of banking and a pack that runs nose to tail. Aerodynamics decide it, and the draft decides the aerodynamics.",
+  "overtaking": "Anywhere, with help. Nowhere, without it.",
+  "facts": [
+   "The banking at Daytona is thirty-one degrees — steep enough that walking up it is difficult.",
+   "In the draft, the car behind is quicker than the car in front, which is why the lead changes so often.",
+   "The road course cuts through the infield and rejoins the banking, and the two halves need opposite things from the car.",
+   "The tri-oval start-finish means cars are still turning as they cross the line.",
+   "Pack racing here is a cooperative sport until the last lap, and then it very much is not.",
+   "The twenty-four hour race here is run partly on the banking and partly through an infield road course.",
+   "Sports cars run at nearly full throttle around the banking, and the racing there is entirely about the draft.",
+   "The lake in the infield was dug out to build the banking."
+  ],
+  "corners": [
+   "turn one",
+   "turn two",
+   "the backstretch",
+   "turn three",
+   "turn four",
+   "the tri-oval"
+  ],
+  "sectors": [
+   "momentum and traffic on the banking",
+   "the infield, the only real driving here",
+   "the exit back onto the banking"
+  ]
+ },
+ "monaco": {
+  "name": "Monaco",
+  "country": "Monaco",
+  "character": "Barriers everywhere, no run-off, and a lap where the difference between quick and crashed is a few centimetres.",
+  "overtaking": "Into the Nouvelle Chicane, and realistically nowhere else.",
+  "facts": [
+   {
+    "t": "Monaco has no run-off. A mistake is a barrier, every single time.",
+    "year": [
+     1970,
+     2100
+    ]
+   },
+   "The tunnel takes the car from bright light to dark and back at maximum speed.",
+   "Qualifying matters more here than at any other circuit, because passing is close to impossible.",
+   {
+    "t": "The barriers at the swimming pool section move closer as the weekend goes on, or at least they seem to.",
+    "year": [
+     1973,
+     2100
+    ]
+   },
+   "The climb to Casino Square is blind at the crest and the car goes light exactly at turn-in.",
+   {
+    "t": "Rascasse and Anthony Noghes are slow enough to look easy and tight enough to catch anybody.",
+    "year": [
+     1973,
+     2100
+    ]
+   },
+   "The circuit has been used since 1929 and the layout has barely changed in principle.",
+   {
+    "t": "It is the slowest circuit on the calendar and the only one where the cars run maximum downforce all weekend.",
+    "year": [
+     1968,
+     2100
+    ]
+   },
+   {
+    "t": "This is Monaco before the swimming pool complex — the circuit ran straight along the harbour front to the Gasworks hairpin.",
+    "year": [
+     1929,
+     1972
+    ]
+   },
+   {
+    "t": "There were no barriers worth the name in this era, and the harbour was one wrong move away for the whole run along the quay.",
+    "year": [
+     1929,
+     1969
+    ]
+   },
+   {
+    "t": "The old circuit finished with the Gasworks hairpin, a slow right-hander that no longer exists.",
+    "year": [
+     1929,
+     1972
+    ]
+   }
+  ],
+  "corners": [
+   "Sainte Devote",
+   "the climb to Massenet",
+   "Casino Square",
+   "Mirabeau",
+   "the Grand Hotel hairpin",
+   "Portier",
+   "the tunnel",
+   "the Nouvelle Chicane",
+   "Tabac",
+   "the swimming pool",
+   "Rascasse",
+   "Anthony Noghes"
+  ],
+  "sectors": [
+   "Sainte Devote, it sets up the whole hill",
+   "the harbour chicane after the tunnel",
+   "the swimming pool, millimetres either side"
+  ],
+  "corners_history": [
+   {
+    "year": [
+     1929,
+     1972
+    ],
+    "corners": [
+     "Sainte Devote",
+     "Massenet",
+     "Casino",
+     "Mirabeau",
+     "the Station hairpin",
+     "the tunnel",
+     "the chicane",
+     "Tabac",
+     "the Gasworks hairpin"
+    ]
+   }
+  ]
+ },
+ "bathurst": {
+  "name": "Mount Panorama",
+  "country": "Australia",
+  "character": "A mountain with a road on it. Enormous elevation, concrete walls the whole way, and a top section barely wide enough for one car.",
+  "overtaking": "Into Hell Corner, and at the bottom of Conrod under braking for the Chase.",
+  "facts": [
+   "Mount Panorama climbs and drops one hundred and seventy-four metres in a single lap.",
+   "Skyline drops away so steeply that the car is unloaded right where you commit to it.",
+   "The Esses across the top are lined with concrete and offer nothing at all if you get it wrong.",
+   "Conrod Straight is long enough that gearing for it costs you everywhere on the mountain.",
+   "The Cutting is steep, blind and uphill, and it eats cars that arrive badly positioned.",
+   "The circuit is a public road for most of the year, and there are houses and campsites alongside it.",
+   "The climb up the mountain and the descent through the Esses have almost no run-off at all.",
+   "Conrod Straight runs for nearly two kilometres before the Chase, which is the heaviest braking point on the lap."
+  ],
+  "corners": [
+   "Hell Corner",
+   "Mountain Straight",
+   "Griffins Bend",
+   "the Cutting",
+   "Reid Park",
+   "Sulman Park",
+   "McPhillamy Park",
+   "Skyline",
+   "the Esses",
+   "the Dipper",
+   "Forrest's Elbow",
+   "Conrod Straight",
+   "the Chase",
+   "Murray's Corner"
+  ],
+  "sectors": [
+   "across the top, no margin at all",
+   "the descent, it does not forgive",
+   "the Chase, hardest stop on the mountain"
+  ]
+ },
+ "kyalami": {
+  "name": "Kyalami",
+  "country": "South Africa",
+  "character": "High altitude, big elevation and long fast corners. The thin air costs power and hurts cooling, and the lap flows in a way few modern circuits do.",
+  "overtaking": "Into Crowthorne at the end of the main straight, and into the Esses.",
+  "facts": [
+   "Kyalami sits over fifteen hundred metres above sea level, and the thin air costs a naturally aspirated engine real power.",
+   "Cooling is a genuine problem here because there is simply less air to work with.",
+   "The circuit was redesigned in the nineties, and again more recently, but the character of the run down to Crowthorne survived.",
+   "The climb from Barbecue up through the Esses is one of the better sequences anywhere.",
+   "The main straight drops away downhill, so cars arrive at Crowthorne carrying more speed than the numbers suggest.",
+   "Altitude affects aerodynamics as well as power — there is less downforce for the same wing angle.",
+   "The original layout had an enormously long main straight; the modern circuit is shorter and more technical.",
+   "The 1982 race was preceded by a drivers' strike over superlicence terms, and they barricaded themselves in a hotel.",
+   "The climb through the middle sector is steep enough to flatter a car with good traction."
+  ],
+  "corners": [
+   "Crowthorne",
+   "Barbecue",
+   "Jukskei Sweep",
+   "Sunset",
+   "Clubhouse",
+   "the Esses",
+   "Leeukop",
+   "the main straight"
+  ],
+  "sectors": [
+   "commitment through the fast opening corners",
+   "uphill braking through the middle",
+   "the exit of the final complex"
+  ]
+ },
+ "silverstone": {
+  "name": "Silverstone",
+  "country": "Britain",
+  "character": "Fast, open and flowing. A high-speed circuit on an old airfield where aerodynamic balance decides everything.",
+  "overtaking": "Into Stowe, and into Brooklands at the end of the Wellington straight.",
+  "facts": [
+   "Silverstone was built on a wartime airfield, and the layout still follows the old runways.",
+   {
+    "t": "Copse is one of the fastest corners in racing and is taken very close to flat.",
+    "year": [
+     1991,
+     2100
+    ]
+   },
+   "The Maggotts-Becketts-Chapel sequence changes direction repeatedly at enormous speed and is a genuine test of a chassis.",
+   "It is exposed, and the wind changes the balance from session to session.",
+   "Stowe rewards a car that can be braked late and still turn.",
+   "The first World Championship Grand Prix was held here in 1950.",
+   {
+    "t": "This is the first big redesign of the circuit — the old flat-out blast was broken up by the Becketts complex and the Priory and Luffield sequence.",
+    "year": [
+     1991,
+     1993
+    ]
+   },
+   {
+    "t": "Before this redesign Silverstone was one of the fastest circuits in the world, and the changes were made precisely to slow it down.",
+    "year": [
+     1991,
+     1996
+    ]
+   },
+   {
+    "t": "Nigel Mansell once gave Ayrton Senna a lift back to the pits on his sidepod after Senna ran out of fuel.",
+    "year": [
+     1991,
+     1992
+    ]
+   }
+  ],
+  "corners": [
+   "Abbey",
+   "Farm Curve",
+   "Village",
+   "the Loop",
+   "Aintree",
+   "the Wellington straight",
+   "Brooklands",
+   "Luffield",
+   "Woodcote",
+   "Copse",
+   "Maggotts",
+   "Becketts",
+   "Chapel",
+   "the Hangar straight",
+   "Stowe",
+   "Vale",
+   "Club"
+  ],
+  "sectors": [
+   "Copse and Maggotts, all commitment",
+   "Stowe, braking into a corner that keeps turning",
+   "the exit of Club onto the straight"
+  ],
+  "corners_history": [
+   {
+    "year": [
+     1991,
+     2009
+    ],
+    "corners": [
+     "Copse",
+     "Maggotts",
+     "Becketts",
+     "Chapel",
+     "the Hangar straight",
+     "Stowe",
+     "Vale",
+     "Club",
+     "Abbey",
+     "Bridge",
+     "Priory",
+     "Brooklands",
+     "Luffield",
+     "Woodcote"
+    ]
+   }
+  ]
+ },
+ "suzuka": {
+  "name": "Suzuka",
+  "country": "Japan",
+  "character": "A figure of eight, and the most complete test of a car anywhere — high-speed direction change, slow hairpins and a corner that never stops turning.",
+  "overtaking": "Into the chicane at the end of the lap, and into turn one.",
+  "facts": [
+   "Suzuka is the only figure-of-eight circuit in top-level motorsport — the back straight crosses over the first section.",
+   "The Esses in the first sector are a rhythm section; get the first one wrong and the whole sequence is compromised.",
+   "130R is a long, fast left taken flat in a modern car and very much not in an older one.",
+   "Spoon Curve is a double apex where patience on entry pays on the long run to 130R.",
+   "The circuit was designed as a Honda test track, which is why it demands so much of a chassis.",
+   "It was built by Honda in 1962 as a test track, and the layout was designed by a Dutchman, John Hugenholtz.",
+   "130R is a left-hander taken close to flat, and it is one of the fastest corners in the sport."
+  ],
+  "corners": [
+   "turn one",
+   "turn two",
+   "the Esses",
+   "Dunlop curve",
+   "Degner one",
+   "Degner two",
+   "the hairpin",
+   "the Spoon approach",
+   "Spoon Curve",
+   "the back straight",
+   "130R",
+   "the Casio chicane"
+  ],
+  "sectors": [
+   "the esses, get the first one right",
+   "Degner and the hairpin back to back",
+   "commitment through 130R"
+  ]
+ },
+ "imola": {
+  "name": "Imola",
+  "country": "Italy",
+  "character": "Old-school, anti-clockwise and kerb-dependent. Narrow, with walls close and very little margin.",
+  "overtaking": "Into the Tamburello chicane, and into Rivazza.",
+  "facts": [
+   "Imola runs anti-clockwise, one of only a handful of circuits that do.",
+   "Tamburello was a flat-out left-hander before the chicane was added.",
+   "Acque Minerali drops downhill into the braking zone, which unsettles the car right where you need it stable.",
+   "Rivazza is a double-left downhill, and the second part decides the run to the line.",
+   "The circuit runs anticlockwise, which is rare and adds to how physical it is over a distance.",
+   "It is named after Enzo Ferrari and his son Dino, and it sits a few miles from the Ferrari factory.",
+   "The kerbs here are aggressive, and using them properly through the chicanes is most of the lap time."
+  ],
+  "corners": [
+   "Tamburello",
+   "Villeneuve",
+   "Tosa",
+   "Piratella",
+   "Acque Minerali",
+   "the Variante Alta",
+   "Rivazza one",
+   "Rivazza two"
+  ],
+  "sectors": [
+   "kerbs through the first two chicanes",
+   "downhill braking at Acque Minerali",
+   "Rivazza and the last chicanes"
+  ]
+ },
+ "nurburgring": {
+  "name": "the Nurburgring",
+  "country": "Germany",
+  "character": "The modern GP circuit — technical, stop-start, and always in the shadow of the old track next door.",
+  "overtaking": "Into the Michael Schumacher S, and into the Dunlop hairpin.",
+  "facts": [
+   "The modern Nurburgring shares a paddock with the Nordschleife, which runs to over twenty kilometres.",
+   "The Eifel mountains bring their own weather and it can change within a single lap.",
+   "The first-corner complex is heavy braking into a tight right, and traction out of it sets up the lap.",
+   "This is the modern Grand Prix circuit, built in 1984 alongside the old Nordschleife rather than as part of it.",
+   "The Eifel weather is the real character of the place — it can be dry on one side of the circuit and wet on the other.",
+   "The first corner is a tight right-hander at the end of a short run, and it has decided a lot of races.",
+   "The circuit has hosted Grands Prix under three different names, including the European and the Luxembourg."
+  ],
+  "corners": [
+   "the Yokohama S",
+   "Mercedes Arena",
+   "the Ford Kurve",
+   "Dunlop hairpin",
+   "the Michael Schumacher S",
+   "Veedol chicane",
+   "Coca-Cola Kurve"
+  ],
+  "sectors": [
+   "traction out of the slow first sector",
+   "confidence in the front end mid-lap",
+   "the slow stuff, once the tyres have gone"
+  ]
+ },
+ "nordschleife": {
+  "name": "the Nordschleife",
+  "country": "Germany",
+  "character": "Twenty kilometres, more than seventy corners and a hundred metres of elevation. There is no other circuit like it and there never will be.",
+  "overtaking": "Wherever you dare, and traffic makes that decision for you.",
+  "facts": [
+   "The Nordschleife runs to over twenty kilometres with more than seventy named corners.",
+   "Jackie Stewart called it the Green Hell, and the name stuck.",
+   "The elevation change across a lap is roughly three hundred metres.",
+   "The Karussell is a banked concrete ditch, and cars drop into it rather than drive around it.",
+   "Flugplatz gets its name for a reason — the car genuinely leaves the ground.",
+   "A lap takes long enough that weather at one end can differ from the other.",
+   "Formula One left after 1976, when Niki Lauda's accident made the circuit's lack of marshalling impossible to justify."
+  ],
+  "corners": [
+   "Hatzenbach",
+   "Flugplatz",
+   "Schwedenkreuz",
+   "Aremberg",
+   "Fuchsrohre",
+   "Adenauer Forst",
+   "Metzgesfeld",
+   "Kallenhard",
+   "Wehrseifen",
+   "Ex-Muhle",
+   "Bergwerk",
+   "Kesselchen",
+   "the Karussell",
+   "Hohe Acht",
+   "Wippermann",
+   "Brunnchen",
+   "Pflanzgarten",
+   "Schwalbenschwanz",
+   "Dottinger Hohe"
+  ],
+  "sectors": [
+   "rhythm through Hatzenbach",
+   "the blind crests, they never stop",
+   "the long run home, stay awake"
+  ]
+ },
+ "indianapolis": {
+  "name": "Indianapolis",
+  "country": "the United States",
+  "character": "Four identical corners and two and a half miles of history. On the oval it is about trimming out; on the road course it is a different circuit entirely.",
+  "overtaking": "Into turn one on the oval, and into turn one of the infield on the road course.",
+  "facts": [
+   "The Speedway opened in 1909 and was originally surfaced with over three million bricks.",
+   "A yard of the original brick surface remains at the start-finish line.",
+   "All four turns are identical in radius and banking, which sounds simple and is not.",
+   "On the oval, a car trimmed for speed is a car that will not hold on in traffic.",
+   "The Formula One circuit used the banking in the opposite direction to the Indianapolis 500, running clockwise through the infield.",
+   "The banking is far steeper than it looks on television, and the cars are at full throttle all the way round it."
+  ],
+  "corners": [
+   "turn one",
+   "the short chute",
+   "turn two",
+   "the backstretch",
+   "turn three",
+   "the short chute",
+   "turn four",
+   "the front straight"
+  ],
+  "sectors": [
+   "braking into the infield off the banking",
+   "the infield, slow and technical",
+   "momentum back onto the banking"
+  ]
+ },
+ "roadamerica": {
+  "name": "Road America",
+  "country": "the United States",
+  "character": "Four miles of long straights and fast, open corners through Wisconsin farmland. Big braking zones and real elevation.",
+  "overtaking": "Into turn five, into turn eight, and into the Carousel.",
+  "facts": [
+   "Road America is over four miles long and has barely changed since 1955.",
+   "The straights are long enough that gearing and drag dominate the setup.",
+   "The Carousel is a long, patient right where the exit matters far more than the entry.",
+   "Canada Corner is a heavy braking zone and one of the best passing places in North America.",
+   "The elevation change through the Kink and up to Canada Corner is significant and not obvious on a map.",
+   "The lap is over four miles, one of the longest permanent road courses in North America.",
+   "The Kink is a fast left that is taken flat in most machinery and is genuinely intimidating in all of it.",
+   "The circuit has barely changed since it opened in 1955, which is why it still feels like an old road course."
+  ],
+  "corners": [
+   "turn one",
+   "turn three",
+   "turn five",
+   "the Moraine Sweep",
+   "turn six",
+   "turn eight",
+   "the Carousel",
+   "the Kink",
+   "Canada Corner",
+   "turn thirteen",
+   "turn fourteen"
+  ],
+  "sectors": [
+   "brake stability into the heavy stops",
+   "the Carousel, do not get greedy",
+   "the Kink, then one last big stop"
+  ]
+ },
+ "montreal": {
+  "name": "Montreal",
+  "country": "Canada",
+  "character": "A stop-start park circuit with walls close and traction at a premium. Brakes take a beating and the kerbs are unforgiving.",
+  "overtaking": "Into the final chicane, and into the turn ten hairpin.",
+  "facts": [
+   "Circuit Gilles Villeneuve is built on an island in the Saint Lawrence river.",
+   "The hairpin is the slowest corner and leads onto the longest straight, so its exit is worth a great deal.",
+   "The wall on the exit of the final chicane is known as the Wall of Champions — it caught Damon Hill, Michael Schumacher and Jacques Villeneuve in the same afternoon in 1999.",
+   "The circuit is named after Gilles Villeneuve, who won here in 1978 in his first season with Ferrari.",
+   "Brakes take more punishment here than almost anywhere: it is a series of heavy stops with very little time to cool in between.",
+   "The island the circuit sits on was built for Expo 67, and the rowing basin from the 1976 Olympics runs alongside it.",
+   {
+    "t": "This is the circuit before the pit complex was rebuilt, with the old narrow pit lane still in place.",
+    "year": [
+     1978,
+     2001
+    ]
+   }
+  ],
+  "corners": [
+   "the Senna curve",
+   "turn three",
+   "turn four",
+   "turn six",
+   "turn seven",
+   "the hairpin",
+   "the back straight",
+   "the final chicane"
+  ],
+  "sectors": [
+   "turning in early and getting the power down",
+   "the hairpin exit onto the back straight",
+   "the last chicane, kerb without the wall"
+  ]
+ },
+ "bahrain": {
+  "name": "Bahrain",
+  "country": "Bahrain",
+  "character": "Heavy braking, abrasive surface and desert heat. Rear tyre management is the whole race.",
+  "overtaking": "Into turn one, into turn four, and into turn eleven.",
+  "facts": [
+   "The surface at Bahrain is abrasive and the rear tyres pay for it all race.",
+   "It gets run into the evening, and the track temperature falls sharply once the sun goes down.",
+   "Sand blows onto the circuit and the grip off-line is genuinely poor.",
+   "There are three big braking zones with realistic passing chances, which is more than most modern circuits offer.",
+   "The heavy braking into turn one is the best overtaking opportunity of the lap and the biggest stop on the circuit.",
+   "Rear tyre wear is the defining problem here — the traction zones are relentless and the surface is abrasive."
+  ],
+  "corners": [
+   "turn one",
+   "turn two",
+   "turn three",
+   "turn four",
+   "turn five",
+   "turn six",
+   "turn eight",
+   "turn ten",
+   "turn eleven",
+   "turn thirteen",
+   "turn fourteen"
+  ],
+  "sectors": [
+   "the big stop into turn one",
+   "the middle corners, it is all rear tyre",
+   "the quick last sector, if the tyres are alive"
+  ]
+ },
+ "sepang": {
+  "name": "Sepang",
+  "country": "Malaysia",
+  "character": "Wide, hot and humid, with two enormous straights and a pair of very long corners that punish a tired front tyre.",
+  "overtaking": "Into turn one, and into turn fifteen at the end of the back straight.",
+  "facts": [
+   "Sepang is brutally hot and humid, and it is as hard on the driver as on the car.",
+   "The two long straights are joined by hairpins, which makes drag the central setup compromise.",
+   "Turn five and turn nine are long, patient corners that hurt the front left.",
+   "Heat and humidity here are close to Singapore's, and afternoon thunderstorms are almost a fixture.",
+   "The first two corners are far longer than they look, and both reward patience over commitment.",
+   "The circuit was Hermann Tilke's first Formula One design and set the template for many that followed."
+  ],
+  "corners": [
+   "turn one",
+   "turn two",
+   "turn four",
+   "turn five",
+   "turn six",
+   "turn seven",
+   "turn nine",
+   "turn eleven",
+   "turn twelve",
+   "turn fourteen",
+   "turn fifteen"
+  ],
+  "sectors": [
+   "the two long opening corners",
+   "the middle sector, hottest the tyres get",
+   "braking stability at the two hairpins"
+  ]
+ },
+ "portimao": {
+  "name": "Portimao",
+  "country": "Portugal",
+  "character": "A rollercoaster. Blind crests, steep drops and almost no flat ground anywhere on the lap.",
+  "overtaking": "Into turn one, and into turn five.",
+  "facts": [
+   "Portimao has more elevation change than almost any modern circuit — the lap is genuinely a rollercoaster.",
+   "Several corners are blind over a crest, and you commit before you can see the apex.",
+   "The final corner drops downhill onto the main straight, so its exit is worth a lot.",
+   "The circuit rises and falls so dramatically that several corners are taken completely blind over a crest.",
+   "The surface was newly laid when Formula One first visited and offered almost no grip at all until it rubbered in.",
+   "It is one of very few modern circuits with genuine elevation change designed in rather than engineered out."
+  ],
+  "corners": [
+   "turn one",
+   "turn two",
+   "turn three",
+   "turn four",
+   "turn five",
+   "turn six",
+   "turn seven",
+   "turn eight",
+   "turn nine",
+   "turn eleven",
+   "turn thirteen",
+   "turn fifteen"
+  ],
+  "sectors": [
+   "the blind crest into turn one",
+   "the rollercoaster, it never settles",
+   "patience in that long last corner"
+  ]
+ },
+ "estoril": {
+  "name": "Estoril",
+  "country": "Portugal",
+  "character": "A long final corner onto a long straight — get that wrong and you lose the lap twice over.",
+  "overtaking": "Into turn one at the end of the main straight.",
+  "facts": [
+   "The final corner at Estoril is long and leads onto the main straight, which makes it the most important on the lap.",
+   "The circuit is exposed and coastal, and the wind swings the balance around.",
+   "Estoril hosted the Portuguese Grand Prix through the eighties and nineties.",
+   "The 1984 championship was settled here by half a point, the closest margin in the sport's history.",
+   "Ayrton Senna took his first Grand Prix win at Estoril in 1985, in appalling wet conditions, by over a minute."
+  ],
+  "corners": [
+   "turn one",
+   "turn two",
+   "turn three",
+   "turn four",
+   "turn six",
+   "turn seven",
+   "turn nine",
+   "Parabolica"
+  ],
+  "sectors": [
+   "being tidy rather than brave early on",
+   "rhythm through the middle",
+   "the long last corner onto the straight"
+  ]
+ },
+ "limerock": {
+  "name": "Lime Rock Park",
+  "country": "the United States",
+  "character": "Barely a mile and a half, seven corners, and no real straight. Rhythm and momentum, with lap times counted in fractions.",
+  "overtaking": "Into the Left-Hander, and under braking at Big Bend.",
+  "facts": [
+   "Lime Rock is one of the shortest road courses in professional racing at well under two miles.",
+   "There is almost no straight, so momentum matters more than power.",
+   "The Uphill and the Downhill are exactly what they sound like, and both are taken faster than they look.",
+   "Traffic arrives constantly because the lap is so short.",
+   "The lap is barely a mile and a half, one of the shortest in professional racing, so traffic is constant.",
+   "There are only seven corners, and a mistake at any of them costs a noticeable fraction of the lap.",
+   "Local noise ordinances mean racing here on a Sunday has historically been restricted."
+  ],
+  "corners": [
+   "Big Bend",
+   "the Left-Hander",
+   "No Name Straight",
+   "the Esses",
+   "the Uphill",
+   "West Bend",
+   "the Downhill"
+  ],
+  "sectors": [
+   "commitment over the uphill crest",
+   "braking on the downhill",
+   "the run to the line, it is a short lap"
+  ]
+ },
+ "portland": {
+  "name": "Portland",
+  "country": "the United States",
+  "character": "A long back straight into a tight chicane, and a first-corner complex that has produced more chaos than almost any other.",
+  "overtaking": "Into the Festival Curves at the end of the front straight.",
+  "facts": [
+   "The Festival Curves chicane at the end of the main straight has produced some spectacular first-lap incidents.",
+   "The back straight is long enough to make the slipstream a real factor.",
+   "The surface is bumpy in places and the circuit is flat, which makes braking references hard to find.",
+   "The circuit is flat, fast and unusually smooth, and it sits on the site of Vanport, a town destroyed by flooding in 1948.",
+   "It is one of the few road courses where a slipstream down the main straight genuinely decides positions."
+  ],
+  "corners": [
+   "the Festival Curves",
+   "turn three",
+   "turn four",
+   "turn six",
+   "turn seven",
+   "turn eight",
+   "turn ten",
+   "turn twelve"
+  ],
+  "sectors": [
+   "kerbs through the Festival chicane",
+   "rhythm through the fast middle",
+   "the long exit from the last corner"
+  ]
+ },
+ "longford": {
+  "name": "Longford",
+  "country": "Australia",
+  "character": "Public roads, a railway crossing and a bridge. One of the fastest and most dangerous circuits ever raced on.",
+  "overtaking": "On the long straights, if you have the courage for it.",
+  "facts": [
+   "Longford ran on public roads in Tasmania and included a level crossing and a wooden bridge.",
+   "It was among the fastest circuits in the world in its day, with very high average speeds.",
+   "Cars crossed a railway line at genuine speed, which tells you most of what you need to know about the era.",
+   "The circuit closed in 1968 — the roads are still there and still open to traffic.",
+   {
+    "t": "This is very close to the last configuration ever raced here.",
+    "year": [
+     1953,
+     1968
+    ]
+   }
+  ],
+  "corners": [
+   "Newry Corner",
+   "the Viaduct",
+   "the railway crossing",
+   "Long Bridge",
+   "the Country Club",
+   "Mountford Corner",
+   "the Water Tower"
+  ],
+  "sectors": [
+   "momentum down the straights",
+   "the bridges and the crossing",
+   "the run home, flat and committed"
+  ]
+ },
+ "shanghai": {
+  "name": "Shanghai",
+  "country": "China",
+  "character": "A circuit of two extremes — an opening corner that spirals inward for an age, and then one of the longest straights in the sport into a heavy stop.",
+  "facts": [
+   "The first corner is a long right-hander that keeps tightening, and a driver is turning for what feels like an eternity before it opens again.",
+   "The back straight is around one and a quarter kilometres and ends in one of the heaviest braking zones of the year.",
+   "The layout is said to be drawn from the Chinese character shang, meaning above.",
+   "The circuit was built on marshland, and the ground shifting underneath it has caused surface problems ever since.",
+   "The combination of the long opening corner and the long straight makes setting the car up here a genuine compromise."
+  ],
+  "corners": [
+   "turn one",
+   "turn two",
+   "turn three",
+   "turn six",
+   "turn nine",
+   "turn eleven",
+   "the back straight",
+   "turn fourteen"
+  ],
+  "overtaking": "Into turn fourteen at the end of the back straight, and into turn six.",
+  "sectors": [
+   "the long spiral into turn one and out of turn three",
+   "the middle complex and the hairpin",
+   "the enormous straight and the stop at the end of it"
+  ]
+ },
+ "jeddah": {
+  "name": "Jeddah",
+  "country": "Saudi Arabia",
+  "character": "The fastest street circuit in the sport — twenty-seven corners, most of them barely a lift, with walls close enough to touch and almost nothing you can see through.",
+  "facts": [
+   "This is the fastest street circuit in Formula One, with average speeds over two hundred and fifty kilometres an hour.",
+   "There are twenty-seven corners, and a great many of them are taken flat or close to it.",
+   "The walls sit right against the racing line, and several of the fast corners are genuinely blind.",
+   "It is one of the longest laps on the current calendar.",
+   "Because the corners are quick and the walls are close, a small mistake here is rarely a small mistake."
+  ],
+  "corners": [
+   "turn one",
+   "turn four",
+   "turn thirteen",
+   "turn twenty-two",
+   "turn twenty-seven",
+   "the run to the line"
+  ],
+  "overtaking": "Into turn one, and into turn twenty-seven.",
+  "sectors": [
+   "the opening corners and the walls that follow them",
+   "the blind fast stuff through the middle",
+   "the last sequence, and the run to the line"
+  ]
+ },
+ "miami": {
+  "name": "Miami",
+  "country": "United States",
+  "character": "A circuit laid out around a stadium car park — fast sweeps at either end and a slow, awkward technical section under the flyovers in the middle.",
+  "facts": [
+   "The circuit is built around the Hard Rock Stadium, and the paddock sits inside it.",
+   "The first running of the race featured a marina with painted water and plastic boats, which did not survive the mockery.",
+   "The middle sector runs under road flyovers and is markedly slower and more awkward than the rest of the lap.",
+   "The surface was originally very smooth and short on grip, and has needed reworking.",
+   "The two long straights make this a low-downforce circuit despite the slow middle section."
+  ],
+  "corners": [
+   "turn one",
+   "turn four",
+   "turn eight",
+   "turn eleven",
+   "turn fourteen",
+   "turn seventeen"
+  ],
+  "overtaking": "Into turn eleven, into turn seventeen, and into turn one.",
+  "sectors": [
+   "the fast opening sweeps",
+   "the awkward stuff under the flyovers",
+   "the long straights and the stops at the end of them"
+  ]
+ },
+ "hungaroring": {
+  "name": "the Hungaroring",
+  "country": "Hungary",
+  "character": "Tight, twisty and relentless — a circuit often called Monaco without the walls, where track position is worth more than pace.",
+  "facts": [
+   "Overtaking here is famously difficult, so qualifying matters more than at almost any other permanent circuit.",
+   "The Hungaroring held the first Formula One race staged behind the Iron Curtain, in 1986.",
+   "It is used rarely, so the racing line is dusty and slippery early in a weekend and improves lap by lap.",
+   "The race falls in August, and the combination of heat and constant corners is punishing on tyres and drivers alike.",
+   "There is barely a straight worth the name — the lap is one corner into the next for the whole distance."
+  ],
+  "corners": [
+   "turn one",
+   "turn two",
+   "turn three",
+   "turn four",
+   "turn six",
+   "turn eleven",
+   "turn twelve",
+   "the final corner"
+  ],
+  "overtaking": "Into turn one, and it is very hard anywhere else.",
+  "sectors": [
+   "the downhill stop into turn one",
+   "the twisting middle, where rhythm is everything",
+   "the last corners, and getting the drive onto the straight"
+  ]
+ },
+ "baku": {
+  "name": "Baku",
+  "country": "Azerbaijan",
+  "character": "A street circuit of two halves — a medieval castle section barely wide enough for one car, and then the longest flat-out run in the sport.",
+  "facts": [
+   "The run from the final corner to turn one is over two kilometres, and it is the longest full-throttle stretch in Formula One.",
+   "The castle section climbs through the walls of Baku's old city and is the narrowest piece of road on the calendar — around seven and a half metres.",
+   "Teams run their lowest downforce of the year here, which makes the cars quick on the straight and difficult everywhere else.",
+   "The old city walls are a UNESCO World Heritage site, and the circuit runs right through them.",
+   "Low downforce plus close walls has made this one of the most eventful races of the modern era."
+  ],
+  "corners": [
+   "turn one",
+   "turn three",
+   "the castle section",
+   "turn twelve",
+   "turn fifteen",
+   "turn sixteen",
+   "the run to the line"
+  ],
+  "overtaking": "Into turn one at the end of the long straight, and into turn three.",
+  "sectors": [
+   "the heavy stop into turn one and the run up to the castle",
+   "the castle section, and there is no room for error at all",
+   "the long blast to the line, where slipstream is everything"
+  ]
+ },
+ "singapore": {
+  "name": "Marina Bay",
+  "country": "Singapore",
+  "character": "A night race on public streets — hot, humid, bumpy and nearly two hours long. The most physically demanding race of the year, and the walls never move.",
+  "facts": [
+   "Singapore staged the first night race in Formula One history, in 2008.",
+   "It is regularly the longest race of the season by time, and has more than once run up against the two-hour limit.",
+   "The heat and humidity make this the most physically demanding event of the year — drivers lose several kilos over a race distance.",
+   "The circuit runs on public roads, and the surface is bumpy in a way permanent circuits never are.",
+   "Safety cars here are close to a certainty, because the walls are everywhere and there is no run-off to speak of."
+  ],
+  "corners": [
+   "turn one",
+   "turn five",
+   "turn seven",
+   "turn ten",
+   "turn fourteen",
+   "turn sixteen",
+   "the final corners"
+  ],
+  "overtaking": "Into turn seven, into turn fourteen, and into turn one.",
+  "sectors": [
+   "the opening corners and the first walls",
+   "the twisting middle, where the bumps are worst",
+   "the last sequence, and concentration when you are exhausted"
+  ]
+ },
+ "cota": {
+  "name": "the Circuit of the Americas",
+  "country": "United States",
+  "character": "A circuit built from other circuits — a blind uphill first corner, a copy of the Silverstone esses, and a long back straight into a heavy stop.",
+  "facts": [
+   "Turn one is a blind uphill left-hander with something like forty metres of climb from the grid, and drivers cannot see the apex on the way in.",
+   "The esses through the first sector were modelled on the Maggotts and Becketts sequence at Silverstone.",
+   "The circuit deliberately borrows corners from several others, including Hockenheim and Istanbul.",
+   "The ground beneath it has moved since it was built, and the surface has needed repeated attention because of the bumps.",
+   "The long back straight into the turn eleven hairpin is one of the best overtaking places in the sport."
+  ],
+  "corners": [
+   "turn one",
+   "the esses",
+   "turn eleven",
+   "the back straight",
+   "turn twelve",
+   "turn fifteen",
+   "the final complex"
+  ],
+  "overtaking": "Into turn twelve at the end of the back straight, and into turn one.",
+  "sectors": [
+   "the blind climb into turn one, then rhythm through the esses",
+   "the hairpin and the long straight after it",
+   "the slow final complex, and a tidy exit"
+  ]
+ },
+ "mexico": {
+  "name": "Mexico City",
+  "country": "Mexico",
+  "character": "The highest circuit in the sport by a distance. Thin air means less downforce, less cooling and enormous straight-line speed — the cars run maximum wing and still go faster than anywhere else.",
+  "facts": [
+   "Mexico City sits around two thousand two hundred metres above sea level, making this comfortably the highest circuit on the calendar.",
+   "The thin air costs the cars roughly a quarter of their downforce, so teams run their biggest wings here and still record some of the highest top speeds of the year.",
+   "Cooling is the real problem at this altitude — there is simply less air to take heat out of the engine and the brakes.",
+   "The stadium section runs through the old Foro Sol baseball stadium, with grandstands on both sides.",
+   "The run from the grid to turn one is one of the longest in Formula One."
+  ],
+  "corners": [
+   "turn one",
+   "turn three",
+   "the esses",
+   "turn nine",
+   "turn twelve",
+   "the stadium section",
+   "the final corner"
+  ],
+  "overtaking": "Into turn one at the end of the long run, and into turn four.",
+  "sectors": [
+   "the enormous run to turn one and the first complex",
+   "the esses, where the thin air costs you downforce",
+   "the stadium section, slow and tight and very loud"
+  ]
+ },
+ "vegas": {
+  "name": "Las Vegas",
+  "country": "United States",
+  "character": "A night race down the Strip — enormous straights, minimal downforce, and the coldest track temperatures in the sport, which makes simply getting a tyre to work the whole problem.",
+  "facts": [
+   "The circuit runs at night down the Las Vegas Strip, past the casinos.",
+   "It is one of the fastest circuits on the calendar, with very long straights and low-downforce set-ups.",
+   "The cold is the real story here — track temperatures at night in the desert are the lowest all season, and getting the tyres into their window is genuinely difficult.",
+   "Because the tyres struggle to switch on, a single lap in qualifying can be worth an enormous amount of time.",
+   "Las Vegas hosted Formula One in the early eighties as well, on a completely different circuit in a car park."
+  ],
+  "corners": [
+   "turn one",
+   "turn five",
+   "turn seven",
+   "turn twelve",
+   "turn fourteen",
+   "the Strip",
+   "turn sixteen"
+  ],
+  "overtaking": "Into turn fourteen at the end of the Strip, and into turn five.",
+  "sectors": [
+   "the opening corners, with tyres that are not ready",
+   "the long straights and the fast sweeps",
+   "the last corners, and the cold is still against you"
+  ]
+ },
+ "losail": {
+  "name": "Losail",
+  "country": "Qatar",
+  "character": "A fast, flowing desert circuit built for motorcycles, run under floodlights, and famously hard on tyres.",
+  "facts": [
+   "Losail was built in 2004 for motorcycle racing, and the flowing layout still reflects that.",
+   "It is a floodlit circuit — the whole race is run under lights.",
+   "The long, fast corners load the tyres so consistently that Formula One has twice had to impose stint limits here.",
+   "Sand blowing across the circuit is a constant problem, and grip changes with the wind.",
+   "There is very little slow-corner respite: the lap is one medium-to-high speed corner after another."
+  ],
+  "corners": [
+   "turn one",
+   "turn four",
+   "turn six",
+   "turn ten",
+   "turn twelve",
+   "turn fourteen",
+   "the final corner"
+  ],
+  "overtaking": "Into turn one, and it is difficult almost everywhere else.",
+  "sectors": [
+   "the stop into turn one and the sweeps after it",
+   "the fast middle, and it never lets the tyres cool",
+   "the last corners onto the main straight"
+  ]
+ },
+ "sochi": {
+  "name": "Sochi",
+  "country": "Russia",
+  "character": "A long, smooth lap around an Olympic park — one enormous left-hander early on, and very little tyre wear anywhere.",
+  "facts": [
+   "The circuit was laid out around the Olympic Park built for the 2014 Winter Games.",
+   "Turn three is an extremely long left-hander that wraps around the Medals Plaza, and it goes on far longer than it first appears.",
+   "The surface is unusually smooth, and tyre wear here is among the lowest of any circuit.",
+   "Long straights joined by ninety-degree corners make this a circuit where traction and braking matter more than flow.",
+   "It is no longer on the Formula One calendar."
+  ],
+  "corners": [
+   "turn one",
+   "turn two",
+   "turn three",
+   "turn four",
+   "turn ten",
+   "turn thirteen",
+   "the final corners"
+  ],
+  "overtaking": "Into turn two, and into turn thirteen.",
+  "sectors": [
+   "the stop into turn two and the enormous turn three",
+   "the long straights and the square corners joining them",
+   "the twisting final sector"
+  ]
+ },
+ "istanbul": {
+  "name": "Istanbul Park",
+  "country": "Turkey",
+  "character": "An anticlockwise lap with one of the great corners in modern racing — a long left-hander with four apexes that loads the car for an age.",
+  "facts": [
+   "Istanbul Park runs anticlockwise, which is unusual and puts the loading on the opposite side of a driver's neck.",
+   "Turn eight is a single left-hander with four apexes, and cars are in it long enough for the loading to become an endurance question.",
+   "The circuit was designed by Hermann Tilke and opened in 2005.",
+   "It dropped off the calendar and returned briefly, which means very few current drivers have much running here."
+  ],
+  "corners": [
+   "turn one",
+   "turn three",
+   "turn eight",
+   "turn nine",
+   "turn eleven",
+   "turn twelve",
+   "the final corner"
+  ],
+  "overtaking": "Into turn twelve, and into turn one.",
+  "sectors": [
+   "the downhill entry to turn one",
+   "turn eight, and it goes on far longer than it looks",
+   "the run home, and traction out of the last corner"
+  ]
+ },
+ "albertpark": {
+  "name": "Albert Park",
+  "country": "Australia",
+  "character": "A park circuit on public roads, quick and flowing, with a surface that is green on Friday and rubbered-in by Sunday.",
+  "facts": [
+   "Albert Park is a public road circuit — the lake road is open traffic for most of the year.",
+   "It has opened the Formula One season more often than any other circuit outside Europe.",
+   "The lap runs anticlockwise around Albert Park Lake, and the water is on the inside for most of it.",
+   "Because the roads are barely used for racing, grip climbs dramatically across a weekend.",
+   "The surface changes character as the weekend goes on: green and slippery early, rubbered in and quick by the end.",
+   "Everything here is temporary — the barriers, the grandstands, the pit buildings — and it is all taken away again afterwards.",
+   {
+    "year": [
+     1900,
+     2020
+    ],
+    "t": "The chicane at turn nine breaks up what would otherwise be the quickest part of the lap, and getting the kerbs right there is worth real time."
+   },
+   {
+    "year": [
+     1900,
+     2020
+    ],
+    "t": "This is a stop-start lap: quick corners, then a chicane, then quick corners again, and the car has to be settled for both."
+   },
+   {
+    "year": [
+     1900,
+     2020
+    ],
+    "t": "The circuit is narrow through the middle sector, so a driver who is quick there is still stuck behind anyone he cannot pass into turn one."
+   },
+   {
+    "year": [
+     1900,
+     2020
+    ],
+    "t": "Turn one is tight and the run down to it is long, which is why almost every move here happens in the same place."
+   },
+   {
+    "year": [
+     2021,
+     2099
+    ],
+    "t": "Several corners were widened and the old turn nine chicane taken out, which made the lap markedly faster."
+   },
+   {
+    "year": [
+     2021,
+     2099
+    ],
+    "t": "Taking the chicane out turned the middle of the lap into a flat-out run, and the lap record fell by several seconds because of it."
+   }
+  ],
+  "corners": [
+   "turn one",
+   "turn three",
+   "turn six",
+   "the turn nine sweep",
+   "turn eleven",
+   "turn thirteen",
+   "the final corners"
+  ],
+  "overtaking": "Into turn one, into turn three, and into turn eleven.",
+  "sectors": [
+   "a clean run through the first three corners",
+   "the fast middle sweeps, and trusting the front end",
+   "the last corners, and a good exit onto the straight"
+  ],
+  "corners_history": [
+   {
+    "year": [
+     1900,
+     2020
+    ],
+    "corners": [
+     "turn one",
+     "turn three",
+     "turn four",
+     "the turn five sweep",
+     "turn six",
+     "turn eight",
+     "the turn nine chicane",
+     "turn eleven",
+     "turn twelve",
+     "turn thirteen",
+     "the turn fifteen kink",
+     "the final corner"
+    ]
+   }
+  ],
+  "sectors_history": [
+   {
+    "year": [
+     1900,
+     2020
+    ],
+    "sectors": [
+     "a tidy entry to turn one, because the whole lap starts there",
+     "the chicane, and getting on the kerbs without unsettling the car",
+     "the last corners, and a good exit onto the straight"
+    ]
+   }
+  ]
+ },
+ "catalunya": {
+  "name": "Barcelona-Catalunya",
+  "country": "Spain",
+  "character": "The circuit every team knows best, because they tested here for decades. Long corners, a hard time for the front-left, and wind that moves the balance from session to session.",
+  "facts": [
+   "Formula One teams used Barcelona for winter testing for decades, which means the data on this circuit runs deeper than anywhere else.",
+   "Turn three is a long, long right-hander that loads the front-left tyre harder than almost any corner in the sport.",
+   "The chicane added in 2007 was removed again for 2023, restoring the original fast final corner.",
+   "The wind direction here changes the car's balance noticeably, and it rarely blows the same way twice in a weekend.",
+   "Because everybody knows it so well, a driver who is quick here is genuinely quick rather than lucky."
+  ],
+  "corners": [
+   "turn one",
+   "turn two",
+   "turn three",
+   "turn four",
+   "turn five",
+   "turn seven",
+   "turn nine",
+   "turn ten",
+   "the final corner"
+  ],
+  "overtaking": "Into turn one, and into turn ten.",
+  "sectors": [
+   "the heavy stop into turn one and the long turn three",
+   "the technical middle, where the front tyre gives up",
+   "the last corners onto the main straight"
+  ]
+ },
+ "redbullring": {
+  "name": "Red Bull Ring",
+  "country": "Austria",
+  "character": "A very short lap with very few corners and a great deal of elevation — barely a minute of running, climbing and dropping the whole way.",
+  "facts": [
+   "The lap is one of the shortest on the calendar, and a Formula One car gets round it in a little over a minute.",
+   "There are only around ten corners, which means the field is compressed and traffic in qualifying is a genuine problem.",
+   "The climb out of turn one is steep enough that the run to turn three is effectively uphill all the way.",
+   "The circuit was previously the Osterreichring and then the A1-Ring, and the current layout is much shorter than the original.",
+   "With a lap this brief, three DRS zones and heavy braking, the gaps here are tiny and the racing is usually close."
+  ],
+  "corners": [
+   "turn one",
+   "turn three",
+   "turn four",
+   "turn six",
+   "turn seven",
+   "turn nine",
+   "the final corner"
+  ],
+  "overtaking": "Into turn three, into turn four, and into turn one.",
+  "sectors": [
+   "the climb out of turn one",
+   "the fast middle and the crest at turn six",
+   "the downhill run home, and it is over very quickly"
+  ]
+ },
+ "paulricard": {
+  "name": "Paul Ricard",
+  "country": "France",
+  "character": "A test track turned Grand Prix circuit, ringed by painted run-off designed to slow a car down rather than let it slide. The Mistral straight is the feature, and Signes at the end of it is barely a lift.",
+  "facts": [
+   "The blue and red stripes are not decoration — the painted surface is deliberately abrasive, and it is there to slow a car that has run wide.",
+   "The Mistral straight is over a kilometre long and is usually split by a chicane.",
+   "Signes, at the end of the Mistral, is a right-hander taken at enormous speed.",
+   "Paul Ricard spent years as a test circuit, and it has an unusual number of possible layout configurations.",
+   "The run-off is so generous that a mistake here costs time rather than a car, which changes how drivers attack it."
+  ],
+  "corners": [
+   "turn one",
+   "turn three",
+   "the Mistral straight",
+   "Signes",
+   "Beausset",
+   "the chicane",
+   "the final corners"
+  ],
+  "overtaking": "Into the Mistral chicane, and into turn one.",
+  "sectors": [
+   "the opening corners and the run to the Mistral",
+   "Signes and the braking into Beausset",
+   "the twisty final section back to the line"
+  ]
+ },
+ "yasmarina": {
+  "name": "Yas Marina",
+  "country": "Abu Dhabi",
+  "character": "A race that starts in daylight and finishes under floodlights, on a circuit reprofiled to make it flow — long straights, heavy stops and a banked corner around the marina.",
+  "facts": [
+   "The race starts at sunset and finishes under floodlights, so the track temperature falls throughout — the car at the end is not the car at the start.",
+   "The pit lane exit runs underneath the circuit through a tunnel, which is unique in Formula One.",
+   "The layout was heavily reprofiled for 2021: the old slow chicanes went, the hairpins were opened up and turn nine was banked.",
+   "The Yas Hotel is built over the circuit, and the cars pass underneath it.",
+   "It has closed the season more often than any other circuit in the modern era."
+  ],
+  "corners": [
+   "turn one",
+   "turn two",
+   "turn five",
+   "turn six",
+   "turn nine",
+   "the marina section",
+   "the final corners"
+  ],
+  "overtaking": "Into turn five, into turn nine, and into turn six.",
+  "sectors": [
+   "the opening chicane and the first straight",
+   "the two long straights and the heavy stops",
+   "the banked marina section, in the dark"
+  ]
+ },
+ "botniaring": {
+  "name": "Botniaring",
+  "country": "Finland",
+  "character": "A short, flat Finnish club circuit — quick, simple and utterly unforgiving of a scruffy exit, because the straights are long enough to punish one.",
+  "facts": [
+   "Botniaring sits near Kurikka in western Finland and is one of the country's main permanent circuits.",
+   "The lap is short and flat, so the field compresses quickly and traffic is a constant problem.",
+   "It is used heavily for national touring car and motorcycle racing rather than international events."
+  ],
+  "corners": [
+   "turn one",
+   "turn three",
+   "the hairpin",
+   "the fast left",
+   "the final corner"
+  ],
+  "overtaking": "Into the hairpin, and into turn one.",
+  "sectors": [
+   "a clean exit onto the first straight",
+   "the technical middle",
+   "the last corner, and the drive to the line"
+  ]
+ },
+ "maastricht": {
+  "name": "Maastricht",
+  "country": "the Netherlands",
+  "character": "A temporary street circuit through a Dutch city — narrow, walled and bumpy, with almost no room to correct a mistake.",
+  "facts": [
+   "Maastricht is a street layout rather than a permanent circuit, laid out on public roads through the city.",
+   "The surface is ordinary road, so the bumps and the camber are what a car has to be set up around.",
+   "Walls sit close to the racing line for most of the lap, which makes qualifying position worth a great deal."
+  ],
+  "corners": [
+   "the first chicane",
+   "the river section",
+   "the tight left",
+   "the bridge",
+   "the final corners"
+  ],
+  "overtaking": "Into the heavy braking zones, and almost nowhere else.",
+  "sectors": [
+   "the opening chicane and the walls after it",
+   "the narrow middle section",
+   "the run home over the bumps"
+  ]
+ },
+ "atlanta": {
+  "name": "Atlanta Motorsports Park",
+  "country": "United States",
+  "character": "A modern American club circuit with real elevation change, designed by Hermann Tilke as a private members' course.",
+  "facts": [
+   "Atlanta Motorsports Park was designed by Hermann Tilke and opened in 2012 as a private motorsport club.",
+   "It has significant elevation change for a circuit of its length, with a blind crest on the back section.",
+   "The layout borrows corner shapes from several Formula One circuits, which is deliberate."
+  ],
+  "corners": [
+   "turn one",
+   "the esses",
+   "the crest",
+   "the hairpin",
+   "the final corner"
+  ],
+  "overtaking": "Into the hairpin, and into turn one.",
+  "sectors": [
+   "the climb through the opening corners",
+   "the crest and the esses",
+   "the hairpin and the run to the line"
+  ]
+ },
+ "nola": {
+  "name": "NOLA Motorsports Park",
+  "country": "United States",
+  "character": "A flat Louisiana circuit with a lot of corners and very little elevation — rhythm and patience rather than bravery.",
+  "facts": [
+   "NOLA Motorsports Park sits just outside New Orleans and opened in 2011.",
+   "The circuit is almost completely flat, which is unusual and puts everything into the corner sequences.",
+   "It has hosted IndyCar, in a race remembered mostly for the weather."
+  ],
+  "corners": [
+   "turn one",
+   "the infield",
+   "the long right",
+   "the hairpin",
+   "the final complex"
+  ],
+  "overtaking": "Into turn one, and into the hairpin.",
+  "sectors": [
+   "the opening corners",
+   "the flat infield section",
+   "the final complex onto the straight"
+  ]
+ },
+ "palmbeach": {
+  "name": "Palm Beach",
+  "country": "United States",
+  "character": "A flat, tight Florida club circuit — short lap, constant direction changes, and no room to relax.",
+  "facts": [
+   "Palm Beach International Raceway has run in various forms since the 1960s and includes a drag strip alongside the road course.",
+   "The road course is flat and technical, with a short lap that puts cars into traffic quickly.",
+   "The road course shares the site with a drag strip, which is why the main straight is as wide and as flat as it is."
+  ],
+  "corners": [
+   "turn one",
+   "the esses",
+   "the hairpin",
+   "the final corner"
+  ],
+  "overtaking": "Into the hairpin, and into turn one.",
+  "sectors": [
+   "the first corners",
+   "the technical middle",
+   "the run to the line"
+  ]
+ },
+ "millsmetro": {
+  "name": "Mills Metropark",
+  "country": "",
+  "identity_only": true,
+  "fictional": true
+ },
+ "toban": {
+  "name": "Toban Raceway Park",
+  "country": "",
+  "identity_only": true,
+  "fictional": true
+ },
+ "lostvalley": {
+  "name": "Lost Valley",
+  "country": "",
+  "identity_only": true,
+  "fictional": true
+ },
+ "joesville": {
+  "name": "Joesville Speedway",
+  "country": "",
+  "identity_only": true,
+  "fictional": true
+ },
+ "tigermoth": {
+  "name": "Tiger Moth",
+  "country": "",
+  "identity_only": true,
+  "fictional": true
+ },
+ "mountainpeak": {
+  "name": "Mountain Peak",
+  "country": "",
+  "identity_only": true,
+  "fictional": true
+ },
+ "sardianheights": {
+  "name": "Sardian Heights",
+  "country": "",
+  "identity_only": true,
+  "fictional": true
+ },
+ "lester": {
+  "name": "Lester",
+  "country": "",
+  "identity_only": true,
+  "fictional": true
+ },
+ "lochdrummond": {
+  "name": "Loch Drummond",
+  "country": "",
+  "identity_only": true,
+  "fictional": true
+ },
+ "mores": {
+  "name": "Mores",
+  "country": "",
+  "identity_only": true,
+  "fictional": true
+ },
+ "southshore": {
+  "name": "South Shore",
+  "country": "",
+  "identity_only": true,
+  "fictional": true
+ },
+ "alabama": {
+  "name": "Alabama",
+  "country": "United States",
+  "identity_only": true
+ },
+ "applevalley": {
+  "name": "Apple Valley",
+  "country": "United States",
+  "identity_only": true
+ },
+ "brookdale": {
+  "name": "Brookdale",
+  "country": "United States",
+  "identity_only": true
+ },
+ "eaglecreek": {
+  "name": "Eagle Creek",
+  "country": "United States",
+  "identity_only": true
+ },
+ "jacksonville": {
+  "name": "Jacksonville",
+  "country": "United States",
+  "identity_only": true
+ },
+ "matsusaka": {
+  "name": "Matsusaka",
+  "country": "Japan",
+  "identity_only": true
+ },
+ "northside": {
+  "name": "Northside",
+  "country": "United States",
+  "identity_only": true
+ },
+ "quebeckart": {
+  "name": "Quebec",
+  "country": "Canada",
+  "identity_only": true
+ },
+ "berlinfe": {
+  "name": "Berlin",
+  "country": "Germany",
+  "identity_only": true
+ },
+ "formulaetest": {
+  "name": "the Formula E test circuit",
+  "country": "",
+  "identity_only": true,
+  "fictional": true
+ }
+}

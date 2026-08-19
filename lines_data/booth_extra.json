@@ -1,0 +1,767 @@
+{
+ "_comment": [
+  "Second booth pool. lines.py merges every JSON in this folder by key, so",
+  "these EXTEND the pools in booth.json rather than replacing them.",
+  "Split into a second file purely so the first stays readable.",
+  "Weighted toward the highest-traffic categories — overtake, battle and",
+  "the analyst's colour — because those are what a long race exhausts."
+ ],
+ "overtake": [
+  {
+   "t": "{a} pounces! Past {b}!",
+   "i": 3
+  },
+  {
+   "t": "There it is — {a} clears {b}.",
+   "i": 2
+  },
+  {
+   "t": "{b} covered the inside and {a} went the other way!",
+   "i": 3
+  },
+  {
+   "t": "{a} sends it! And it works!",
+   "i": 3
+  },
+  {
+   "t": "Switchback! {a} comes out ahead!",
+   "i": 3
+  },
+  {
+   "t": "{a} was never lifting there. Past {b}.",
+   "i": 2
+  },
+  {
+   "t": "A dummy from {a}, and {b} buys it completely!",
+   "i": 3
+  },
+  {
+   "t": "Clean as you like — {a} takes {pos}.",
+   "i": 1
+  },
+  {
+   "t": "{b} ran a fraction wide and {a} was waiting.",
+   "i": 2
+  },
+  {
+   "t": "That's patience rewarded from {a}.",
+   "i": 1
+  },
+  {
+   "t": "Two wheels on the grass, but {a} makes it stick!",
+   "i": 3
+  },
+  {
+   "t": "{a} threw it up the inside and {b} had to yield.",
+   "i": 2
+  },
+  {
+   "t": "Superb from {a}. {b} did nothing wrong.",
+   "i": 2
+  },
+  {
+   "t": "{a} is through, and there was contact!",
+   "i": 3
+  },
+  {
+   "t": "Brave. Very brave. And {a} has {pos}.",
+   "i": 3
+  },
+  {
+   "t": "{b} defended once, defended twice, and lost it anyway.",
+   "i": 2
+  },
+  {
+   "t": "{a} had the traction and that was the difference.",
+   "i": 1
+  },
+  {
+   "t": "Muscled through! {a} was not going to be denied!",
+   "i": 3
+  },
+  {
+   "t": "{a} slices past {b} without breaking stride.",
+   "i": 2
+  },
+  {
+   "t": "The tow did the work — {a} is by.",
+   "i": 1,
+   "needs": [
+    "draft"
+   ]
+  },
+  {
+   "t": "Rear wing open, and {a} is gone.",
+   "i": 1,
+   "needs": [
+    "drs"
+   ]
+  },
+  {
+   "t": "No electronics to help there — just {a} out-braking {b}.",
+   "i": 2,
+   "era": [
+    "golden",
+    "wing"
+   ]
+  }
+ ],
+ "battle": [
+  {
+   "t": "{a} and {b}, and there is nothing in it.",
+   "i": 2
+  },
+  {
+   "t": "{a} has a look, {b} shuts the door.",
+   "i": 2
+  },
+  {
+   "t": "{gap}. That is all that separates them.",
+   "i": 1
+  },
+  {
+   "t": "{b} is defending like his race depends on it.",
+   "i": 2
+  },
+  {
+   "t": "Every corner, {a} is closer.",
+   "i": 2
+  },
+  {
+   "t": "This is the fight of the race right now.",
+   "i": 2
+  },
+  {
+   "t": "{a} is looking everywhere for a way past {b}.",
+   "i": 2
+  },
+  {
+   "t": "They have been like this for three corners.",
+   "i": 2
+  },
+  {
+   "t": "{a} tried the inside, no way through.",
+   "i": 2
+  },
+  {
+   "t": "Something has to give between these two.",
+   "i": 2
+  },
+  {
+   "t": "{b} knows exactly where {a} wants to go.",
+   "i": 1
+  },
+  {
+   "t": "Elbows out for {pos}!",
+   "i": 3
+  }
+ ],
+ "closing": [
+  {
+   "t": "{a} has the bit between his teeth — {gap}.",
+   "i": 1
+  },
+  {
+   "t": "Four tenths a lap, and {gap} to find.",
+   "i": 1
+  },
+  {
+   "t": "{b} is not going to like what he sees in his mirrors.",
+   "i": 2
+  },
+  {
+   "t": "{a} is reeling him in.",
+   "i": 1
+  },
+  {
+   "t": "That gap was two seconds. Now it is {gap}.",
+   "i": 2
+  }
+ ],
+ "pulling_away": [
+  {
+   "t": "{drv} is managing this beautifully — {gap}.",
+   "i": 0
+  },
+  {
+   "t": "Nobody has an answer. {gap} the margin.",
+   "i": 0
+  },
+  {
+   "t": "{drv} has simply driven away from the field.",
+   "i": 1
+  }
+ ],
+ "fastlap": [
+  {
+   "t": "{drv} finds another two tenths — {t}.",
+   "i": 1
+  },
+  {
+   "t": "And that is the fastest lap of the race so far.",
+   "i": 1
+  },
+  {
+   "t": "{t}. Nobody has been near that.",
+   "i": 2
+  },
+  {
+   "t": "{drv} is on it. {t}.",
+   "i": 1
+  },
+  {
+   "t": "Purple sectors everywhere for {drv}.",
+   "i": 2
+  }
+ ],
+ "spin": [
+  {
+   "t": "{drv} has lost it completely!",
+   "i": 3
+  },
+  {
+   "t": "Oh, {drv} is around!",
+   "i": 3
+  },
+  {
+   "t": "Snap oversteer, and {drv} is a passenger!",
+   "i": 3
+  },
+  {
+   "t": "{drv} is in the barriers!",
+   "i": 3
+  },
+  {
+   "t": "That's a huge moment for {drv}!",
+   "i": 3
+  },
+  {
+   "t": "No traction control to save him there.",
+   "i": 2,
+   "not": [
+    "tc"
+   ]
+  }
+ ],
+ "offtrack": [
+  {
+   "t": "{drv} misses the apex entirely.",
+   "i": 2
+  },
+  {
+   "t": "Wide, wide, wide! {drv} loses time.",
+   "i": 2
+  },
+  {
+   "t": "A lock-up and a long lap for {drv}.",
+   "i": 2
+  },
+  {
+   "t": "{drv} outbraked himself there.",
+   "i": 2
+  },
+  {
+   "t": "Across the kerbs and into the run-off.",
+   "i": 2
+  }
+ ],
+ "pit": [
+  {
+   "t": "{drv} dives into the pit lane.",
+   "i": 1
+  },
+  {
+   "t": "It's a stop for {drv}, from {pos}.",
+   "i": 0
+  },
+  {
+   "t": "{drv} blinks first on strategy.",
+   "i": 1
+  },
+  {
+   "t": "In comes {drv}. Fresh rubber.",
+   "i": 0
+  },
+  {
+   "t": "{drv} takes the stop, and rejoins in traffic.",
+   "i": 1
+  }
+ ],
+ "retire": [
+  {
+   "t": "{drv} is done. Into the garage.",
+   "i": 2
+  },
+  {
+   "t": "Smoke, and {drv} is coasting to a halt.",
+   "i": 3
+  },
+  {
+   "t": "That's a cruel way for {drv} to end it.",
+   "i": 2
+  },
+  {
+   "t": "{drv} pulls off. Race over.",
+   "i": 2
+  }
+ ],
+ "recovery": [
+  {
+   "t": "{drv} has been superb since that setback — {pos}.",
+   "i": 1
+  },
+  {
+   "t": "From the back of the pack to {pos}. Some drive.",
+   "i": 2
+  },
+  {
+   "t": "{drv} refuses to give up. {pos} now.",
+   "i": 1
+  }
+ ],
+ "traffic": [
+  {
+   "t": "Backmarkers ahead, and this could be pivotal.",
+   "i": 2
+  },
+  {
+   "t": "{drv} has to pick his way through now.",
+   "i": 1
+  },
+  {
+   "t": "Blue flags out for the leaders.",
+   "i": 1
+  },
+  {
+   "t": "Lapped cars between {drv} and clean air.",
+   "i": 1
+  }
+ ],
+ "standings": [
+  {
+   "t": "{drv} out in front, {b} giving chase.",
+   "i": 0
+  },
+  {
+   "t": "It's {drv} by {gap} from {b}.",
+   "i": 0
+  },
+  {
+   "t": "As it stands: {drv}, {b}, and the rest.",
+   "i": 0
+  },
+  {
+   "t": "{drv} controls this from the front.",
+   "i": 0
+  }
+ ],
+ "final_laps": [
+  {
+   "t": "{laps} to go, and nothing is settled.",
+   "i": 2
+  },
+  {
+   "t": "Just {laps} laps left at {trk}.",
+   "i": 2
+  },
+  {
+   "t": "The end game begins — {laps} remaining.",
+   "i": 2
+  },
+  {
+   "t": "{laps} laps. Tyres, fuel and nerve.",
+   "i": 2
+  }
+ ],
+ "lastlap": [
+  {
+   "t": "Final lap! Everything on the line!",
+   "i": 3
+  },
+  {
+   "t": "This is it — the last time around!",
+   "i": 3
+  },
+  {
+   "t": "One lap. One lap for everything.",
+   "i": 3
+  }
+ ],
+ "win": [
+  {
+   "t": "{drv} wins it! What a drive!",
+   "i": 3
+  },
+  {
+   "t": "Across the line — {drv}, the winner at {trk}!",
+   "i": 3
+  },
+  {
+   "t": "{drv} has done it! Brilliant from start to finish!",
+   "i": 3
+  },
+  {
+   "t": "And it is {drv} who takes the flag!",
+   "i": 3
+  },
+  {
+   "t": "{drv}! Winner at {trk}, and thoroughly deserved!",
+   "i": 3
+  }
+ ],
+ "analysis": [
+  {
+   "t": "Watch his hands. Barely a correction all lap.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "He's short-shifting to protect the rears. Smart.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "That's a driver who knows exactly what he has left.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "The car's moving around a lot on entry. He's fighting it.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "He's giving up a tenth a lap to save the tyre. Right call.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Line's completely different to everyone else through there.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "You can hear him lifting earlier than he was ten laps ago.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "That's not a setup problem, that's a confidence problem.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "He's putting the car exactly where he wants it. Every lap the same.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Brake bias must be moving around on him.",
+   "i": 0,
+   "who": "ANALYST"
+  }
+ ],
+ "analysis_era": [
+  {
+   "t": "A car like this bit you the moment you relaxed.",
+   "i": 0,
+   "who": "ANALYST",
+   "year": [
+    1950,
+    2003
+   ]
+  },
+  {
+   "t": "The data these teams have now is extraordinary. It used to be feel and hope.",
+   "i": 0,
+   "who": "ANALYST",
+   "year": [
+    2000,
+    2100
+   ]
+  },
+  {
+   "t": "On the ovals this is where you'd be looking for a push. Different game on a road course.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "stock"
+   ]
+  },
+  {
+   "t": "Restarts are where these races are won. Everything before is positioning.",
+   "i": 0,
+   "who": "ANALYST",
+   "needs": [
+    "restarts"
+   ]
+  },
+  {
+   "t": "Dirty air on a big track like this is brutal. You just can't follow.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "f1",
+    "formula"
+   ]
+  },
+  {
+   "t": "Deployment maps, energy harvesting — I'd have needed an engineering degree.",
+   "i": 0,
+   "who": "ANALYST",
+   "needs": [
+    "ers"
+   ]
+  },
+  {
+   "t": "Ground effect changed how close you can run. Night and day.",
+   "i": 0,
+   "who": "ANALYST",
+   "era": [
+    "ground"
+   ]
+  },
+  {
+   "t": "Turbo lag in these was savage. You'd get on the throttle a corner early.",
+   "i": 0,
+   "who": "ANALYST",
+   "needs": [
+    "turbo"
+   ],
+   "era": [
+    "turbo"
+   ]
+  },
+  {
+   "t": "Grooved tyres. Nobody liked them and everybody had to use them.",
+   "i": 0,
+   "who": "ANALYST",
+   "needs": [
+    "grooved"
+   ]
+  },
+  {
+   "t": "No seatbelt worth the name, no run-off. Brave men.",
+   "i": 0,
+   "who": "ANALYST",
+   "era": [
+    "golden"
+   ]
+  }
+ ],
+ "strategy": [
+  {
+   "t": "Whoever stops first hands the other one clean air.",
+   "i": 0,
+   "who": "ANALYST",
+   "needs": [
+    "pitwindow"
+   ]
+  },
+  {
+   "t": "He needs to build four seconds before the stop or he comes out behind.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Track position over tyre life here. You can't pass at this circuit.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "There's a stop coming. You can see it in the lap times.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Two-stopper is quicker on paper. Doesn't help you in traffic.",
+   "i": 0,
+   "who": "ANALYST",
+   "needs": [
+    "pitwindow"
+   ]
+  },
+  {
+   "t": "Fuel number's going to decide this, not the tyres.",
+   "i": 0,
+   "who": "ANALYST"
+  }
+ ],
+ "verdict": [
+  {
+   "t": "Nothing wrong with that. Hard but fair.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "He had to yield. Simple as that.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "A touch optimistic, but he made it work.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "That was the only place on the circuit he could have done it.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Textbook. Set it up a corner earlier and take it.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "He'll get a look at that one from the stewards.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Both of them left room. That's how it should be done.",
+   "i": 0,
+   "who": "ANALYST"
+  }
+ ],
+ "praise": [
+  {
+   "t": "That is a seriously good piece of driving.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv} is making this look far easier than it is.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "He hasn't put a wheel wrong all afternoon.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "That's the lap of the race, for my money.",
+   "i": 1,
+   "who": "ANALYST"
+  }
+ ],
+ "criticism": [
+  {
+   "t": "He's overdriving it. Trying too hard.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "That's going to cost him more than the place.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Too greedy on entry, and the car let go.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv} has thrown away a good result there.",
+   "i": 1,
+   "who": "ANALYST"
+  }
+ ],
+ "milestone": [
+  {
+   "t": "We're half distance at {trk}.",
+   "i": 0
+  },
+  {
+   "t": "Lap {lap}, and the race is beginning to settle.",
+   "i": 0
+  },
+  {
+   "t": "That's the halfway mark.",
+   "i": 0
+  },
+  {
+   "t": "Lap {lap} of {trk}, and the tyres are the story now.",
+   "i": 0
+  }
+ ],
+ "session": [
+  {
+   "t": "{trk} it is, and the {series} field is ready.",
+   "i": 1
+  },
+  {
+   "t": "A full grid at {trk}, and we are moments away.",
+   "i": 1
+  },
+  {
+   "t": "Here at {trk}, this should be a good one.",
+   "i": 1
+  }
+ ],
+ "restart": [
+  {
+   "t": "The pack is released! Racing again!",
+   "i": 3
+  },
+  {
+   "t": "Clear track, green flag, and it is on!",
+   "i": 3
+  },
+  {
+   "t": "We go again at {trk}!",
+   "i": 3
+  }
+ ],
+ "green_again": [
+  {
+   "t": "Yellows are gone — we are racing again.",
+   "i": 2
+  },
+  {
+   "t": "Green flags. The track is clear.",
+   "i": 2
+  },
+  {
+   "t": "That caution is over, and it's back to green.",
+   "i": 2
+  },
+  {
+   "t": "All clear now — racing resumes.",
+   "i": 2
+  },
+  {
+   "t": "Flags in, track clear.",
+   "i": 1
+  }
+ ],
+ "yellow": [
+  {
+   "t": "Yellows in sector — careful through there.",
+   "i": 2
+  },
+  {
+   "t": "Waved yellows. No overtaking.",
+   "i": 2
+  },
+  {
+   "t": "Marshals are out. Yellow flags.",
+   "i": 2
+  }
+ ],
+ "podium": [
+  {
+   "t": "{drv} takes {pos} and a place on the podium.",
+   "i": 1
+  },
+  {
+   "t": "A strong {pos} for {drv}.",
+   "i": 1
+  },
+  {
+   "t": "{drv} completes the top three at {trk}.",
+   "i": 1
+  }
+ ]
+}

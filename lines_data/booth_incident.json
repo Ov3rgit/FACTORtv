@@ -1,0 +1,444 @@
+{
+ "_comment": [
+  "FACTORtv — INCIDENTS and long fights.",
+  "",
+  "The observations here are RacerTV's, and they are the ones that only",
+  "become visible after watching a lot of races:",
+  "",
+  "  * a fight that has LASTED is a better story than a fight that exists,",
+  "    and the pass that finally ends it is not an ordinary overtake",
+  "  * running wide is not crashing, and calling every tidy-up an incident",
+  "    is how a booth spends its credibility",
+  "  * the second incident in ten seconds is not reported in the same words",
+  "    as the first, and the fifth is chaos",
+  "  * when something happens mid-sentence, a real commentator APOLOGISES",
+  "    for cutting in — which FACTORtv could not do until it had a",
+  "    conversation to cut into",
+  "  * the nameless alert sting creates a debt: if the identification never",
+  "    arrived, it gets given late rather than dropped",
+  "",
+  "Extra slots: {dur} how long a fight has been going on."
+ ],
+ "battle_sustained": [
+  {
+   "t": "{a} has been glued to the back of {b} for {dur} now, and still can't find a way past for {pos}.",
+   "i": 2
+  },
+  {
+   "t": "This fight for {pos} has raged for {dur} — {a} relentless, {b} refusing to crack.",
+   "i": 2
+  },
+  {
+   "t": "{dur} of pure pressure. {a} all over {b}, and {pos} is still unresolved.",
+   "i": 2
+  },
+  {
+   "t": "Nose to tail for {dur}, these two. Something has to give.",
+   "i": 2
+  },
+  {
+   "t": "Credit to {b} — under siege from {a} for {dur} and still holding {pos}.",
+   "i": 2
+  },
+  {
+   "t": "{a} has thrown everything at {b} for {dur}. Every corner, every braking zone, and {pos} stays put.",
+   "i": 2
+  },
+  {
+   "t": "{dur} they've been at this, and the gap has never been more than a couple of tenths.",
+   "i": 2
+  },
+  {
+   "t": "Still {a} and {b}, still {gap}, still {dur} into it. This is a proper fight.",
+   "i": 2
+  },
+  {
+   "t": "{b} has had {a} in his mirrors for {dur}. That does things to a driver.",
+   "i": 2
+  },
+  {
+   "t": "{dur} of this now — and neither of them is losing any time to the cars ahead.",
+   "i": 1
+  }
+ ],
+ "overtake_long": [
+  {
+   "t": "Finally! After {dur} of pressure, {a} finds a way past {b} for {pos}!",
+   "i": 3
+  },
+  {
+   "t": "Persistence pays — {a} has been hounding {b} for {dur}, and now takes {pos}!",
+   "i": 3
+  },
+  {
+   "t": "The breakthrough at last! {a} cracks {b} and grabs {pos}!",
+   "i": 3
+  },
+  {
+   "t": "That has been coming. {a} wears {b} down and takes {pos}!",
+   "i": 3
+  },
+  {
+   "t": "All that pressure tells! {a} is finally through on {b}!",
+   "i": 3
+  },
+  {
+   "t": "Patience rewarded — {dur} of waiting, and {a} pounces!",
+   "i": 3
+  },
+  {
+   "t": "He's done it! {a} gets the job done on {b} after {dur} of trying!",
+   "i": 3
+  },
+  {
+   "t": "{b} could not hold him forever. {a} takes {pos} at last!",
+   "i": 3
+  },
+  {
+   "t": "Worth the wait! {a} makes it stick and takes {pos} from {b}!",
+   "i": 3
+  },
+  {
+   "t": "That's what {dur} of pressure does. {a} is through!",
+   "i": 3
+  }
+ ],
+ "ranwide": [
+  {
+   "t": "{drv} runs wide there and bleeds a little time. Gathers it up, though.",
+   "i": 1
+  },
+  {
+   "t": "A moment for {drv} — out onto the run-off, but no harm done.",
+   "i": 1
+  },
+  {
+   "t": "{drv} gets it a touch wrong and runs wide. That'll have cost a couple of tenths.",
+   "i": 1
+  },
+  {
+   "t": "Wide goes {drv}! Ran out of road, but keeps it pointing the right way.",
+   "i": 1
+  },
+  {
+   "t": "{drv} overcooks the entry and takes to the escape road. Recovers nicely.",
+   "i": 1
+  },
+  {
+   "t": "Bit untidy from {drv} there. Wheels off the track, and a small moment.",
+   "i": 1
+  },
+  {
+   "t": "{drv} locks up and runs deep. No damage, but no time gained either.",
+   "i": 1
+  },
+  {
+   "t": "A wobble from {drv}, and a look at the scenery. He's fine.",
+   "i": 1
+  },
+  {
+   "t": "{drv} misses the apex by a distance there. He'll be annoyed with that one.",
+   "i": 1
+  },
+  {
+   "t": "Off line, onto the marbles, and {drv} does well to keep it out of the wall.",
+   "i": 2
+  }
+ ],
+ "offtrack_cut": [
+  {
+   "t": "Sorry to cut you off, Chuck — {drv} has just run wide!",
+   "i": 2
+  },
+  {
+   "t": "Forgive me, Chuck — {drv} is off the track!",
+   "i": 2
+  },
+  {
+   "t": "Hold that thought — {drv} has gone off!",
+   "i": 2
+  },
+  {
+   "t": "Sorry, I have to stop you there. {drv} is off the road.",
+   "i": 2
+  },
+  {
+   "t": "Excuse the interruption, Chuck — trouble for {drv}!",
+   "i": 2
+  },
+  {
+   "t": "Chuck, hang on — {drv} has lost it!",
+   "i": 2
+  },
+  {
+   "t": "Apologies for jumping in — {drv} is in the run-off!",
+   "i": 2
+  },
+  {
+   "t": "Sorry to interrupt, but that's {drv} in trouble!",
+   "i": 2
+  }
+ ],
+ "offtrack_more": [
+  {
+   "t": "And {drv} is off as well! More drama!",
+   "i": 3
+  },
+  {
+   "t": "More trouble — {drv} has gone off too!",
+   "i": 3
+  },
+  {
+   "t": "{drv} joins them off the track!",
+   "i": 3
+  },
+  {
+   "t": "And there's another. {drv} is off!",
+   "i": 3
+  },
+  {
+   "t": "Make that two! {drv} has gone off as well!",
+   "i": 3
+  },
+  {
+   "t": "{drv} is off too. It is all happening out there!",
+   "i": 3
+  },
+  {
+   "t": "Not just him — {drv} has run wide at the same place!",
+   "i": 3
+  },
+  {
+   "t": "They're dropping like flies. {drv} is the next one off!",
+   "i": 3
+  }
+ ],
+ "offtrack_chaos": [
+  {
+   "t": "It's chaos out there — several cars off the track!",
+   "i": 3
+  },
+  {
+   "t": "Carnage! Multiple cars have gone off!",
+   "i": 3
+  },
+  {
+   "t": "This is bedlam. Cars going off all over the place!",
+   "i": 3
+  },
+  {
+   "t": "Mayhem out there — a whole cluster of cars off the road!",
+   "i": 3
+  },
+  {
+   "t": "What is going on?! Several drivers off the circuit at once!",
+   "i": 3
+  },
+  {
+   "t": "It's all kicking off — multiple cars in trouble, {drv} among them!",
+   "i": 3
+  },
+  {
+   "t": "Nobody is safe out there. That's another one gone!",
+   "i": 3
+  }
+ ],
+ "offtrack_late": [
+  {
+   "t": "Looks like it was {drv} involved in that earlier incident.",
+   "i": 1
+  },
+  {
+   "t": "And it seems {drv} was the one caught up in that.",
+   "i": 1
+  },
+  {
+   "t": "That was {drv} in the middle of it, by the look of things.",
+   "i": 1
+  },
+  {
+   "t": "I think that was {drv} who went off there.",
+   "i": 1
+  },
+  {
+   "t": "We can confirm it was {drv} who came off worst in that one.",
+   "i": 1
+  },
+  {
+   "t": "Catching up on that incident — {drv} was the driver in trouble.",
+   "i": 1
+  },
+  {
+   "t": "{drv}, we think, was the man involved a moment ago.",
+   "i": 1
+  }
+ ],
+ "offtrack_ack": [
+  {
+   "t": "Let's hope they're all right.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "No harm done, by the look of it. Just time lost.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "That's a big moment. He'll feel that one in his hands for a lap or two.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Easy done. That corner has caught out better drivers than him.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "He was always going to run out of road carrying that much speed.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "The frustrating part is it costs you the lap, not just the corner.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Fingers crossed there's no damage. That's a long walk otherwise.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Shame. He was having a good run up to that point.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "I've done exactly that and blamed the car every time.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Gather it up, take the lap, move on. Nothing else you can do.",
+   "i": 1,
+   "who": "ANALYST"
+  }
+ ],
+ "incident_id_off": [
+  {
+   "t": "Looks like it was {drv} who ran wide there.",
+   "i": 2
+  },
+  {
+   "t": "That's {drv} — he's the one who went off.",
+   "i": 2
+  },
+  {
+   "t": "{drv} is the driver in trouble. Went off and lost the road completely.",
+   "i": 2
+  },
+  {
+   "t": "It was {drv}, and he ran out of road at exactly the wrong moment.",
+   "i": 2
+  },
+  {
+   "t": "I think that's {drv}. All four wheels off, and a real moment for him.",
+   "i": 2
+  },
+  {
+   "t": "{drv} is the man involved there — off the circuit and scrambling.",
+   "i": 2
+  },
+  {
+   "t": "That looked like {drv} to me. Way off line and out into the run-off.",
+   "i": 2
+  }
+ ],
+ "incident_id_spin": [
+  {
+   "t": "That's {drv} — he's spun it.",
+   "i": 3
+  },
+  {
+   "t": "It's {drv}, and he's gone all the way round.",
+   "i": 3
+  },
+  {
+   "t": "{drv} is the driver. Lost the back end and spun it completely.",
+   "i": 3
+  },
+  {
+   "t": "Looks like {drv} to me, and that is a full spin.",
+   "i": 3
+  },
+  {
+   "t": "{drv}, and he's facing the wrong way now.",
+   "i": 3
+  },
+  {
+   "t": "I make that {drv}. Snapped away from him and round he went.",
+   "i": 3
+  }
+ ],
+ "incident_react": [
+  {
+   "t": "Unfortunate for him. Let's hope he can get it going again.",
+   "i": 2
+  },
+  {
+   "t": "That is going to hurt. Hard luck on him.",
+   "i": 2
+  },
+  {
+   "t": "Costly, that. He'll be furious with himself.",
+   "i": 2
+  },
+  {
+   "t": "Not what he needed at all. Let's see what he can salvage.",
+   "i": 2
+  },
+  {
+   "t": "A real shame — he was going nicely up to that point.",
+   "i": 2
+  },
+  {
+   "t": "Painful to watch. Everything to do again for him now.",
+   "i": 2
+  },
+  {
+   "t": "That's the trouble with this place. It bites the moment you relax.",
+   "i": 2
+  },
+  {
+   "t": "Thanks Chuck. Let's hope there's no damage with it.",
+   "i": 2
+  }
+ ],
+ "incident_cut_id": [
+  {
+   "t": "Sorry to cut across you — that's {drv} off the road!",
+   "i": 3
+  },
+  {
+   "t": "Forgive me, I have to jump in — {drv} has gone off!",
+   "i": 3
+  },
+  {
+   "t": "Hold that thought — it's {drv}, and he's in trouble!",
+   "i": 3
+  },
+  {
+   "t": "Let me stop you there. {drv} has run wide and lost it.",
+   "i": 3
+  },
+  {
+   "t": "Apologies for interrupting — {drv} is the man off the circuit.",
+   "i": 3
+  },
+  {
+   "t": "Sorry, hold on — {drv} has thrown it off the road!",
+   "i": 3
+  }
+ ]
+}

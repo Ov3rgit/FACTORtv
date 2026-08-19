@@ -1,0 +1,1053 @@
+{
+ "_comment": [
+  "FACTORtv — RACE FLOW dialogue: the categories that carry a race across",
+  "its length rather than reacting to a single event.",
+  "",
+  "Ported as OBSERVATIONS from RacerTV's commentary_lines.json, which was",
+  "built by watching races and noting what the booth had nothing to say",
+  "about. The text is re-voiced: Miles Crawford calls and reports, Chuck",
+  "Brannigan reads the race, and Chuck's first-person claims are stock-car",
+  "claims because that is the career he actually had.",
+  "",
+  "Extra slots used here: {dist} race distance text, {mark} distance",
+  "milestone, {mins} minutes remaining, {n} a count, {from_pos} a place a",
+  "driver has come from, {pos} their place now."
+ ],
+ "pregrid": [
+  {
+   "t": "{a} takes pole, {b} alongside on the front row.",
+   "i": 1
+  },
+  {
+   "t": "It's {a} on pole here at {trk}, with {b} for company.",
+   "i": 1
+  },
+  {
+   "t": "{a} heads the grid. {b} lines up second.",
+   "i": 1
+  },
+  {
+   "t": "Front row: {a}, then {b}. Everyone else is looking at their mirrors already.",
+   "i": 1
+  },
+  {
+   "t": "Pole position belongs to {a}. {b} will have the cleaner line into turn one.",
+   "i": 1
+  },
+  {
+   "t": "{a} on pole, {b} second — and a full field behind them.",
+   "i": 1
+  },
+  {
+   "t": "The grid is set. {a} at the front of it.",
+   "i": 1
+  },
+  {
+   "t": "{a} starts from the front. {b} starts from the tow.",
+   "i": 1
+  }
+ ],
+ "race_duration": [
+  {
+   "t": "{dist} to settle this one.",
+   "i": 1
+  },
+  {
+   "t": "It's {dist} at {trk}.",
+   "i": 1
+  },
+  {
+   "t": "{dist} ahead of us. Plenty of time for this to change shape.",
+   "i": 1
+  },
+  {
+   "t": "{dist}, and not one of them is going to be quiet.",
+   "i": 1
+  },
+  {
+   "t": "That's {dist} of racing, starting now.",
+   "i": 1
+  },
+  {
+   "t": "We go {dist} here at {trk}.",
+   "i": 1
+  },
+  {
+   "t": "{dist} — long enough for strategy, short enough that nobody can hide.",
+   "i": 1,
+   "who": "ANALYST"
+  }
+ ],
+ "lap_report": [
+  {
+   "t": "Lap {lap}. {drv} leads by {gap}.",
+   "i": 0
+  },
+  {
+   "t": "We're on lap {lap} of {dist}, {drv} still in front.",
+   "i": 0
+  },
+  {
+   "t": "Lap {lap} — {drv} from {b}, {gap} the gap.",
+   "i": 0
+  },
+  {
+   "t": "Through lap {lap}, and it's {drv} who controls this.",
+   "i": 0
+  },
+  {
+   "t": "Lap {lap} done. {laps} still to run.",
+   "i": 0
+  },
+  {
+   "t": "That's lap {lap} in the books.",
+   "i": 0
+  },
+  {
+   "t": "Lap {lap}, and the order at the front is {drv}, {b}.",
+   "i": 0
+  },
+  {
+   "t": "Onto lap {lap}. {gap} covers the top two.",
+   "i": 0
+  },
+  {
+   "t": "Lap {lap} of {dist} — we are properly into this race now.",
+   "i": 0
+  },
+  {
+   "t": "{laps} laps left, {drv} leading them all.",
+   "i": 0
+  }
+ ],
+ "lap_milestone": [
+  {
+   "t": "That's {mark} at {trk}.",
+   "i": 1
+  },
+  {
+   "t": "{mark}, and {drv} is where he wants to be.",
+   "i": 1
+  },
+  {
+   "t": "We reach {mark}. {drv} leads by {gap}.",
+   "i": 1
+  },
+  {
+   "t": "{mark} gone, and this race still has a shape to find.",
+   "i": 1
+  },
+  {
+   "t": "{mark} — and now the second half of the story.",
+   "i": 1
+  },
+  {
+   "t": "Past {mark} now. From here it starts to count.",
+   "i": 1
+  },
+  {
+   "t": "{mark}. Everything before this was the setup.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{mark} is where you find out who prepared properly.",
+   "i": 1,
+   "who": "ANALYST"
+  }
+ ],
+ "time_remaining": [
+  {
+   "t": "{mins} remaining.",
+   "i": 0
+  },
+  {
+   "t": "{mins} left on the clock, {drv} in front.",
+   "i": 0
+  },
+  {
+   "t": "We've got {mins} to run.",
+   "i": 0
+  },
+  {
+   "t": "{mins} on the board — and this is far from finished.",
+   "i": 1
+  },
+  {
+   "t": "Just {mins} left now. The maths starts changing.",
+   "i": 1
+  },
+  {
+   "t": "{mins}. Anyone with a move left needs to make it soon.",
+   "i": 1
+  },
+  {
+   "t": "{mins} to go, and the clock is the enemy now, not the car in front.",
+   "i": 1,
+   "who": "ANALYST"
+  }
+ ],
+ "insight_laps_left": [
+  {
+   "t": "{laps} laps left, and {gap} between the top two. That is not enough road.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "With {laps} to run, {drv} needs about half a second a lap. He hasn't had it all race.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{laps} laps. At this rate that's a win for {drv} by a couple of seconds.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "There are {laps} laps left, which is plenty. It's the traffic that decides it.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{laps} to go. In a stock car you'd say that's two runs at him, maybe three.",
+   "i": 1,
+   "who": "ANALYST",
+   "disc": [
+    "stock"
+   ]
+  },
+  {
+   "t": "{laps} laps is a long time to defend a lead this small.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Do the arithmetic — {laps} laps, {gap} adrift. He has to find it now or not at all.",
+   "i": 2,
+   "who": "ANALYST"
+  }
+ ],
+ "insight_lead_big": [
+  {
+   "t": "{drv} has this under control. {gap} is a comfortable place to be.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "That lead is big enough that {drv} can drive to a number now, not to a mirror.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{gap} up the road. {drv} isn't racing anybody, he's racing the finish.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "A lead like that changes how you drive. You stop taking risks and start counting laps.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv} can afford a mistake now. One. Not two.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "The gap's out to {gap}. That's a race being managed rather than won.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "When I had a lead like that I'd back it down two tenths and save everything for the end.",
+   "i": 0,
+   "who": "ANALYST"
+  }
+ ],
+ "insight_lead_slim": [
+  {
+   "t": "{gap}. {drv} cannot breathe out for a second.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "A lead of {gap} is not a lead, it's a warning.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{b} is right there. That mirror is full and it stays full.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "This is the hardest kind of lead to hold — close enough to feel, far enough that you can't respond.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv} is defending and lapping at the limit at the same time. Something gives eventually.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{gap} covers the lead. One lock-up and this race has a new leader.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Dirty air is the whole story here. {b} is quicker and can't prove it.",
+   "i": 1,
+   "who": "ANALYST",
+   "not": [
+    "stages"
+   ]
+  }
+ ],
+ "insight_podium_fight": [
+  {
+   "t": "The best racing on this circuit is the fight for the podium.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Forget the lead — that last podium step is where this race is being decided.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Three cars, one podium place. Somebody is going to be very unhappy.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{a} and {b} are going to take each other's race apart fighting over that.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Whoever's braver into the last sector stands on that podium.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "That podium scrap is costing both of them a second a lap. Neither will lift.",
+   "i": 1,
+   "who": "ANALYST"
+  }
+ ],
+ "insight_field_spread": [
+  {
+   "t": "The field's stretched right out now. This has become a procession of private races.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Look at the spread — nobody's close enough to attack anybody.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Everyone's found their pace. From here it's about who wilts.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "The pack has sorted itself out. Now we wait for a mistake.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Still bunched up, and that's the good news — anyone can still reach the car in front.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{n} cars covered by {gap}. That's a proper field.",
+   "i": 1,
+   "who": "ANALYST"
+  }
+ ],
+ "midpack": [
+  {
+   "t": "Good scrap for {pos} between {a} and {b}.",
+   "i": 1
+  },
+  {
+   "t": "{a} is all over the back of {b} for {pos}.",
+   "i": 1
+  },
+  {
+   "t": "Down in the pack, {a} and {b} are giving each other nothing.",
+   "i": 1
+  },
+  {
+   "t": "Nobody's watching {pos}, and they should be — {a} and {b} are racing hard.",
+   "i": 1
+  },
+  {
+   "t": "{a} has been glued to {b} for three laps now.",
+   "i": 1
+  },
+  {
+   "t": "The midfield is where the real racing is, and {a} is in the middle of it.",
+   "i": 1
+  },
+  {
+   "t": "{a} and {b} have swapped that place twice already.",
+   "i": 1
+  }
+ ],
+ "midpack_recovery": [
+  {
+   "t": "{drv} is quietly having the race of the day — up to {pos} from {from_pos}.",
+   "i": 1
+  },
+  {
+   "t": "Nobody's mentioned {drv}, and he's climbed to {pos}.",
+   "i": 1
+  },
+  {
+   "t": "{drv} started {from_pos}. He's {pos} now, and still coming.",
+   "i": 2
+  },
+  {
+   "t": "That's a proper drive from {drv} — {from_pos} to {pos} without a single elbow out of line.",
+   "i": 1,
+   "who": "ANALYST"
+  }
+ ],
+ "retake": [
+  {
+   "t": "{a} takes it straight back! He wasn't having that.",
+   "i": 3
+  },
+  {
+   "t": "And immediately {a} responds — {pos} is his again!",
+   "i": 3
+  },
+  {
+   "t": "{a} returns the favour on {b}!",
+   "i": 3
+  },
+  {
+   "t": "That lasted one corner — {a} is back through!",
+   "i": 3
+  },
+  {
+   "t": "{b} took it, {a} has taken it back. This is a proper fight.",
+   "i": 3
+  },
+  {
+   "t": "Straight back at him! {a} reclaims {pos}.",
+   "i": 3
+  },
+  {
+   "t": "{a} refuses to accept it — back through on {b}!",
+   "i": 3
+  },
+  {
+   "t": "Round the outside, and {a} has it back!",
+   "i": 3
+  },
+  {
+   "t": "They're swapping this place every corner! {a} leads it again.",
+   "i": 3
+  },
+  {
+   "t": "No sooner lost than won — {a} is ahead of {b} once more.",
+   "i": 3
+  },
+  {
+   "t": "{a} counters! That's {pos} back in his hands.",
+   "i": 3
+  },
+  {
+   "t": "Back and forth these two — {a} on top of it again.",
+   "i": 3
+  },
+  {
+   "t": "{a} had the better exit and he's used it. Back past {b}.",
+   "i": 3
+  },
+  {
+   "t": "Answered immediately! {a} retakes {pos} from {b}.",
+   "i": 3
+  },
+  {
+   "t": "{b} held it for half a lap. {a} has taken it back.",
+   "i": 3
+  },
+  {
+   "t": "This is a proper scrap — {a} through again on {b}!",
+   "i": 3
+  }
+ ],
+ "podium_watch": [
+  {
+   "t": "{drv} holds {pos}, {gap} back from the car ahead.",
+   "i": 0
+  },
+  {
+   "t": "In {pos}, {drv} — driving the race of his afternoon.",
+   "i": 1
+  },
+  {
+   "t": "{drv} sits {pos} and is closing on that podium.",
+   "i": 1
+  },
+  {
+   "t": "The last podium place belongs to {drv}. For now.",
+   "i": 1
+  },
+  {
+   "t": "{drv} is {pos} and looking comfortable there.",
+   "i": 0
+  }
+ ],
+ "podium_lock": [
+  {
+   "t": "Barring disaster, that's the podium settled.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Those three have broken clear. The podium's decided unless somebody breaks.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "The gaps to fourth are too big now. That top three is locked in.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "You'd want money on that podium order now, and I'd take that bet.",
+   "i": 1,
+   "who": "ANALYST"
+  }
+ ],
+ "arc_cost": [
+  {
+   "t": "{drv} has thrown away {n} places since the start. That will hurt tonight.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Down to {pos} from {from_pos}. That's a race unravelling in slow motion.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv} ran as high as {from_pos}. He's {pos} now.",
+   "i": 1
+  },
+  {
+   "t": "It has all gone away from {drv} — {from_pos} at his best, {pos} now.",
+   "i": 1
+  },
+  {
+   "t": "Whatever's wrong with that car, {drv} has been going backwards for ten minutes.",
+   "i": 1,
+   "who": "ANALYST"
+  }
+ ],
+ "arc_recovered": [
+  {
+   "t": "{drv} was as low as {from_pos}. He's back up to {pos}.",
+   "i": 2
+  },
+  {
+   "t": "Full recovery from {drv} — {from_pos} at his worst, {pos} now.",
+   "i": 2
+  },
+  {
+   "t": "That's {n} places clawed back by {drv}, and he isn't finished.",
+   "i": 2
+  },
+  {
+   "t": "Everybody wrote {drv} off when he dropped to {from_pos}. Look at him now.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Recovering from that takes a cool head. {drv} has had one all afternoon.",
+   "i": 1,
+   "who": "ANALYST"
+  }
+ ],
+ "win_charge": [
+  {
+   "t": "{drv} wins it, and he took it by force!",
+   "i": 3
+  },
+  {
+   "t": "Victory for {drv} — he came through the field to get it!",
+   "i": 3
+  },
+  {
+   "t": "{drv} wins from {from_pos} on the grid! What a drive!",
+   "i": 3
+  }
+ ],
+ "win_comeback": [
+  {
+   "t": "{drv} wins it — and he was as low as {from_pos} in this race!",
+   "i": 3
+  },
+  {
+   "t": "From {from_pos} to the top step. {drv} takes an extraordinary win!",
+   "i": 3
+  },
+  {
+   "t": "He was nowhere. He's a winner. {drv} takes it!",
+   "i": 3
+  }
+ ],
+ "win_duel": [
+  {
+   "t": "{drv} wins it, and he had to beat {b} in a straight fight to do it!",
+   "i": 3
+  },
+  {
+   "t": "Victory for {drv} by {gap} — they raced each other to the flag!",
+   "i": 3
+  },
+  {
+   "t": "Two cars, one flag, and it's {drv} who takes it!",
+   "i": 3
+  }
+ ],
+ "win_wire": [
+  {
+   "t": "{drv} takes it by {gap}! Down to the last corner!",
+   "i": 3
+  },
+  {
+   "t": "On the line! {drv} wins it by nothing at all!",
+   "i": 3
+  },
+  {
+   "t": "{drv} holds on! You could not have got a sheet of paper between them!",
+   "i": 3
+  }
+ ],
+ "summary": [
+  {
+   "t": "So — {drv} leads, and this race has been anything but straightforward.",
+   "i": 1
+  },
+  {
+   "t": "If you've just joined us: {drv} out in front, {b} chasing, {gap} between them.",
+   "i": 1
+  },
+  {
+   "t": "Where we stand — {drv} leads, {laps} laps to run.",
+   "i": 1
+  },
+  {
+   "t": "The story so far: {drv} in control, and a queue behind him that isn't going away.",
+   "i": 1
+  },
+  {
+   "t": "Catching up? {drv} leads at {trk}, and it's live.",
+   "i": 1
+  }
+ ],
+ "podium_final": [
+  {
+   "t": "Your podium: {drv} the winner, {a} second, {b} third.",
+   "i": 2
+  },
+  {
+   "t": "{drv} wins it, {a} takes second, and {b} completes the podium.",
+   "i": 2
+  },
+  {
+   "t": "On the podium — {drv}, {a} and {b}.",
+   "i": 2
+  },
+  {
+   "t": "The top three at {trk}: {drv}, {a}, {b}.",
+   "i": 2
+  },
+  {
+   "t": "{drv} first, {a} second, {b} third. That's your result.",
+   "i": 2
+  },
+  {
+   "t": "Three drivers on the box: {drv}, {a} and {b}, and all three earned it.",
+   "i": 2
+  }
+ ],
+ "race_verdict": [
+  {
+   "t": "That was a race won on discipline. {drv} didn't put a wheel wrong all afternoon.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "He controlled that from the front, and controlling a race is harder than winning one.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv} took his chance the moment it appeared. That's what separates them.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "The pace was there for two or three of them. Only {drv} kept it clean for the whole distance.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "You win races like that in the middle stint, when nobody's watching. That's where he built it.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "A thoroughly deserved win, and a properly good race behind it.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "I've seen a lot of drivers throw that away. He didn't come close to it.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Hard racing, clean racing, and the right man won. You can't ask for more than that.",
+   "i": 1,
+   "who": "ANALYST"
+  }
+ ],
+ "signoff": [
+  {
+   "t": "{drv} wins at {trk}.",
+   "i": 2
+  },
+  {
+   "t": "So {drv} takes it, and takes it on a day that asked plenty of him.",
+   "i": 2
+  },
+  {
+   "t": "That's the {series} settled at {trk} — {drv} your winner.",
+   "i": 2
+  },
+  {
+   "t": "Result confirmed: {drv} on the top step at {trk}.",
+   "i": 2
+  },
+  {
+   "t": "A win for {drv}, and one he will remember for a while.",
+   "i": 2
+  },
+  {
+   "t": "{drv} the winner, and the record will show it as comfortably as it never felt.",
+   "i": 2
+  }
+ ],
+ "broadcast": [
+  {
+   "t": "You're watching FACTORtv, live from {trk}.",
+   "i": 1
+  },
+  {
+   "t": "This is FACTORtv — {trk}, and we're right in the thick of it.",
+   "i": 1
+  },
+  {
+   "t": "If you've just joined us, welcome to FACTORtv at {trk}.",
+   "i": 1
+  },
+  {
+   "t": "FACTORtv, live, with the {series} at {trk}.",
+   "i": 1
+  },
+  {
+   "t": "Plenty more to come here on FACTORtv.",
+   "i": 1
+  },
+  {
+   "t": "Stay with us — this one isn't finished yet.",
+   "i": 1
+  },
+  {
+   "t": "FACTORtv, and we've got the whole thing for you, flag to flag.",
+   "i": 1
+  },
+  {
+   "t": "Wherever you're watching from, you're very welcome. This is FACTORtv.",
+   "i": 1
+  },
+  {
+   "t": "Live at {trk} on FACTORtv, and there is a long way to go yet.",
+   "i": 1
+  },
+  {
+   "t": "You've got FACTORtv, you've got {trk}, and you've got all of it live.",
+   "i": 1
+  },
+  {
+   "t": "FACTORtv, bringing you the {series} season live, every round of it.",
+   "i": 1,
+   "year": [
+    2000,
+    2099
+   ]
+  },
+  {
+   "t": "This is FACTORtv, home of the {series} season — and today it's {trk}.",
+   "i": 1,
+   "year": [
+    2000,
+    2099
+   ]
+  },
+  {
+   "t": "Every race of the {series} season, live here on FACTORtv. This is one of them.",
+   "i": 1,
+   "year": [
+    2000,
+    2099
+   ]
+  },
+  {
+   "t": "You're with FACTORtv for the {series} season, and we're at {trk}.",
+   "i": 1,
+   "year": [
+    2000,
+    2099
+   ]
+  }
+ ],
+ "stat_laps_led": [
+  {
+   "t": "{led} of this race led by {drv}, and not one of them easy.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv} has led {led} of this race so far.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{led} in front for {drv}. That is a long time to be the one everybody is chasing.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Nobody has led this race but {drv}. {led} of it, all his.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{led} at the front for {drv}, and the pressure of it does not ease.",
+   "i": 0,
+   "who": "ANALYST"
+  }
+ ],
+ "stat_lead_changes": [
+  {
+   "t": "The lead has changed hands {chg} this afternoon.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{chg} at the front of this race already. That is not a procession.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "We have had {chg} for the lead. Somebody is going to run out of tyres before somebody runs out of ideas.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{chg} of the lead so far, and I would not bet on that being the last.",
+   "i": 0,
+   "who": "ANALYST"
+  }
+ ],
+ "stat_running": [
+  {
+   "t": "{cars} still running, and that says something about how clean this has been.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Still {cars} out there. Attrition has not touched this one.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{cars} circulating, which for a race of this length is a tidy afternoon.",
+   "i": 0,
+   "who": "ANALYST"
+  }
+ ],
+ "stat_covered": [
+  {
+   "t": "There is less than a second covering the best laps of the top three. That is a properly matched field.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "The top three are within a second of each other on their best laps. Nothing separates them but the driving.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Look at the best laps of the leading three — a second covers the lot. This was never going to be simple.",
+   "i": 0,
+   "who": "ANALYST"
+  }
+ ],
+ "class_lead": [
+  {
+   "t": "{drv} leads the {cls} cars, and he is {pos} overall.",
+   "i": 1
+  },
+  {
+   "t": "At the head of the {cls} runners, it is {drv}.",
+   "i": 1
+  },
+  {
+   "t": "{drv} is the leading {cls} car — {pos} in the race as a whole.",
+   "i": 1
+  },
+  {
+   "t": "The {cls} class belongs to {drv} at the moment.",
+   "i": 1
+  },
+  {
+   "t": "Best of the {cls} cars is {drv}, {pos} on the road.",
+   "i": 1
+  }
+ ],
+ "class_pos": [
+  {
+   "t": "{drv} is {pos} on the road, and {cpos} in the {cls} class.",
+   "i": 1
+  },
+  {
+   "t": "{pos} overall for {drv}, but {cpos} in class is the number that matters to him.",
+   "i": 1
+  },
+  {
+   "t": "Do not read the overall order for {drv} — he is {cpos} in the {cls} cars.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv}, {cpos} in class. That is his race, whatever the timing screen says.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "In the {cls} class {drv} is {cpos}, and that is the fight to watch.",
+   "i": 1
+  }
+ ],
+ "class_battle": [
+  {
+   "t": "{a} and {b} are fighting for {cpos} in the {cls} class — {gap} between them.",
+   "i": 2
+  },
+  {
+   "t": "This is a class battle. {a} from {b}, and the overall order is irrelevant to both of them.",
+   "i": 2
+  },
+  {
+   "t": "{a} is defending a class position from {b}, and that is worth more than a place on the road.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Two {cls} cars, {gap} apart, and only one of them can have {cpos}.",
+   "i": 2
+  }
+ ],
+ "class_traffic": [
+  {
+   "t": "{drv} has traffic ahead — a slower class, and picking a way through it costs real time.",
+   "i": 1
+  },
+  {
+   "t": "That is the difficulty of a mixed grid: {drv} is quicker, and he still has to find a way past.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Traffic for {drv}. In this kind of racing, how you deal with that IS the race.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv} is catching a slower car. Watch how long it takes him to clear it.",
+   "i": 1
+  }
+ ],
+ "broadcast_promo": [
+  {
+   "t": "And if it's the older stuff you're after, Brett Calloway has a full card of it over on FACTORtv Classic.",
+   "i": 1
+  },
+  {
+   "t": "Plenty more racing across the network — Brett Calloway's on FACTORtv Classic with the archive fixtures.",
+   "i": 1
+  },
+  {
+   "t": "FACTORtv Classic is the sister channel, and that's where Brett Calloway lives these days. Worth your time.",
+   "i": 1
+  },
+  {
+   "t": "You can catch Brett Calloway on FACTORtv Classic, digging through the vault. He gets all the good machinery.",
+   "i": 1
+  },
+  {
+   "t": "Chuck does this with Brett on Classic as well, so he's getting through a fair amount of racing.",
+   "i": 1
+  },
+  {
+   "t": "Two channels, one analyst — Chuck's on FACTORtv Classic with Brett Calloway when he isn't here with me.",
+   "i": 1
+  },
+  {
+   "t": "That's the modern season here on FACTORtv, and everything before it is on FACTORtv Classic.",
+   "i": 1,
+   "year": [
+    2000,
+    2099
+   ]
+  }
+ ],
+ "broadcast_racertv": [
+  {
+   "t": "Chuck and I did a few of these over at RacerTV, our sister station. Some habits you don't lose.",
+   "i": 1
+  },
+  {
+   "t": "RacerTV's still going strong next door, by the way. That's where a lot of us learned this job.",
+   "i": 1
+  },
+  {
+   "t": "Everything I know about calling a race I learned at RacerTV, our sister station, and I have not had to unlearn much of it.",
+   "i": 1
+  },
+  {
+   "t": "I did years of this at RacerTV before FACTORtv came along. Same job, different badge on the microphone.",
+   "i": 1
+  },
+  {
+   "t": "Brett Calloway and I overlapped at RacerTV for a few seasons. Chuck assures me he has not changed one bit.",
+   "i": 1
+  },
+  {
+   "t": "There are people at RacerTV next door who have been doing this for thirty years, and they still get out of bed for a race like this.",
+   "i": 1
+  }
+ ]
+}

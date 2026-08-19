@@ -1,0 +1,431 @@
+{
+ "_comment": [
+  "FACTORtv — CONVERSATIONS between the booth.",
+  "",
+  "This is not the same thing as the reaction crosstalk in overlay_booth's",
+  "CROSSTALK_CATS, where Chuck adds a verdict to a call Miles just made.",
+  "This is the booth TALKING TO EACH OTHER during honest dead air, which is",
+  "the thing that made RacerTV feel like two people in a commentary box",
+  "rather than two narrators sharing a microphone.",
+  "",
+  "Each topic is a three-beat exchange:",
+  "  q    Miles asks Chuck something, by name.",
+  "  a    Chuck answers. He answers the QUESTION, so answers cannot be",
+  "       shared between topics — that is what makes it a conversation.",
+  "  ack  Miles takes it back. Optional; falls back to _ack.",
+  "",
+  "Gates:  when  race phases the topic makes sense in",
+  "        needs_race  the topic ASSESSES the race so far, so it is not",
+  "                    offered until enough of one has happened (see",
+  "                    overlay_booth._enough_race). 'Who's impressed you?'",
+  "                    on lap two is a question about nothing. Topics about",
+  "                    the circuit, the cars or the weather carry no such",
+  "                    gate: they are true from the first lap.",
+  "        needs/not  era capabilities, same meaning as the line pools",
+  "        slots  {a} {b} {drv} leader, {gap}, {laps}, {trk}, {series}",
+  "",
+  "Chuck is an ex-NASCAR Cup champion who raced stock cars 1985-2006. He",
+  "answers from that experience and treats single-seaters as an informed",
+  "outsider — no first-person claims about open-wheel racing.",
+  "",
+  "A topic may bind answers to a SPECIFIC question via `qa`. Use it for any",
+  "question that is not open-ended: a shared answer pool replied to 'Is",
+  "Silverstone a driver's track?' with 'Everything, and all at once', which",
+  "answers a different question and is what made the booth sound as though",
+  "it was not listening to itself. Topics keeping flat q/a lists are ones",
+  "where every question is open enough that any answer fits."
+ ],
+ "_ack": [
+  "Hard to argue with that.",
+  "We'll come back to that, I suspect.",
+  "Noted — and let's see if the drivers agree with you.",
+  "That's why they pay you, Chuck.",
+  "Good point. Back to the racing.",
+  "Interesting. Keep an eye on it.",
+  "We'll hold you to that.",
+  "I'll take that. And there's the action to prove it."
+ ],
+ "lore": {
+  "when": [
+   "opening",
+   "mid",
+   "session"
+  ],
+  "_note": [
+   "The circuit topic where the ANSWER is real. {fact} is filled from",
+   "tracks.json for the circuit actually being raced, so Chuck says",
+   "something true about this specific place rather than something",
+   "generic about places in general. The booth skips this topic entirely",
+   "when it does not recognise the circuit — which is the correct",
+   "behaviour, and the reason the answers are all pure {fact}."
+  ],
+  "q": [
+   "Give us some history on {trk}, Chuck.",
+   "What should people know about {trk}, Chuck?",
+   "You've read up on {trk}, Chuck — anything for us?",
+   "Tell me something about this place, Chuck.",
+   "{trk} has a bit of a reputation, doesn't it Chuck?",
+   "What's the story of this circuit, Chuck?"
+  ],
+  "a": [
+   "{fact}",
+   "Well — {fact}",
+   "Here's the thing about this place. {fact}",
+   "Funny you ask. {fact}",
+   "This one I do know. {fact}"
+  ]
+ },
+ "standout": {
+  "needs_race": true,
+  "when": [
+   "mid"
+  ],
+  "q": [
+   "Chuck, who's been the standout for you so far?",
+   "Give me a name, Chuck — who's impressed you this afternoon?",
+   "Anyone catching your eye out there, Chuck?"
+  ],
+  "a": [
+   "{drv}, and it isn't close. No drama, no mistakes, just lap after lap.",
+   "I'd say {drv}. Nobody's talking about him and he's exactly where he needs to be.",
+   "{drv}. He's making the hard overtakes look like nothing at all.",
+   "For me it's {drv} — quiet, tidy, and quick where it costs other people time."
+  ]
+ },
+ "tyres": {
+  "needs_race": true,
+  "when": [
+   "mid",
+   "late"
+  ],
+  "needs": [
+   "slicks"
+  ],
+  "qa": [
+   {
+    "q": "Are the tyres going to decide this one, Chuck?",
+    "a": [
+     "No question. Whoever's been kindest to the rears wins this.",
+     "They usually do. The one who saved a set is about to look very clever.",
+     "Not on their own — but they'll decide who can use the pace they've got."
+    ]
+   },
+   {
+    "q": "Chuck — how much life is left in those tyres?",
+    "a": [
+     "Not much. You can see it in the entry: the fronts have stopped biting.",
+     "Enough for now. It's the last third of the run where it gets ugly.",
+     "More than you'd think. This surface is kinder than it looks."
+    ]
+   },
+   {
+    "q": "Talk to me about tyre management, Chuck.",
+    "a": [
+     "It's the whole job. Everyone's quick on new rubber; almost nobody is on old.",
+     "In a Cup car you'd nurse them for thirty laps then use everything. Same principle here, shorter fuse.",
+     "The driver half a tenth slower every lap is the one still going at the end."
+    ]
+   }
+  ]
+ },
+ "won_lost": {
+  "needs_race": true,
+  "when": [
+   "mid",
+   "late"
+  ],
+  "q": [
+   "Where's this race being won and lost, Chuck?",
+   "Chuck, what's the decisive bit of this circuit today?",
+   "Where do you have to be brave here, Chuck?"
+  ],
+  "a": [
+   "On the brakes. Everyone's quick in a straight line; not everyone stops late twice in a row.",
+   "Traction on the slow-corner exits. That's where the lap time is hiding.",
+   "The middle sector. Whoever commits there is finding half a second and nobody's matching it.",
+   "It's the in-lap and the out-lap. Races here are decided on the two laps nobody watches."
+  ]
+ },
+ "pressure": {
+  "needs_race": true,
+  "when": [
+   "mid",
+   "late"
+  ],
+  "qa": [
+   {
+    "q": "How much pressure is {drv} under right now, Chuck?",
+    "a": [
+     "Enormous. Leading is the loneliest job in racing and there's no hiding from a mirror.",
+     "More than the gap suggests. He knows exactly who's behind him.",
+     "Plenty — but he's earned the right to feel it."
+    ]
+   },
+   {
+    "q": "Chuck — can {drv} keep this up?",
+    "a": [
+     "I think he can. The braking points haven't moved once, and that's the tell.",
+     "For a while. Whether it lasts to the end is a different question.",
+     "Yes, if nobody forces the issue. The moment somebody does, we find out."
+    ]
+   },
+   {
+    "q": "Is the pressure telling on {drv}, do you think?",
+    "a": [
+     "Not yet. He's still hitting the same marks lap after lap.",
+     "A little. He's a fraction later on the brakes than he was, and that's how it starts.",
+     "You'd never know it from here. That's what experience buys you."
+    ]
+   }
+  ]
+ },
+ "hold_on": {
+  "needs_race": true,
+  "when": [
+   "late"
+  ],
+  "qa": [
+   {
+    "q": "Has {drv} got enough in hand, Chuck?",
+    "a": [
+     "Just about. He's responded every single time he's been asked to.",
+     "It'll be desperately close. The tyres are fading and {b} knows it.",
+     "On this evidence, yes — but he cannot afford one mistake."
+    ]
+   },
+   {
+    "q": "Chuck — is {drv} going to hold on here?",
+    "a": [
+     "I think so. He's got the pace, and I believe he's got the nerve.",
+     "If he keeps it clean, yes. One error and that door swings wide open.",
+     "It's going to go to the flag either way."
+    ]
+   },
+   {
+    "q": "{gap} the gap, Chuck. Is that enough?",
+    "a": [
+     "Not on its own. He needs it to stay there for another ten minutes.",
+     "It's enough if he keeps responding. It is not enough to relax with.",
+     "Barely. That's inside a mistake, and everybody makes one eventually."
+    ]
+   }
+  ]
+ },
+ "prediction": {
+  "needs_race": true,
+  "when": [
+   "mid",
+   "late"
+  ],
+  "q": [
+   "Called it yet, Chuck? Who wins this?",
+   "Give me a winner, Chuck.",
+   "Chuck — how does this finish?"
+  ],
+  "a": [
+   "{drv}, but not comfortably. He'll be looking at his mirrors for the last ten minutes.",
+   "I'm not calling it. Races like this turn on one lap and we haven't had that lap yet.",
+   "{drv} on merit. Unless somebody does something silly, and somebody usually does.",
+   "The one who's saved something. Right now I genuinely couldn't tell you who that is."
+  ]
+ },
+ "strategy": {
+  "needs_race": true,
+  "when": [
+   "mid"
+  ],
+  "needs": [
+   "pitwindow"
+  ],
+  "q": [
+   "What's the strategy call here, Chuck?",
+   "Chuck — is the undercut on?",
+   "How would you play this from the pit wall, Chuck?"
+  ],
+  "a": [
+   "Track position, every time. You can't overtake here, so you don't give the place up in the first place.",
+   "The undercut is live and it's worth about a second. Somebody's going to blink.",
+   "Stay out. Clean air is worth more than fresh rubber on this circuit.",
+   "I'd have gone a lap earlier. Once you're in traffic the whole plan belongs to somebody else."
+  ]
+ },
+ "racecraft": {
+  "when": [
+   "mid"
+  ],
+  "q": [
+   "That's proper racecraft, isn't it Chuck?",
+   "Chuck, how do you actually make a pass stick here?",
+   "What separates the good overtakers, Chuck?"
+  ],
+  "a": [
+   "Patience. You set a pass up two corners before you make it, and everybody who's in a hurry gets it wrong.",
+   "You have to be alongside before the apex or you're just a passenger.",
+   "Show them the car early, then go somewhere else. Works in a stock car, works here.",
+   "The great ones make the other driver make the mistake. They don't force anything."
+  ]
+ },
+ "era": {
+  "when": [
+   "mid",
+   "session"
+  ],
+  "q": [
+   "What do you make of these cars, Chuck?",
+   "Chuck — how much harder are these than they look?",
+   "Would you have fancied one of these, Chuck?"
+  ],
+  "a": [
+   "Far harder than they look from here. Everything happens at twice the speed I'm used to.",
+   "I raced heavy cars with no grip and a lot of banking. This is a different sport with the same steering wheel.",
+   "I'd have loved a go. I'd also have been two seconds off and very honest about it.",
+   "The braking is what would get me. In a Cup car you're on the pedal for an age; here it's a stab and it's done."
+  ],
+  "disc": [
+   "formula",
+   "proto",
+   "gt",
+   "f1"
+  ]
+ },
+ "nerves": {
+  "when": [
+   "late",
+   "closing"
+  ],
+  "q": [
+   "What's going through the mind of a leader right now, Chuck?",
+   "Chuck — how do you settle yourself at this stage?",
+   "Last few laps, Chuck. What does that feel like?"
+  ],
+  "a": [
+   "Nothing. That's the trick. The second you start thinking about the trophy, you've lost it.",
+   "Your hands get tight and the car feels worse than it is. Every driver out there knows that feeling.",
+   "You count corners, not laps. Laps are too big a number when you're that close.",
+   "You breathe, and you drive the same lap you drove an hour ago. Easy to say."
+  ]
+ },
+ "pitwall": {
+  "needs_race": true,
+  "when": [
+   "mid"
+  ],
+  "q": [
+   "What are they saying on the pit wall, Chuck?",
+   "Chuck — what's the radio traffic like at this stage?",
+   "What would you be telling your driver right now, Chuck?"
+  ],
+  "a": [
+   "Almost nothing. The best thing an engineer can do at this point is stay off the radio.",
+   "Gaps and nothing else. He doesn't need encouragement, he needs numbers.",
+   "I'd tell him the car behind is on older tyres. True or not, it's the only thing worth saying.",
+   "They'll be watching the fuel more than the fight. It's the thing that ends races quietly."
+  ]
+ },
+ "field": {
+  "when": [
+   "mid",
+   "session"
+  ],
+  "qa": [
+   {
+    "q": "How would you rate this field, Chuck?",
+    "a": [
+     "Deep. Nobody out there is making up the numbers, which is rarer than it sounds.",
+     "Strong at the front, honest behind. That's a healthy grid.",
+     "You can see who's raced properly and who's learning. Both are quick; only one is repeatable."
+    ]
+   },
+   {
+    "q": "Chuck — is this as close as it looks from up here?",
+    "a": [
+     "Closer. When the top ten are covered by a second, one mistake costs five places.",
+     "It really is. There's nothing between them on pace.",
+     "Closer than it's been all season, and it's making for a good watch."
+    ]
+   },
+   {
+    "q": "What do you make of the depth of this {series} grid?",
+    "a": [
+     "The front three are on another level, but behind them it's genuinely anybody's.",
+     "Deeper than the results suggest. Plenty of them could win on the right day.",
+     "It's the middle of the field that impresses me. No easy afternoons in there."
+    ]
+   }
+  ]
+ },
+ "circuit": {
+  "when": [
+   "opening",
+   "mid",
+   "session"
+  ],
+  "qa": [
+   {
+    "q": "What does {trk} ask of a driver, Chuck?",
+    "a": [
+     "Everything, and all at once. There's no corner here where you can have a rest.",
+     "Commitment, mostly. The quick way round is the frightening way round.",
+     "Precision. It gives you nothing back if you're a foot out of position."
+    ]
+   },
+   {
+    "q": "Chuck — how much does this circuit punish a mistake?",
+    "a": [
+     "Immediately. Run wide here and you don't lose a tenth, you lose the place.",
+     "Enormously. There's no run-off worth the name at the quick bits.",
+     "Less than it looks, actually — you can tidy one up if you're quick about it."
+    ]
+   },
+   {
+    "q": "Is {trk} a driver's track, Chuck?",
+    "a": [
+     "Absolutely. You can hide a bad car round here if the driver's brave enough.",
+     "It is. The good ones find half a second the rest simply cannot.",
+     "More than most. This is a circuit where the man matters more than the machine."
+    ]
+   }
+  ]
+ },
+ "weather": {
+  "when": [
+   "opening",
+   "mid",
+   "late",
+   "session"
+  ],
+  "q": [
+   "What's the weather doing out there, Chuck?",
+   "Chuck — how much is the track temperature mattering today?",
+   "Is the surface changing, Chuck?"
+  ],
+  "a": [
+   "It's mattering enormously. A hot track hurts the rear tyre first, and everybody out there is managing that whether they admit it or not.",
+   "The surface is cooling, which suits whoever's been struggling for rear grip and hurts whoever's been living off front end.",
+   "Track temperature moves the balance more than any setup change these teams have got left. It is the biggest variable of the day.",
+   "Enough to matter. A green track and a rubbered-in one are two different circuits, and they arrive four hours apart."
+  ]
+ },
+ "era_junior": {
+  "when": [
+   "mid",
+   "session"
+  ],
+  "disc": [
+   "kart",
+   "touring",
+   "stock"
+  ],
+  "q": [
+   "Would you have fancied a go in these, Chuck?",
+   "Chuck, how would you have got on in one of these?",
+   "What do you make of this kind of racing, Chuck?"
+  ],
+  "a": [
+   "Honestly? I would be quick enough in a straight line and hopeless everywhere else. This is a discipline you learn young or you do not learn.",
+   "I have a lot of respect for it. There is nowhere to hide - no aero to lean on, no horsepower to cover a mistake, just what the driver does.",
+   "I would enjoy it enormously and I would be beaten by teenagers, which is the correct outcome and would not stop me entering.",
+   "The good ones out here are learning things I spent a decade unlearning. This is where a racing driver is actually made."
+  ]
+ }
+}

@@ -1,0 +1,668 @@
+{
+ "_comment": [
+  "FACTORtv — THE BOOTH KNOWS WHOSE CAREER THIS IS.",
+  "",
+  "The commentary is most of the gameplay, and until now it knew the race, the",
+  "circuit, the cars and the real drivers — and nothing whatsoever about the",
+  "career being played. A man in his third season of Formula 3, who won karting",
+  "two years ago and has a Formula 2 seat riding on this afternoon, was called",
+  "'the driver in fourth'.",
+  "",
+  "EVERY LINE HERE IS TRUE BY CONSTRUCTION. The facts come from",
+  "`Career.resume()` and `Career.evaluate()` — seasons this overlay recorded,",
+  "races it watched, championships it scored. Nothing is invented and nothing",
+  "needs a knowledge base, which is why these work identically in a karting",
+  "field and in Formula One. That is the whole reason the ladder can be",
+  "commentated at all: a GT4 mod's AI has no record anywhere, but the PLAYER's",
+  "record is something we watched happen.",
+  "",
+  "SLOTS:",
+  "  {drv} the name he races under     {series} the division he is in now",
+  "  {below} the division beneath it   {need} the position the next seat needs",
+  "  {seasons} seasons completed       {races} races started",
+  "  {wins} race wins in this career   {titles} championships won",
+  "  {n} a count, in words             {left} rounds left in the season",
+  "",
+  "REGISTER IS A TONE, NOT A KNOWLEDGE BASE. `reg_*` pools say what KIND of",
+  "racing this is — a club meeting, a junior category with everybody watching,",
+  "a professional championship. Karting commentary is not Formula One",
+  "commentary, but the difference is how it SOUNDS, and tone is cheap while",
+  "invented history is not."
+ ],
+ "ladder_first_race": [
+  {
+   "t": "First time out in {series} for {drv}. New car, new field, and everything he knew last season is now a starting point rather than an answer.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "This is {drv}'s first race in {series}, and there is no gentle way into a category like this one.",
+   "i": 2
+  },
+  {
+   "t": "A debut for {drv} at this level. The first few rounds of a step up are about learning what the car will not let you do.",
+   "i": 2,
+   "who": "ANALYST"
+  }
+ ],
+ "ladder_reigning": [
+  {
+   "t": "{drv} arrives here as the reigning {below} champion — and a title in the category below buys you precisely nothing on a Sunday.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "The {below} champion, stepping up. Everybody in this paddock has watched somebody do that and disappear, and watched somebody else do it and never look back.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv}, who won {below} last season, is out there learning what the difference between these two categories actually is.",
+   "i": 2
+  }
+ ],
+ "ladder_climb": [
+  {
+   "t": "{drv} has come up through every rung of this thing — {seasons} seasons of it, and none of them handed to him.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{races} races into a career that started at the bottom of the ladder. That is the unglamorous version of how a driver gets here.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "It has taken {drv} {seasons} seasons to get to this grid, which is about normal, and it is the part nobody puts in a highlight reel.",
+   "i": 2
+  }
+ ],
+ "ladder_record": [
+  {
+   "t": "{wins} race wins for {drv} across this career now, in four different kinds of car.",
+   "i": 2
+  },
+  {
+   "t": "That is {titles} championships to his name — and Chuck, they were not won in the same machinery.",
+   "i": 2
+  },
+  {
+   "t": "{wins} wins and {titles} titles. A record like that gets a driver looked at differently in the room before a race, never mind on the circuit.",
+   "i": 2,
+   "who": "ANALYST"
+  }
+ ],
+ "ladder_arc": [
+  {
+   "t": "{drv} has already won a championship in another discipline entirely, which is rarer than it sounds and harder than it looks.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "A man who has been champion elsewhere. Different cars, different tyres, different way of racing — and he came here and started again.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Whatever happens this afternoon, {drv} has a title in another category on his record. Very few drivers ever manage two.",
+   "i": 2
+  }
+ ],
+ "ladder_promotion": [
+  {
+   "t": "There is a seat above this championship, and {need} in the final standings is what it costs. {drv} knows exactly what the number is.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Everything this season is worth is decided by where he finishes it. {need} gets him out of {series}; anything less and he is here again next year.",
+   "i": 2
+  },
+  {
+   "t": "That is what makes these afternoons matter — not the trophy, the seat it unlocks.",
+   "i": 2,
+   "who": "ANALYST"
+  }
+ ],
+ "ladder_last_chance": [
+  {
+   "t": "Last round of the season, and {drv} is racing for a promotion rather than a trophy. {need} or another year in {series}.",
+   "i": 3
+  },
+  {
+   "t": "Everything he has done this season comes down to the next hour. A seat above this category is on the line, and it is decided today.",
+   "i": 3
+  },
+  {
+   "t": "This is the afternoon a career turns on, and there is no consolation version of it. He either takes the seat or he does not.",
+   "i": 3,
+   "who": "ANALYST"
+  }
+ ],
+ "ladder_title_run": [
+  {
+   "t": "{left} rounds left, and {drv} is fighting for a championship that decides where he races next season.",
+   "i": 2
+  },
+  {
+   "t": "The title here is not the end of it. A championship in this category is a ticket out of it, and everybody on this grid is racing for the same door.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{left} rounds left and everything still to play for. This is where seasons are actually decided — not in the last race, in the two before it.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "The maths has started mattering. {left} rounds, and every point {drv} leaves out there is one he has to find again somewhere else.",
+   "i": 2
+  }
+ ],
+ "reg_grassroots": [
+  {
+   "t": "No television money in this paddock. Everybody here is paying for their own tyres, and half of them drove the transporter themselves.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "This is where it starts for almost everybody. Small grids, small budgets, and results that follow a driver around for the rest of his career.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "A club meeting on a Sunday afternoon, and I promise you the racing is no less serious for it.",
+   "i": 1
+  },
+  {
+   "t": "Nobody out there is being paid to do this. That is worth remembering when you watch how hard they are going at it.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Somebody in this paddock is going to be a world champion one day, and right now he is helping his dad load a trailer.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Entry fees, a van, and a weekend. That is the whole budget for most of these cars.",
+   "i": 1
+  }
+ ],
+ "reg_junior": [
+  {
+   "t": "A junior category, which means every driver out there is being watched by somebody with a seat to fill further up.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Careers are made and quietly ended in categories like this one, usually before anybody outside the paddock has heard the names.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Equal machinery, near enough, which means there is nowhere for a driver to hide out there.",
+   "i": 2
+  },
+  {
+   "t": "The gap between the best of these and the rest is smaller than at any other level of the sport, and it decides everything.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Every driver here is being measured against his team mate, and everybody in the sport knows that is the only comparison that means anything.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "This is the level where a career either starts or quietly stops. Nobody says so out loud, and everybody out there knows it.",
+   "i": 2
+  }
+ ],
+ "reg_professional": [
+  {
+   "t": "Professional racing, professional consequences. Every one of these drivers is somebody's employee, and results are how the contract gets renewed.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "This is the level everybody down there is climbing towards, and it is unforgiving in a way the categories below it are not.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Big teams, big operations, and a driver who is one bad season from being replaced by somebody cheaper and younger.",
+   "i": 2
+  },
+  {
+   "t": "There is money in this paddock now, and money brings expectation. Every one of these drivers is being judged against a contract.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "The racing at this level is the closest thing the sport has to a fair fight, and it is completely merciless.",
+   "i": 2
+  },
+  {
+   "t": "Nobody arrives here by accident. Every driver on this grid has spent a decade getting to it.",
+   "i": 2,
+   "who": "ANALYST"
+  }
+ ],
+ "ladder_home": [
+  {
+   "t": "And this is a home race for {drv}. Whatever else happens this afternoon, he will hear the difference from the grandstands.",
+   "i": 2
+  },
+  {
+   "t": "{drv} is racing at home today. Every driver says it makes no difference, and every driver who has done it knows that is not quite true.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "A home crowd for {drv} — and a home crowd is the only pressure in this sport that nobody has ever worked out how to prepare for.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "This one is in his own country, and there will be people in that grandstand who watched him race karts.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "A home race for {drv}. The one weekend a year a driver hears his own name from the grandstand before he has done anything.",
+   "i": 2
+  }
+ ],
+ "ladder_home_win": [
+  {
+   "t": "A home win. There is nothing else in this sport quite like it, and most drivers never get one.",
+   "i": 3
+  },
+  {
+   "t": "He has won his home race. Ask any driver on that grid which victory they would take, and this is the one they would name.",
+   "i": 3,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Winning at home. Drivers spend entire careers trying to arrange that afternoon and most of them never manage it.",
+   "i": 3,
+   "who": "ANALYST"
+  }
+ ],
+ "ladder_nation": [
+  {
+   "t": "{drv}, the {nat}, out there in the middle of it.",
+   "i": 1
+  },
+  {
+   "t": "There are not many {nat} drivers at this level, which makes {drv} worth watching on that alone.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv} carries a {adj} licence, and he has come a very long way from home to be on this grid.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv} is a long way from home this weekend, which is the ordinary condition of a racing driver and never stops being strange.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "The {nat} in the field — and there have not been many of those at this level.",
+   "i": 1
+  }
+ ],
+ "status_rookie": [
+  {
+   "t": "{drv} is a rookie in the truest sense of it — nobody in this paddock has any idea yet what he is going to turn into.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv}. And Chuck, nobody in this paddock has any idea yet what he is going to turn into.",
+   "i": 2
+  },
+  {
+   "t": "A rookie out there, and rookies are the most interesting drivers on any grid — because nobody has decided what they are yet.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "This is a driver at the very start of it. Everything he does this season is the first time he has ever done it.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Nobody knows what {drv} is yet, and that includes {drv}. That is what a first season actually is.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "A rookie gives himself away in the small things - a little too much steering on the way in, a little too much throttle on the way out. It goes away.",
+   "i": 2
+  },
+  {
+   "t": "The interesting thing about a rookie is that everything he learns in his first season, he keeps.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv} has nothing behind him at all. No record, no reputation, nobody expecting anything — which is a freedom he will never have again.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "First season. Everybody on this grid was here once, and most of them will tell you it was the most frightened they have ever been in a car.",
+   "i": 2
+  }
+ ],
+ "status_riser": [
+  {
+   "t": "{drv} was a rookie not so long ago. He has climbed out of {below} since then, and he is not being called a rookie for much longer.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "This one is on his way up. A division a year, and the people who fill seats above this level have started asking about him.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv} has already earned his way out of one championship. That is the hard part, and most drivers never manage it once.",
+   "i": 2
+  },
+  {
+   "t": "{drv} is going the right way. Not the fastest man out there yet, but a driver who is a different proposition every time we see him.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "A season or two ago nobody in this paddock could have picked {drv} out of a line-up. That has stopped being true.",
+   "i": 2
+  },
+  {
+   "t": "This is the awkward stage of a career — good enough to be noticed, not yet good enough to be safe. Most drivers do not survive it.",
+   "i": 2,
+   "who": "ANALYST"
+  }
+ ],
+ "status_contender": [
+  {
+   "t": "The rookie is gone. {drv} is starting to look like a genuine contender at this level, and that is a different conversation entirely.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv} arrived here as a kid nobody had heard of and he is now racing people who have been doing this for a living for years — on level terms.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "A contender. Not a prospect, not a name for the future — a man who can win this championship, in this car, this season.",
+   "i": 2
+  },
+  {
+   "t": "{drv} is being talked about now by the sort of people whose opinion decides where a driver races next year.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "He has arrived at the level where nobody cares what you did in the category below. And he is holding his own.",
+   "i": 2
+  },
+  {
+   "t": "There is a difference between a driver who is quick and a driver who is a problem, Chuck, and {drv} has crossed it.",
+   "i": 2,
+   "who": "ANALYST"
+  }
+ ],
+ "status_champion": [
+  {
+   "t": "{drv}, a champion in this sport now, and nobody can ever take that sentence away from him.",
+   "i": 2
+  },
+  {
+   "t": "There is a championship on {drv}'s record, and it changes how every driver on this grid races him.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "The champion. He came into this sport with nothing at all and he has a title on the board.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "A champion out there. He drives the same as he did a year ago; everybody else races him differently.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv} has the one thing in this sport that cannot be bought, borrowed or explained away — a championship with his name on it.",
+   "i": 2
+  }
+ ],
+ "status_multi": [
+  {
+   "t": "{titles} championships for {drv} now. One can be a season that went right; two is a driver.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "A multiple champion out there. That is a very short list in any category, and he is on it.",
+   "i": 2
+  },
+  {
+   "t": "{drv} has won this sport's championships in more than one machine, which is the only test that has ever meant anything.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Two titles and counting. The paddock has stopped asking whether {drv} can win one and started asking who is going to stop him.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{titles} championships in different machinery. That is the only comparison this sport has ever accepted as meaningful.",
+   "i": 2
+  }
+ ],
+ "status_legend": [
+  {
+   "t": "{titles} championships. At some point you stop calling a man a great driver and start calling him a part of the sport's history — {drv} is past that point.",
+   "i": 3,
+   "who": "ANALYST"
+  },
+  {
+   "t": "A legend of this sport, out there in the middle of a race like anybody else. There is nothing left for him to prove to anyone.",
+   "i": 3
+  },
+  {
+   "t": "{drv}. Karting to this, {titles} titles, and a career people will still be arguing about long after he stops.",
+   "i": 3,
+   "who": "ANALYST"
+  },
+  {
+   "t": "There are drivers on this grid who were watching {drv} on television when they decided to do this for a living.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "A career like this one comes along about once a decade, and we are watching the end of it happen in real time.",
+   "i": 2
+  }
+ ],
+ "status_arrival": [
+  {
+   "t": "From rookie to champion. {drv} has had a meteoric rise in this sport, and I cannot wait to see what he does next.",
+   "i": 3
+  },
+  {
+   "t": "He arrived with nothing and no record and nobody expecting anything, and he leaves this season as a champion. That is the whole sport in one career.",
+   "i": 3
+  },
+  {
+   "t": "From a kart to this. {drv} is a champion, and every one of us watched him earn it a division at a time.",
+   "i": 3,
+   "who": "ANALYST"
+  },
+  {
+   "t": "He was a rookie nobody had heard of, and he is a champion. That is the whole sport, in one career, in front of us.",
+   "i": 3,
+   "who": "ANALYST"
+  }
+ ],
+ "status_arrival_more": [
+  {
+   "t": "{titles} championships now for {drv}, and this one was won in front of people who remember him as a rookie.",
+   "i": 3
+  },
+  {
+   "t": "Another title. He is not a story any more — he is a record, and the record is still being written.",
+   "i": 3,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Another one. {drv} is no longer a driver having a good run — he is a record, and it is still being added to.",
+   "i": 3
+  }
+ ],
+ "ladder_rivalry": [
+  {
+   "t": "{b} and {drv} have finished within a place of each other in most of the last few rounds, and there are {pts} points between them. This is the fight of the season.",
+   "i": 2
+  },
+  {
+   "t": "These two keep arriving at the same corner at the same moment. {pts} points apart, and neither of them is going away.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Chuck, this has stopped being a coincidence — {drv} and {b} have raced each other in every round for weeks.",
+   "i": 2
+  },
+  {
+   "t": "Every time one of them finds something, the other one finds it a fortnight later. {pts} points between them and no sign of that changing.",
+   "i": 2
+  },
+  {
+   "t": "This has become the story of the season, and neither garage is pretending otherwise. Two drivers, {pts} points, and a great many rounds still to run.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Watch where {b} places his car when {drv} is behind him. That is not how you defend against somebody you are comfortable about.",
+   "i": 2,
+   "who": "ANALYST"
+  }
+ ],
+ "ladder_needle": [
+  {
+   "t": "And {b} had a few things to say about {drv} in the press this week, none of which will have gone unnoticed in that garage.",
+   "i": 2
+  },
+  {
+   "t": "There is a bit of needle here now. {b} was asked about {drv} at the last event and gave an answer that was not exactly warm.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Whatever was said in the press conference, these two are racing each other harder than they are racing anybody else.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{b} has been quoted this week on the subject of {drv}, and Miles, drivers do not talk about people they are not worried about.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "These two are not speaking, and the paddock has noticed. It has not made either of them slower.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "There has been a bit said in the press this week, and both of them are about to have to answer for it out on the circuit.",
+   "i": 2
+  },
+  {
+   "t": "{b} was asked about {drv} again this week. He has stopped pretending he has not noticed him.",
+   "i": 2,
+   "who": "ANALYST"
+  }
+ ],
+ "prog_stake": [
+  {
+   "t": "{drv} is racing this season with {prog} behind him, and that is a different kind of pressure to the one on everybody else out here.",
+   "i": 2
+  },
+  {
+   "t": "There is a Formula One programme watching this car. {prog} do not put their name on a driver and then look away.",
+   "i": 2
+  },
+  {
+   "t": "Every lap of this season is being watched by people who can end it, and {drv} knows exactly who they are.",
+   "i": 2
+  },
+  {
+   "t": "{prog} are behind him this year. A seat at {f1team} is what that means if it works, and nothing at all if it does not.",
+   "i": 2
+  },
+  {
+   "t": "He is not only racing a championship here — he is auditioning, and everybody in this paddock knows it.",
+   "i": 2
+  }
+ ],
+ "prog_last_chance": [
+  {
+   "t": "This is the afternoon it is decided. Win this championship and a Formula One seat is his; finish second and it is another year of asking.",
+   "i": 3
+  },
+  {
+   "t": "{prog} have made the terms plain, and they come down to today: the title, or nothing.",
+   "i": 3
+  },
+  {
+   "t": "Everything {drv} has done this season comes to this race, and there is a seat at {f1team} on the other side of it.",
+   "i": 3
+  },
+  {
+   "t": "A championship and a Formula One drive, in one afternoon. There is no version of this where second place is enough.",
+   "i": 3
+  }
+ ],
+ "prog_debut": [
+  {
+   "t": "This is his first Grand Prix. {drv} takes the {f1team} seat, alongside {lead}, and a year of waiting ends right here.",
+   "i": 3
+  },
+  {
+   "t": "A Formula 2 champion, a year in development, and now the other side of {lead}'s garage. That is the whole climb, in one sentence.",
+   "i": 3
+  },
+  {
+   "t": "{drv} arrives at {f1team} the long way round — a title, a year out of the car, and a seat nobody handed him.",
+   "i": 3
+  },
+  {
+   "t": "He spent a season out of a racing car for this. Now he is in one, and it is a {f1team}, and the man he is measured against is {lead}.",
+   "i": 3
+  }
+ ],
+ "prog_measured": [
+  {
+   "t": "There is nowhere to hide in this seat. {lead} is in the same car, and that is the only comparison anybody at {f1team} will make.",
+   "i": 2
+  },
+  {
+   "t": "{drv} was put in this car by people who wanted to find something out. This season is the answer, one way or the other.",
+   "i": 2
+  },
+  {
+   "t": "The hardest part of arriving here is not the speed, it is the other side of the garage. {lead} has been doing this for years.",
+   "i": 2
+  }
+ ]
+}

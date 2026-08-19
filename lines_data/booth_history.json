@@ -1,0 +1,224 @@
+{
+ "_comment": [
+  "WHO A DRIVER IS, ELABORATED.",
+  "",
+  "`booth_driver.json` states a record: 'Max Verstappen has ten wins.' True,",
+  "useful, and — in the user's words — 'one statement and then theres no",
+  "conversation, full stop'. It averages ten words a line.",
+  "",
+  "This file is the other register. Miles asks, Chuck answers at length, and",
+  "the answer says what the record MEANS rather than what it is. Same gates,",
+  "same `drivers.CATEGORIES`, same guarantee that nothing can be said about a",
+  "driver it is untrue of — only the sentence is longer and there are two",
+  "people in it.",
+  "",
+  "SLOTS are exactly those of booth_driver.json, so anything legal there is",
+  "legal here: {drv} {team} {titles} {ntitles} {next_title} {wins} {nwins}",
+  "{note} {swins} {yr}. LAW 13 applies — the article is in the slot.",
+  "",
+  "TENSE IS STILL FIXED. These are the numbers a driver BROUGHT to the",
+  "season; nothing here may sound as though the booth knows how the user's",
+  "championship is going.",
+  "",
+  "ERA-NEUTRAL. Nothing names equipment, a regulation or a decade, so Brett",
+  "delivers all of it and a 1988 grid gets the same treatment as a 2025 one."
+ ],
+ "driver_ask": [
+  {
+   "t": "Chuck, remind me about {drv}."
+  },
+  {
+   "t": "What should people know about {drv}, Chuck?"
+  },
+  {
+   "t": "Chuck — {drv}. Give me the background."
+  },
+  {
+   "t": "Tell me about {drv}, Chuck."
+  },
+  {
+   "t": "Who is {drv}, for anybody just joining us?"
+  },
+  {
+   "t": "Chuck, put {drv} in context for me."
+  },
+  {
+   "t": "What is the story with {drv}, Chuck?"
+  },
+  {
+   "t": "Chuck, how good is {drv}, really?"
+  }
+ ],
+ "hist_reigning": [
+  {
+   "t": "He is the reigning champion, and that changes how a season feels. Everybody else is measuring themselves against him, and he knows it every time he looks in a mirror.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "The number one on the car. It looks like an honour and it races like a target — every driver out here would rather beat him than beat anybody else.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "He won it last year, which means he has already answered the only question that matters. Doing it again is a different problem, and a harder one.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "Defending a championship is nothing like winning one. You spend the year protecting something instead of chasing it, and that gets into a driver's head.",
+   "who": "ANALYST"
+  }
+ ],
+ "hist_chasing": [
+  {
+   "t": "{titles} already, and he is here for {next_title}. At a certain point the trophies stop being the reason — it becomes about how far you can push the number.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "He has {ntitles} of them. You would think that takes the edge off — in my experience it does the opposite. The more you win, the less you can stand not to.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "{next_title} world championship. Very few drivers ever get near that, and the ones who do tend to be the ones who never learned how to be satisfied.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "This is a man chasing {next_title} title. Nothing about that is normal, and nothing about the way he goes racing is normal either.",
+   "who": "ANALYST"
+  }
+ ],
+ "hist_champion": [
+  {
+   "t": "{titles}. Once you have proved you can do it over a whole season, you never quite stop believing you can do it again.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "He has won a world championship. That is a whole year of not making the mistake, which is a completely different skill from being quick on a Saturday.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "There is a title on his record, and you see it in races like this — he knows exactly which afternoons are worth risking something for.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "A champion. People forget how much of that is patience: you cannot win one of those by being brave twenty times in a season.",
+   "who": "ANALYST"
+  }
+ ],
+ "hist_winner": [
+  {
+   "t": "{wins} in this sport, and no championship. That is the hardest career to have — good enough to beat anybody on his day, never quite in the right car for a year.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "He has won {wins}. Every one of those is a Sunday where he was the best driver out there, and the record book will still call him a nearly man.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "{nwins} victories. You do not do that by luck or by having the quickest car once — that is a driver who knows how to close a race out.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "A Grand Prix winner, {wins} over. What he has never had is a whole season where the car was under him every weekend, and that is what a title needs.",
+   "who": "ANALYST"
+  }
+ ],
+ "hist_winless": [
+  {
+   "t": "He has never won one, and that is not a criticism. Most drivers who get this far never win a Grand Prix at all.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "No victories yet. The first one is the hardest thing in this sport, because until you have it everybody quietly wonders whether you can.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "Still waiting on that first win. He needs one afternoon where the car is good and the race falls his way, and then everything anybody says about him changes.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "Nothing on the top step so far. I have known drivers who waited years for it and drove better afterwards than they ever did before.",
+   "who": "ANALYST"
+  }
+ ],
+ "hist_rookie": [
+  {
+   "t": "First full season. Everything he does out there he is doing for the first time, in front of everybody, against men who have been doing it for a decade.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "He is learning this in public, which is the only way it has ever been done. The mistakes are part of it and so is being quick straight away.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "A rookie year. The thing nobody tells you is how long the season feels when every circuit is new and every one of your rivals has been there twenty times.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "New to all of this. Watch how he is on the opening lap — that is where you can see a rookie thinking, and where the good ones stop looking like one.",
+   "who": "ANALYST"
+  }
+ ],
+ "hist_new_team": [
+  {
+   "t": "First season at {team}. Changing teams looks simple from outside and it is not — new engineers, a new car underneath you, and a year to prove it was the right call.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "He is in {team} colours now. Most drivers take half a season to stop driving the car they used to have, and you see it on corner entry.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "New surroundings. The hardest part is not the car, it is learning which people to trust when something is wrong — and that takes a year, not a weekend.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "{team} signed him and this is the season they find out. Both are being judged on a partnership that is a few months old.",
+   "who": "ANALYST"
+  }
+ ],
+ "hist_favourite": [
+  {
+   "t": "He is one of the names you would have picked before the season. Being favourite is its own weight: no credit for winning, all the blame for not.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "Everybody expected him to be in the fight this year. That expectation does something to a driver, and the ones who handle it are the ones who win championships.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "On paper this should be his season. On paper is where a lot of championships have been won and then not won.",
+   "who": "ANALYST"
+  }
+ ],
+ "hist_season_wins": [
+  {
+   "t": "He has {swins} this season, and you can see what it has done for him — a driver who has already won this year races differently to one who has not.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "{swins} already this year. Confidence is not a thing you can put in a car, but it is the closest thing to free lap time there is.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "He arrives here having won this season. That matters more than the points — he knows this car can do it, and so does everybody else.",
+   "who": "ANALYST"
+  }
+ ],
+ "hist_note": [
+  {
+   "t": "{drv}, {note}. That is the kind of thing that gets forgotten by the end of a season, and it is exactly what makes him worth watching now.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv}, {note}. It changes how you read everything else he does out there.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "Remember this about him — {drv}, {note}. Careers turn on less.",
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv}, {note}. Whatever happens this season, that is the line people will use about him.",
+   "who": "ANALYST"
+  }
+ ]
+}

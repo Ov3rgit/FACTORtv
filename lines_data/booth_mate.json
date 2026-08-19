@@ -1,0 +1,179 @@
+{
+ "_note": [
+  "THE MAN IN THE OTHER SIDE OF THE GARAGE.",
+  "",
+  "The only driver on the grid with the same car, the same team and the same",
+  "information - which is why a team-mate comparison is the one measurement",
+  "in this sport that nobody can argue with, and why it is the first number",
+  "any paddock looks at.",
+  "",
+  "AVAILABLE ONLY WHERE THE GRID IS TEAM-NAMED (the Formula One mods), where",
+  "rF2 reports the constructor as the CarClass. Everywhere else the entrant",
+  "is only in the result file and these pools are simply never offered - see",
+  "`BoothMixin._team_mate`.",
+  "",
+  "{a} is the player, {b} is the team-mate, {gap} carries its own units.",
+  "No determiner before a slot (LAW 13); every line stands alone (LAW 14);",
+  "no two open on the same four words."
+ ],
+ "mate_ahead": [
+  {
+   "t": "{a} is ahead of his own team-mate, and that is the comparison that counts in this sport.",
+   "i": 2
+  },
+  {
+   "t": "Same car, same team, same tyres - and {gap} of it is {a}.",
+   "i": 2
+  },
+  {
+   "t": "In the other side of that garage, {b} is looking at a timing screen he does not like.",
+   "i": 2
+  },
+  {
+   "t": "{a} leads {b} on the road, and inside a team that is the only league table anybody reads.",
+   "i": 2
+  },
+  {
+   "t": "Nobody in that team can explain away {gap}. It is the same car.",
+   "i": 2
+  }
+ ],
+ "mate_behind": [
+  {
+   "t": "{b} has {gap} on his team-mate, and {a} will know exactly what that number means.",
+   "i": 2
+  },
+  {
+   "t": "The other car is {gap} up the road, and it is the same machinery.",
+   "i": 2
+  },
+  {
+   "t": "{a} is losing this one where it hurts most - to the man in his own garage.",
+   "i": 2
+  },
+  {
+   "t": "Being beaten by anybody is racing. Being beaten by {b} is a conversation on Monday.",
+   "i": 2
+  },
+  {
+   "t": "Every driver on this grid has an excuse available except the one racing his own team-mate.",
+   "i": 2
+  }
+ ],
+ "mate_pass": [
+  {
+   "t": "And that is his own team-mate! {a} goes past {b}, and the garage will have gone very quiet.",
+   "i": 3
+  },
+  {
+   "t": "Team-mate on team-mate - {a} takes it from {b}, and nobody on that pit wall enjoyed watching it.",
+   "i": 3
+  },
+  {
+   "t": "There is no harder pass to make and none that counts for more. {a} is through on {b}.",
+   "i": 3
+  },
+  {
+   "t": "{a} has done it to the other car. Same team, same equipment, and he has taken the place.",
+   "i": 3
+  },
+  {
+   "t": "That is the one the team did not want to see. {a} past {b}, on the road, in front of everybody.",
+   "i": 3
+  }
+ ],
+ "mate_passed": [
+  {
+   "t": "{b} takes the place off his own team-mate, and {a} has just lost the argument that matters.",
+   "i": 3
+  },
+  {
+   "t": "The other car is through. {b} past {a}, and that will be a long evening.",
+   "i": 3
+  },
+  {
+   "t": "Team orders will not come into it - {b} has simply gone past {a} and taken the place.",
+   "i": 3
+  },
+  {
+   "t": "That is {a} being beaten by the same car he drives, which is the one result nobody can spin.",
+   "i": 3
+  }
+ ],
+ "mate_quali_up": [
+  {
+   "t": "{a} out-qualifies {b}, and inside that team it is the only number anybody will discuss.",
+   "i": 2
+  },
+  {
+   "t": "On the sheet it is {a} ahead of his own team-mate by {gap}.",
+   "i": 2
+  },
+  {
+   "t": "Same car, one lap, and {a} has found {gap} more of it than {b}.",
+   "i": 2
+  },
+  {
+   "t": "{b} is behind the other car, and there is nowhere in a garage to hide from that.",
+   "i": 2
+  }
+ ],
+ "mate_quali_down": [
+  {
+   "t": "{b} has the better of it on the sheet - {gap} up on his own team-mate.",
+   "i": 2
+  },
+  {
+   "t": "{a} is behind the other car by {gap}, and that is the comparison his engineers will start with.",
+   "i": 2
+  },
+  {
+   "t": "One lap, same machinery, and {gap} of it belongs to {b}.",
+   "i": 2
+  },
+  {
+   "t": "That is the wrong side of a team-mate comparison for {a}, and he will know it before the lap is over.",
+   "i": 2
+  }
+ ],
+ "mate_record": [
+  {
+   "t": "Against his own team-mate this season it is {n} to {m} in qualifying, and that is the number the paddock actually reads.",
+   "i": 2
+  },
+  {
+   "t": "The head-to-head with {b} stands at {n}-{m} on Saturdays. Same car, and no way to argue with it.",
+   "i": 2
+  },
+  {
+   "t": "{n}-{m} to {a} in qualifying against the other car. Whatever else this season is, that part is settled.",
+   "i": 2
+  },
+  {
+   "t": "On the sheet across the season it is {n} against {m} between these two, and only one of them enjoys quoting it.",
+   "i": 2
+  },
+  {
+   "t": "Team-mate qualifying record: {n}-{m}. It is the first thing anybody in that garage looks up.",
+   "i": 2
+  }
+ ],
+ "mate_record_races": [
+  {
+   "t": "Across the races it is {n} finishes to {m} between {a} and his own team-mate.",
+   "i": 2
+  },
+  {
+   "t": "{a} has finished ahead of {b} {n} times this season, to {m} the other way.",
+   "i": 2
+  },
+  {
+   "t": "On Sundays the two of them stand at {n}-{m}, and Sundays are the ones that pay.",
+   "i": 2
+  },
+  {
+   "t": "The race head-to-head reads {n}-{m}. That is a season's worth of the same car, driven two ways.",
+   "i": 2
+  }
+ ]
+}

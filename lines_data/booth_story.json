@@ -1,0 +1,378 @@
+{
+  "_comment": [
+    "THE RACE STORY. How a driver's afternoon has actually gone.",
+    "",
+    "Built from `story.Arc`, which is measured and never inferred. A category",
+    "is only offered when `Arc.headline()` returns it, so no line here can be",
+    "said about a driver it is untrue of.",
+    "",
+    "SLOTS:",
+    "  {drv}   the driver",
+    "  {grid}  where he started      'twelfth'",
+    "  {pos}   where he is now       'fourth'",
+    "  {n}     the number of places involved, as a phrase: 'nine places'",
+    "  {worst} the lowest he fell to 'nineteenth'",
+    "  {best}  the highest he reached",
+    "  {offs}  'twice' / 'three times'",
+    "",
+    "THESE LINES ARE DELIBERATELY LONGER THAN THE REST OF THE PRODUCT.",
+    "",
+    "The user's complaint was exact: 'they just give one statement and then",
+    "there is no conversation, it is like Max is a 9 time race winner, full",
+    "stop'. So a story line is two clauses: WHAT happened, and then what it",
+    "MEANS or costs. That second half is what makes it sound like somebody",
+    "watching rather than a scoreboard being read out.",
+    "",
+    "The ANALYST answers are longer still — he is being asked a question and a",
+    "one-line answer to a direct question is the thing that reads as a script.",
+    "His cap is 32 words and these use it.",
+    "",
+    "ERA-NEUTRAL BY CONSTRUCTION. Nothing here names a piece of equipment, a",
+    "regulation or a decade, so every line is legal in 1966 and in 2025 and",
+    "Brett can deliver all of it. That is deliberate: a race story is the one",
+    "thing that has never changed about this sport.",
+    "",
+    "THE WRAP. Four lines was not a wrap: podium, championship lead, one Chuck",
+    "verdict, goodbye. Nothing about how the top drivers actually drove, no",
+    "separate opinion from Chuck, and 'the championship lead belongs to X' was",
+    "the entire championship implication.",
+    "",
+    "`wrap_ask` -> a `story_*` answer reuses the mid-race machinery, so the man",
+    "who was described as recovering on lap thirty is described the same way at",
+    "the flag. Written once, told consistently.",
+    "",
+    "`wrap_impressed` is CHUCK'S OWN PICK and deliberately not the winner. The",
+    "booth already has a dozen ways to praise whoever won; the thing a viewer",
+    "cannot get anywhere else is which OTHER drive was worth watching."
+  ],
+  "story_ask": [
+    {
+      "t": "Chuck, how has {drv}'s afternoon been?"
+    },
+    {
+      "t": "What do you make of {drv}'s race so far, Chuck?"
+    },
+    {
+      "t": "Give me a read on {drv}, Chuck."
+    },
+    {
+      "t": "Chuck — {drv}. How is that one going?"
+    },
+    {
+      "t": "Talk to me about {drv}'s race, Chuck."
+    },
+    {
+      "t": "Where does {drv} stand in all this, Chuck?"
+    },
+    {
+      "t": "How would you sum up {drv}'s day so far?"
+    },
+    {
+      "t": "Chuck, has {drv} had the race he wanted?"
+    }
+  ],
+  "story_recovery": [
+    {
+      "t": "He was as low as {worst}, and he is {pos} now. {n} taken back by driving rather than luck — you can see it in how he sets the car up.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "The recovery of the race. Down to {worst}, back to {pos}, and not one wild move in it — he has simply been quicker than the car in front, over and over.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "{drv} lost everything early and has spent the rest of the afternoon getting it back. {worst} to {pos}. That takes patience most drivers do not have.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "From {worst} to {pos}. What I like about it is that he never forced it — he waited, he picked them off, and he has not put a wheel wrong since.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "He has climbed {n} from his lowest point, and every one of those was earned on track. That is a proper drive, whatever the result says at the end.",
+      "who": "ANALYST"
+    }
+  ],
+  "story_charge": [
+    {
+      "t": "He started {grid} and he is {pos}. {n} gained, and none of it handed to him — he has passed every single one of those cars on the road.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "{n} up on where he started, and he has done it without a moment of drama. That is the hardest way to make progress and the one that lasts.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "From {grid} on the grid to {pos}. He got a start, he kept his head, and he has been picking cars off ever since.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "This is what a good afternoon looks like — {grid} to {pos}, steadily, without ever looking like he was going to throw it away.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "He has made {n} and he is not finished. Whatever happens from here, that drive is the reason we will still be talking about this race.",
+      "who": "ANALYST"
+    }
+  ],
+  "story_slide": [
+    {
+      "t": "He has gone the wrong way. As high as {best}, down to {pos} — and that looks like a car that has stopped working underneath him, not a driver making mistakes.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "{drv} is going backwards, and quickly. {best} to {pos}. Something has changed with that car, because the driving has not.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "This is a race unravelling. He held {best} comfortably and he has lost {n} since, which usually means tyres and occasionally means something worse.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "He is defending now, and he has been defending for a while. {best} down to {pos} — that is a man hanging on rather than racing.",
+      "who": "ANALYST"
+    }
+  ],
+  "story_undone": [
+    {
+      "t": "He has undone his own race. {best} down to {pos} — and it was not the car. Off {offs}, and you cannot do that and expect a result.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "Self-inflicted, this one. He was running {best}, he has been off {offs}, and each one cost him places he then had to fight back for.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "{drv} has thrown this away himself. The pace was there all afternoon, but you cannot visit the scenery {offs} and finish where you deserve.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "There is a quick driver in that car getting in his own way. {best} to {pos}, off {offs} — and none of it was necessary.",
+      "who": "ANALYST"
+    }
+  ],
+  "story_scrappy": [
+    {
+      "t": "A scruffy afternoon. Off {offs} now, and each one costs him a couple of seconds he then spends two laps getting back.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "He is on the edge of it and he has been over the edge {offs}. There is real pace there, but it is coming with a lot of drama attached.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "{drv} is driving right at the limit and occasionally past it — off {offs} today. Exciting to watch, expensive to do.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "He keeps finding the run-off. {offs} now. At some point that stops being bad luck and starts being a driver asking too much of the car.",
+      "who": "ANALYST"
+    }
+  ],
+  "story_led": [
+    {
+      "t": "He has led this from the front and made it look ordinary, which it is not. Nobody has been close enough to make him think about it.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "This is control rather than dominance. He has managed the gap, managed the tyres, and never once given the man behind a reason to believe.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "{drv} has been in front the whole way and the hardest part of that is the concentration. One mistake in an hour and the race is somebody else's.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "Leading a race is not the same as being quickest in it. He has spent the afternoon doing exactly enough, which is its own skill.",
+      "who": "ANALYST"
+    }
+  ],
+  "story_dropping": [
+    {
+      "t": "{drv} has lost {n} from his grid slot and he does not look like he has an answer for it. That is a long afternoon from here.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "He qualified {grid} and he is {pos}. Whatever they found on Saturday, they have not got it today.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "This is going the wrong way for {drv}. {n} lost, and the cars going past him are not making a meal of it, which tells you it is pace.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "He is being picked off, and there is nothing more demoralising in this sport than watching a mirror fill up when you already know you cannot respond.",
+      "who": "ANALYST"
+    }
+  ],
+  "story_progress": [
+    {
+      "t": "Quietly good. {grid} to {pos}, no mistakes — and at the end of a race that is usually what a result looks like.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "He has made {n} without anybody noticing, which is exactly how you want to make them. No drama, no damage, just steady progress.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "{drv} is up on where he started and he has been sensible about it. That is a driver racing the whole distance rather than the first ten laps.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "Modest, but it is going the right way. {grid} to {pos}, and there is more in it if the car in front makes a mistake.",
+      "who": "ANALYST"
+    }
+  ],
+  "story_losing": [
+    {
+      "t": "He has slipped a couple of places and he is not looking comfortable. Not a disaster, but this is not the afternoon he came for.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "{grid} to {pos}. It is only {n}, but he has been going backwards steadily rather than losing them in one moment, and that is the harder problem.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "A quiet slide. Nothing has gone wrong, exactly — he is just a little slower than the people around him and it adds up over a race distance.",
+      "who": "ANALYST"
+    }
+  ],
+  "story_holding": [
+    {
+      "t": "He has held his grid slot all afternoon. That sounds like nothing and is quite hard — nobody past him, and not one mistake.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "Exactly where he started, and completely clean. Some races are about maximising what you have rather than finding something extra.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "{drv} has done what he needed to. {pos} on the grid, {pos} now, no mistakes and nothing thrown away.",
+      "who": "ANALYST"
+    }
+  ],
+  "story_out": [
+    {
+      "t": "His race is over, and it was going well until it was not. That is the cruel part of this — an hour of good work and nothing to show for it.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "He is out, and he will be replaying that one for a while. There is nothing worse than a result taken away from you rather than lost.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "That is {drv} done for the afternoon. Whatever the cause, the drive he had put in deserved better than this.",
+      "who": "ANALYST"
+    }
+  ],
+  "story_from_quali": [
+    {
+      "t": "Remember where this one came from. He found it at the end of qualifying, and a lap like that changes an entire afternoon.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "He earned that grid slot late on Saturday, and you can see he is racing with the confidence of a man who knows the lap was in there.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "That qualifying lap is why he is where he is. Everything he has done today has been built on it.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "He put it on pole when it mattered, at the end of the session, with everybody watching. That is a different kind of pressure to this.",
+      "who": "ANALYST"
+    }
+  ],
+  "wrap_ask_impressed": [
+    {
+      "t": "Chuck, forget the winner for a moment. Who impressed you out there?"
+    },
+    {
+      "t": "Whose drive did you enjoy most today, Chuck?"
+    },
+    {
+      "t": "Chuck — anybody else catch your eye this afternoon?"
+    },
+    {
+      "t": "Give me a drive of the day, Chuck. Not the winner."
+    },
+    {
+      "t": "Who else is worth talking about, Chuck?"
+    },
+    {
+      "t": "Chuck, who else deserves a mention before we go?"
+    }
+  ],
+  "wrap_impressed": [
+    {
+      "t": "{drv}, for me. {grid} on the grid and {pos} at the flag, and he did it without a single moment that made you wince.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "I would give it to {drv}. Nobody was talking about him at the start and he has finished {pos}. That is a proper afternoon's work.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "{drv}. He has taken {n} on a day when the cars around him could not, and that is usually a driver rather than a car.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "For me it is {drv}. He got everything there was out of that car and then a little more, which is all you can ask.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "{drv}, and it is not close. {grid} to {pos}, clean the whole way, and no help from anybody.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "I liked {drv}. It was not spectacular and it was never going to lead the highlights, but it was the most complete drive out there.",
+      "who": "ANALYST"
+    }
+  ],
+  "champ_extends": [
+    {
+      "t": "That stretches the championship lead to {pts} points, with {left} still to run."
+    },
+    {
+      "t": "{leader} leaves here {pts} points clear, and there are only {left} left to change it."
+    },
+    {
+      "t": "The gap at the top is {pts} now. With {left} remaining, that is starting to look like a cushion."
+    },
+    {
+      "t": "{pts} points in hand and {left} to go. This championship is going one way at the moment."
+    }
+  ],
+  "champ_closes": [
+    {
+      "t": "The championship just got closer — {pts} points covering the top two with {left} to run."
+    },
+    {
+      "t": "That is {pts} points between them now. {left} left, and this is a title fight again."
+    },
+    {
+      "t": "{pts} points and {left} to run. Whatever anybody thought was settled about this championship, it is not."
+    },
+    {
+      "t": "The gap comes down to {pts}. That result changes the whole complexion of this season."
+    }
+  ],
+  "champ_next": [
+    {
+      "t": "{left} to go, and every one of them matters more than the last after that.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "There are {left} left. On that evidence, whoever wins this championship is going to have earned it.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "With {left} remaining, the pressure moves onto the man in front. It always does.",
+      "who": "ANALYST"
+    },
+    {
+      "t": "{left} to run. The interesting part is that neither of them can afford a bad afternoon now.",
+      "who": "ANALYST"
+    }
+  ]
+}

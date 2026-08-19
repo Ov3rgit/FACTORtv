@@ -1,0 +1,816 @@
+{
+ "_comment": [
+  "FACTORtv booth dialogue. Slots: {a} passer, {b} passed, {drv} subject,",
+  "{pos} position, {gap} gap text, {lap} lap number, {laps} laps left,",
+  "{trk} track, {n} count, {t} time, {cls} class, {yr} year, {series}.",
+  "'needs'/'not' gate on era capabilities; 'era'/'disc' gate on period and",
+  "discipline; 'i' is intensity 0-3; 'who' overrides the persona."
+ ],
+ "start": [
+  {
+   "t": "And we are racing at {trk}!",
+   "i": 3
+  },
+  {
+   "t": "Lights out, and away we go!",
+   "i": 3,
+   "year": [
+    1996,
+    2099
+   ]
+  },
+  {
+   "t": "The flag drops, and they're away!",
+   "i": 3,
+   "year": [
+    1900,
+    1995
+   ]
+  },
+  {
+   "t": "Clean getaway across the front row!",
+   "i": 2
+  },
+  {
+   "t": "They stream down to turn one, {drv} leading the way!",
+   "i": 3
+  },
+  {
+   "t": "Here we go then, {laps} laps of it!",
+   "i": 2
+  },
+  {
+   "t": "A good start, and it's {drv} who has the run!",
+   "i": 3
+  },
+  {
+   "t": "Everybody through turn one, and remarkably it's all clean!",
+   "i": 2
+  },
+  {
+   "t": "The green flag is out at {trk}!",
+   "i": 3,
+   "disc": [
+    "stock"
+   ]
+  },
+  {
+   "t": "Twenty-odd cars funnelling into that first corner!",
+   "i": 3
+  }
+ ],
+ "start_chaos": [
+  {
+   "t": "Oh, contact! Contact at the start!",
+   "i": 3
+  },
+  {
+   "t": "That's gone wrong for somebody in the pack!",
+   "i": 3
+  },
+  {
+   "t": "Cars everywhere behind the leaders!",
+   "i": 3
+  },
+  {
+   "t": "Somebody's been squeezed out at turn one!",
+   "i": 3
+  }
+ ],
+ "overtake": [
+  {
+   "t": "{a} goes through on {b}!",
+   "i": 2
+  },
+  {
+   "t": "{a} takes {pos} from {b}!",
+   "i": 2
+  },
+  {
+   "t": "Move made — {a} is past {b}!",
+   "i": 2
+  },
+  {
+   "t": "Down the inside! {a} has {b}!",
+   "i": 3
+  },
+  {
+   "t": "{a} makes it stick on {b}!",
+   "i": 2
+  },
+  {
+   "t": "Around the outside! That's brave from {a}!",
+   "i": 3
+  },
+  {
+   "t": "{b} has no answer, and {a} is through!",
+   "i": 2
+  },
+  {
+   "t": "{a} had the better exit and that was that.",
+   "i": 1
+  },
+  {
+   "t": "Late on the brakes, and {a} is ahead!",
+   "i": 3
+  },
+  {
+   "t": "{a} with the DRS, and it's an easy one on {b}.",
+   "i": 1,
+   "needs": [
+    "drs"
+   ]
+  },
+  {
+   "t": "The rear wing opens, and {a} sails past {b}.",
+   "i": 1,
+   "needs": [
+    "drs"
+   ]
+  },
+  {
+   "t": "{a} uses the push-to-pass and clears {b}!",
+   "i": 2,
+   "needs": [
+    "ptp"
+   ]
+  },
+  {
+   "t": "{a} gets the run out of the draft and takes {b}!",
+   "i": 2,
+   "needs": [
+    "draft"
+   ]
+  },
+  {
+   "t": "A slipstream tow down the straight, and {a} is by!",
+   "i": 2,
+   "not": [
+    "drs"
+   ]
+  },
+  {
+   "t": "Wheel to wheel, and it's {a} who comes out in front!",
+   "i": 3
+  },
+  {
+   "t": "{a} has been all over {b} for two laps and finally makes it count.",
+   "i": 2
+  }
+ ],
+ "overtake_multi": [
+  {
+   "t": "{a} takes {n} places in one move!",
+   "i": 3
+  },
+  {
+   "t": "Two at once! {a} is having none of it!",
+   "i": 3
+  },
+  {
+   "t": "{a} is carving through — {n} positions gained!",
+   "i": 3
+  }
+ ],
+ "leadchange": [
+  {
+   "t": "We have a new leader — {a}!",
+   "i": 3
+  },
+  {
+   "t": "{a} takes the lead of the race!",
+   "i": 3
+  },
+  {
+   "t": "{b} loses the lead to {a}!",
+   "i": 3
+  },
+  {
+   "t": "The lead changes hands at {trk}!",
+   "i": 3
+  },
+  {
+   "t": "{a} is through, and into the lead!",
+   "i": 3
+  },
+  {
+   "t": "That is the move for the lead of the Grand Prix!",
+   "i": 3,
+   "disc": [
+    "f1"
+   ]
+  },
+  {
+   "t": "{a} leads, and {b} will have to regroup.",
+   "i": 2
+  }
+ ],
+ "battle": [
+  {
+   "t": "{a} is right with {b} now, {gap} between them.",
+   "i": 1
+  },
+  {
+   "t": "{gap} covers {a} and {b}.",
+   "i": 1
+  },
+  {
+   "t": "{a} is filling {b}'s mirrors.",
+   "i": 2
+  },
+  {
+   "t": "This is a proper scrap for {pos}.",
+   "i": 2
+  },
+  {
+   "t": "{b} defending hard from {a}.",
+   "i": 2
+  },
+  {
+   "t": "They are nose to tail, {a} looking for a way by.",
+   "i": 2
+  },
+  {
+   "t": "{a} has closed right up — this is going to happen.",
+   "i": 2
+  },
+  {
+   "t": "Side by side out of the corner!",
+   "i": 3
+  }
+ ],
+ "closing": [
+  {
+   "t": "{a} is closing on {b} — {gap} now.",
+   "i": 1
+  },
+  {
+   "t": "The gap is coming down: {gap}.",
+   "i": 1
+  },
+  {
+   "t": "{a} has found something, taking chunks out of {b}.",
+   "i": 1
+  },
+  {
+   "t": "{gap} and shrinking every lap.",
+   "i": 1
+  }
+ ],
+ "pulling_away": [
+  {
+   "t": "{drv} is edging clear at the front, {gap} the advantage.",
+   "i": 0
+  },
+  {
+   "t": "{drv} has broken the tow — {gap}.",
+   "i": 0
+  },
+  {
+   "t": "That lead is out to {gap}.",
+   "i": 0
+  }
+ ],
+ "fastlap": [
+  {
+   "t": "Fastest lap of the race, {drv} — {t}.",
+   "i": 1
+  },
+  {
+   "t": "{drv} goes quickest: {t}.",
+   "i": 1
+  },
+  {
+   "t": "A new benchmark from {drv}, {t}.",
+   "i": 1
+  },
+  {
+   "t": "{t} for {drv}, and that is the lap to beat.",
+   "i": 1
+  }
+ ],
+ "spin": [
+  {
+   "t": "{drv} has spun!",
+   "i": 3
+  },
+  {
+   "t": "Round goes {drv}!",
+   "i": 3
+  },
+  {
+   "t": "{drv} loses the back end!",
+   "i": 3
+  },
+  {
+   "t": "That's a spin for {drv}, and places are going to go.",
+   "i": 3
+  },
+  {
+   "t": "{drv} is facing the wrong way!",
+   "i": 3
+  }
+ ],
+ "offtrack": [
+  {
+   "t": "{drv} runs wide!",
+   "i": 2
+  },
+  {
+   "t": "Off the road goes {drv}!",
+   "i": 2
+  },
+  {
+   "t": "{drv} takes to the run-off.",
+   "i": 2
+  },
+  {
+   "t": "Too much kerb, and {drv} is out of shape.",
+   "i": 2
+  },
+  {
+   "t": "{drv} puts two wheels in the grass.",
+   "i": 2,
+   "era": [
+    "golden",
+    "wing",
+    "turbo"
+   ]
+  }
+ ],
+ "retire": [
+  {
+   "t": "{drv} is out of the race.",
+   "i": 2
+  },
+  {
+   "t": "That's the end of {drv}'s afternoon.",
+   "i": 2
+  },
+  {
+   "t": "{drv} parks it. A retirement.",
+   "i": 2
+  },
+  {
+   "t": "Trouble for {drv}, and that is a retirement.",
+   "i": 2
+  }
+ ],
+ "pit": [
+  {
+   "t": "{drv} comes in for tyres.",
+   "i": 0
+  },
+  {
+   "t": "{drv} peels into the pit lane.",
+   "i": 0
+  },
+  {
+   "t": "Stop for {drv}.",
+   "i": 0
+  },
+  {
+   "t": "{drv} in for fuel and tyres.",
+   "i": 0,
+   "needs": [
+    "refuel"
+   ]
+  },
+  {
+   "t": "{drv} takes on fresh rubber.",
+   "i": 0
+  },
+  {
+   "t": "{drv} in from {pos}.",
+   "i": 0
+  }
+ ],
+ "yellow": [
+  {
+   "t": "Yellow flags.",
+   "i": 2
+  },
+  {
+   "t": "We have yellows out on track.",
+   "i": 2
+  },
+  {
+   "t": "Caution — yellow flags waving.",
+   "i": 2
+  },
+  {
+   "t": "The caution is out.",
+   "i": 2,
+   "disc": [
+    "stock"
+   ]
+  }
+ ],
+ "penalty": [
+  {
+   "t": "A penalty for {drv}.",
+   "i": 1
+  },
+  {
+   "t": "{drv} has been penalised.",
+   "i": 1
+  },
+  {
+   "t": "The stewards have had a look at {drv}, and there's a penalty.",
+   "i": 1
+  }
+ ],
+ "lastlap": [
+  {
+   "t": "Last lap!",
+   "i": 3
+  },
+  {
+   "t": "This is the final lap at {trk}!",
+   "i": 3
+  },
+  {
+   "t": "One lap to go!",
+   "i": 3
+  },
+  {
+   "t": "White flag — last time around!",
+   "i": 3,
+   "disc": [
+    "stock"
+   ]
+  }
+ ],
+ "final_laps": [
+  {
+   "t": "{laps} laps remaining.",
+   "i": 1
+  },
+  {
+   "t": "Into the closing stages, {laps} to run.",
+   "i": 1
+  },
+  {
+   "t": "{laps} laps left, and this is where it counts.",
+   "i": 2
+  }
+ ],
+ "win": [
+  {
+   "t": "{drv} wins it at {trk}!",
+   "i": 3
+  },
+  {
+   "t": "{drv} takes the chequered flag!",
+   "i": 3
+  },
+  {
+   "t": "It's {drv}! Victory at {trk}!",
+   "i": 3
+  },
+  {
+   "t": "{drv} crosses the line to win!",
+   "i": 3
+  },
+  {
+   "t": "And {drv} has won the Grand Prix!",
+   "i": 3,
+   "disc": [
+    "f1"
+   ]
+  },
+  {
+   "t": "{drv} takes the win — and it was never in doubt.",
+   "i": 3
+  },
+  {
+   "t": "{drv} holds on to win it by {gap}!",
+   "i": 3
+  }
+ ],
+ "podium": [
+  {
+   "t": "{drv} completes the podium.",
+   "i": 1
+  },
+  {
+   "t": "{pos} for {drv}.",
+   "i": 1
+  },
+  {
+   "t": "{drv} rounds out the top three.",
+   "i": 1
+  }
+ ],
+ "milestone": [
+  {
+   "t": "Halfway at {trk}.",
+   "i": 0
+  },
+  {
+   "t": "We're at the halfway point.",
+   "i": 0
+  },
+  {
+   "t": "Lap {lap}, and the order at the front is settled for now.",
+   "i": 0
+  }
+ ],
+ "standings": [
+  {
+   "t": "{drv} leads from {b}, with {gap} between them.",
+   "i": 0
+  },
+  {
+   "t": "At the front: {drv}, then {b}.",
+   "i": 0
+  },
+  {
+   "t": "The order up front — {drv}, {b}.",
+   "i": 0
+  }
+ ],
+ "grid": [
+  {
+   "t": "{drv} takes pole position at {trk}.",
+   "i": 2
+  },
+  {
+   "t": "Pole for {drv} with a {t}.",
+   "i": 2
+  },
+  {
+   "t": "{drv} heads the grid.",
+   "i": 1
+  }
+ ],
+ "session": [
+  {
+   "t": "Welcome to {trk}, where the {series} field is about to go to work.",
+   "i": 1
+  },
+  {
+   "t": "Good afternoon from {trk}.",
+   "i": 1
+  },
+  {
+   "t": "{trk} it is, and a full field ready to go.",
+   "i": 1
+  },
+  {
+   "t": "This is FACTORtv, live from {trk}.",
+   "i": 2
+  }
+ ],
+ "analysis": [
+  {
+   "t": "That's the difference — he's carrying more speed through the corners.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Look at the traction on the exit. That's where the lap is.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "He's been patient, and patience is what gets you past here.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Front tyres are going off. You can see it in the entry.",
+   "i": 0,
+   "who": "ANALYST",
+   "needs": [
+    "slicks"
+   ]
+  },
+  {
+   "t": "He's leaning on that left front, and it won't last.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "That's a driver managing a problem rather than attacking.",
+   "i": 0,
+   "who": "ANALYST"
+  }
+ ],
+ "analysis_era": [
+  {
+   "t": "These things were a handful. The wheel fought you everywhere.",
+   "i": 0,
+   "who": "ANALYST",
+   "year": [
+    1950,
+    2003
+   ]
+  },
+  {
+   "t": "Cars like this you aimed and hoped. There was nothing else to it.",
+   "i": 0,
+   "who": "ANALYST",
+   "year": [
+    1950,
+    2003
+   ]
+  },
+  {
+   "t": "By all accounts these were brutal to drive. No aids, no forgiveness.",
+   "i": 0,
+   "who": "ANALYST",
+   "era": [
+    "golden",
+    "wing"
+   ]
+  },
+  {
+   "t": "Active suspension, traction control — this was the peak of the electronics before they banned the lot.",
+   "i": 0,
+   "who": "ANALYST",
+   "needs": [
+    "active_suspension"
+   ]
+  },
+  {
+   "t": "No power steering, no aids, and skinny tyres. Respect to anyone who raced these.",
+   "i": 0,
+   "who": "ANALYST",
+   "era": [
+    "golden"
+   ]
+  },
+  {
+   "t": "The hybrid systems make this a different sport to the one I knew.",
+   "i": 0,
+   "who": "ANALYST",
+   "needs": [
+    "ers"
+   ]
+  },
+  {
+   "t": "Fuel allowance racing. It's as much a maths problem as a driving one.",
+   "i": 0,
+   "who": "ANALYST",
+   "needs": [
+    "fuelration"
+   ]
+  },
+  {
+   "t": "On a superspeedway the draft does half the driving for you.",
+   "i": 0,
+   "who": "ANALYST",
+   "needs": [
+    "banking"
+   ]
+  }
+ ],
+ "strategy": [
+  {
+   "t": "The undercut is live here — track position is everything.",
+   "i": 0,
+   "who": "ANALYST",
+   "needs": [
+    "pitwindow"
+   ]
+  },
+  {
+   "t": "He'll want to get out of traffic before he thinks about the stop.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Fuel is the call here. Save now, use it later.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "One stop or two — that decision is being made right now on the pit wall.",
+   "i": 0,
+   "who": "ANALYST",
+   "needs": [
+    "refuel"
+   ]
+  },
+  {
+   "t": "No refuelling, so it's all about tyre life and nothing else.",
+   "i": 0,
+   "who": "ANALYST",
+   "not": [
+    "refuel"
+   ]
+  },
+  {
+   "t": "Stage points change how you race this. You don't just drive to the flag.",
+   "i": 0,
+   "who": "ANALYST",
+   "needs": [
+    "stages"
+   ]
+  }
+ ],
+ "verdict": [
+  {
+   "t": "That was well judged.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Fair move. No complaints there.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "He left him just enough room. Just.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Optimistic, that. He got away with it.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "That's the move he had to make.",
+   "i": 0,
+   "who": "ANALYST"
+  }
+ ],
+ "praise": [
+  {
+   "t": "Beautifully done by {drv}.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv} is driving superbly today.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "That is a serious lap from {drv}.",
+   "i": 1,
+   "who": "ANALYST"
+  }
+ ],
+ "criticism": [
+  {
+   "t": "{drv} won't be happy with that.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "That's a mistake, and it will cost him.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "He asked too much of the front end there.",
+   "i": 0,
+   "who": "ANALYST"
+  }
+ ],
+ "recovery": [
+  {
+   "t": "{drv} is recovering well — up to {pos}.",
+   "i": 1
+  },
+  {
+   "t": "{drv} has climbed back to {pos}.",
+   "i": 1
+  },
+  {
+   "t": "Good recovery drive from {drv}, now {pos}.",
+   "i": 1
+  }
+ ],
+ "traffic": [
+  {
+   "t": "{drv} is into the backmarkers.",
+   "i": 1
+  },
+  {
+   "t": "Lapped traffic ahead for {drv}.",
+   "i": 1
+  },
+  {
+   "t": "This traffic could be decisive.",
+   "i": 2
+  }
+ ],
+ "restart": [
+  {
+   "t": "Green flag, green flag! We are racing again!",
+   "i": 3
+  },
+  {
+   "t": "The restart is on!",
+   "i": 3
+  },
+  {
+   "t": "Back to green at {trk}!",
+   "i": 3
+  }
+ ]
+}

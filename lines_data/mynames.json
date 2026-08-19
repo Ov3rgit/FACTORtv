@@ -1,0 +1,27 @@
+{
+ "_comment": [
+  "FACTORtv — YOUR OWN DRIVER NAMES.",
+  "",
+  "The career menu offers the names rF2 has actually reported in your results,",
+  "merged with the drivers we hold records for. Neither of those can contain a",
+  "name you invented — so this file exists, and it is yours to edit.",
+  "",
+  "Add a line, restart, and the name is in the picker. That is the whole",
+  "feature.",
+  "",
+  "THESE NAMES GET NO RECORD AND NO HISTORY, and that is deliberate rather",
+  "than unfinished. `drivers.json` holds real people with checkable records; a",
+  "name typed in here has none, and inventing one would be the single thing",
+  "this product refuses to do. What it DOES get is everything the overlay",
+  "watches: race a season under it and the booth will say how many wins it has",
+  "this year, because it counted them.",
+  "",
+  "Names appear in the picker in the order they are listed here, ABOVE the",
+  "generated ones — it is your list, so it goes first."
+ ],
+
+ "names": [
+  "Dante Kandasamy",
+  "Over Boy"
+ ]
+}

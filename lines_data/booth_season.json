@@ -1,0 +1,410 @@
+{
+  "_comment": [
+    "FACTORtv — THE SEASON.",
+    "",
+    "Every number in these lines is exact. They are filled from",
+    "season.Career.title_state(), which computes points available and",
+    "whether a leader can still be caught from recorded rounds only — so a",
+    "line saying 'he cannot be caught' is a claim the user can check against",
+    "his own standings table and find correct.",
+    "",
+    "The gating in overlay_booth._season_call() matters as much as the",
+    "wording: no career, no line; fewer than TITLE_TALK_AFTER rounds in the",
+    "books, no title talk; an open season never gets 'of twenty-four' or any",
+    "title maths at all, because with no end date neither is true.",
+    "",
+    "Slots: {n} round number, {total} rounds in the season, {event} the",
+    "round's proper name, {leader} championship leader, {pts} points,",
+    "{gap} points to the lead, {pos} his place in the table, {left} rounds",
+    "remaining.",
+    "",
+    "`season_round_anytrack` is for a season with a declared",
+    "LENGTH but no fixed calendar — N races, anywhere. Those",
+    "rounds have no event name, so these lines name the",
+    "circuit instead and never reference {event}.",
+    "",
+    "`season_midway` / `season_late` are the SEASON's own phases, from",
+    "season.Career.phase(). A season has a shape exactly as a race does, and",
+    "without saying so every round sounds identical except for its number.",
+    "",
+    "`season_here` is track memory scoped to THIS season — a stronger thing to",
+    "say than a record from a career ago, and the only kind an open season can",
+    "have, since it may revisit a circuit.",
+    "",
+    "`season_launch` is the FIRST session of a career and exists so the user",
+    "can hear that career mode is actually running — the format, the number of",
+    "rounds, and that there is a title at the end of it. {series} comes from",
+    "era.py's reading of the car class, so it names the championship without",
+    "the career having to be told what it is."
+  ],
+  "season_round": [
+    {
+      "t": "Round {n} of {total} — {event}.",
+      "i": 2
+    },
+    {
+      "t": "This is round {n} of {total}.",
+      "i": 2
+    },
+    {
+      "t": "{event}, round {n} of {total} of the season.",
+      "i": 2
+    },
+    {
+      "t": "Round {n} of {total}, and the season is well under way.",
+      "i": 2
+    },
+    {
+      "t": "We're at round {n} of {total}. {left} to run after this one.",
+      "i": 2
+    },
+    {
+      "t": "{event} — round {n} on the calendar.",
+      "i": 2
+    }
+  ],
+  "season_round_open": [
+    {
+      "t": "Round {n} of the season.",
+      "i": 2
+    },
+    {
+      "t": "This is round {n}, and the calendar runs as long as we want it to.",
+      "i": 2
+    },
+    {
+      "t": "Round {n} for {drv}.",
+      "i": 2
+    },
+    {
+      "t": "Another round in the books after today — number {n}.",
+      "i": 2
+    }
+  ],
+  "season_opener": [
+    {
+      "t": "Season opener. Everything from here is a blank sheet.",
+      "i": 2
+    },
+    {
+      "t": "Round one. Nobody has a point on the board yet.",
+      "i": 2
+    },
+    {
+      "t": "{event}, and the start of a brand new season.",
+      "i": 2
+    },
+    {
+      "t": "First round of the year. This is where the story begins.",
+      "i": 2
+    },
+    {
+      "t": "A new season starts here, and everyone is level.",
+      "i": 2
+    }
+  ],
+  "season_finale": [
+    {
+      "t": "The final round of the season. {event}, and it all ends here.",
+      "i": 3
+    },
+    {
+      "t": "Round {n} of {total}. The last one. Everything gets settled today.",
+      "i": 3
+    },
+    {
+      "t": "The season finale — and whatever happens today is how it finishes.",
+      "i": 3
+    },
+    {
+      "t": "Last round of the year. No more chances after this.",
+      "i": 3
+    },
+    {
+      "t": "This is it. {event}, and the end of the season.",
+      "i": 3
+    }
+  ],
+  "title_lead": [
+    {
+      "t": "{drv} leads the championship coming into round {n}.",
+      "i": 2
+    },
+    {
+      "t": "Round {n}, and it's {drv} at the top of the table with {pts} points.",
+      "i": 2
+    },
+    {
+      "t": "The championship leader starts this one. {drv}, {pts} points.",
+      "i": 2
+    },
+    {
+      "t": "{drv} arrives at {event} leading the standings.",
+      "i": 2
+    },
+    {
+      "t": "Top of the table and plenty to protect — {drv} on {pts} points.",
+      "i": 2
+    }
+  ],
+  "title_chase": [
+    {
+      "t": "{drv} comes into round {n} {gap} points off the championship lead.",
+      "i": 2
+    },
+    {
+      "t": "{pos} in the standings for {drv}, {gap} points behind {leader}.",
+      "i": 2
+    },
+    {
+      "t": "{gap} points is the gap {drv} has to close on {leader}.",
+      "i": 2
+    },
+    {
+      "t": "{drv} sits {pos} in the table. {leader} is the man ahead.",
+      "i": 2
+    },
+    {
+      "t": "{gap} points adrift, {left} rounds left. The maths is still friendly for {drv}.",
+      "i": 2
+    },
+    {
+      "t": "Round {n}, and {drv} needs this one — {gap} points down on {leader}.",
+      "i": 2
+    }
+  ],
+  "championship_after": [
+    {
+      "t": "In the championship, {leader} leads on {pts} points.",
+      "i": 2
+    },
+    {
+      "t": "The standings after {n} rounds: {leader} out in front.",
+      "i": 2
+    },
+    {
+      "t": "{drv} is {pos} in the table now, {gap} points off the lead.",
+      "i": 2
+    },
+    {
+      "t": "That result leaves {drv} {pos} in the championship.",
+      "i": 2
+    },
+    {
+      "t": "{leader} still heads the standings, with {left} rounds to go.",
+      "i": 2
+    },
+    {
+      "t": "After {n} rounds it's {leader} on {pts}, and {drv} {pos}.",
+      "i": 2
+    }
+  ],
+  "championship_lead": [
+    {
+      "t": "And {drv} leads this championship.",
+      "i": 3
+    },
+    {
+      "t": "{drv} goes to the top of the standings on {pts} points.",
+      "i": 3
+    },
+    {
+      "t": "That puts {drv} in front of the championship, with {left} rounds left.",
+      "i": 3
+    },
+    {
+      "t": "The championship lead belongs to {drv} tonight.",
+      "i": 3
+    }
+  ],
+  "title_decided": [
+    {
+      "t": "And that settles it — {leader} cannot be caught. Champion.",
+      "i": 3
+    },
+    {
+      "t": "The championship is decided. {leader} takes the title with {left} rounds to spare.",
+      "i": 3
+    },
+    {
+      "t": "Mathematically it is over. {leader} is your champion.",
+      "i": 3
+    },
+    {
+      "t": "{leader} has won this championship, and there is nothing anybody can do about it now.",
+      "i": 3
+    }
+  ],
+  "season_round_anytrack": [
+    {
+      "t": "Round {n} of {total}, and today it's {trk}.",
+      "i": 2
+    },
+    {
+      "t": "This is round {n} of {total} — {trk}.",
+      "i": 2
+    },
+    {
+      "t": "Round {n} of {total} of the season, at {trk}.",
+      "i": 2
+    },
+    {
+      "t": "{trk} for round {n} of {total}.",
+      "i": 2
+    },
+    {
+      "t": "Round {n} of {total}. {left} to come after this one.",
+      "i": 2
+    },
+    {
+      "t": "We're at {trk}, round {n} of {total}.",
+      "i": 2
+    }
+  ],
+  "season_midway": [
+    {
+      "t": "Half distance in this championship, and it is beginning to take shape.",
+      "i": 2
+    },
+    {
+      "t": "We're at the midpoint of the season. What you've banked so far is what you've got to build on.",
+      "i": 2
+    },
+    {
+      "t": "Round {n} of {total} — halfway, and the table starts to mean something from here.",
+      "i": 2
+    },
+    {
+      "t": "The middle of the season. Whoever's been quietly consistent is about to look very clever.",
+      "i": 2,
+      "who": "ANALYST"
+    },
+    {
+      "t": "Halfway. From this point the mistakes cost more than they did.",
+      "i": 2,
+      "who": "ANALYST"
+    },
+    {
+      "t": "This is the turn of the season — {left} races still to come after today.",
+      "i": 2
+    }
+  ],
+  "season_late": [
+    {
+      "t": "Into the closing rounds of the season now. {left} left after this one.",
+      "i": 2
+    },
+    {
+      "t": "The run-in. There is not much season left to fix anything.",
+      "i": 2
+    },
+    {
+      "t": "Round {n} of {total}, and the championship is entering its final stretch.",
+      "i": 2
+    },
+    {
+      "t": "Only {left} rounds remain after today. Every point starts to matter more.",
+      "i": 2
+    },
+    {
+      "t": "This is where seasons get decided — not by pace, but by who stops making mistakes.",
+      "i": 2,
+      "who": "ANALYST"
+    },
+    {
+      "t": "{left} to go. You can see it in how they're driving now.",
+      "i": 2,
+      "who": "ANALYST"
+    }
+  ],
+  "season_here": [
+    {
+      "t": "We've been here already this season — round {n}, where {drv} finished {pos}.",
+      "i": 1
+    },
+    {
+      "t": "Second visit of the season to {trk} for {drv}. He was {pos} last time.",
+      "i": 1
+    },
+    {
+      "t": "{trk} again, then. {drv} took {pos} out of it in round {n}.",
+      "i": 1
+    },
+    {
+      "t": "A repeat visit this season — and {drv} will want more than the {pos} he managed in round {n}.",
+      "i": 1
+    },
+    {
+      "t": "Back at {trk}, a circuit this championship has already been to once.",
+      "i": 1
+    }
+  ],
+  "season_here_dnf": [
+    {
+      "t": "{drv} was here in round {n} and did not see the flag. A score to settle.",
+      "i": 2
+    },
+    {
+      "t": "The last visit to {trk} this season ended early for {drv}.",
+      "i": 2
+    },
+    {
+      "t": "{trk} owes {drv} something — he retired here in round {n}.",
+      "i": 2
+    }
+  ],
+  "season_here_won": [
+    {
+      "t": "{drv} won here in round {n}. He knows the way round.",
+      "i": 2
+    },
+    {
+      "t": "Back at {trk}, where {drv} took the win in round {n}.",
+      "i": 2
+    },
+    {
+      "t": "This circuit has already given {drv} a victory this season.",
+      "i": 2
+    },
+    {
+      "t": "{trk} again — and {drv} won the last one here.",
+      "i": 2
+    }
+  ],
+  "season_launch": [
+    {
+      "t": "Welcome to the opening round of the {series} season — {total} rounds, and one of them will decide a champion.",
+      "i": 3
+    },
+    {
+      "t": "The {series} season begins here. {total} rounds to settle who takes the title.",
+      "i": 3
+    },
+    {
+      "t": "This is round one of the {series} season. {total} races, one championship.",
+      "i": 3
+    },
+    {
+      "t": "A new {series} season starts today, over {total} rounds. Nobody has scored a point yet.",
+      "i": 3
+    },
+    {
+      "t": "Season opener, {series}. {total} rounds ahead, and it is anybody's title.",
+      "i": 3
+    }
+  ],
+  "season_launch_open": [
+    {
+      "t": "Welcome to the opening round of the {series} season.",
+      "i": 3
+    },
+    {
+      "t": "The {series} season starts here, and it runs as long as we want it to.",
+      "i": 3
+    },
+    {
+      "t": "Round one of the {series} season. Let's see where this goes.",
+      "i": 3
+    }
+  ]
+}

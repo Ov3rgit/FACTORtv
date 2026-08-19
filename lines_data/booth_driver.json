@@ -1,0 +1,251 @@
+{
+  "_comment": [
+    "THE BOOTH KNOWS WHO THESE PEOPLE ARE.",
+    "",
+    "Every line here is filled from `drivers.py`, never from the session, and",
+    "a category is only ever offered for a driver whose record supports it —",
+    "`drivers.CATEGORIES` is the gate. So no slot in this file can air empty",
+    "(LAW 5): if a driver has no titles, the champion lines are not candidates",
+    "for him at all rather than rendering 'chasing , and'.",
+    "",
+    "SLOTS, and what each one already contains:",
+    "  {drv}         'Ayrton Senna'",
+    "  {team}        'McLaren'",
+    "  {titles}      'a seven-time world champion'   — carries its own article",
+    "  {ntitles}     'seven'",
+    "  {next_title}  'an eighth'                     — carries its own article",
+    "  {wins}        'twenty-eight wins' / 'one win' — carries its own number",
+    "  {nwins}       'twenty-eight'",
+    "  {note}        'in red for the first time in his career' — a CLAUSE",
+    "  {yr}          '1988'",
+    "",
+    "LAW 13: never write a determiner in front of one of these. 'a {titles}'",
+    "airs as 'a a seven-time world champion'. The article is in the slot.",
+    "",
+    "LAW 14: every line stands alone. The bag can draw any of these first, so",
+    "nothing here may read as a follow-up to another line.",
+    "",
+    "TENSE IS FIXED AND IT MATTERS. These numbers are what the driver brought",
+    "TO this season, so the past tense is 'came into this year with', never",
+    "'has won this year'. The booth must never appear to know how the user's",
+    "season is going — it does not, and season.py is the only thing that does.",
+    "",
+    "A false claim about Senna breaks the illusion harder than silence does.",
+    "If you cannot write a line that is true for every driver the category can",
+    "select, do not write the line."
+  ],
+
+  "driver_reigning": [
+    {"t": "{drv} — the reigning world champion, and the number one on the car.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "That's the champion. {drv} arrives here as the man who won it last time out.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "{drv} carries the crown into this one.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "The reigning champion is {drv}, and everybody on this grid knows it.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "Defending a world championship is its own kind of pressure, and {drv} is the one doing it.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "{drv} won the last one. That is the target the rest of them are aiming at.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "Champion in name and in number — {drv}.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "{drv}, the man who finished last season on top of the world.", "i": 1, "disc": ["f1", "formula"]}
+  ],
+
+  "driver_chasing": [
+    {"t": "{drv} came into this season looking for {next_title} world championship.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "{titles} already, and {drv} wants {next_title}.", "i": 2, "disc": ["f1", "formula"]},
+    {"t": "{next_title} title is what {drv} is here for. Nothing less would do.", "i": 2, "disc": ["f1", "formula"]},
+    {"t": "{drv} has {ntitles} of them. Can he make it {next_title}?", "i": 2, "disc": ["f1", "formula"]},
+    {"t": "You don't win {ntitles} world championships by accident, and {drv} is chasing {next_title}.", "i": 2, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "{drv} — {titles}, and the appetite has not gone anywhere.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "For {drv} this is about {next_title}, and it is the only thing that would count.", "i": 2, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "{drv} is hunting {next_title} championship this year.", "i": 1, "disc": ["f1", "formula"]}
+  ],
+
+  "driver_champion": [
+    {"t": "{drv} is {titles}.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "Remember who that is — {drv}, {titles}.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "{titles} in that car: {drv}.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "{drv} has been champion of this sport. That does not leave a driver.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "There is a world championship on {drv}'s record, and it shows on days like this.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "{drv}, {titles}, and {wins} to go with it.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "Never underestimate a champion. {drv} has been one.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "{drv} — {titles}, and still out here doing this.", "i": 1, "disc": ["f1", "formula"]}
+  ],
+
+  "driver_favourite": [
+    {"t": "{drv} is one of the names you'd expect to be in the title fight this year.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "If you were picking a champion before the season started, {drv} would be on your list.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "{drv} came into this season as one of the favourites.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "This is a championship year for {drv}, or it is supposed to be.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "Watch {drv}. That is a title challenge, on paper at least.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "{drv} is expected to be there at the end of this championship.", "i": 1, "disc": ["f1", "formula"]}
+  ],
+
+  "driver_winner": [
+    {"t": "{drv} has {wins} to his name.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "{wins} in this sport for {drv}, and no world championship yet.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "{drv} knows how to win a Grand Prix — {wins} says so.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "That's a Grand Prix winner. {drv}, {wins}.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "{nwins} times {drv} has taken a chequered flag first.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "A driver with {wins} does not need telling how this is done. {drv}.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "{drv} has won at this level. {nwins} of them.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "The title has never come for {drv}, but {wins} is a career most of this grid would take.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]}
+  ],
+
+  "driver_winless": [
+    {"t": "{drv} is still looking for that first Grand Prix win.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "No win yet for {drv}. Every one of these is a chance to change that.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "{drv} came into this season without a Grand Prix victory to his name.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "The first win is the hardest one there is, and {drv} is still waiting on his.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "{drv} — yet to win a Grand Prix.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "You can go a whole career and never get one. {drv} hasn't had his yet.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "Nothing on the top step for {drv} so far.", "i": 1, "disc": ["f1", "formula"]}
+  ],
+
+  "driver_rookie": [
+    {"t": "{drv} — this is his first full season at this level.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "A rookie year for {drv}, and there is no gentle way into this.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "{drv} is the new boy on this grid.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "First season for {drv}. Everything he does out there, he is doing for the first time.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "{drv} is learning this sport in public, which is the only way anybody has ever learned it.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "Rookie season for {drv}, and he is out here with the rest of them.", "i": 1, "disc": ["f1", "formula"]}
+  ],
+
+  "driver_new_team": [
+    {"t": "{drv} is in {team} colours this season.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "New surroundings for {drv} — this is his first year at {team}.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "{drv} changed teams for this season. {team} now.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "It takes a while to settle into a new team, and {drv} is still doing it at {team}.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "{team} went and signed {drv}, and this is the season they find out.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "A fresh start for {drv} at {team}.", "i": 1, "disc": ["f1", "formula"]}
+  ],
+
+  "_comment_live": [
+    "THE POOLS BELOW ARE A DIFFERENT ANIMAL FROM THE ONES ABOVE.",
+    "",
+    "Everything above states HISTORY — what a driver brought to the season.",
+    "These four state a RUNNING TOTAL: the historical record plus what has",
+    "happened in the user's own career. Race as Hamilton, win three, and the",
+    "next one is his ninety-ninth. Win the championship as him and it is his",
+    "eighth. Win it as Mansell in 1988 and it is his first.",
+    "",
+    "They are filled from `drivers.Standing`, never from `Driver`, and their",
+    "slots therefore mean something different:",
+    "  {wins}       the total INCLUDING this season's",
+    "  {nth_win}    'one hundred and sixth' — the win just taken",
+    "  {this_title} 'an eighth' — the title just won, counting this one",
+    "  {ntitles}    the total INCLUDING the one just won",
+    "",
+    "The maths behind them belongs to season.py and is exact. A title is only",
+    "ever called settled when the remaining points are known (LAW 4), and",
+    "`just_won_title` compares the season against the season one round ago so",
+    "a championship decided at round eight is not announced again at nine.",
+    "",
+    "AND THEY APPLY TO THE AI TOO. If Senna wins the title in your 1988",
+    "career that is a first world championship for Ayrton Senna, and it is the",
+    "biggest sentence this booth will say all season."
+  ],
+
+  "driver_title_first": [
+    {"t": "{drv} is the world champion. The first of his career.", "i": 3, "disc": ["f1", "formula"]},
+    {"t": "A first world championship for {drv}!", "i": 3, "disc": ["f1", "formula"]},
+    {"t": "He has never done this before. {drv}, world champion.", "i": 3, "disc": ["f1", "formula"]},
+    {"t": "{drv} — champion of the world, and he has waited his whole career for it.", "i": 3, "disc": ["f1", "formula"]},
+    {"t": "That is the championship, and it is the first {drv} has ever won.", "i": 3, "disc": ["f1", "formula"]},
+    {"t": "A maiden world title for {drv}. Nobody can take that away from him now.", "i": 3, "disc": ["f1", "formula"]}
+  ],
+
+  "driver_title_more": [
+    {"t": "{this_title} world championship for {drv}!", "i": 3, "disc": ["f1", "formula"]},
+    {"t": "{drv} does it again — {this_title} title.", "i": 3, "disc": ["f1", "formula"]},
+    {"t": "That is {ntitles} world championships for {drv}, and this one is settled.", "i": 3, "disc": ["f1", "formula"]},
+    {"t": "{drv} adds another. {this_title} for him.", "i": 3, "disc": ["f1", "formula"]},
+    {"t": "Champion again — {drv}, and that makes it {ntitles}.", "i": 3, "disc": ["f1", "formula"]},
+    {"t": "You do not do this {ntitles} times by luck. {drv}, world champion once more.", "i": 3, "who": "ANALYST", "disc": ["f1", "formula"]}
+  ],
+
+  "driver_first_win": [
+    {"t": "The first Grand Prix win of {drv}'s career!", "i": 3, "disc": ["f1", "formula"]},
+    {"t": "{drv} has never won a Grand Prix before today. He has now.", "i": 3, "disc": ["f1", "formula"]},
+    {"t": "A maiden victory for {drv}, and he will never have another first one.", "i": 3, "disc": ["f1", "formula"]},
+    {"t": "That is the one he has been waiting for. {drv}, a Grand Prix winner at last.", "i": 3, "disc": ["f1", "formula"]},
+    {"t": "The hardest win in this sport is the first one, and {drv} has just taken his.", "i": 3, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "{drv} joins the list of Grand Prix winners.", "i": 2, "disc": ["f1", "formula"]}
+  ],
+
+  "driver_win_tally": [
+    {"t": "That is {wins} now for {drv}.", "i": 2, "disc": ["f1", "formula"]},
+    {"t": "The {nth_win} Grand Prix win of {drv}'s career.", "i": 2, "disc": ["f1", "formula"]},
+    {"t": "{drv} moves to {wins}.", "i": 2, "disc": ["f1", "formula"]},
+    {"t": "Another one for the collection — {wins} for {drv}.", "i": 2, "disc": ["f1", "formula"]},
+    {"t": "Win number {nth_win} for {drv}, and he made it look ordinary.", "i": 2, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "{wins} in this sport for {drv}, and counting.", "i": 2, "disc": ["f1", "formula"]}
+  ],
+
+  "_comment_teams": [
+    "WHAT HIS CAR IS LIKE THIS YEAR.",
+    "",
+    "Reached through the DRIVER, because that is what the booth is looking at",
+    "— a car on track with a name attached. `drivers.Team` is bound to each",
+    "driver at load, and the categories are refused unless the clause exists,",
+    "so no slot here can air empty.",
+    "",
+    "  {team}      'Mercedes'",
+    "  {strength}  'straight-line speed — that power unit is the best on the",
+    "              grid'  — a CLAUSE, present tense, no leading article",
+    "  {weakness}  'a low-rake car that lost more than most to this year's",
+    "              floor rules'",
+    "  {tnote}     a hand-written clause about the team",
+    "",
+    "These are the differences BETWEEN teams in one season and only exist for",
+    "seasons we hold. What the whole field is like — turbo lag, ground",
+    "effect, fuel rations — is `car_character` in booth_cars.json, which is",
+    "gated on era capability instead and therefore covers every car the user",
+    "owns, in a career or not.",
+    "",
+    "CAPABILITY, NOT OUTCOME, exactly as in booth_cars.json: the booth may say",
+    "Mercedes have the straight-line speed and may not say who won the",
+    "constructors' championship. The user is driving this season."
+  ],
+
+  "team_strength": [
+    {"t": "{team} have {strength}.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "What {team} have this year is {strength}.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "That is a {team}, and their whole season is built on {strength}.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "Watch where the {team} is quick. {strength} — it shows up in the same places every lap.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "{strength}. That is the {team} in one sentence.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "The strength of that {team} is {strength}.", "i": 1, "disc": ["f1", "formula"]}
+  ],
+
+  "team_weakness": [
+    {"t": "{team} are carrying {weakness}.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "The problem at {team} this year is {weakness}.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "{team} have {weakness}, and there is no quick fix for that mid-season.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "No driver gets around {weakness}. That is what {team} are asking of them.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "{weakness} — that is what {team} are up against.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "Life is harder at {team} this season: {weakness}.", "i": 1, "disc": ["f1", "formula"]}
+  ],
+
+  "team_note": [
+    {"t": "{team} — {tnote}.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "Worth knowing about {team} this year: {tnote}.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "That is {team}, {tnote}.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "There is a story at {team}: {tnote}.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "{team} this season — {tnote}.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "Keep {team} in mind. {tnote}.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]}
+  ],
+
+  "driver_season_wins": [
+    {"t": "{drv} has {swins} to his name this season.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "That is {swins} for {drv} already this year.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "{drv} has been on the top step this season. {swins} so far.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "This has been a season of {swins} for {drv}, and it is not over.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "{swins} this year for {drv}. He arrives here in form.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "Do not write off {drv} — {swins} this season says enough.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]}
+  ],
+
+  "driver_note": [
+    {"t": "{drv}, {note}.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "Worth remembering about {drv} — {note}.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "That is {drv}, {note}.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "{drv} — {note}. Keep an eye on him.", "i": 1, "disc": ["f1", "formula"]},
+    {"t": "There's a story with {drv} this year: {note}.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]},
+    {"t": "{drv}, and don't forget — {note}.", "i": 1, "who": "ANALYST", "disc": ["f1", "formula"]}
+  ]
+}

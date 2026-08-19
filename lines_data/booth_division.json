@@ -1,0 +1,145 @@
+{
+ "_note": [
+  "WHAT DIVISION THIS ACTUALLY IS.",
+  "",
+  "The user, after hearing Chuck offered a go in a rookie kart and answer that",
+  "he would be two seconds off: 'the booth needs to be more clued up and more",
+  "specific about the division they are commentating on - if we are racing F4",
+  "cars then Miles must talk about them as F4 cars'.",
+  "",
+  "AND THE ERA CANNOT ANSWER IT. `era.classify` reports a Tatuus F4 and a 2021",
+  "Formula One car as the SAME discipline ('formula') in the SAME period",
+  "('hybrid'), because that is what they are: single-seaters of the same",
+  "decade. No amount of era gating can tell them apart, so these pools are",
+  "keyed on the LADDER RUNG instead - the one thing that knows a driver is in",
+  "Formula 4 and not Formula One.",
+  "",
+  "Named `div_<rung key>`, and a rung with no pool simply says nothing. That",
+  "is the honest default and it is why this can be extended a division at a",
+  "time without touching code."
+ ],
+ "div_kart": [
+  {
+   "t": "No wings, no gearbox to speak of, no aids of any kind. A kart is the purest thing anybody will ever drive and it is merciless about it.",
+   "i": 1
+  },
+  {
+   "t": "Everything you are watching here is the driver. There is nothing in a kart to hide behind and nothing to blame.",
+   "i": 1
+  },
+  {
+   "t": "The chassis IS the suspension in one of these - it flexes, and the driver has to load it deliberately. It is a skill that never leaves you.",
+   "i": 1
+  },
+  {
+   "t": "Half the Formula One grid learned to race in something like this, and most of them will tell you it was the hardest racing they ever did.",
+   "i": 1
+  },
+  {
+   "t": "Slipstreaming matters enormously at this level. There is so little power that a tow is worth more than any overtaking move.",
+   "i": 1
+  },
+  {
+   "t": "You steer a kart with the throttle as much as the wheel. Get it wrong and you are simply a passenger.",
+   "i": 1
+  }
+ ],
+ "div_f4": [
+  {
+   "t": "Formula 4 is a driver's category by design - identical cars, a sealed engine, and nothing at all to buy your way past somebody with.",
+   "i": 1
+  },
+  {
+   "t": "This is the first proper single-seater most of them have driven. Wings, slicks and downforce, all new in the same season.",
+   "i": 1
+  },
+  {
+   "t": "About a hundred and sixty horsepower and very little aerodynamic grip, which means it rewards being smooth rather than brave.",
+   "i": 1
+  },
+  {
+   "t": "There is no team advantage to find here. The cars are the same and the results are the driver, which is the whole point of the category.",
+   "i": 1
+  },
+  {
+   "t": "F4 is where a driver finds out whether he can work with an engineer, and that turns out to matter as much as the lap time.",
+   "i": 1
+  }
+ ],
+ "div_f3": [
+  {
+   "t": "Formula 3 is the first category where the aerodynamics really matter. Following closely costs you, and learning that is half the season.",
+   "i": 1
+  },
+  {
+   "t": "These are quick cars now - a serious step from F4 - and the field is deep enough that a tenth is worth five places.",
+   "i": 1
+  },
+  {
+   "t": "Everybody on this grid is being watched by somebody. F3 is where junior programmes make up their minds.",
+   "i": 1
+  },
+  {
+   "t": "Spec chassis, spec engine, and a grid that arrives within a second of each other. There is nowhere for a bad weekend to hide.",
+   "i": 1
+  },
+  {
+   "t": "The tyre is the thing at this level. Get temperature into it on the out lap or the first flying lap is gone.",
+   "i": 1
+  }
+ ],
+ "div_f2": [
+  {
+   "t": "Formula 2 is the last step, and everybody here knows it. One seat above this, and not many of them.",
+   "i": 1
+  },
+  {
+   "t": "These are heavy, powerful cars with a turbo and a lot of downforce - much closer to a Formula One car than anything below.",
+   "i": 1
+  },
+  {
+   "t": "The tyre management in this category is brutal, and it is deliberate: it is the skill Formula One most wants to see.",
+   "i": 1
+  },
+  {
+   "t": "A driver who wins Formula 2 usually gets a chance. A driver who finishes third usually does not, and everybody out there can do that arithmetic.",
+   "i": 1
+  },
+  {
+   "t": "Reverse grids and a sprint race mean a bad Saturday can be recovered and a good one can be squandered. It rewards a cool head.",
+   "i": 1
+  }
+ ],
+ "div_f1": [
+  {
+   "t": "This is the top of the sport. Everything below it exists to find the twenty people who get to be here.",
+   "i": 1
+  },
+  {
+   "t": "There is no next category. Whatever a driver has left to prove, he proves it in this car or not at all.",
+   "i": 1
+  },
+  {
+   "t": "The margins here are absurd - a tenth separates a good car from a great one, and a great one from a championship.",
+   "i": 1
+  }
+ ],
+ "div_hatch": [
+  {
+   "t": "Front-wheel drive, a sealed engine and no downforce worth the name. It is close, cheap racing and it is where a great many careers start.",
+   "i": 1
+  },
+  {
+   "t": "Nobody out here is being paid to do this, and every one of them has paid to be here. That changes how a man races.",
+   "i": 1
+  },
+  {
+   "t": "These cars lift an inside rear through the quick corners, which looks alarming and is entirely normal.",
+   "i": 1
+  },
+  {
+   "t": "Contact is part of this category. The cars are built expecting it and the drivers race accordingly.",
+   "i": 1
+  }
+ ]
+}

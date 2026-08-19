@@ -1,0 +1,484 @@
+{
+ "_comment": [
+  "FACTORtv — THE CAREER LADDERS.",
+  "",
+  "Six paths a driver can climb, each a list of TIERS in order. This is data",
+  "rather than code because it is curated by the user: he owns the car mods,",
+  "he knows which are raceable, and he is still adding to them.",
+  "",
+  "WHY THE CAR LIST IS HAND-KEPT AND NOT SCANNED. Installed does not mean",
+  "raceable. The Studio 397 GT3 cars sit fully downloaded — 188MB apiece,",
+  "same folder shape and same .mas files as free content — and will not load",
+  "without the licence. Nothing on disk distinguishes them, so a scan would",
+  "confidently offer a tier the user cannot race. The folder scan suggests;",
+  "this file decides.",
+  "",
+  "TWO WAYS TO MATCH A CAR, because the two names are not the same thing:",
+  "  `mods`    installed folder names. Known before a car has ever been",
+  "            loaded, so the menu can draw the whole ladder from a cold",
+  "            start. Matched on a normalised substring, like track.ALIASES.",
+  "  `classes` the CarClass string rF2 reports in shared memory and in result",
+  "            files. This is what a LIVE session gives us, and it is how a",
+  "            race is credited to a rung. Present in every session type —",
+  "            practice and qualifying included.",
+  "",
+  "`needs` is the championship position required IN THE TIER BELOW to earn a",
+  "seat here. Null on an entry tier. The numbers escalate on purpose: fifth",
+  "gets you out of karting, second gets you into Formula One. The bar rising",
+  "as you climb is the whole shape of a racing career, and it explains itself",
+  "without a tutorial.",
+  "",
+  "`register` picks how the booth SOUNDS at this tier — see booth_ladder.json.",
+  "It is a tone, not a knowledge base: there is no real history to draw on in",
+  "a karting field, and inventing some would be the one thing this product",
+  "refuses to do."
+ ],
+ "paths": {
+  "single_seater": {
+   "name": "Single-Seater",
+   "sub": "Karting to Formula One",
+   "blurb": "The classic route. Every rung of it is a car you own.",
+   "tiers": [
+    {
+     "key": "kart",
+     "name": "Karting",
+     "register": "grassroots",
+     "needs": null,
+     "mods": [
+      "kart_cup"
+     ],
+     "classes": [
+      "kart",
+      "kart junior",
+      "kart f1"
+     ],
+     "ui": {
+      "kart_cup": [
+       "Kart Junior",
+       "Kart F1"
+      ]
+     }
+    },
+    {
+     "key": "f4",
+     "name": "Formula 4",
+     "register": "grassroots",
+     "needs": 5,
+     "mods": [
+      "tatuus f4"
+     ],
+     "classes": [
+      "f4",
+      "tatuus f4"
+     ]
+    },
+    {
+     "key": "f3",
+     "name": "Formula 3",
+     "register": "junior",
+     "needs": 4,
+     "mods": [
+      "smmg formula 3"
+     ],
+     "classes": [
+      "formula 3",
+      "f3",
+      "smmg"
+     ],
+     "ui": {
+      "smmg formula 3": [
+       "Formula 3"
+      ]
+     }
+    },
+    {
+     "key": "f2",
+     "name": "Formula 2",
+     "register": "junior",
+     "needs": 3,
+     "mods": [
+      "f 2 2019"
+     ],
+     "classes": [
+      "formula 2 2019",
+      "formula 2",
+      "f2"
+     ],
+     "ui": {
+      "f 2 2019": [
+       "Formula 2 2019"
+      ]
+     },
+     "year_name": true
+    },
+    {
+     "key": "f1",
+     "name": "Formula One",
+     "register": "professional",
+     "needs": 2,
+     "mods": [
+      "f 1 am 2021"
+     ],
+     "classes": [
+      "formula one",
+      "f1",
+      "fsr"
+     ],
+     "years": [
+      2021,
+      2021
+     ],
+     "ui": {
+      "f 1 am 2021": [
+       "Formula One 2021"
+      ]
+     },
+     "year_name": true
+    }
+   ]
+  },
+  "road_to_indy": {
+   "name": "Road to Indy",
+   "sub": "USF2000 to IndyCar",
+   "blurb": "The American ladder. Ovals from the first rung, which makes it a genuinely different career from Europe.",
+   "tiers": [
+    {
+     "key": "usf2000",
+     "name": "USF2000",
+     "register": "grassroots",
+     "needs": null,
+     "mods": [
+      "usf2000"
+     ],
+     "classes": [
+      "usf2000"
+     ]
+    },
+    {
+     "key": "indypro",
+     "name": "Indy Pro 2000",
+     "register": "junior",
+     "needs": 5,
+     "mods": [
+      "usf 17",
+      "usf-17"
+     ],
+     "classes": [
+      "usf-17",
+      "indy pro"
+     ]
+    },
+    {
+     "key": "lights",
+     "name": "Indy Lights",
+     "register": "junior",
+     "needs": 3,
+     "mods": [
+      "pm 18",
+      "pm-18"
+     ],
+     "classes": [
+      "pm-18",
+      "indy lights"
+     ]
+    },
+    {
+     "key": "indycar",
+     "name": "IndyCar",
+     "register": "professional",
+     "needs": 2,
+     "mods": [
+      "dallara dw12",
+      "dallaradw12"
+     ],
+     "classes": [
+      "indycar"
+     ]
+    }
+   ]
+  },
+  "endurance": {
+   "name": "Endurance",
+   "sub": "Club racer to Le Mans",
+   "blurb": "The deepest path, and the one that ends at Le Mans.",
+   "tiers": [
+    {
+     "key": "club",
+     "name": "Club racer",
+     "register": "grassroots",
+     "needs": null,
+     "mods": [
+      "caterham",
+      "skip barber",
+      "radical"
+     ],
+     "classes": [
+      "caterham",
+      "skip barber",
+      "radical"
+     ]
+    },
+    {
+     "key": "gt4",
+     "name": "GT4",
+     "register": "junior",
+     "needs": 5,
+     "mods": [
+      "m2 cs",
+      "alpine"
+     ],
+     "classes": [
+      "gt4",
+      "alpine a110"
+     ]
+    },
+    {
+     "key": "gt3",
+     "name": "GT3",
+     "register": "professional",
+     "needs": 4,
+     "mods": [
+      "stk",
+      "gtr3",
+      "gt3 world series",
+      "gtr3 world series",
+      "gt3world"
+     ],
+     "classes": [
+      "gt3",
+      "gtr3",
+      "gt3 world series",
+      "gtr3 world series"
+     ]
+    },
+    {
+     "key": "gte",
+     "name": "GTE",
+     "register": "professional",
+     "needs": 3,
+     "mods": [
+      "c6r",
+      "corvette z06",
+      "corvette zr1"
+     ],
+     "classes": [
+      "gte",
+      "gtlm",
+      "corvette"
+     ]
+    },
+    {
+     "key": "proto",
+     "name": "Prototype",
+     "register": "professional",
+     "needs": 2,
+     "mods": [
+      "lmp1",
+      "919",
+      "ts050",
+      "r18",
+      "group c"
+     ],
+     "classes": [
+      "lmp1",
+      "hypercar",
+      "group c"
+     ]
+    }
+   ]
+  },
+  "stock_car": {
+   "name": "Stock Car",
+   "sub": "Junior series to NASCAR",
+   "blurb": "One family of cars for three rungs, then the jump to ovals.",
+   "tiers": [
+    {
+     "key": "sc_junior",
+     "name": "Stock Car Junior",
+     "register": "grassroots",
+     "needs": null,
+     "mods": [
+      "sc2015"
+     ],
+     "classes": [
+      "stockcar 2015",
+      "sc2015"
+     ]
+    },
+    {
+     "key": "sc_x",
+     "name": "Stock Car X",
+     "register": "junior",
+     "needs": 5,
+     "mods": [
+      "sc2018x"
+     ],
+     "classes": [
+      "stockcar 2018 x series",
+      "x series"
+     ]
+    },
+    {
+     "key": "sc_pro",
+     "name": "Stock Car Pro",
+     "register": "professional",
+     "needs": 3,
+     "mods": [
+      "sc2018"
+     ],
+     "classes": [
+      "stockcar 2018",
+      "stock car pro"
+     ]
+    },
+    {
+     "key": "nascar",
+     "name": "NASCAR",
+     "register": "professional",
+     "needs": 2,
+     "mods": [
+      "nr2019",
+      "nascar 2019",
+      "nascar 2023",
+      "next gen cup",
+      "nextgen"
+     ],
+     "classes": [
+      "nascar",
+      "next gen",
+      "cup series"
+     ]
+    }
+   ]
+  },
+  "touring": {
+   "name": "Touring",
+   "sub": "Hot hatch to Super GT",
+   "blurb": "The factory tin-top world. Since 2020 Super GT's GT500 and DTM share the Class 1 rules, which is why those cars belong on one rung.",
+   "tiers": [
+    {
+     "key": "hatch",
+     "name": "Hot hatch",
+     "register": "grassroots",
+     "needs": null,
+     "mods": [
+      "cliocup",
+      "megane"
+     ],
+     "classes": [
+      "clio",
+      "megane"
+     ]
+    },
+    {
+     "key": "touring",
+     "name": "Touring cars",
+     "register": "junior",
+     "needs": 5,
+     "mods": [
+      "civic btcc",
+      "bmw_330",
+      "320i stw",
+      "volvo s40"
+     ],
+     "classes": [
+      "btcc",
+      "stw",
+      "touring",
+      "bmw 330"
+     ]
+    },
+    {
+     "key": "gt500",
+     "name": "Super GT500",
+     "register": "professional",
+     "needs": 3,
+     "mods": [
+      "gt500",
+      "class1"
+     ],
+     "classes": [
+      "gt500",
+      "gt-r gt500",
+      "class 1",
+      "dtm"
+     ]
+    }
+   ]
+  },
+  "historic": {
+   "name": "Historic",
+   "sub": "1960s to 1990s",
+   "blurb": "NOT A LADDER. Nobody is promoted from 1966 to 1975 — it is a tour through eras, and every tier is open from the start.",
+   "tour": true,
+   "tiers": [
+    {
+     "key": "sixties",
+     "name": "The sixties",
+     "register": "archive",
+     "needs": null,
+     "mods": [
+      "brabham_1966",
+      "howston_g4",
+      "howston_g6",
+      "historic challenge",
+      "minicoopers",
+      "427sc"
+     ],
+     "classes": [
+      "1966",
+      "1968",
+      "historic"
+     ]
+    },
+    {
+     "key": "seventies",
+     "name": "The seventies",
+     "register": "archive",
+     "needs": null,
+     "mods": [
+      "m23",
+      "bt44",
+      "m761",
+      "howston_diss"
+     ],
+     "classes": [
+      "1974",
+      "1975",
+      "1976"
+     ]
+    },
+    {
+     "key": "eighties",
+     "name": "The eighties",
+     "register": "archive",
+     "needs": null,
+     "mods": [
+      "f1 1988",
+      "group_c"
+     ],
+     "classes": [
+      "1988",
+      "group c"
+     ]
+    },
+    {
+     "key": "nineties",
+     "name": "The nineties",
+     "register": "archive",
+     "needs": null,
+     "mods": [
+      "mp4_8",
+      "mp4_13",
+      "honda_nsx"
+     ],
+     "classes": [
+      "1993",
+      "1998",
+      "1991"
+     ]
+    }
+   ]
+  }
+ }
+}

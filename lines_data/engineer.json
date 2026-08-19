@@ -1,0 +1,1957 @@
+{
+ "_comment": [
+  "Ray Okonkwo, race engineer. Slots: {drv} you, {rival} other driver,",
+  "{gap} gap text, {pos} position, {laps} laps, {n} number, {t} time,",
+  "{fuel} litres, {pct} percent, {zone} damage zone, {sec} sector.",
+  "House rules: max ~18 words, only YOUR car, never narrates the race.",
+  "He is on the pit wall — he can see timing and telemetry, not the",
+  "inside of somebody else's cockpit.",
+  "",
+  "`eng_quali_recall` / `eng_grid_recall` / `eng_greeting_career` are the",
+  "CAREER greetings. They quote a qualifying result from a session that has",
+  "already ended, which is a fact shared memory cannot supply — it is banked",
+  "by overlay_booth._quali_bank() while the timesheet is still visible.",
+  "`eng_grid_recall` is for the race after THIS weekend's qualifying;",
+  "`eng_quali_recall` refers to a previous round. Saying the wrong one is",
+  "the difference between 'you start fourth today' and 'last time out you",
+  "were fourth', and only one of them is true.",
+  "",
+  "QUALIFYING. `eng_quali_*` fire in a timed session, all edge-triggered",
+  "on the player's own lap completing — a position on a timesheet is a",
+  "standing state, and reporting it on a cooldown is how an engineer",
+  "becomes a metronome. `{rival}` in `eng_quali_lap` is the man AHEAD",
+  "OF YOU ON THE SHEET, not the leader: that is the gap you can take.",
+  "`eng_quali_sector` only fires when ONE sector dominates the deficit",
+  "and both drivers have all three splits — two out of three is the",
+  "shape of an answer that sounds authoritative and is wrong.",
+  "",
+  "HE IS THE ONLY INFORMATION CHANNEL. Driver radio was removed, so",
+  "silence from Dean is silence full stop. `eng_quali_time` reads your",
+  "lap back on EVERY completed lap in a timed session, improved or not,",
+  "and `eng_lap_ahead` / `eng_lap_behind` / `eng_lap_time` do the same",
+  "in a race with the gap to whoever you are actually racing. All are",
+  "low priority: anything more urgent still wins the tick, and these",
+  "are what he says when nothing is."
+ ],
+ "eng_greeting": [
+  {
+   "t": "Radio check, {drv}. We're with you.",
+   "i": 0
+  },
+  {
+   "t": "Morning. Car's looking good on our screens.",
+   "i": 0
+  },
+  {
+   "t": "All set this end. Have a good one.",
+   "i": 0
+  },
+  {
+   "t": "We're live on the timing. Good luck out there.",
+   "i": 0
+  },
+  {
+   "t": "Radio's clear both ways, {drv}. Anything you need, shout.",
+   "i": 0
+  },
+  {
+   "t": "We're on the wall and watching. Have a good one.",
+   "i": 0
+  },
+  {
+   "t": "Comms check. Loud and clear this end, {drv}.",
+   "i": 0
+  },
+  {
+   "t": "Everything green on the screens. Over to you.",
+   "i": 0
+  },
+  {
+   "t": "Right, we're with you all the way. Enjoy it.",
+   "i": 0
+  }
+ ],
+ "eng_start": [
+  {
+   "t": "Held your place, {drv} — {pos}. Good, now build.",
+   "i": 2
+  },
+  {
+   "t": "Clean away in {pos}. That's all we needed, {drv}.",
+   "i": 2
+  },
+  {
+   "t": "Green light. Let's have a clean first lap.",
+   "i": 1
+  },
+  {
+   "t": "Here we go. Mind the run to turn one.",
+   "i": 1
+  },
+  {
+   "t": "Good start. Keep your head, long way to go.",
+   "i": 1
+  },
+  {
+   "t": "Formation done. Focus on your getaway.",
+   "i": 1
+  },
+  {
+   "t": "Lights out. Clean through turn one, that's all I want.",
+   "i": 1
+  },
+  {
+   "t": "Away we go. Nothing silly on lap one, {drv}.",
+   "i": 1
+  },
+  {
+   "t": "We're racing. Get it settled and we'll talk.",
+   "i": 1
+  },
+  {
+   "t": "Green flag. Temperatures are where we want them.",
+   "i": 1
+  },
+  {
+   "t": "That's the start done. {pos} and running. Breathe.",
+   "i": 1
+  },
+  {
+   "t": "Fine getaway. Now find your rhythm, no hurry.",
+   "i": 1
+  }
+ ],
+ "eng_start_gain": [
+  {
+   "t": "Good work {drv} — up to {pos}. Settle in now.",
+   "i": 2
+  },
+  {
+   "t": "Great launch, {drv}. {n} places up, {pos} now.",
+   "i": 2
+  },
+  {
+   "t": "That's {n} gained off the line. You're {pos}, {drv}.",
+   "i": 2
+  },
+  {
+   "t": "Lovely start. {pos} and clean, {drv}.",
+   "i": 2
+  },
+  {
+   "t": "Brilliant start, {n} places gained.",
+   "i": 2
+  },
+  {
+   "t": "Cracking launch, {drv}. {pos} already. Hold that.",
+   "i": 2
+  },
+  {
+   "t": "{n} places on the run down. {pos}. Beautiful.",
+   "i": 2
+  },
+  {
+   "t": "You've picked up {n} there. {pos} now, keep it clean.",
+   "i": 2
+  },
+  {
+   "t": "That's how you start a race. {pos}, {drv}.",
+   "i": 2
+  },
+  {
+   "t": "Up {n} spots off the line. {pos}. Now consolidate.",
+   "i": 2
+  },
+  {
+   "t": "Lovely first lap, {n} gained. Settle into {pos}.",
+   "i": 2
+  }
+ ],
+ "eng_start_loss": [
+  {
+   "t": "Dropped a couple there {drv}, you're {pos}. Long way to go.",
+   "i": 2
+  },
+  {
+   "t": "Lost a place off the line — {pos} now. Head down, {drv}.",
+   "i": 2
+  },
+  {
+   "t": "Not the getaway we wanted. {pos}, and plenty of race left.",
+   "i": 2
+  },
+  {
+   "t": "Lost a couple there. Settle in and take them back.",
+   "i": 1
+  },
+  {
+   "t": "Not the start we wanted. Heads down.",
+   "i": 1
+  },
+  {
+   "t": "Bit of a scrap off the line, we're {pos}. Regroup.",
+   "i": 1
+  },
+  {
+   "t": "We've lost a couple, {pos}. Long race, plenty of time.",
+   "i": 1
+  },
+  {
+   "t": "Slow away, {drv}. {pos}. Forget it and drive.",
+   "i": 1
+  },
+  {
+   "t": "Not the launch we wanted. {pos}. Heads down.",
+   "i": 1
+  },
+  {
+   "t": "We're {pos} after the first lap. Nothing's decided yet.",
+   "i": 1
+  },
+  {
+   "t": "Dropped a few there. {pos}. Take them back one at a time.",
+   "i": 1
+  }
+ ],
+ "eng_fuel_ok": [
+  {
+   "t": "Fuel's on target. Nothing to change.",
+   "i": 0
+  },
+  {
+   "t": "Fuel looking healthy, keep pushing.",
+   "i": 0
+  },
+  {
+   "t": "We're good on fuel to the end.",
+   "i": 0
+  },
+  {
+   "t": "Fuel's healthy, {drv}. {fuel} litres and we're comfortable.",
+   "i": 0
+  },
+  {
+   "t": "Numbers on fuel look fine. Don't think about it.",
+   "i": 0
+  },
+  {
+   "t": "{fuel} litres. That's plenty, race it normally.",
+   "i": 0
+  },
+  {
+   "t": "Consumption's on target. Nothing to manage.",
+   "i": 0
+  }
+ ],
+ "eng_fuel_tight": [
+  {
+   "t": "Fuel's marginal. Start lifting on the straights.",
+   "i": 1
+  },
+  {
+   "t": "We're a little short. Need some saving from here.",
+   "i": 1
+  },
+  {
+   "t": "Fuel target's slipping. Short-shift where you can.",
+   "i": 1
+  },
+  {
+   "t": "Fuel's marginal, {drv}. Short-shift where you can.",
+   "i": 1
+  },
+  {
+   "t": "We're a touch tight on fuel. Lift a bit earlier.",
+   "i": 1
+  },
+  {
+   "t": "{fuel} litres and it's borderline. Start saving now.",
+   "i": 1
+  },
+  {
+   "t": "Fuel number's not comfortable. Ease the throttle on exits.",
+   "i": 1
+  },
+  {
+   "t": "Watch the fuel. Coast into the slow corners for me.",
+   "i": 1
+  }
+ ],
+ "eng_fuel_critical": [
+  {
+   "t": "Fuel critical. We will not make the flag like this.",
+   "i": 2
+  },
+  {
+   "t": "You have to save now, {drv}. This is serious.",
+   "i": 2
+  },
+  {
+   "t": "We're {n} laps short on fuel. Save hard.",
+   "i": 2
+  },
+  {
+   "t": "Fuel critical, {drv}. We're {n} laps short. Save hard.",
+   "i": 3
+  },
+  {
+   "t": "This is serious on fuel — {n} laps down. Big lift.",
+   "i": 3
+  },
+  {
+   "t": "{fuel} litres. We do not make the end. Save everything.",
+   "i": 3
+  },
+  {
+   "t": "Fuel emergency. {n} laps short as it stands. Short-shift now.",
+   "i": 3
+  },
+  {
+   "t": "You have to save, {drv}. {n} laps of fuel missing.",
+   "i": 3
+  }
+ ],
+ "eng_fuel_save_ok": [
+  {
+   "t": "Good saving. We're back on target.",
+   "i": 0
+  },
+  {
+   "t": "That's it, numbers are coming back to us.",
+   "i": 0
+  },
+  {
+   "t": "Good work on the fuel. We're back inside the number.",
+   "i": 1
+  },
+  {
+   "t": "That's the saving done, {drv}. Race it again.",
+   "i": 1
+  },
+  {
+   "t": "Fuel's come back to us. You can push now.",
+   "i": 1
+  },
+  {
+   "t": "Numbers are healthy again. Forget the lifting.",
+   "i": 1
+  }
+ ],
+ "eng_tyres_ok": [
+  {
+   "t": "Tyres look stable. Keep the rhythm.",
+   "i": 0,
+   "needs": [
+    "slicks"
+   ]
+  },
+  {
+   "t": "Rubber's holding up well.",
+   "i": 0
+  },
+  {
+   "t": "Tyres are behaving. Nothing to manage yet.",
+   "i": 0
+  },
+  {
+   "t": "Rubber looks good on our end, {drv}.",
+   "i": 0
+  },
+  {
+   "t": "Wear rate's fine. Carry on as you are.",
+   "i": 0
+  },
+  {
+   "t": "Tyres are in a happy place. Keep doing that.",
+   "i": 0
+  }
+ ],
+ "eng_tyres_worn": [
+  {
+   "t": "Tyres are past their best. Manage them now.",
+   "i": 1
+  },
+  {
+   "t": "You're down to {pct} percent on the fronts.",
+   "i": 1
+  },
+  {
+   "t": "Deg is climbing. Look after them.",
+   "i": 1
+  },
+  {
+   "t": "That left front is going away. Ease the entry.",
+   "i": 1
+  },
+  {
+   "t": "Tyres are going, {drv} — {pct} percent left. Be smooth.",
+   "i": 1
+  },
+  {
+   "t": "We're down to {pct} percent. Ease off the kerbs.",
+   "i": 1
+  },
+  {
+   "t": "Wear's climbing. {pct} percent. Look after them.",
+   "i": 1
+  },
+  {
+   "t": "Rubber's past its best, {pct} percent. Manage the exits.",
+   "i": 1
+  },
+  {
+   "t": "Tyres at {pct} percent. Wide lines, less sliding.",
+   "i": 1
+  }
+ ],
+ "eng_tyres_gone": [
+  {
+   "t": "Those tyres are finished. We need to think about a stop.",
+   "i": 2
+  },
+  {
+   "t": "No life left in them, {drv}. Bring it in.",
+   "i": 2
+  },
+  {
+   "t": "Tyres are done, {drv}. Whatever's left, nurse it.",
+   "i": 2
+  },
+  {
+   "t": "That's the rubber gone. Bring it home carefully.",
+   "i": 2
+  },
+  {
+   "t": "No life left in those. Smooth hands from here.",
+   "i": 2
+  },
+  {
+   "t": "Tyres are finished. Drive to the grip you've got.",
+   "i": 2
+  },
+  {
+   "t": "We're on the canvas now. Just survive the laps.",
+   "i": 2
+  }
+ ],
+ "eng_tyre_cold": [
+  {
+   "t": "Tyres are cold. Work them up before you push.",
+   "i": 1
+  },
+  {
+   "t": "No temperature in them yet. Be careful.",
+   "i": 1
+  },
+  {
+   "t": "Give them a lap to come in.",
+   "i": 0
+  },
+  {
+   "t": "Tyres are cold, {drv}. Weave and get some heat in.",
+   "i": 1
+  },
+  {
+   "t": "No temperature in the rubber yet. Be patient.",
+   "i": 1
+  },
+  {
+   "t": "Cold tyres. Build into it, don't attack the first lap.",
+   "i": 1
+  },
+  {
+   "t": "Rubber's below window. Work them before you push.",
+   "i": 1
+  }
+ ],
+ "eng_tyre_hot": [
+  {
+   "t": "Tyres are overheating. Back off a fraction.",
+   "i": 1
+  },
+  {
+   "t": "You're cooking them. Give them a breather.",
+   "i": 1
+  },
+  {
+   "t": "Temps are too high. Cool them through the next sector.",
+   "i": 1
+  },
+  {
+   "t": "Tyres are running hot. Back off a fraction.",
+   "i": 1
+  },
+  {
+   "t": "Temperatures are over the window. Give them a lap.",
+   "i": 1
+  },
+  {
+   "t": "You're overheating the rubber, {drv}. Less sliding.",
+   "i": 1
+  },
+  {
+   "t": "Tyres too hot. Ease the entries and they'll come back.",
+   "i": 1
+  }
+ ],
+ "eng_brakes_hot": [
+  {
+   "t": "Brake temps are high. Ease off the pedal.",
+   "i": 1
+  },
+  {
+   "t": "Watch the brakes, they're getting warm.",
+   "i": 1
+  },
+  {
+   "t": "Brakes are getting hot. Give them some air, {drv}.",
+   "i": 1
+  },
+  {
+   "t": "Brake temperatures are climbing. Ease off a corner or two.",
+   "i": 1
+  },
+  {
+   "t": "Watch the brakes, they're above where we want them.",
+   "i": 1
+  },
+  {
+   "t": "Brakes running warm. Brake earlier, less pressure.",
+   "i": 1
+  }
+ ],
+ "eng_damage_light": [
+  {
+   "t": "We can see contact on the {zone}. Numbers still look fine.",
+   "i": 1
+  },
+  {
+   "t": "Bit of damage {zone} side. Nothing structural.",
+   "i": 1
+  },
+  {
+   "t": "You've picked up some bodywork damage. Keep going.",
+   "i": 1
+  },
+  {
+   "t": "Bit of {zone} damage showing, {drv}. Nothing serious.",
+   "i": 1
+  },
+  {
+   "t": "We've marked the {zone}. Car should still be fine.",
+   "i": 1
+  },
+  {
+   "t": "Light damage to the {zone}. Keep an eye on the balance.",
+   "i": 1
+  },
+  {
+   "t": "Some contact on the {zone}. Numbers still look healthy.",
+   "i": 1
+  },
+  {
+   "t": "Minor {zone} damage. Carry on, tell me if it feels odd.",
+   "i": 1
+  }
+ ],
+ "eng_damage_heavy": [
+  {
+   "t": "That's significant damage to the {zone}. Take it steady.",
+   "i": 2
+  },
+  {
+   "t": "Heavy contact on the {zone}. Report how it feels.",
+   "i": 2
+  },
+  {
+   "t": "Car's hurt, {drv}. Nurse it for a lap and we'll assess.",
+   "i": 2
+  },
+  {
+   "t": "That's real damage to the {zone}. Nurse it home.",
+   "i": 2
+  },
+  {
+   "t": "Heavy {zone} damage, {drv}. Expect to lose pace.",
+   "i": 2
+  },
+  {
+   "t": "We've hurt the {zone} badly. Manage it, don't force it.",
+   "i": 2
+  },
+  {
+   "t": "Big hit on the {zone}. Talk to me if it gets worse.",
+   "i": 2
+  },
+  {
+   "t": "Serious {zone} damage. Finishing is the priority now.",
+   "i": 2
+  }
+ ],
+ "eng_pit_call": [
+  {
+   "t": "Box, box. Box this lap.",
+   "i": 2
+  },
+  {
+   "t": "Box this lap, {drv}. Box, box.",
+   "i": 2
+  },
+  {
+   "t": "In this lap. Pit confirm.",
+   "i": 2
+  },
+  {
+   "t": "Pit lane now. In, in, in.",
+   "i": 2
+  },
+  {
+   "t": "We're bringing you in. Box this time round.",
+   "i": 2
+  },
+  {
+   "t": "Box now, {drv}. Crew are ready.",
+   "i": 2
+  }
+ ],
+ "eng_pit_out": [
+  {
+   "t": "Good stop. You're out in {pos}.",
+   "i": 1
+  },
+  {
+   "t": "Clean stop. Push now, tyres will come in quickly.",
+   "i": 1
+  },
+  {
+   "t": "Out in {pos}. Let's get after them.",
+   "i": 1
+  },
+  {
+   "t": "Out you go. Cold tyres for a lap, be careful.",
+   "i": 1
+  },
+  {
+   "t": "Pit exit clear. Build the temperature before you attack.",
+   "i": 1
+  },
+  {
+   "t": "Good stop. Get your head down and rebuild.",
+   "i": 1
+  },
+  {
+   "t": "You're back out in {pos}. Now go racing.",
+   "i": 1
+  },
+  {
+   "t": "Stop's done. Fresh rubber, use it wisely.",
+   "i": 1
+  }
+ ],
+ "eng_gap_closing": [
+  {
+   "t": "{gap} to {rival} ahead. You're taking time out of him.",
+   "i": 1
+  },
+  {
+   "t": "Gap's down to {gap}. Keep it coming.",
+   "i": 1
+  },
+  {
+   "t": "You're quicker than him. {gap} now.",
+   "i": 1
+  },
+  {
+   "t": "You're catching {rival} — {gap} and shrinking.",
+   "i": 1
+  },
+  {
+   "t": "{gap} to {rival} now. Keep that rhythm.",
+   "i": 1
+  },
+  {
+   "t": "Reeling {rival} in, {gap}. Patience, {drv}.",
+   "i": 1
+  },
+  {
+   "t": "You're quicker than {rival}. {gap} to find.",
+   "i": 1
+  },
+  {
+   "t": "Eating into it — {gap} to {rival}. Lovely.",
+   "i": 1
+  },
+  {
+   "t": "{rival} is coming back to you. {gap}.",
+   "i": 1
+  }
+ ],
+ "eng_gap_losing": [
+  {
+   "t": "He's pulling away, {gap} now.",
+   "i": 1
+  },
+  {
+   "t": "Losing a couple of tenths a lap to {rival}.",
+   "i": 1
+  },
+  {
+   "t": "Gap out to {gap}. We need more.",
+   "i": 1
+  },
+  {
+   "t": "{rival} is edging clear, {gap}. Find something.",
+   "i": 1
+  },
+  {
+   "t": "Losing touch with {rival} — {gap}. Dig in.",
+   "i": 1
+  },
+  {
+   "t": "{gap} to {rival} and growing. Where are we weak?",
+   "i": 1
+  },
+  {
+   "t": "{rival}'s pulling away, {gap}. Stay calm, keep pushing.",
+   "i": 1
+  },
+  {
+   "t": "Bit of time going to {rival}, {gap}. Don't force it.",
+   "i": 1
+  }
+ ],
+ "eng_defend": [
+  {
+   "t": "{rival} is right behind you. Defend the inside.",
+   "i": 2
+  },
+  {
+   "t": "He's in your mirrors, {gap}. Cover the line.",
+   "i": 2
+  },
+  {
+   "t": "Car behind is faster. Be ready for a move.",
+   "i": 2
+  },
+  {
+   "t": "{rival} is on you, {gap}. Cover the inside.",
+   "i": 2
+  },
+  {
+   "t": "Mirrors, {drv} — {rival} at {gap}.",
+   "i": 2
+  },
+  {
+   "t": "{rival}'s {gap} back and closing. Defend the braking zone.",
+   "i": 2
+  },
+  {
+   "t": "He's there, {rival}, {gap}. Make it difficult.",
+   "i": 2
+  },
+  {
+   "t": "{gap} to {rival} behind. Take the racing line early.",
+   "i": 2
+  },
+  {
+   "t": "{rival} will have a look. Be firm, be fair.",
+   "i": 2
+  }
+ ],
+ "eng_clear": [
+  {
+   "t": "You've got clear air now. Build a gap.",
+   "i": 0
+  },
+  {
+   "t": "Nothing behind for {gap}. Settle down.",
+   "i": 0
+  },
+  {
+   "t": "You're pulling clear behind. That's the gap we wanted.",
+   "i": 1
+  },
+  {
+   "t": "Breathing room now, {drv}. Manage it from here.",
+   "i": 1
+  },
+  {
+   "t": "Gap behind is growing. You've broken him.",
+   "i": 1
+  },
+  {
+   "t": "Nobody in range behind. Settle into a rhythm.",
+   "i": 1
+  },
+  {
+   "t": "Clear air, {pos}. Look after the car.",
+   "i": 1
+  }
+ ],
+ "eng_drs_available": [
+  {
+   "t": "You're within a second. DRS is armed.",
+   "i": 1,
+   "needs": [
+    "drs"
+   ]
+  },
+  {
+   "t": "DRS available next lap if you stay close.",
+   "i": 1,
+   "needs": [
+    "drs"
+   ]
+  },
+  {
+   "t": "You're in the window, {drv}. Wing's yours.",
+   "i": 1,
+   "needs": [
+    "drs"
+   ]
+  },
+  {
+   "t": "DRS enabled. Use it on the straight.",
+   "i": 1,
+   "needs": [
+    "drs"
+   ]
+  },
+  {
+   "t": "Inside a second — flap's available.",
+   "i": 1,
+   "needs": [
+    "drs"
+   ]
+  },
+  {
+   "t": "You've got the rear wing. Time it right.",
+   "i": 1,
+   "needs": [
+    "drs"
+   ]
+  }
+ ],
+ "eng_ptp": [
+  {
+   "t": "You have push-to-pass available. Use it on the straight.",
+   "i": 1,
+   "needs": [
+    "ptp"
+   ]
+  },
+  {
+   "t": "Save the push-to-pass for the run to the line.",
+   "i": 1,
+   "needs": [
+    "ptp"
+   ]
+  },
+  {
+   "t": "Push-to-pass available. Save it for the run to the line.",
+   "i": 1,
+   "needs": [
+    "ptp"
+   ]
+  },
+  {
+   "t": "You've got boost in hand, {drv}. Pick your moment.",
+   "i": 1,
+   "needs": [
+    "ptp"
+   ]
+  },
+  {
+   "t": "Push-to-pass is armed. Don't waste it defending.",
+   "i": 1,
+   "needs": [
+    "ptp"
+   ]
+  }
+ ],
+ "eng_energy": [
+  {
+   "t": "Deployment is low. Let it recharge for a lap.",
+   "i": 1,
+   "needs": [
+    "ers"
+   ]
+  },
+  {
+   "t": "Use the full deployment now, we have plenty.",
+   "i": 1,
+   "needs": [
+    "ers"
+   ]
+  },
+  {
+   "t": "Deployment's healthy. Full attack on the straights.",
+   "i": 1,
+   "needs": [
+    "ers"
+   ]
+  },
+  {
+   "t": "Battery's charged, {drv}. Use it where it counts.",
+   "i": 1,
+   "needs": [
+    "ers"
+   ]
+  },
+  {
+   "t": "Energy's there for you. Deploy on the exit.",
+   "i": 1,
+   "needs": [
+    "ers"
+   ]
+  }
+ ],
+ "eng_limits_warn": [
+  {
+   "t": "Watch the track limits, that's a warning.",
+   "i": 1
+  },
+  {
+   "t": "You're running wide at the exit. Rein it in.",
+   "i": 1
+  },
+  {
+   "t": "Track limits, {drv}. Keep it between the lines.",
+   "i": 1
+  },
+  {
+   "t": "Mind the white lines, {drv}. That's {n} now.",
+   "i": 1
+  },
+  {
+   "t": "Track limits — {n} strikes. Rein it in a touch.",
+   "i": 1
+  },
+  {
+   "t": "Keep all four on the road. {n} warnings already.",
+   "i": 1
+  },
+  {
+   "t": "You're flirting with the limits. {n} logged.",
+   "i": 1
+  },
+  {
+   "t": "Careful on the exits, {drv}. {n} against us.",
+   "i": 1
+  }
+ ],
+ "eng_limits_serious": [
+  {
+   "t": "That's another one. Any more and it's a penalty.",
+   "i": 2
+  },
+  {
+   "t": "You're on the edge with limits now. Careful.",
+   "i": 2
+  },
+  {
+   "t": "{n} track limits, {drv}. Next one is a penalty.",
+   "i": 2
+  },
+  {
+   "t": "This is serious — {n} strikes. Stay inside the lines.",
+   "i": 2
+  },
+  {
+   "t": "{n} warnings. Tidy it up or they'll punish us.",
+   "i": 2
+  },
+  {
+   "t": "We cannot afford another. {n} already. Back off the kerbs.",
+   "i": 2
+  }
+ ],
+ "eng_penalty": [
+  {
+   "t": "We have a penalty. Serve it when you can.",
+   "i": 2
+  },
+  {
+   "t": "Penalty confirmed, {drv}. Stewards have called it.",
+   "i": 2
+  },
+  {
+   "t": "We've got a penalty, {drv}. Nothing to do but drive.",
+   "i": 2
+  },
+  {
+   "t": "Penalty confirmed. Keep your head, we'll deal with it.",
+   "i": 2
+  },
+  {
+   "t": "Stewards have given us one. Forget it, focus forward.",
+   "i": 2
+  },
+  {
+   "t": "That's a penalty against us. Annoying. Race on.",
+   "i": 2
+  }
+ ],
+ "eng_yellow": [
+  {
+   "t": "Yellow flags ahead. Slow down, no overtaking.",
+   "i": 2
+  },
+  {
+   "t": "Caution out. Lift and be ready.",
+   "i": 2
+  },
+  {
+   "t": "Yellow flags, {drv}. Lift and no overtaking.",
+   "i": 2
+  },
+  {
+   "t": "Yellows out. Slow down through the incident.",
+   "i": 2
+  },
+  {
+   "t": "Caution ahead. Off the throttle, be ready for anything.",
+   "i": 2
+  },
+  {
+   "t": "Yellow in your sector. Ease off, keep it safe.",
+   "i": 2
+  }
+ ],
+ "eng_lastlap": [
+  {
+   "t": "Last lap, {drv}. Bring it home.",
+   "i": 2
+  },
+  {
+   "t": "Final lap. Everything you've got.",
+   "i": 2
+  },
+  {
+   "t": "One more. Keep it clean.",
+   "i": 2
+  },
+  {
+   "t": "Final lap. Everything you've got, nothing stupid.",
+   "i": 2
+  },
+  {
+   "t": "One to go. Finish the job.",
+   "i": 2
+  },
+  {
+   "t": "This is the last one. Clean and calm.",
+   "i": 2
+  }
+ ],
+ "eng_win": [
+  {
+   "t": "That's the win! Fantastic drive, {drv}!",
+   "i": 3
+  },
+  {
+   "t": "You've won it! Superb, absolutely superb!",
+   "i": 3
+  },
+  {
+   "t": "P1! What a job, everybody. What a job.",
+   "i": 3
+  },
+  {
+   "t": "You've won it, {drv}! Absolutely brilliant.",
+   "i": 3
+  },
+  {
+   "t": "That's the win! Superb from start to finish.",
+   "i": 3
+  },
+  {
+   "t": "Race winner, {drv}. What a drive.",
+   "i": 3
+  },
+  {
+   "t": "We've done it! Chequered flag and first place.",
+   "i": 3
+  }
+ ],
+ "eng_podium": [
+  {
+   "t": "{pos} on the road. That's a podium, well done.",
+   "i": 2
+  },
+  {
+   "t": "Podium finish, {drv}. Great work.",
+   "i": 2
+  },
+  {
+   "t": "Podium, {drv}. {pos}. Thoroughly deserved.",
+   "i": 2
+  },
+  {
+   "t": "That's a rostrum. {pos}. Lovely work.",
+   "i": 2
+  },
+  {
+   "t": "{pos} and a trophy. Great job out there.",
+   "i": 2
+  },
+  {
+   "t": "On the podium in {pos}. Well driven, {drv}.",
+   "i": 2
+  }
+ ],
+ "eng_finish_good": [
+  {
+   "t": "Chequered flag, {pos}. Solid result.",
+   "i": 1
+  },
+  {
+   "t": "That's the flag. {pos}, good job out there.",
+   "i": 1
+  },
+  {
+   "t": "Chequered flag, {pos}. Solid work today.",
+   "i": 1
+  },
+  {
+   "t": "That's the flag. {pos}. We'll take that.",
+   "i": 1
+  },
+  {
+   "t": "{pos} at the end. Good, honest race, {drv}.",
+   "i": 1
+  },
+  {
+   "t": "Race over, {pos}. Plenty to build on.",
+   "i": 1
+  }
+ ],
+ "eng_finish_poor": [
+  {
+   "t": "Flag's out. {pos}. We'll look at the data.",
+   "i": 0
+  },
+  {
+   "t": "That's it. Not our day, but we finished.",
+   "i": 0
+  },
+  {
+   "t": "Flag's out, {pos}. Not our day, {drv}.",
+   "i": 1
+  },
+  {
+   "t": "That's the end of it. {pos}. We'll go again.",
+   "i": 1
+  },
+  {
+   "t": "{pos}. Tough one. Chin up, we learn from it.",
+   "i": 1
+  },
+  {
+   "t": "Race done, {pos}. Let's find the pace next time.",
+   "i": 1
+  }
+ ],
+ "eng_encourage": [
+  {
+   "t": "Good lap. Keep doing exactly that.",
+   "i": 0
+  },
+  {
+   "t": "Consistent. That's what we need.",
+   "i": 0
+  },
+  {
+   "t": "Nice and tidy. Stay with it.",
+   "i": 0
+  },
+  {
+   "t": "You're quick today. Trust the car.",
+   "i": 0
+  },
+  {
+   "t": "That's the pace, {drv}. Keep it there.",
+   "i": 1
+  },
+  {
+   "t": "Nice and consistent. Exactly what we need.",
+   "i": 1
+  },
+  {
+   "t": "Good lap. Same again, no heroics.",
+   "i": 1
+  },
+  {
+   "t": "You're driving well. Stay in the rhythm.",
+   "i": 1
+  },
+  {
+   "t": "Tidy stuff, {drv}. Keep the head.",
+   "i": 1
+  }
+ ],
+ "eng_fastlap": [
+  {
+   "t": "That's the fastest lap of the race. Superb.",
+   "i": 1
+  },
+  {
+   "t": "Purple lap, {drv}. Excellent.",
+   "i": 1
+  },
+  {
+   "t": "Fastest lap of the race, {drv}! Superb.",
+   "i": 2
+  },
+  {
+   "t": "That's purple — quickest of anybody. Brilliant.",
+   "i": 2
+  },
+  {
+   "t": "Fastest lap goes to you. Outstanding.",
+   "i": 2
+  },
+  {
+   "t": "Nobody's gone quicker. Wonderful driving.",
+   "i": 2
+  }
+ ],
+ "eng_pb": [
+  {
+   "t": "Personal best, {t}. Good one.",
+   "i": 1
+  },
+  {
+   "t": "That's your quickest so far.",
+   "i": 1
+  },
+  {
+   "t": "Personal best, {t}. That's your quickest.",
+   "i": 1
+  },
+  {
+   "t": "New best lap for you, {t}. Lovely.",
+   "i": 1
+  },
+  {
+   "t": "{t} — your fastest of the day.",
+   "i": 1
+  },
+  {
+   "t": "That's a PB, {drv}. {t}. Keep it up.",
+   "i": 1
+  }
+ ],
+ "eng_slow_lap": [
+  {
+   "t": "That one was off the pace. Reset and go again.",
+   "i": 0
+  },
+  {
+   "t": "Lost a bit of time there. Nothing to worry about.",
+   "i": 0
+  },
+  {
+   "t": "Bit off the pace that lap, {drv}. What's the car doing?",
+   "i": 1
+  },
+  {
+   "t": "We lost some time there. Anything wrong?",
+   "i": 1
+  },
+  {
+   "t": "That one was slower. Reset and go again.",
+   "i": 1
+  },
+  {
+   "t": "Off our benchmark that lap. Talk to me if it's the car.",
+   "i": 1
+  }
+ ],
+ "eng_incident": [
+  {
+   "t": "Are you okay? Talk to me.",
+   "i": 2
+  },
+  {
+   "t": "That looked big. How's the car?",
+   "i": 2
+  },
+  {
+   "t": "Check the car over on this lap and report.",
+   "i": 2
+  },
+  {
+   "t": "You alright, {drv}? Talk to me.",
+   "i": 2
+  },
+  {
+   "t": "That was a moment. Check the car over for me.",
+   "i": 2
+  },
+  {
+   "t": "Big one there. Any damage you can feel?",
+   "i": 2
+  },
+  {
+   "t": "Take a breath. Tell me how it feels.",
+   "i": 2
+  }
+ ],
+ "eng_recovery": [
+  {
+   "t": "Back up to {pos}. Good recovery.",
+   "i": 1
+  },
+  {
+   "t": "You've made {n} places back. Keep going.",
+   "i": 1
+  },
+  {
+   "t": "Good recovery, {drv}. Back up to {pos}.",
+   "i": 1
+  },
+  {
+   "t": "You've clawed that back. {pos}. Excellent.",
+   "i": 1
+  },
+  {
+   "t": "{pos} again. That's a proper recovery drive.",
+   "i": 1
+  },
+  {
+   "t": "Nicely rebuilt. {pos} and climbing.",
+   "i": 1
+  }
+ ],
+ "eng_greeting_career": [
+  {
+   "t": "Morning {drv}. Round {n} — let's get to work.",
+   "i": 1
+  },
+  {
+   "t": "Right {drv}, round {n} of {total}. Radio check.",
+   "i": 1
+  },
+  {
+   "t": "{drv}, we're live for round {n}. All yours.",
+   "i": 1
+  },
+  {
+   "t": "Okay {drv}, another one. Let's have a clean weekend.",
+   "i": 1
+  },
+  {
+   "t": "Welcome back, {drv}. Same crew, same plan.",
+   "i": 0
+  },
+  {
+   "t": "Another round, another chance. We're with you.",
+   "i": 0
+  },
+  {
+   "t": "Good to have you in the car again, {drv}.",
+   "i": 0
+  },
+  {
+   "t": "Right then. Let's add to the season.",
+   "i": 0
+  }
+ ],
+ "eng_quali_recall": [
+  {
+   "t": "Okay {drv}, qualifying today at {trk}. Last time out you put it {pos} — let's see what we can do.",
+   "i": 1
+  },
+  {
+   "t": "Right {drv}, qualifying. You managed {pos} last time; there's more in it.",
+   "i": 1
+  },
+  {
+   "t": "{drv}, we're out for qualifying. {pos} last time out — beat it.",
+   "i": 1
+  },
+  {
+   "t": "Morning {drv}. Last qualifying we came away {pos}. Same plan, cleaner laps.",
+   "i": 1
+  },
+  {
+   "t": "Qualifying at {trk}, {drv}. {pos} was the last one — I'd like better.",
+   "i": 1
+  }
+ ],
+ "eng_grid_recall": [
+  {
+   "t": "Okay {drv}, you start {pos} today. Let's convert it.",
+   "i": 1
+  },
+  {
+   "t": "{drv}, {pos} on the grid from yesterday. Good launch and we're in business.",
+   "i": 1
+  },
+  {
+   "t": "Right {drv} — {pos} on the grid. Long race, no heroics off the line.",
+   "i": 1
+  },
+  {
+   "t": "You qualified {pos}, {drv}. That's a solid place to start from.",
+   "i": 1
+  }
+ ],
+ "eng_season_open": [
+  {
+   "t": "Okay {drv}, start of the season. Let's have a clean one — car's in a good window.",
+   "i": 1
+  },
+  {
+   "t": "Right {drv}, first session of the year. Take your time, build into it.",
+   "i": 1
+  },
+  {
+   "t": "{drv}, new season. Track's in decent shape and the car's where we want it.",
+   "i": 1
+  },
+  {
+   "t": "Here we go then {drv} — round one. No need to win it in the first corner.",
+   "i": 1
+  },
+  {
+   "t": "Season opener, {drv}. Let's get some clean laps and see where we are.",
+   "i": 1
+  }
+ ],
+ "eng_quali_pole": [
+  {
+   "t": "That's provisional pole, {drv}. A {t}. Superb.",
+   "i": 2
+  },
+  {
+   "t": "Top of the sheet with that one — {t}.",
+   "i": 2
+  },
+  {
+   "t": "You're quickest of all, {drv}. Lovely lap.",
+   "i": 2
+  },
+  {
+   "t": "{t} and nobody's near it. Keep that feeling.",
+   "i": 2
+  },
+  {
+   "t": "Pole as it stands. Bank it and go again if you want more.",
+   "i": 2
+  }
+ ],
+ "eng_quali_lap": [
+  {
+   "t": "{t}, {drv}. That's {pos}. {gap} to {rival} ahead.",
+   "i": 1
+  },
+  {
+   "t": "Good lap — {pos} now. You need {gap} to catch {rival}.",
+   "i": 1
+  },
+  {
+   "t": "That puts you {pos}. {rival} is {gap} up the road.",
+   "i": 1
+  },
+  {
+   "t": "{t}. We're {pos}, and it's {gap} to {rival}.",
+   "i": 1
+  },
+  {
+   "t": "Improvement. {pos} on the sheet, {gap} off {rival}.",
+   "i": 1
+  },
+  {
+   "t": "Better, {drv} — {pos}. {gap} is what's between you and {rival}.",
+   "i": 1
+  }
+ ],
+ "eng_quali_scruffy": [
+  {
+   "t": "Scruffy that time, {drv}. Your best still stands.",
+   "i": 1
+  },
+  {
+   "t": "Not as quick as your own benchmark. Reset and go again.",
+   "i": 1
+  },
+  {
+   "t": "That one's gone. Cool the tyres and have another.",
+   "i": 1
+  },
+  {
+   "t": "Slower than your best. Take a lap to settle.",
+   "i": 1
+  },
+  {
+   "t": "We'll bin that one. Nothing lost.",
+   "i": 1
+  }
+ ],
+ "eng_quali_sector": [
+  {
+   "t": "You're losing {gap} in {sec}. That's where the lap is.",
+   "i": 1
+  },
+  {
+   "t": "{sec} is costing us {gap}. Everything else is fine.",
+   "i": 1
+  },
+  {
+   "t": "Look at {sec}, {drv} — {gap} down on the quickest there.",
+   "i": 1
+  },
+  {
+   "t": "All of it's in {sec}. {gap} to find, and it's all in one place.",
+   "i": 1
+  },
+  {
+   "t": "{gap} down in {sec}. The rest of the lap is right there.",
+   "i": 1
+  },
+  {
+   "t": "The whole deficit is {sec}. {gap} in one part of the lap."
+  },
+  {
+   "t": "It is one sector, and it is {sec}. {gap} there and nothing anywhere else."
+  }
+ ],
+ "eng_quali_final": [
+  {
+   "t": "Time's nearly up, {drv}. This is your last flyer.",
+   "i": 2
+  },
+  {
+   "t": "One more lap and that's it. Make it count from {pos}.",
+   "i": 2
+  },
+  {
+   "t": "Final effort now. Everything you've got.",
+   "i": 2
+  },
+  {
+   "t": "Last chance, {drv}. Clean lap, no mistakes.",
+   "i": 2
+  },
+  {
+   "t": "Clock's almost out. {pos} as it stands — go and improve it.",
+   "i": 2
+  }
+ ],
+ "eng_quali_time": [
+  {
+   "t": "{t}, {drv}. That's {gap} off your best.",
+   "i": 1
+  },
+  {
+   "t": "Lap time {t}. {gap} away from your own benchmark.",
+   "i": 1
+  },
+  {
+   "t": "{t} that lap. Still {pos} on the sheet.",
+   "i": 1
+  },
+  {
+   "t": "We had {t} there — {gap} slower than your best.",
+   "i": 1
+  },
+  {
+   "t": "{t}, and you're {pos}. Tidy the next one up.",
+   "i": 1
+  },
+  {
+   "t": "That's {t}. Your best still stands.",
+   "i": 1
+  },
+  {
+   "t": "{t}. {gap} in it. Have another go.",
+   "i": 1
+  }
+ ],
+ "eng_lap_ahead": [
+  {
+   "t": "{t}, {drv}. {pos}, and {gap} to {rival} ahead.",
+   "i": 0
+  },
+  {
+   "t": "Lap done in {t}. You're {pos}, {gap} behind {rival}.",
+   "i": 0
+  },
+  {
+   "t": "{t}. {gap} to {rival} up the road.",
+   "i": 0
+  },
+  {
+   "t": "That's {t}, {pos}. {rival} is {gap} ahead of you.",
+   "i": 0
+  },
+  {
+   "t": "{t} that lap. {gap} to close on {rival}.",
+   "i": 0
+  },
+  {
+   "t": "{pos}, {t}, and {gap} to {rival}.",
+   "i": 0
+  }
+ ],
+ "eng_lap_behind": [
+  {
+   "t": "{t}, {drv}. {pos}, with {rival} {gap} behind.",
+   "i": 0
+  },
+  {
+   "t": "Lap in {t}. You're {pos}, {gap} clear of {rival}.",
+   "i": 0
+  },
+  {
+   "t": "{t}. {gap} back to {rival}.",
+   "i": 0
+  },
+  {
+   "t": "That's {t}, {pos}. {rival} sits {gap} behind you.",
+   "i": 0
+  },
+  {
+   "t": "{t} — and {gap} of a cushion over {rival}.",
+   "i": 0
+  }
+ ],
+ "eng_lap_time": [
+  {
+   "t": "{t}, {drv}. Running {pos}.",
+   "i": 0
+  },
+  {
+   "t": "Lap time {t}. You're {pos}.",
+   "i": 0
+  },
+  {
+   "t": "That's {t}. {pos} on the road.",
+   "i": 0
+  },
+  {
+   "t": "{t} that time round. Still {pos}.",
+   "i": 0
+  },
+  {
+   "t": "{pos}, and a {t}.",
+   "i": 0
+  }
+ ],
+ "eng_quali_sector_coach": [
+  {
+   "t": "All of it is {sec}, {gap}. That is {coach}."
+  },
+  {
+   "t": "{sec} is the whole deficit. Think about {coach}."
+  },
+  {
+   "t": "{gap} down, all in {sec}. That is {coach}."
+  },
+  {
+   "t": "One sector, {sec}. It is {coach}."
+  },
+  {
+   "t": "{sec}, {gap}. Look at {coach}."
+  },
+  {
+   "t": "It is {sec} and nowhere else. {coach}."
+  }
+ ],
+ "eng_quali_sector_spread_coach": [
+  {
+   "t": "Down a little everywhere, most in {sec}. That is {coach}."
+  },
+  {
+   "t": "Spread across the lap. Worst is {sec}, {gap}. {coach}."
+  },
+  {
+   "t": "Nothing dramatic. If you want one thing, {coach}."
+  },
+  {
+   "t": "{gap} in {sec}, small change elsewhere. {coach}."
+  },
+  {
+   "t": "Close everywhere. {sec} is the pick of it — {coach}."
+  },
+  {
+   "t": "Not one corner, the whole lap. Start with {coach}."
+  }
+ ],
+ "eng_quali_sector_spread": [
+  {
+   "t": "You are a little down everywhere. The worst of it is {sec}, {gap}."
+  },
+  {
+   "t": "It is spread across all three sectors. {sec} is the biggest piece, {gap}."
+  },
+  {
+   "t": "Nothing is badly wrong. {gap} in {sec} and small change in the others."
+  },
+  {
+   "t": "Close everywhere, {gap} adrift in {sec}. That is the one to look at."
+  },
+  {
+   "t": "A bit in each sector, most of it {sec}. Tidy that and the lap comes."
+  },
+  {
+   "t": "No single problem out there. {sec} is where the most of it is going."
+  }
+ ],
+ "eng_offtrack_light": [
+  {
+   "t": "Lost a few places there. Keep your head down and do what you can."
+  },
+  {
+   "t": "Bit of time gone there. Nothing lost that you can't get back."
+  },
+  {
+   "t": "That cost you a couple of spots. Reset and go again."
+  },
+  {
+   "t": "Alright, that's gone now. Focus on the next lap."
+  },
+  {
+   "t": "You gave a bit up there. Plenty of race left to find it."
+  },
+  {
+   "t": "Not the tidiest, but nothing broken. Carry on."
+  }
+ ],
+ "eng_offtrack_quali": [
+  {
+   "t": "That's the lap gone. Take a breath, cool the tyres and set up another one."
+  },
+  {
+   "t": "Forget that one. Bring it round, get some temperature back in and go again."
+  },
+  {
+   "t": "No harm done. We've got time — build another lap when you're ready."
+  },
+  {
+   "t": "Wide there. Reset, give yourself a clean run at it next time round."
+  },
+  {
+   "t": "Okay, that one's binned. Plenty left in the session, so take your time."
+  },
+  {
+   "t": "Ran out of road. Cool lap now, then we go again properly."
+  }
+ ],
+ "eng_lap_deleted": [
+  {
+   "t": "That lap's been deleted — track limits. We'll need another one."
+  },
+  {
+   "t": "They've taken that time off you. Track limits at the exit. Go again."
+  },
+  {
+   "t": "Lap's chalked off, {drv}. Keep it inside the white line next time round."
+  },
+  {
+   "t": "No time for that one, I'm afraid. Track limits. Let's build another."
+  },
+  {
+   "t": "That's come down for track limits. Same lap again, just tidier."
+  }
+ ],
+ "eng_places_lost": [
+  {
+   "t": "You've dropped {n}. We're {pos} now — settle in and let's take them back."
+  },
+  {
+   "t": "That's {n} lost, {drv}. Long way to go. One car at a time."
+  },
+  {
+   "t": "We're going backwards — {n} gone. Talk to me if the car's hurting."
+  },
+  {
+   "t": "{n} down and we're {pos}. Get your head up, there's time to recover this."
+  },
+  {
+   "t": "Losing ground, {drv} — {n}. Find a rhythm and we'll claw it back."
+  },
+  {
+   "t": "You're {pos}, and that's {n} lost. Nothing's over. Chip away at it."
+  },
+  {
+   "t": "We've slipped {n}. Focus on your own lap and the places will come."
+  }
+ ],
+ "eng_quali_done_good": [
+  {
+   "t": "That's the session done, {drv}. {pos} on the grid — really good work today."
+  },
+  {
+   "t": "Chequered flag. {pos} for tomorrow, and you earned every bit of that."
+  },
+  {
+   "t": "Session over. {pos}. Excellent job — get some rest, big day tomorrow."
+  },
+  {
+   "t": "That's it. {pos} on the grid, {drv}. Couldn't have asked for much more."
+  }
+ ],
+ "eng_quali_done_ok": [
+  {
+   "t": "That's qualifying done — {pos}. Solid enough. We'll work on the race car."
+  },
+  {
+   "t": "Flag's out. {pos} for the start. There's a race to be had from there."
+  },
+  {
+   "t": "Session over, {drv}. {pos}. Nothing wrong with that — plenty to aim at."
+  },
+  {
+   "t": "That's us done. {pos} on the grid, and a long run to turn one."
+  }
+ ],
+ "eng_quali_done_poor": [
+  {
+   "t": "That's the session, {drv}. {pos}. Not our day, but the race is longer."
+  },
+  {
+   "t": "Flag's out — {pos}. We'll go again tomorrow with a better car under you."
+  },
+  {
+   "t": "Qualifying's done and it's {pos}. Head up. We'll make places on Sunday."
+  },
+  {
+   "t": "That's it for today. {pos}, and it's not where we wanted. We'll fix it."
+  }
+ ],
+ "eng_status_rookie": [
+  {
+   "t": "You're new to this, {drv}. Get up to speed with the track first — don't overdrive it.",
+   "i": 0
+  },
+  {
+   "t": "First season, so no heroics. Clean laps, learn the surface, the pace comes after.",
+   "i": 0
+  },
+  {
+   "t": "Take the first few laps to build up. Nobody has ever won anything in the opening ten minutes.",
+   "i": 0
+  },
+  {
+   "t": "Rookie season, {drv}. Every lap you finish teaches us something — every one you bin teaches us nothing.",
+   "i": 0
+  },
+  {
+   "t": "Don't chase the timing screen today. Drive the track, and we will look at the numbers after.",
+   "i": 0
+  }
+ ],
+ "eng_status_riser": [
+  {
+   "t": "You've done this before now. Same as last season — build into it, then push.",
+   "i": 0
+  },
+  {
+   "t": "You know how a weekend works by now, {drv}. Use the early laps properly.",
+   "i": 0
+  },
+  {
+   "t": "Second year in a car like this. The step is smaller than it feels from outside.",
+   "i": 0
+  },
+  {
+   "t": "You've earned your way up once already. Same method, harder field.",
+   "i": 0
+  },
+  {
+   "t": "No need to prove anything in the first run. We know what you can do.",
+   "i": 0
+  }
+ ],
+ "eng_status_contender": [
+  {
+   "t": "You're racing for real results now, {drv}. Let's get the basics right first.",
+   "i": 0
+  },
+  {
+   "t": "Professional field, professional weekend. Long runs matter more than one lap today.",
+   "i": 0
+  },
+  {
+   "t": "Everybody out there is quick. The margins are in the details now, not the bravery.",
+   "i": 0
+  },
+  {
+   "t": "You belong on this grid. Drive like it and take what the car gives you.",
+   "i": 0
+  },
+  {
+   "t": "This is the level where consistency wins championships. Start as we mean to go on.",
+   "i": 0
+  }
+ ],
+ "eng_status_champion": [
+  {
+   "t": "Champion in the car. Same job as always, {drv} — get the basics right and we go from there.",
+   "i": 0
+  },
+  {
+   "t": "They're all racing you differently now. Use it; nobody wants to be the man who hits a champion.",
+   "i": 0
+  },
+  {
+   "t": "You've won one of these. You know exactly how the weekend is built.",
+   "i": 0
+  },
+  {
+   "t": "No lectures from me today. Build in, tell me what the car does, and we work from there.",
+   "i": 0
+  },
+  {
+   "t": "Title on the board already. Let's add to it properly rather than chasing it.",
+   "i": 0
+  }
+ ],
+ "eng_status_multi": [
+  {
+   "t": "Two on the board. Same routine, {drv} — the routine is why there are two.",
+   "i": 0
+  },
+  {
+   "t": "You have done this more than most drivers ever will. Straight to work.",
+   "i": 0
+  },
+  {
+   "t": "Multiple champion in my car and I still want a clean out-lap, please.",
+   "i": 0
+  },
+  {
+   "t": "Nothing about today is new to you. Tell me what the car needs and we will find it.",
+   "i": 0
+  },
+  {
+   "t": "You know this weekend better than I do by now. Standard build-up.",
+   "i": 0
+  }
+ ],
+ "eng_status_legend": [
+  {
+   "t": "Whole grid is watching you, {drv}. Do what you always do.",
+   "i": 0
+  },
+  {
+   "t": "I have worked with a lot of drivers. Standard build-up, and then you go and do your thing.",
+   "i": 0
+  },
+  {
+   "t": "Nothing left to prove out there. Let's enjoy it and get the car right.",
+   "i": 0
+  },
+  {
+   "t": "Half the paddock grew up watching you. No pressure at all, obviously.",
+   "i": 0
+  },
+  {
+   "t": "Same as ever. Clean out-lap, honest feedback, and the rest takes care of itself.",
+   "i": 0
+  }
+ ]
+}

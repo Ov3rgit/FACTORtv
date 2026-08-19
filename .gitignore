@@ -1,0 +1,37 @@
+# ---------------------------------------------------------------------------
+# GENERATED AUDIO. Both are rebuilt on first run from edge-tts, and together
+# they are 280MB — an order of magnitude more than the entire source tree.
+_voice_cache/
+_voice_tmp/
+stings/
+
+# ---------------------------------------------------------------------------
+# THE USER'S OWN CAREER. Somebody else's championship, driver name, inbox and
+# story state. A tester who receives these inherits a stranger's career.
+careers/
+_career.json
+_career.json.v6bak
+_settings.json
+_bag.json
+
+# LEARNED FROM THIS MACHINE. `_modnames.json` is what the local rF2 install
+# calls each mod — it is correct here and wrong everywhere else, and it is
+# rebuilt from the game's own cache on first run.
+_modnames.json
+
+# ---------------------------------------------------------------------------
+# LOGS AND PREVIEWS. Every one of these is an output of a tool in the repo, so
+# shipping them adds size and invites somebody to read a stale one as current.
+_session_log.txt
+_transcript.log
+_career_preview.txt
+_menu_old.txt
+_*_preview.png
+_*_preview_*.png
+_logo_halo*.png
+
+__pycache__/
+*.pyc
+build/
+dist/
+*.spec

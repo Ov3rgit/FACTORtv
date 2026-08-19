@@ -1,0 +1,13 @@
+# FACTORtv — runtime dependencies.
+#
+# Deliberately three. Everything else the overlay uses is in the standard
+# library, including tkinter (the whole UI), ctypes (the shared-memory reader)
+# and winsound.
+#
+# Python 3.9 or newer, 64-bit, on Windows. The overlay reads rFactor 2's shared
+# memory through the win32 API and positions always-on-top tool windows, so it
+# is Windows-only by construction rather than by omission.
+
+pillow>=9.0          # the instrument, the logos and the news art
+edge-tts>=6.1        # the three voices. NEEDS AN INTERNET CONNECTION - see SETUP.md
+miniaudio>=1.55      # playback, because winsound cannot mix or seek

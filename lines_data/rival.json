@@ -1,0 +1,208 @@
+{
+  "_comment": [
+    "Rival driver radio. Keyed as rival_<PERSONA>_<event>.",
+    "Slots: {drv} the rival speaking, {oth} the other driver, {pos} position.",
+    "Personas: HOTHEAD COCKY VETERAN DRAMATIC JOKER ROOKIE VILLAIN.",
+    "Events: overtaken (you passed them), caught (they passed you),",
+    "        blocked (traffic), incident (they went off), damage,",
+    "        praise (a good scrap), frustrated (bad race), pumped (good race).",
+    "Kept SHORT — this is a driver on the limit with one hand on the wheel,",
+    "not a press conference. Mild language only; the archetypes carry the",
+    "character rather than the swearing."
+  ],
+
+  "rival_HOTHEAD_overtaken": [
+    "Oh, come ON! Where did he come from?!",
+    "That's dirty! He barged straight into me!",
+    "Are you kidding me? He didn't even brake!",
+    "He can't do that! Tell them he can't do that!",
+    "Rubbish! Absolute rubbish from him!"
+  ],
+  "rival_HOTHEAD_caught": [
+    "Yes! About time!",
+    "Out of my way — got him!",
+    "That's what happens when you hold me up!",
+    "Finally. He was holding the whole train up."
+  ],
+  "rival_HOTHEAD_blocked": [
+    "Move! He's holding me up!",
+    "Blue flags! Where are the blue flags?!",
+    "I'm losing a second a lap behind this!"
+  ],
+  "rival_HOTHEAD_incident": [
+    "No no no! I've lost it!",
+    "Damn it! That's my race gone!",
+    "Argh! Stupid, stupid mistake!"
+  ],
+  "rival_HOTHEAD_frustrated": [
+    "This car is undriveable!",
+    "I've got nothing. Nothing at all.",
+    "We've got this completely wrong today."
+  ],
+
+  "rival_COCKY_overtaken": [
+    "Cute. I'll have that back next lap.",
+    "Lucky move. He won't keep it.",
+    "Enjoy the view while it lasts.",
+    "Oh, brave. Let's see how that works out."
+  ],
+  "rival_COCKY_caught": [
+    "Too easy.",
+    "And that's how it's done.",
+    "He never saw me coming.",
+    "Thanks for the room. Not that he had a choice."
+  ],
+  "rival_COCKY_pumped": [
+    "The car's perfect. I could do this all day.",
+    "We're quicker than everyone. Just say the word.",
+    "This is comfortable. Very comfortable."
+  ],
+  "rival_COCKY_blocked": [
+    "He's going to have to move sooner or later.",
+    "I'll wait. He'll make a mistake."
+  ],
+  "rival_COCKY_incident": [
+    "Alright, that was my fault. It happens.",
+    "Got that one wrong. Won't happen twice."
+  ],
+
+  "rival_VETERAN_overtaken": [
+    "Alright, he's through. Long race yet.",
+    "Lost one. No panic.",
+    "He committed to that. Fair enough.",
+    "Fine. We'll get it back when it counts."
+  ],
+  "rival_VETERAN_caught": [
+    "That's one back. Steady now.",
+    "Got him. Cleanly.",
+    "Position gained. Let's look after these tyres."
+  ],
+  "rival_VETERAN_blocked": [
+    "I'll bide my time behind this one.",
+    "No sense forcing it. He'll come to me.",
+    "Patience. There's a long way to go."
+  ],
+  "rival_VETERAN_incident": [
+    "My mistake. Nothing broken.",
+    "Got a bit greedy there. Carrying on.",
+    "That was avoidable. Noted."
+  ],
+  "rival_VETERAN_praise": [
+    "Good, hard racing. No complaints.",
+    "He raced me fair. I'll take that."
+  ],
+
+  "rival_DRAMATIC_overtaken": [
+    "No! This cannot be happening!",
+    "Unbelievable! Absolutely unbelievable!",
+    "My whole race — gone, just like that!",
+    "I don't believe it! Where did he come from?!"
+  ],
+  "rival_DRAMATIC_caught": [
+    "YES! Oh, that felt good!",
+    "Got him! What a move, what a move!",
+    "In the name of everything — I'm through!"
+  ],
+  "rival_DRAMATIC_incident": [
+    "Disaster! Complete disaster!",
+    "It's over! My race is over!",
+    "No! Not here, not now!"
+  ],
+  "rival_DRAMATIC_frustrated": [
+    "Everything is against us today. Everything.",
+    "Why does this always happen to me?"
+  ],
+  "rival_DRAMATIC_pumped": [
+    "The car is ALIVE! Let's go!",
+    "I can feel it! We're on for something here!"
+  ],
+
+  "rival_JOKER_overtaken": [
+    "Welp. There he goes. Rude.",
+    "Sure, just help yourself to my position.",
+    "Cool. Cool cool cool. Totally fine.",
+    "I was saving that place for someone nicer."
+  ],
+  "rival_JOKER_caught": [
+    "Excuse me, coming through.",
+    "Ta very much. Lovely of him.",
+    "One down. Only about fifteen to go."
+  ],
+  "rival_JOKER_blocked": [
+    {"t": "I'm getting to know this rear wing very well.", "needs": ["wings"]},
+    {"t": "I'm getting to know this gearbox very well.", "not": ["wings"]},
+    "Should I send him a postcard, or?",
+    "We're basically married at this point."
+  ],
+  "rival_JOKER_incident": [
+    "Well, that was elegant.",
+    "Ten out of ten from the judges.",
+    "I meant to do that. Obviously."
+  ],
+  "rival_JOKER_frustrated": [
+    "Great. Fantastic. Loving it.",
+    "Remind me why I do this again?"
+  ],
+
+  "rival_ROOKIE_overtaken": [
+    "Ah, he got me. Sorry team, sorry.",
+    "Was I meant to defend that? Damn.",
+    "He's through. I panicked. Sorry.",
+    "Lost a place. I'll do better."
+  ],
+  "rival_ROOKIE_caught": [
+    "I got him! Did you see that?!",
+    "That's a pass! An actual pass!",
+    "Okay okay, calm. But I got him!"
+  ],
+  "rival_ROOKIE_incident": [
+    "Sorry! Sorry, that was me!",
+    "I've messed up. I'm so sorry.",
+    "That was all my fault. Apologies."
+  ],
+  "rival_ROOKIE_blocked": [
+    "Do I go round the outside here? Advice?",
+    "I don't want to do anything stupid."
+  ],
+  "rival_ROOKIE_pumped": [
+    "This is amazing. Best day of my life.",
+    "I'm actually keeping up with them!"
+  ],
+
+  "rival_VILLAIN_overtaken": [
+    "Enjoy it. I'm coming back.",
+    "He'll regret that. Mark my words.",
+    "A mistake. His mistake.",
+    "Fine. We do this the hard way, then."
+  ],
+  "rival_VILLAIN_caught": [
+    "Told you.",
+    "He was never going to hold me.",
+    "Out of the way. Where he belongs."
+  ],
+  "rival_VILLAIN_blocked": [
+    "He's in my way. That's a poor decision.",
+    "Last warning. Then I move him."
+  ],
+  "rival_VILLAIN_incident": [
+    "That was not my doing.",
+    "Someone will answer for that."
+  ],
+  "rival_VILLAIN_frustrated": [
+    "Somebody has cost me this race.",
+    "This is not finished. Not remotely."
+  ],
+
+  "rival_ANY_damage": [
+    "I've got damage. Something's broken.",
+    "The car's not right after that contact.",
+    {"t": "Front wing's gone, I think. It's pulling badly.", "needs": ["wings"]},
+    {"t": "The nose took a hit. It's pulling badly.", "not": ["wings"]},
+    "Something's rubbing. Checking it now."
+  ],
+  "rival_ANY_pit": [
+    "Coming in this lap.",
+    "Box, understood. In now.",
+    "In the pits, in the pits."
+  ]
+}

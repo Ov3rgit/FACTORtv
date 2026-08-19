@@ -1,0 +1,339 @@
+{
+ "_comment": [
+  "FACTORtv — THE PERSONAL STORY.",
+  "",
+  "A driver whose parents never believed in him, who left and worked himself",
+  "into the ground to buy the first seat. The mother is already dead when it",
+  "starts. His sibling writes now and then — warm, awkward, mostly about",
+  "nothing — and a careful reader notices that the father is ill and getting",
+  "worse while the driver becomes a champion somewhere else.",
+  "",
+  "FOUR RULES, AND EVERY ONE OF THEM IS WHY IT WORKS:",
+  "",
+  "1. THE ILLNESS IS NEVER THE SUBJECT OF A SENTENCE. It arrives in",
+  "   subordinate clauses — about tablets, about appointments, about the",
+  "   television being on. A beat that says 'Dad is unwell' has told the",
+  "   player what to feel, and he will feel nothing.",
+  "",
+  "2. THESE LOOK EXACTLY LIKE ADMIN MAIL. No badge, no colour, no ceremony.",
+  "   That is the mechanism: by the time the important one arrives the player",
+  "   has been trained by a whole career of licensing statements to skim.",
+  "",
+  "3. NO SLOTS. Not one. A sibling does not write your surname at you, and a",
+  "   letter that cannot be completed is a letter that never arrives — the",
+  "   personal thread is the one thing in this product that must never fail",
+  "   to send because a fact was missing.",
+  "",
+  "4. THE BOOTH NEVER KNOWS. Nothing here is ever spoken. The only place the",
+  "   two worlds touch is the final article, which is exactly why it lands.",
+  "",
+  "The beats are ordered. `beats` is a list and the story walks it in order,",
+  "one per window — see personal.py for the pacing, which keys off ARCS and",
+  "RUNGS REMAINING rather than any percentage."
+ ],
+ "beats": [
+  {
+   "from": "Mel",
+   "subject": "you left your jacket",
+   "body": [
+    "You left your jacket on the back of the chair in the hall, which I only noticed about a week after you'd gone, so that tells you how often anyone uses that hall. I'll hang on to it. It's not like it'll fit anyone here.",
+    "Anyway. Hope wherever you've ended up is treating you all right. Dad asked where you'd got to and I said racing, and he did the face. You know the face. I told him it was a real thing that real people do and he said hm. Progress, I reckon."
+   ]
+  },
+  {
+   "from": "Mel",
+   "subject": "nothing much",
+   "body": [
+    "Not much happening here. The car's making the noise again, the one you said was the exhaust and I said was the engine, and it turns out it was the exhaust, so well done you. I'm not saying it again.",
+    "Dad's fine. Slower on the stairs than he was but he'd rather I didn't mention it, so don't. He's taken to leaving the television on all day with the sound off, which drives me up the wall. Write back when you get a minute. Or don't, I know you're busy."
+   ]
+  },
+  {
+   "from": "Mel",
+   "subject": "the kart is still in the garage",
+   "body": [
+    "I went in the garage looking for the good screwdriver and the kart's still in there under the sheet, with your handwriting on the tyre rack. 14 PSI COLD. DO NOT TOUCH. You were what, twelve? Absolute menace.",
+    "I'm not getting rid of it, before you panic. There's room. It's just funny seeing it there next to a lawnmower and two bikes nobody rides, like it's a normal thing to keep in a garage, when the truth is it's the only thing in this house anybody ever took seriously."
+   ]
+  },
+  {
+   "from": "Mel",
+   "subject": "saw a bit of it",
+   "body": [
+    "So I caught a bit of one of your races. Not the whole thing, the pub had it on and I was there for something else, but I saw enough to recognise the helmet. You looked quick. I've no idea if you were quick. You looked it.",
+    "I told Dad about it on the Sunday and he said that's nice, love, which from him is basically a standing ovation. He'd had a rough week — the tablets they've got him on make him sleep in the afternoons — but he was all right by the evening and we had a proper chat about it. Well. A chat."
+   ]
+  },
+  {
+   "from": "Mel",
+   "subject": "you were unbearable, by the way",
+   "body": [
+    "Something occurred to me. You know how you used to time yourself running to the shops? Not race, TIME yourself, with the watch, and then be in a mood if it was slower than the day before. We all thought you were odd. Turns out you were just early.",
+    "Dad's been telling the man next door about it like it was his idea. Twenty years of hm and now suddenly he was supportive all along. I've decided not to correct him because it makes him happy and because arguing with him about the past is a full time job."
+   ]
+  },
+  {
+   "from": "Mel",
+   "subject": "the boiler, obviously",
+   "body": [
+    "The boiler's gone. Of course it has. Man came out, sucked his teeth, said the words 'it's the age of it' like that was a diagnosis, and now there's a hole in the kitchen wall and a bill I don't want to talk about. So that's my month.",
+    "Dad's been at the hospital twice, nothing dramatic, they're just keeping an eye. He hates the parking more than the appointments. Says he'd rather have whatever it is than pay four pounds an hour to sit in a waiting room, which is a very him thing to say. Hope you're winning things."
+   ]
+  },
+  {
+   "from": "Mel",
+   "subject": "he's got a chair now",
+   "body": [
+    "They've given him one of those chairs that stands you up, which he hates and uses constantly. He calls it the ejector seat. I said that's a racing thing and he said he knows, which I thought you'd like.",
+    "Work's fine, before you ask, and I have been asked, by three separate people who all think I'm being noble about something. I'm not being noble. I'm ten minutes away and he's my dad. That's just where I live."
+   ]
+  },
+  {
+   "from": "Mel",
+   "subject": "re: nothing",
+   "body": [
+    "You never write back, you know. I'm not having a go. I know what it's like when something's got hold of you like that, and honestly it's nice that something has, because for a while there it didn't look like anything ever would.",
+    "He asks after you now. Not every week, but he asks, and he asked me to find out whether you're eating properly, so consider yourself asked. He's stopped driving. Says the car was rubbish anyway. It was, but that isn't why."
+   ]
+  },
+  {
+   "from": "Mel",
+   "subject": "the tin",
+   "body": [
+    "Found the tin. You know the one — the biscuit tin with the entry fees in it, that you'd count on the kitchen table on a Sunday night and then not eat properly for a week because you were about eleven quid short.",
+    "There's nothing in it now obviously. It's just a tin. But you were seventeen and doing double shifts at that place with the awful uniform, and you never once said you were tired, and I want it on record that at least one person noticed."
+   ]
+  },
+  {
+   "from": "Mel",
+   "subject": "photos",
+   "body": [
+    "I've been going through the boxes in the back room — don't get excited, there's nothing valuable in there, it's all bank statements from 1994 — and I found the photos from that go-kart place. You in the helmet that was too big. Mum laughing at you in it.",
+    "I nearly threw them out and then I couldn't. I put them on the side and Dad's been looking at them, which he'd deny. He's records everything you're in now, on the box thing you set up for him that he pretends he can't work. He can work it. He asks me to do it so I'll sit down for twenty minutes."
+   ]
+  },
+  {
+   "from": "Mel",
+   "subject": "quick one",
+   "body": [
+    "Quick one because I'm on my way out. He had a bad few days last week and a better few days this week, and the hospital have been fine about it, and I'm telling you because you'd be annoyed if I didn't and not because there's anything to do about it.",
+    "There's really not, before you ask. He's got everything he needs and I'm ten minutes away. Go and do your thing. He watched the last one twice."
+   ]
+  },
+  {
+   "from": "Mel",
+   "subject": "sorry — long one",
+   "body": [
+    "This is going to be a long one, sorry. He had a fall. Nothing broken, he's fine, and he made me promise not to make it into an event, so I've waited four days to tell you, which he'd also be annoyed about.",
+    "The house is a bit of a project now. Rails in two places and a thing in the bathroom that neither of us can look at without laughing, which is honestly the healthiest either of us has been about any of it. He asked whether you'd had a good weekend before he asked for a cup of tea."
+   ]
+  },
+  {
+   "from": "Mel",
+   "subject": "no subject",
+   "body": [
+    "I don't want to make this a big thing in an email because you know what he's like and he'd hate it. But it's not going the way we were told it might, and the people looking after him have started using the sort of careful language people use.",
+    "I'm all right. I've got friends here and the neighbours are good. He's still himself, he's just tired all the time, and he's stopped pretending he isn't. He asked me what round you're on. I told him. He knew already."
+   ]
+  }
+ ],
+ "offer": [
+  {
+   "from": "Mel",
+   "subject": "if you can",
+   "body": [
+    "I've been trying to work out how to write this for about four days, so I'm going to write it badly and send it before I change my mind. If you can come, come now. Not at the end of the season. Now.",
+    "I know what that costs you and I know what you've given up to get where you are, and so does he — more than he's ever said out loud. He's not asking. He'd never ask. That's why I am. There's a bed made up and nobody's going to say a word about how long it's been. If you can't, I'll tell him you're winning, and he'll be pleased, and that will be true."
+   ]
+  }
+ ],
+ "reply_yes": [
+  {
+   "from": "Driver Management",
+   "subject": "You will miss the next round",
+   "body": [
+    "Confirming what you told me on the phone: you will not be taking part in the next round of the championship, and I have notified the organisers and the team. Nobody has made a fuss. The team have asked me to pass on that they hope everything is all right, which from that lot is a considerable statement.",
+    "For the record, and I am putting it in writing because in six months you will want to know exactly what it cost: you will score nothing that weekend and everyone you are racing will score whatever they score. Go. I will handle the rest of it."
+   ]
+  }
+ ],
+ "reply_no": [
+  {
+   "from": "Mel",
+   "subject": "re: if you can",
+   "body": [
+    "That's all right. Honestly, it is. I shouldn't have made it sound like an ultimatum, and I knew what the answer probably was when I sent it, and I sent it anyway because I'd have felt worse not asking.",
+    "I'll tell him you're in the middle of it and that you're going well. He'll be pleased. Go and finish what you started — that's the version of you he'd want on the television, and it's the version of you I'd want too, most days."
+   ]
+  }
+ ],
+ "ending_went": [
+  {
+   "from": "FACTORtv News",
+   "subject": "A championship dedicated",
+   "body": [
+    "The new champion dedicated the title to his father at the prizegiving, in a speech of about forty seconds that he had clearly not planned to give. He had missed a round of this championship, in the middle of the run-in, to go and see him; his father died a short time afterwards. Neither fact was made public at the time and neither was offered as an explanation for anything.",
+    "The points he gave up that weekend were, on the arithmetic, very nearly the difference. That is the part the paddock has been talking about since Sunday evening — not because it is remarkable that a driver went, but because he went without telling anybody why, came back, and won it anyway."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The weekend he was not there",
+   "body": [
+    "It did not end with a championship, and the driver in question has been notably uninterested in discussing that. What did emerge, after the season, is why he was absent from one round of it: he had gone to see his father, who died a short time later, and he asked the team to say nothing at the time.",
+    "The points from that weekend would not have been enough on their own, which is either a consolation or the opposite depending on the hour of the day. The paddock is a place that notices absences and it noticed this one. It has stopped wondering."
+   ]
+  }
+ ],
+ "ending_missed": [
+  {
+   "from": "FACTORtv News",
+   "subject": "Deaths",
+   "body": [
+    "Among deaths recorded this week: a retired man in his seventies, at home, after a long illness. He had worked in the same job for thirty-one years and had lived in the same house for longer than that. He is survived by two children.",
+    "Notices of this kind run to a standard length and are compiled from the register rather than from interviews. No further details were provided."
+   ]
+  }
+ ],
+ "principal_champion": [
+  {
+   "from": "Race Team — Team Principal",
+   "subject": "Champion",
+   "body": [
+    "I have written a version of this letter to four drivers in twenty-six years and I have never once got it right, so I will keep it short and let the record do the talking. You were the best driver in this championship and you finished the season as the champion of it, and there is nothing else that needs to be said about the racing.",
+    "What I will say is this. I have watched a great many quick young men come through here and go nowhere, and the difference has almost never been talent. You worked. You kept working when it was not going your way, which is the only part of this job that is genuinely hard. Whatever you do next, this team was proud to have you in the car."
+   ]
+  }
+ ],
+ "principal_close": [
+  {
+   "from": "Race Team — Team Principal",
+   "subject": "The season",
+   "body": [
+    "It did not come off, and I am not going to insult you by pretending that a good season is the same thing as a championship. You will spend a while going back through it looking for the weekend that cost you, and you will find one, and it will not be the one you think.",
+    "But I have been doing this a long time and I know what I watched. You drove better this year than the man who won it, and there was one weekend where the rest of your life was more important than a set of points, and you knew it at the time. Most people never work that out at all. It was a privilege to run your car."
+   ]
+  }
+ ],
+ "engineer_champion": [
+  {
+   "from": "Race Engineer",
+   "subject": "from me",
+   "body": [
+    "I am not good at this bit. Give me a radio and thirty seconds and I can tell you exactly what the car is doing and exactly what to do about it, and sit me in front of an email and I go to pieces, so bear with me.",
+    "It has been the honour of my working life. I have sat on that pit wall for a lot of drivers and there is not one of them I would rather have had on the other end of it. You listened, which almost nobody does, and you told me the truth about the car even when the truth made you look slow, and that is the whole job from where I sit. Thank you. Genuinely. Box this lap."
+   ]
+  }
+ ],
+ "engineer_close": [
+  {
+   "from": "Race Engineer",
+   "subject": "from me",
+   "body": [
+    "Numbers first, because you know me: your average finishing position was better than his, your race pace was better than his over a stint, and the thing that decided this championship was not the driving. I have been over it more times than is healthy and it comes out the same way every time.",
+    "The other thing I want to say I am no good at saying. It has been the honour of my working life sitting on that wall with you. You listened, and you told me the truth about the car even when it made you look slow, and there is not a driver I have worked with I would rather have had on the other end of the radio. Whatever you do next, I would come and do it with you."
+   ]
+  }
+ ],
+ "milestone_first_title": [
+  {
+   "from": "Mel",
+   "subject": "CHAMPION apparently",
+   "body": [
+    "So I've been informed, by a man in a pub who does not know we're related, that you've won the whole thing. He was very insistent about it. I did not tell him. I just sat there with my drink feeling extremely strange.",
+    "I don't understand a single part of how it works and I'm not going to pretend to. What I do understand is that you left with nothing and no one thought you'd manage it and now there's a man in a pub explaining you to me. Dad's told the neighbours. All of them. Twice."
+   ]
+  }
+ ],
+ "milestone_promoted": [
+  {
+   "from": "Mel",
+   "subject": "moving up then",
+   "body": [
+    "Heard you're moving up. I looked it up and immediately regretted it because there are about nine of these categories and they all sound the same and I still couldn't tell you which one you're in now, but I gather it's better than the last one.",
+    "Dad wanted to know if it's more dangerous. I said probably a bit and he said hm and then didn't mention it again for two days, which in his language is a lot of worrying. He's fine. He'd want me to say he's fine."
+   ]
+  }
+ ],
+ "milestone_arc": [
+  {
+   "from": "Mel",
+   "subject": "so that's that one done",
+   "body": [
+    "Right, so that's the whole thing finished, is it? The entire ladder, top to bottom, done. I remember you drawing it on the back of an envelope and me thinking, privately, that it was a lovely idea and that life doesn't generally work like that.",
+    "I was wrong and I'm putting it in writing so you can keep it. Whatever you do next — and I know you'll do something next, you've never once stopped — I hope you take a week off first. You won't. Take a week off."
+   ]
+  }
+ ],
+ "epilogue": [
+  {
+   "from": "Mel",
+   "subject": "the house",
+   "body": [
+    "I've started on the house, which everyone tells me I should wait to do and which I am doing anyway because sitting in it as it was is worse. His chair has gone to the hospice shop. The kart has not gone anywhere and is not going to.",
+    "It comes in waves and they're not the waves I expected. I'm fine at the funeral admin and then completely useless in a supermarket because they've moved the biscuits he liked. Anyway. You'd have handled it better than me, which is a lie, but a nice one."
+   ]
+  },
+  {
+   "from": "Mel",
+   "subject": "months later, apparently",
+   "body": [
+    "I looked at the date on my last email and it was four months ago, which cannot be right and is. Everything's fine. Work, house, the whole boring machinery of it, all fine.",
+    "I've been watching your races properly now, not just when the pub has them on. I still don't understand the strategy bits and I've stopped pretending. What I have worked out is which one of them is your engineer, because you can hear him on the broadcast sometimes and he sounds exactly like you described him — like a man reading a shopping list during an earthquake."
+   ]
+  },
+  {
+   "from": "Mel",
+   "subject": "went back to the karting place",
+   "body": [
+    "I drove past the old karting place last week and then, because I'm apparently that person now, I turned round and went in. It's exactly the same. Same smell. There's a lad in there of about ten with his dad, and the dad was doing the face, and I had to go and sit in the car for a minute.",
+    "I'm not telling you that to make you sad. I'm telling you because I stood in a shed that smells of two-stroke and felt genuinely all right for the first time in a while, and I thought you'd understand why better than anyone I know."
+   ]
+  },
+  {
+   "from": "Mel",
+   "subject": "no news, which is the news",
+   "body": [
+    "Nothing to report, which after the last couple of years is quite a nice thing to be able to type. The garden's a disgrace, the boiler is somehow still working, and I have taken up swimming badly.",
+    "Keep going. I know you don't need telling and I know you weren't going to stop. But somebody should say it to you occasionally and there aren't many of us left who knew you before any of it, so it's going to have to be me."
+   ]
+  }
+ ],
+ "completion": [
+  {
+   "from": "Mel",
+   "subject": "so — some news of my own",
+   "body": [
+    "Right. I've been sitting on this for about a month because I wanted to be sure, and I am, so here it is: I'm moving. Properly moving, another country, the whole thing. His name's Tomas and before you say anything, yes, I know how it sounds, and no, I have not lost my mind.",
+    "I met him at the swimming, of all the places. He is very calm in a way I find slightly suspicious and he makes me laugh, and when I told him about Dad he listened for about an hour without once saying anything useless. That turns out to be the entire trick."
+   ]
+  },
+  {
+   "from": "Mel",
+   "subject": "a proper one, for once",
+   "body": [
+    "I want to say the other thing properly, because I've been putting it off in favour of jokes about boilers for about a decade now. It doesn't hurt the way it did. I thought that would feel like a betrayal and it doesn't, it just feels like the weather changing.",
+    "You did the thing you said you'd do when you were twelve and nobody in that house believed you, including me, and I'm sorry about that and I'm proud of you in a way I find genuinely difficult to type. Come and stay. There's a spare room and there is a go-kart track about forty minutes away, which I noticed, which tells you everything about how my brain works now."
+   ]
+  }
+ ],
+ "dev_beats": [
+  {
+   "from": "Mel",
+   "subject": "so what do you actually do all day",
+   "body": [
+    "Right, so you're not racing this year. I told Dad and he said what, at all? and I said no, at all, they've got him doing development, and he said what's that then. So I'm asking you, because I made something up and I'd rather be accurate next time.",
+    "Is it a job job? Do you go in? Are there hours? You said something about a simulator and I pictured the thing at the arcade in town, which I appreciate is probably wrong. He's been better this month, or at least better at pretending, and he watched one of the races with the sound off. He does that now. Anyway, tell me what a day looks like and I'll pass it on."
+   ]
+  },
+  {
+   "from": "Mel",
+   "subject": "a whole year",
+   "body": [
+    "You've had a whole year of not racing and I've seen you twice. I'm not having a go, I promise, I know they've got you in and out of that place constantly and I know it matters. I just did the maths the other night and it surprised me, that's all.",
+    "He asks about it more than he lets on. Not to you, obviously — to me, in the kitchen, in the way where it's meant to sound like he's not really asking. He wanted to know if the year counted for anything or if it was just them keeping you on a shelf. I said it counted. You'd know better than me.",
+    "The appointments have moved to the bigger hospital, which is further but they say it's better. Come when you can. I know you will."
+   ]
+  }
+ ]
+}

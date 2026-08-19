@@ -1,0 +1,929 @@
+{
+ "_comment": [
+  "FACTORtv — QUALIFYING and PRACTICE.",
+  "",
+  "A session with no overtakes, no meaningful gaps and no story of",
+  "position. The drama is the timesheet: who is on top of it, who has",
+  "found time, and how long is left to find some.",
+  "",
+  "RacerTV's observations, and they are the ones you only get from",
+  "watching: most of qualifying is an EMPTY track, and the states that",
+  "actually need a line are nobody-has-set-a-time, only-one-driver-has,",
+  "everyone-is-in-the-pits and there-is-only-one-car-here. A booth with",
+  "nothing to say about an empty session says the same three things about",
+  "a full one.",
+  "",
+  "There is deliberately no 'lap deleted' category: this build does not",
+  "populate per-car lap validity, and inventing a deletion the timing",
+  "screen disagrees with would cost more trust than the line is worth.",
+  "",
+  "`quali_pole` MUST NOT use {gap}. The first driver to set a time takes",
+  "provisional pole with no margin over anybody, so the slot is empty and",
+  "the line airs as 'Top of the sheets, and it's Derek Warwick by !' —",
+  "which is exactly what went out in the 2026-08-16 test run. Asserted in",
+  "tests/flowtest.py.",
+  "",
+  "Extra slots: {set} drivers with a time, {total} in the session,",
+  "{p1} {p2} {p3} the provisional top three, {t} a lap time.",
+  "",
+  "`quali_lap_praise` is Chuck reacting to a benchmark lap, and it is",
+  "gated by `_quali_lap_notable()`: an early pole means nothing,",
+  "because the man has beaten nobody and will be beaten shortly. It",
+  "fires when the session is into its closing stretch, or most of the",
+  "field has run, or the lap took a big chunk out of the old best.",
+  "",
+  "TOP AND TAIL. `quali_top3` reads the same three names as",
+  "`quali_standings` but WITH the margins: {t} pole lap, {g2} P1 to P2,",
+  "{g3} P2 to P3. `quali_margin_big` / `quali_margin_slim` qualify a new",
+  "pole by how far clear it is, measured against the RUNNER-UP's lap and",
+  "not against the improvement on the old benchmark — a driver can take",
+  "half a second off himself and still lead by a hundredth.",
+  "",
+  "`quali_duel` is two drivers trading the top spot ({a} and {b}, {n}",
+  "changes). It outranks a single fast lap because it is the story of the",
+  "session rather than an event in it.",
+  "",
+  "`quali_tail` / `quali_offpace` / `quali_player_offpace` cover the",
+  "bottom of the sheet. They are gated on a real field, most of it having",
+  "run, and a measurable deficit — a driver who has not been out yet is",
+  "not slow, he is absent. The lines may say the pace is not in the car,",
+  "but only as Chuck's OPINION: we cannot see a setup sheet.",
+  "",
+  "`quali_lap_sector` / `quali_lap_allround` say WHERE a benchmark lap",
+  "was won. Real data: rF2's mBestLapSector1/2 are the sectors OF THE",
+  "BEST LAP, so the three add up to that lap and comparing them against",
+  "the benchmark they beat is honest. A 'theoretical best' assembled",
+  "from three different laps would not be — that lap was never driven.",
+  "Slots: {sec} the sector, {gap} the time found there, {drv}."
+ ],
+ "quali_start": [
+  {
+   "t": "Qualifying is underway at {trk} — the hunt for pole begins.",
+   "i": 2
+  },
+  {
+   "t": "The session gets going at {trk}, everyone chasing that pole time.",
+   "i": 2
+  },
+  {
+   "t": "Out they go at {trk}. Time to put a marker down.",
+   "i": 2
+  },
+  {
+   "t": "This is qualifying at {trk}, and the grid is decided right here.",
+   "i": 2
+  },
+  {
+   "t": "One lap is all that counts now. Qualifying at {trk} is live.",
+   "i": 2
+  },
+  {
+   "t": "Here we go — qualifying, and nowhere to hide.",
+   "i": 2
+  }
+ ],
+ "practice_start": [
+  {
+   "t": "Practice is underway at {trk}, and the teams are getting to work.",
+   "i": 1
+  },
+  {
+   "t": "The session begins at {trk}. Plenty of data to gather here.",
+   "i": 1
+  },
+  {
+   "t": "Out they come for practice at {trk}, dialling the cars in.",
+   "i": 1
+  },
+  {
+   "t": "Free practice at {trk} — no pressure, and every bit of it useful.",
+   "i": 1
+  }
+ ],
+ "quali_pole": [
+  {
+   "t": "{drv} takes provisional pole!",
+   "i": 3
+  },
+  {
+   "t": "New man on top — {drv} goes to the head of the timesheets!",
+   "i": 3
+  },
+  {
+   "t": "{drv} goes fastest of all. Provisional pole, with a {t}.",
+   "i": 3
+  },
+  {
+   "t": "That's the lap of the session! {drv} moves to the top!",
+   "i": 3
+  },
+  {
+   "t": "{drv} bumps him off! Provisional pole changes hands!",
+   "i": 3
+  },
+  {
+   "t": "A {t} for {drv}, and that is the new benchmark!",
+   "i": 3
+  },
+  {
+   "t": "Top of the sheets, and it's {drv} with a {t}!",
+   "i": 3
+  },
+  {
+   "t": "{drv} has thrown down a marker — quickest of the lot!",
+   "i": 3
+  }
+ ],
+ "quali_fastlap": [
+  {
+   "t": "{drv} improves his own benchmark — a {t}.",
+   "i": 2
+  },
+  {
+   "t": "Quicker again from {drv}. He's the only one raising the bar.",
+   "i": 2
+  },
+  {
+   "t": "{drv} finds {gap} more on his own time.",
+   "i": 2
+  },
+  {
+   "t": "He wasn't happy with that one either — {drv} goes faster still.",
+   "i": 2
+  },
+  {
+   "t": "A {t} for {drv}, and the rest have that much more to do.",
+   "i": 2
+  },
+  {
+   "t": "{drv} keeps pushing his own number down. That's a man with confidence.",
+   "i": 2
+  }
+ ],
+ "quali_improve": [
+  {
+   "t": "{drv} improves — up to {pos} provisionally.",
+   "i": 1
+  },
+  {
+   "t": "A better lap from {drv}, climbing to {pos} on the grid.",
+   "i": 1
+  },
+  {
+   "t": "{drv} finds time. That's {pos} for now.",
+   "i": 1
+  },
+  {
+   "t": "Up goes {drv} — a {t} puts him {pos}.",
+   "i": 1
+  },
+  {
+   "t": "That's more like it from {drv}. Into {pos}.",
+   "i": 1
+  },
+  {
+   "t": "{drv} moves up the order with a {t}.",
+   "i": 1
+  }
+ ],
+ "quali_final": [
+  {
+   "t": "Into the closing stages of qualifying — last chance for a flyer.",
+   "i": 2
+  },
+  {
+   "t": "Final laps of the session now. It's all on the line.",
+   "i": 2
+  },
+  {
+   "t": "The clock is ticking down. Who can find one last lap?",
+   "i": 2
+  },
+  {
+   "t": "Whatever they have left, it has to come out now.",
+   "i": 2
+  },
+  {
+   "t": "This is the last run. Get it wrong and the grid is what it is.",
+   "i": 2
+  }
+ ],
+ "quali_count": [
+  {
+   "t": "{set} of the {total} cars have set a time so far.",
+   "i": 0
+  },
+  {
+   "t": "{set} of {total} drivers with a lap on the board.",
+   "i": 0
+  },
+  {
+   "t": "Still only {set} times on the sheet out of {total}.",
+   "i": 0
+  },
+  {
+   "t": "{set} runners have shown their hand. {total} in the session.",
+   "i": 0
+  }
+ ],
+ "quali_standings": [
+  {
+   "t": "Provisional grid: {p1} on pole, from {p2} and {p3}.",
+   "i": 1
+  },
+  {
+   "t": "As it stands — {p1}, {p2}, then {p3}.",
+   "i": 1
+  },
+  {
+   "t": "{p1} heads the timesheets from {p2} and {p3}.",
+   "i": 1
+  },
+  {
+   "t": "Top three at the moment: {p1}, {p2}, {p3}.",
+   "i": 1
+  },
+  {
+   "t": "That's {p1} provisionally on pole, and it will take some beating.",
+   "i": 1
+  }
+ ],
+ "quali_nobody": [
+  {
+   "t": "No times on the board just yet — everyone still on out-laps.",
+   "i": 0
+  },
+  {
+   "t": "Nobody has set a representative lap. The grid is wide open.",
+   "i": 0
+  },
+  {
+   "t": "A clean sheet on the timing screens. The first flier could come any moment.",
+   "i": 0
+  },
+  {
+   "t": "Empty timesheets so far, and an empty circuit to match.",
+   "i": 0
+  },
+  {
+   "t": "Not a single lap on the board yet. They're all waiting for the track to come to them.",
+   "i": 0
+  }
+ ],
+ "quali_onlyone": [
+  {
+   "t": "Only {drv} has set a time so far. Everyone else still to run.",
+   "i": 0
+  },
+  {
+   "t": "Just the one lap on the board, and it belongs to {drv}.",
+   "i": 0
+  },
+  {
+   "t": "{drv} the only driver to have posted a time.",
+   "i": 0
+  },
+  {
+   "t": "One name on the sheet: {drv}. For now that is pole position.",
+   "i": 0
+  }
+ ],
+ "quali_pits": [
+  {
+   "t": "Most of the field is still in the pits, waiting for the right moment.",
+   "i": 0
+  },
+  {
+   "t": "A quiet track — plenty still in the garage, biding their time.",
+   "i": 0
+  },
+  {
+   "t": "Lots of cars in the pit lane, timing their run for the track evolution.",
+   "i": 0
+  },
+  {
+   "t": "Nobody wants to go early. The lane is full and the circuit is empty.",
+   "i": 0
+  },
+  {
+   "t": "They're all waiting each other out. It's a game of nerve as much as pace.",
+   "i": 1
+  }
+ ],
+ "quali_solo": [
+  {
+   "t": "Just {drv} out on track today, getting some good laps in.",
+   "i": 0
+  },
+  {
+   "t": "A private session, this — only {drv} circulating at {trk}.",
+   "i": 0
+  },
+  {
+   "t": "{drv} has the place to himself, working through the running.",
+   "i": 0
+  },
+  {
+   "t": "No traffic, no pressure, no excuses. Just {drv} and {trk}.",
+   "i": 0
+  },
+  {
+   "t": "An empty circuit and one car on it. There are worse ways to spend an afternoon.",
+   "i": 0
+  }
+ ],
+ "quali_open_laps": [
+  {
+   "t": "{drv} has completed {laps} laps now — really piling on the mileage.",
+   "i": 0
+  },
+  {
+   "t": "No clock to worry about, and {drv} is up to {laps} laps.",
+   "i": 0
+  },
+  {
+   "t": "{laps} laps done for {drv}, making the most of an open session.",
+   "i": 0
+  },
+  {
+   "t": "That's {laps} laps of learning for {drv}.",
+   "i": 0
+  }
+ ],
+ "quali_goals": [
+  {
+   "t": "This is all about balance. Find the setup now and the race looks after itself.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Laps are the whole point here. Learn the circuit, build the confidence.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Tyre management and braking points — that's the homework in a session like this.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "You're not chasing a time here, you're chasing a car you trust.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Long runs tell you more than one quick lap ever will.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "The temptation is to chase the timesheet. The good ones ignore it and work.",
+   "i": 0,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Fuel load, tyre choice, brake bias. Nobody watches it and it wins races.",
+   "i": 0,
+   "who": "ANALYST"
+  }
+ ],
+ "practice_note": [
+  {
+   "t": "Useful running for {drv}, working through the programme.",
+   "i": 0
+  },
+  {
+   "t": "{drv} out on track, banking laps and gathering data.",
+   "i": 0
+  },
+  {
+   "t": "Plenty of work for {drv} in this session, dialling the car in.",
+   "i": 0
+  },
+  {
+   "t": "{drv} putting the miles in. That's what these sessions are for.",
+   "i": 0
+  },
+  {
+   "t": "Another lap for {drv}, another piece of the puzzle.",
+   "i": 0
+  },
+  {
+   "t": "Steady work from {drv} — no heroics, just information.",
+   "i": 0
+  }
+ ],
+ "quali_lap_praise": [
+  {
+   "t": "That is a serious lap. He's found time where nobody else has.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "You don't beat a benchmark like that by tidying it up. That was a risk taken.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Everything hooked up on that lap. He won't have much left to find.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "That's the lap of the session so far, and it will take some answering.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Committed everywhere. No safety margin left anywhere on that lap.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "The rest of them now know exactly what it takes. That's the number to beat.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "He's carried speed through places the others have been braking for.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "That was on the edge from the first corner to the last. Superb.",
+   "i": 3,
+   "who": "ANALYST"
+  },
+  {
+   "t": "A lap like that late in a session is worth two early on. The track's at its best and he's used it.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "That was on the limit everywhere. He won't better it easily.",
+   "i": 2,
+   "who": "ANALYST"
+  }
+ ],
+ "quali_margin_big": [
+  {
+   "t": "And that is a MARGIN — {gap} clear of {b}.",
+   "i": 3
+  },
+  {
+   "t": "{gap} faster than {b}. That is a statement lap.",
+   "i": 3
+  },
+  {
+   "t": "Look at the gap! {drv} by {gap} over {b}.",
+   "i": 3
+  },
+  {
+   "t": "Nobody's close to that. {gap} back to {b}.",
+   "i": 3
+  },
+  {
+   "t": "{gap} in qualifying is an age. {b} has work to do.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "That's not an improvement from {drv}, that's a different league — {gap}.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv} has taken {gap} out of the whole field there.",
+   "i": 2,
+   "who": "ANALYST"
+  }
+ ],
+ "quali_margin_slim": [
+  {
+   "t": "By the thinnest of margins — {gap} over {b}.",
+   "i": 2
+  },
+  {
+   "t": "{drv} takes it by {gap}. Nothing in it at all.",
+   "i": 2
+  },
+  {
+   "t": "That's {gap} between the top two. Knife-edge stuff.",
+   "i": 2
+  },
+  {
+   "t": "{gap}! You could not separate them.",
+   "i": 3
+  },
+  {
+   "t": "{gap} is a gust of wind. That will not stand.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Margins like that come down to one corner, and {b} will know which.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Half a car length over a whole lap between {drv} and {b}.",
+   "i": 2,
+   "who": "ANALYST"
+  }
+ ],
+ "quali_duel": [
+  {
+   "t": "They are trading pole, {a} and {b}! That's {n} changes at the top.",
+   "i": 3
+  },
+  {
+   "t": "{a} and {b} going blow for blow at the head of this timesheet.",
+   "i": 3
+  },
+  {
+   "t": "Every time one of them goes quickest, the other answers. {a} and {b}.",
+   "i": 3
+  },
+  {
+   "t": "This is a proper fight for pole — {a} and {b}, nobody else in it.",
+   "i": 3
+  },
+  {
+   "t": "{n} changes at the top now. {a} and {b} are the only story here.",
+   "i": 2
+  },
+  {
+   "t": "{a} and {b} — that's the mark of two drivers who will not be beaten.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Neither {a} nor {b} is leaving anything on the table. Wonderful to watch.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "One of {a} or {b} takes pole. The rest are racing for third.",
+   "i": 2,
+   "who": "ANALYST"
+  }
+ ],
+ "quali_top3": [
+  {
+   "t": "{p1} on top with a {t}, {g2} back to {p2}, then {g3} to {p3}.",
+   "i": 1
+  },
+  {
+   "t": "It's {p1} from {p2} by {g2}, and {p3} {g3} behind him.",
+   "i": 1
+  },
+  {
+   "t": "Top three: {p1}, then {p2} at {g2}, then {p3} at {g3}.",
+   "i": 1
+  },
+  {
+   "t": "{p1} leads by {g2}. {p3} is {g3} off {p2} in third.",
+   "i": 1
+  },
+  {
+   "t": "A {t} is the benchmark. {p2} is {g2} away, {p3} {g3} further back.",
+   "i": 1
+  },
+  {
+   "t": "Just {g2} covering the front row, {p1} ahead of {p2}.",
+   "i": 1
+  }
+ ],
+ "quali_tail": [
+  {
+   "t": "At the other end, {drv} props up the sheet — {gap} off the pace.",
+   "i": 1
+  },
+  {
+   "t": "Spare a thought for {drv}, {pos} and {gap} away from pole.",
+   "i": 1
+  },
+  {
+   "t": "{drv} is last of those who've run, {gap} off it.",
+   "i": 1
+  },
+  {
+   "t": "The bottom of the timesheet reads {drv}, {gap} adrift.",
+   "i": 1
+  },
+  {
+   "t": "{drv} sits {pos}, and that's {pct} percent of the pole time.",
+   "i": 1
+  },
+  {
+   "t": "It's a long afternoon for {drv} — {pos}, {gap} back.",
+   "i": 1
+  }
+ ],
+ "quali_offpace": [
+  {
+   "t": "{drv} can't find it today — {pos}, {gap} off the benchmark.",
+   "i": 1
+  },
+  {
+   "t": "Nothing coming for {drv}. {pos} and {gap} away.",
+   "i": 1
+  },
+  {
+   "t": "{gap} off pole for {drv} in {pos}. That'll hurt.",
+   "i": 1
+  },
+  {
+   "t": "{drv} is {pos}. On this evidence the pace simply isn't there.",
+   "i": 1
+  },
+  {
+   "t": "You can see {drv} working, but it isn't coming — {pos}.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "When you're {gap} off, it usually isn't the driver. It's the car.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "That's a car fighting its driver. {drv} is doing what he can.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{gap} is too much to be a mistake. Something's wrong with that car.",
+   "i": 2,
+   "who": "ANALYST"
+  }
+ ],
+ "quali_player_offpace": [
+  {
+   "t": "{drv} is down in {pos}, {gap} off the pace.",
+   "i": 1
+  },
+  {
+   "t": "It's not coming for {drv} — {pos} on the timesheet, {gap} away.",
+   "i": 1
+  },
+  {
+   "t": "{drv} will want more than {pos}. {gap} off pole.",
+   "i": 1
+  },
+  {
+   "t": "A difficult session for {drv}, {pos} and {gap} back.",
+   "i": 1
+  },
+  {
+   "t": "There's more in that car than {pos}, and {drv} will know it too.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{gap} is a lot for {drv} to find. He'll be racing from there instead.",
+   "i": 2,
+   "who": "ANALYST"
+  }
+ ],
+ "quali_all_run": [
+  {
+   "t": "All {total} have set a time now. That is the sheet as it stands.",
+   "i": 1
+  },
+  {
+   "t": "Every car has banked a lap — {total} of {total}.",
+   "i": 1
+  },
+  {
+   "t": "The whole field has run. {total} times on the board.",
+   "i": 1
+  },
+  {
+   "t": "Nobody left to show their hand: all {total} have a lap in.",
+   "i": 1
+  }
+ ],
+ "quali_lap_sector": [
+  {
+   "t": "There it is — {sec}. {gap} up on the old benchmark right there.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "That lap was won in {sec}, {gap} of it.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "All of it came from {sec}. {gap} in one stretch of road.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv} has taken {gap} out of {sec} alone. That's where the lap is.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Look at {sec} — {gap} better than anything we'd seen there.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{sec} is the difference. He's committed to it and the rest have not.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Everything hinged on {sec}. {gap} found in one place.",
+   "i": 2
+  }
+ ],
+ "quali_lap_allround": [
+  {
+   "t": "No single sector there — {drv} has found time everywhere.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "That's the complete lap. Time in all three sectors, not one heroic corner.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Nothing stands out, and that's the point — it was quick everywhere.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{drv} didn't win that in one place. He won it in all of them.",
+   "i": 2,
+   "who": "ANALYST"
+  },
+  {
+   "t": "Green in every sector. That is a lap with nothing left in it.",
+   "i": 2
+  },
+  {
+   "t": "A tenth here, a tenth there — it adds up to a benchmark.",
+   "i": 2
+  }
+ ],
+ "quali_deleted": [
+  {
+   "t": "And that lap is gone — track limits. {drv} will have to do it again.",
+   "i": 2
+  },
+  {
+   "t": "Chalked off. {drv} loses that one to track limits.",
+   "i": 2
+  },
+  {
+   "t": "That time comes down. {drv} put a wheel too far and the lap goes with it.",
+   "i": 2
+  },
+  {
+   "t": "Deleted. All that work for nothing, and {drv} has to go round again.",
+   "i": 2
+  },
+  {
+   "t": "The lap is scrubbed — {drv} ran out of road where it counts.",
+   "i": 2
+  },
+  {
+   "t": "No time for {drv}. Track limits, and that is a hard way to lose a lap.",
+   "i": 2
+  },
+  {
+   "t": "Off the board it comes. {drv} will not be credited with that one.",
+   "i": 2
+  }
+ ],
+ "quali_over_pole": [
+  {
+   "t": "And that is the chequered flag in qualifying — {drv} takes pole, by {gap} from {b}.",
+   "i": 3
+  },
+  {
+   "t": "Time's up, and it's {drv} on pole with a {t}. {gap} covers him and {b}.",
+   "i": 3
+  },
+  {
+   "t": "Qualifying is done. Pole position goes to {drv}, {gap} clear of {b}.",
+   "i": 3
+  },
+  {
+   "t": "That's the session. {drv} heads the sheet — a {t}, and {gap} back to {b}.",
+   "i": 3
+  },
+  {
+   "t": "The flag is out, and {drv} has taken pole position. {b} misses out by {gap}.",
+   "i": 3
+  }
+ ],
+ "quali_over_solo": [
+  {
+   "t": "And that's qualifying done. {drv} takes pole with a {t}.",
+   "i": 3
+  },
+  {
+   "t": "Time's up, and pole position belongs to {drv}. A {t}.",
+   "i": 3
+  },
+  {
+   "t": "That is the end of the session, and {drv} heads the timesheet.",
+   "i": 3
+  }
+ ],
+ "quali_over_top3": [
+  {
+   "t": "So the front of the grid: {drv} on pole, {b} alongside, and {c} third.",
+   "i": 2
+  },
+  {
+   "t": "That's how they'll line up — {drv}, then {b}, then {c}.",
+   "i": 2
+  },
+  {
+   "t": "Pole for {drv}, the front row shared with {b}, and {c} leads row two.",
+   "i": 2
+  },
+  {
+   "t": "Your top three: {drv}, {b} and {c}. That is the order that matters.",
+   "i": 2
+  }
+ ],
+ "quali_over_top2": [
+  {
+   "t": "The front row, then: {drv} on pole, {b} alongside him.",
+   "i": 2
+  },
+  {
+   "t": "That's your front row — {drv} and {b}.",
+   "i": 2
+  }
+ ],
+ "quali_over_verdict": [
+  {
+   "t": "{pos} for {drv}, and that is a decent place to start from — he'll be looking for a run at them into turn one.",
+   "i": 1
+  },
+  {
+   "t": "{drv} lines up {pos}. Get the launch right and the first corner is where his race is won or lost.",
+   "i": 1
+  },
+  {
+   "t": "{pos} is workable. From there {drv} has a tow, a braking zone and one clear chance before the field settles.",
+   "i": 1
+  },
+  {
+   "t": "I like {drv} from {pos}. Nothing to lose, and everything in front of him to aim at.",
+   "i": 1
+  },
+  {
+   "t": "{drv} starts {pos}, and that is the hardest place to be — close enough to smell it, far enough back to need somebody else's mistake.",
+   "i": 1
+  },
+  {
+   "t": "From {pos}, {drv} needs a clean getaway more than he needs pace. The first lap will tell us plenty.",
+   "i": 1
+  }
+ ],
+ "quali_over_player": [
+  {
+   "t": "{drv} will start {pos}, {gap} away from pole.",
+   "i": 2
+  },
+  {
+   "t": "And {pos} on the grid for {drv} — {gap} off the top spot.",
+   "i": 2
+  },
+  {
+   "t": "{drv} takes {pos}, with {gap} between him and pole position.",
+   "i": 2
+  },
+  {
+   "t": "That's {pos} for {drv}. {gap} to find, and a race to find it in.",
+   "i": 2
+  }
+ ],
+ "quali_over_signoff": [
+  {
+   "t": "That is the grid set at {trk}.",
+   "i": 2
+  },
+  {
+   "t": "So the order is decided, and the hard part comes tomorrow.",
+   "i": 2
+  },
+  {
+   "t": "Qualifying done, and every one of them now knows exactly what he is starting from.",
+   "i": 2
+  },
+  {
+   "t": "That is the timesheet closed. The race is a different question entirely.",
+   "i": 2
+  }
+ ]
+}

@@ -1,0 +1,960 @@
+{
+  "_comment": [
+    "REAL-WORLD DRIVER RECORDS. Read drivers.py before editing this file.",
+    "",
+    "EVERY NUMBER IS AS OF THE FIRST RACE OF THAT SEASON — what the driver",
+    "brought with him, not his career total. Prost has 28 wins in 1988 and 51",
+    "by the end of his career; only the 28 is true on the grid at Silverstone.",
+    "That tense is what makes these facts safe to say in round one and still",
+    "safe to say in the finale, whatever the user does to the championship.",
+    "",
+    "titles         world championships won BEFORE this season. 0, never null.",
+    "champion_years the years of those titles. Length must equal `titles`, and",
+    "               every year must be earlier than the season — the test",
+    "               enforces both, because a wrong year dates a title wrong on",
+    "               air and that is the exact failure this file exists to avoid.",
+    "wins           Grand Prix wins BEFORE this season. 0, never null.",
+    "rookie         true only for a genuine first full season.",
+    "contender      is he expected to fight for THIS year's title? An editorial",
+    "               judgement, and the gate on the 'chasing an eighth' lines —",
+    "               without it Alonso is asked about a third title from an",
+    "               Aston Martin in 2025.",
+    "new_team       he arrives at this team for this season.",
+    "note           ONE hand-written clause, used verbatim, no terminal stop.",
+    "               Anything true of exactly one man lives here rather than in",
+    "               a schema nobody could keep correct.",
+    "note_void_on   what STOPS the note being true: 'win', 'podium' or",
+    "               'start'. Hulkenberg's record for starts without a podium",
+    "               ends at his first podium; Arnoux's 'last win was five",
+    "               seasons ago' ends at his next win. A note without this is",
+    "               a fact about the past that your season cannot reach —",
+    "               'the youngest race winner this sport has ever had' stays",
+    "               true however the championship goes. WHEN YOU ADD A NOTE,",
+    "               ask what would falsify it before you leave this out.",
+    "alias          other spellings the mods use. Accents, spacing and Jr./Sr.",
+    "               are already handled by folding — only add what folding",
+    "               cannot reach ('Bortoletto' for Bortoleto).",
+    "",
+    "SCOPE IS THREE SEASONS. Adding a fourth is adding a block here and",
+    "nothing else. Do not add a season you are not prepared to check.",
+    "",
+    "TEAMS. Each season block also carries a `teams` map: what the CAR is like",
+    "this year. `strength` and `weakness` are clauses used verbatim, in the",
+    "present tense, and describe the machinery rather than the results — the",
+    "booth is calling a race the user is driving and must not appear to know",
+    "how the real season went. Every team named here must be a `team` value on",
+    "at least one driver, or nothing can ever reach it; drivertest.py checks.",
+    "",
+    "`quotes` - signature radio lines, per OCCASION. Occasions are 'win',",
+    "'pole', 'podium', 'good', 'bad', 'incident'.",
+    "",
+    "A catchphrase in the wrong mouth, or on the wrong occasion, is worse than",
+    "no catchphrase: it turns a character into a parrot. So each is tied to one",
+    "driver AND one kind of moment, judged from his own race arc, fired rarely",
+    "and at most once per driver per session.",
+    "",
+    "These appear as RADIO CARDS and are never spoken - rival audio was removed",
+    "because edge-tts has no accents for a full grid. Written to be read.",
+    "",
+    "The 1988 set is deliberately thin and deliberately NOT presented as",
+    "verbatim: team radio barely existed then and the surviving quotes are from",
+    "interviews. Those entries are what a driver would plausibly say on the",
+    "radio, not a claim about something he said."
+  ],
+  "seasons": {
+    "1988": {
+      "label": "the 1988 Formula One season",
+      "series": "Formula One",
+      "drivers": {
+        "Ayrton Senna": {
+          "team": "McLaren",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 6,
+          "new_team": true,
+          "contender": true,
+          "note": "alongside Prost at McLaren for the first time",
+          "quotes": {
+            "good": [
+              "The car is with me now."
+            ],
+            "win": [
+              "That is what I came here for."
+            ]
+          }
+        },
+        "Alain Prost": {
+          "team": "McLaren",
+          "titles": 2,
+          "champion_years": [
+            1985,
+            1986
+          ],
+          "wins": 28,
+          "contender": true,
+          "note": "the man who broke Jackie Stewart's win record last season",
+          "quotes": {
+            "good": [
+              "Comfortable. We wait."
+            ],
+            "bad": [
+              "The balance is gone. I can do nothing."
+            ]
+          }
+        },
+        "Nelson Piquet": {
+          "team": "Lotus",
+          "titles": 3,
+          "champion_years": [
+            1981,
+            1983,
+            1987
+          ],
+          "wins": 20,
+          "new_team": true,
+          "note": "who arrives at Lotus with the number one on the car",
+          "quotes": {
+            "bad": [
+              "This car does not want to turn."
+            ]
+          }
+        },
+        "Nigel Mansell": {
+          "team": "Williams",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 13,
+          "note": "runner-up in each of the last two championships",
+          "quotes": {
+            "good": [
+              "I've got more in this. Much more."
+            ],
+            "bad": [
+              "Something is broken. I can feel it."
+            ]
+          }
+        },
+        "Gerhard Berger": {
+          "team": "Ferrari",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 3,
+          "note": "who won the last two races of last season for Ferrari"
+        },
+        "Michele Alboreto": {
+          "team": "Ferrari",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 5,
+          "note": "runner-up in the 1985 championship"
+        },
+        "Riccardo Patrese": {
+          "team": "Williams",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 2,
+          "note": "the most experienced man on this grid by some distance"
+        },
+        "Thierry Boutsen": {
+          "team": "Benetton",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "Alessandro Nannini": {
+          "team": "Benetton",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "Derek Warwick": {
+          "team": "Arrows",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "Eddie Cheever": {
+          "team": "Arrows",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "Andrea DeCesaris": {
+          "name": "Andrea de Cesaris",
+          "alias": [
+            "Andrea DeCesaris"
+          ],
+          "team": "Rial",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "Ivan Capelli": {
+          "team": "March",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "Mauricio Gugelmin": {
+          "alias": [
+            "Maurício Gugelmin"
+          ],
+          "team": "March",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "rookie": true
+        },
+        "Jonathan Palmer": {
+          "team": "Tyrrell",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "Julian Bailey": {
+          "team": "Tyrrell",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "rookie": true
+        },
+        "Satoru Nakajima": {
+          "team": "Lotus",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "note": "the first Japanese driver to hold a full-time Formula One seat"
+        },
+        "Rene Arnoux": {
+          "name": "René Arnoux",
+          "alias": [
+            "Rene Arnoux"
+          ],
+          "team": "Ligier",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 7,
+          "note": "whose last win came five seasons ago",
+          "note_void_on": "win"
+        },
+        "Stefan Johansson": {
+          "team": "Ligier",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "note": "a man with plenty of podiums and still no win",
+          "note_void_on": "win"
+        },
+        "Philippe Streiff": {
+          "team": "AGS",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "Philippe Alliot": {
+          "team": "Larrousse",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "Yannick Dalmas": {
+          "team": "Larrousse",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "Alex Caffi": {
+          "team": "Scuderia Italia",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "Nicola Larini": {
+          "team": "Osella",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "Piercarlo Ghinzani": {
+          "team": "Zakspeed",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "Bernd Schneider": {
+          "team": "Zakspeed",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "rookie": true
+        },
+        "Pierluigi Martini": {
+          "team": "Minardi",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "Luis Perez-Sala": {
+          "name": "Luis Pérez-Sala",
+          "alias": [
+            "Luis Perez-Sala"
+          ],
+          "team": "Minardi",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "rookie": true
+        },
+        "Oscar Larrauri": {
+          "team": "EuroBrun",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "rookie": true
+        },
+        "Stefano Modena": {
+          "team": "EuroBrun",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "note": "with a single Grand Prix start to his name so far",
+          "note_void_on": "start"
+        },
+        "Gabriele Tarquini": {
+          "team": "Coloni",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        }
+      },
+      "teams": {
+        "McLaren": {
+          "strength": "the Honda turbo, and a chassis low enough to make the most of it",
+          "note": "the strongest package on this grid, and the two quickest drivers in it"
+        },
+        "Ferrari": {
+          "strength": "a turbo V6 that gives away very little in a straight line",
+          "weakness": "a car that has never been as easy to drive as the McLaren"
+        },
+        "Williams": {
+          "weakness": "a naturally aspirated Judd V8, after losing the Honda engines over the winter",
+          "note": "a team that has gone from the best engine on the grid to a customer V8"
+        },
+        "Lotus": {
+          "strength": "the same Honda turbo the McLarens are running",
+          "weakness": "a chassis that has never made proper use of the Honda engine"
+        },
+        "Benetton": {
+          "strength": "the best of the naturally aspirated cars, with the Cosworth V8",
+          "note": "the team betting hardest on turbos being banned"
+        },
+        "March": {
+          "strength": "one of the neatest chassis in the pit lane, narrow and light on drag"
+        },
+        "Arrows": {
+          "strength": "a Megatron turbo, which is a BMW four-cylinder under another name"
+        },
+        "Tyrrell": {
+          "weakness": "a customer Cosworth and not much budget behind it"
+        },
+        "Ligier": {
+          "weakness": "a car nobody at the team has been able to make work"
+        },
+        "Minardi": {
+          "weakness": "a small budget and a long way to go"
+        },
+        "Rial": {
+          "weakness": "a single car and very little behind it"
+        },
+        "Zakspeed": {
+          "weakness": "a turbo of their own building that is well off the pace"
+        },
+        "Larrousse": {
+          "weakness": "a Lola chassis and a customer engine at the back of the grid"
+        },
+        "AGS": {
+          "weakness": "one of the smallest operations in the paddock"
+        },
+        "EuroBrun": {
+          "weakness": "the problems of a brand-new team, all at once"
+        },
+        "Coloni": {
+          "weakness": "a single car and pre-qualifying to survive before any of it counts"
+        },
+        "Osella": {
+          "weakness": "an old turbo and a chassis that has seen several seasons"
+        },
+        "Scuderia Italia": {
+          "weakness": "a first season in Formula One, with a Dallara chassis"
+        }
+      }
+    },
+    "2021": {
+      "label": "the 2021 Formula One season",
+      "series": "Formula One",
+      "drivers": {
+        "Lewis Hamilton": {
+          "team": "Mercedes",
+          "titles": 7,
+          "champion_years": [
+            2008,
+            2014,
+            2015,
+            2017,
+            2018,
+            2019,
+            2020
+          ],
+          "wins": 95,
+          "contender": true,
+          "note": "with more race wins than anyone in the sport's history",
+          "quotes": {
+            "win": [
+              "Get in there! Come on!"
+            ],
+            "pole": [
+              "Get in there!"
+            ]
+          }
+        },
+        "Valtteri Bottas": {
+          "team": "Mercedes",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 9,
+          "quotes": {
+            "win": [
+              "To whom it may concern."
+            ],
+            "bad": [
+              "To whom it may concern."
+            ]
+          }
+        },
+        "Max Verstappen": {
+          "team": "Red Bull",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 10,
+          "contender": true,
+          "note": "the youngest race winner this sport has ever had",
+          "quotes": {
+            "win": [
+              "Simply lovely."
+            ],
+            "pole": [
+              "Simply lovely."
+            ],
+            "good": [
+              "That's more like it. Simply lovely."
+            ]
+          }
+        },
+        "Sergio Perez": {
+          "name": "Sergio Pérez",
+          "alias": [
+            "Sergio Perez",
+            "Checo Perez"
+          ],
+          "team": "Red Bull",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 1,
+          "new_team": true,
+          "note": "who took his first Grand Prix win at the end of last season",
+          "quotes": {
+            "win": [
+              "Vamos! Let's go!"
+            ],
+            "podium": [
+              "Vamos!"
+            ]
+          }
+        },
+        "Lando Norris": {
+          "team": "McLaren",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "quotes": {
+            "good": [
+              "Smooth operator..."
+            ],
+            "podium": [
+              "Smooth operator..."
+            ]
+          }
+        },
+        "Daniel Ricciardo": {
+          "team": "McLaren",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 7,
+          "new_team": true,
+          "quotes": {
+            "win": [
+              "That's a shoey coming."
+            ],
+            "podium": [
+              "That's a shoey coming."
+            ]
+          }
+        },
+        "Charles Leclerc": {
+          "team": "Ferrari",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 2
+        },
+        "Carlos Sainz": {
+          "alias": [
+            "Carlos Sainz Jr."
+          ],
+          "team": "Ferrari",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "new_team": true
+        },
+        "Fernando Alonso": {
+          "team": "Alpine",
+          "titles": 2,
+          "champion_years": [
+            2005,
+            2006
+          ],
+          "wins": 32,
+          "new_team": true,
+          "note": "back on the grid after two seasons away",
+          "quotes": {
+            "bad": [
+              "I don't want to talk about it now."
+            ],
+            "good": [
+              "El Plan. Still on."
+            ]
+          }
+        },
+        "Esteban Ocon": {
+          "team": "Alpine",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "Sebastian Vettel": {
+          "team": "Aston Martin",
+          "titles": 4,
+          "champion_years": [
+            2010,
+            2011,
+            2012,
+            2013
+          ],
+          "wins": 53,
+          "new_team": true,
+          "quotes": {
+            "bad": [
+              "I'm not happy with this. Not at all."
+            ]
+          }
+        },
+        "Lance Stroll": {
+          "team": "Aston Martin",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "Pierre Gasly": {
+          "team": "AlphaTauri",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 1
+        },
+        "Yuki Tsunoda": {
+          "team": "AlphaTauri",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "rookie": true
+        },
+        "Kimi Raikkonen": {
+          "name": "Kimi Räikkönen",
+          "alias": [
+            "Kimi Raikkonen"
+          ],
+          "team": "Alfa Romeo",
+          "titles": 1,
+          "champion_years": [
+            2007
+          ],
+          "wins": 21,
+          "note": "with more Grand Prix starts than anyone in the history of the sport",
+          "quotes": {
+            "bad": [
+              "Leave me alone, I know what I'm doing."
+            ],
+            "incident": [
+              "Leave me alone, I know what I'm doing."
+            ]
+          }
+        },
+        "Antonio Giovinazzi": {
+          "team": "Alfa Romeo",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "George Russell": {
+          "team": "Williams",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "quotes": {
+            "good": [
+              "Mr Saturday, they call me."
+            ]
+          }
+        },
+        "Nicholas Latifi": {
+          "team": "Williams",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "Mick Schumacher": {
+          "team": "Haas",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "rookie": true,
+          "note": "the reigning Formula 2 champion, and a Schumacher back on the grid"
+        },
+        "Nikita Mazepin": {
+          "team": "Haas",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "rookie": true
+        }
+      },
+      "teams": {
+        "Mercedes": {
+          "strength": "straight-line speed, and the best power unit on the grid",
+          "weakness": "a car built to run flat to the ground, in the season the floor rules punished exactly that"
+        },
+        "Red Bull": {
+          "strength": "high-speed corners, and a car that rotates beautifully on the way in",
+          "weakness": "a very narrow setup window, and a difficult car to drive outside it"
+        },
+        "McLaren": {
+          "strength": "a Mercedes power unit and a car that is kind to its tyres"
+        },
+        "Ferrari": {
+          "strength": "a much stronger engine than the one they had last season",
+          "weakness": "straight-line speed that is still not where it needs to be"
+        },
+        "Alpine": {
+          "strength": "a car that comes alive on a hot track and a rough surface"
+        },
+        "AlphaTauri": {
+          "strength": "much of the same aerodynamic thinking as the Red Bull, in a friendlier car"
+        },
+        "Aston Martin": {
+          "weakness": "a car built to run flat to the ground, and new floor rules that took away what made it work"
+        },
+        "Alfa Romeo": {
+          "weakness": "a customer Ferrari at the back of the midfield"
+        },
+        "Williams": {
+          "weakness": "the smallest budget on the grid, and a car to match",
+          "note": "a team rebuilding under new ownership"
+        },
+        "Haas": {
+          "weakness": "a car that will not be developed at all this year, with everything going into the next one",
+          "note": "two rookies and a machine nobody is going to improve"
+        }
+      }
+    },
+    "2025": {
+      "label": "the 2025 Formula One season",
+      "series": "Formula One",
+      "drivers": {
+        "Max Verstappen": {
+          "team": "Red Bull",
+          "titles": 4,
+          "champion_years": [
+            2021,
+            2022,
+            2023,
+            2024
+          ],
+          "wins": 63,
+          "contender": true,
+          "quotes": {
+            "win": [
+              "Simply lovely."
+            ],
+            "pole": [
+              "Simply lovely."
+            ],
+            "good": [
+              "That's more like it. Simply lovely."
+            ]
+          }
+        },
+        "Liam Lawson": {
+          "team": "Red Bull",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "new_team": true
+        },
+        "Lewis Hamilton": {
+          "team": "Ferrari",
+          "titles": 7,
+          "champion_years": [
+            2008,
+            2014,
+            2015,
+            2017,
+            2018,
+            2019,
+            2020
+          ],
+          "wins": 105,
+          "new_team": true,
+          "note": "in red for the first time in his career",
+          "quotes": {
+            "win": [
+              "Get in there! Come on!"
+            ],
+            "pole": [
+              "Get in there!"
+            ]
+          }
+        },
+        "Charles Leclerc": {
+          "team": "Ferrari",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 8,
+          "quotes": {
+            "bad": [
+              "This is not possible. Not again."
+            ],
+            "win": [
+              "Finally. Finally!"
+            ]
+          }
+        },
+        "Lando Norris": {
+          "team": "McLaren",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 4,
+          "contender": true,
+          "note": "runner-up in last season's championship",
+          "quotes": {
+            "good": [
+              "Smooth operator..."
+            ],
+            "podium": [
+              "Smooth operator..."
+            ],
+            "win": [
+              "Smooth operator!"
+            ]
+          }
+        },
+        "Oscar Piastri": {
+          "team": "McLaren",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 2,
+          "contender": true,
+          "quotes": {
+            "win": [
+              "Well. That worked."
+            ]
+          }
+        },
+        "George Russell": {
+          "team": "Mercedes",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 3
+        },
+        "Andrea Kimi Antonelli": {
+          "alias": [
+            "Kimi Antonelli"
+          ],
+          "team": "Mercedes",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "rookie": true,
+          "note": "eighteen years old, and he has Hamilton's old seat"
+        },
+        "Fernando Alonso": {
+          "team": "Aston Martin",
+          "titles": 2,
+          "champion_years": [
+            2005,
+            2006
+          ],
+          "wins": 32,
+          "note": "the oldest man on this grid, and still here",
+          "quotes": {
+            "bad": [
+              "I don't want to talk about it now."
+            ],
+            "good": [
+              "El Plan. Still on."
+            ]
+          }
+        },
+        "Lance Stroll": {
+          "team": "Aston Martin",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "Pierre Gasly": {
+          "team": "Alpine",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 1
+        },
+        "Jack Doohan": {
+          "team": "Alpine",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "rookie": true
+        },
+        "Esteban Ocon": {
+          "team": "Haas",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 1,
+          "new_team": true
+        },
+        "Oliver Bearman": {
+          "team": "Haas",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "rookie": true
+        },
+        "Yuki Tsunoda": {
+          "team": "Racing Bulls",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "quotes": {
+            "bad": [
+              "What is this car doing?"
+            ]
+          }
+        },
+        "Isack Hadjar": {
+          "team": "Racing Bulls",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "rookie": true
+        },
+        "Nico Hulkenberg": {
+          "name": "Nico Hülkenberg",
+          "alias": [
+            "Nico Hulkenberg"
+          ],
+          "team": "Sauber",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "new_team": true,
+          "note": "with more Grand Prix starts than any driver in history without a podium",
+          "note_void_on": "podium"
+        },
+        "Gabriel Bortoleto": {
+          "alias": [
+            "Gabriel Bortoletto"
+          ],
+          "team": "Sauber",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "rookie": true,
+          "note": "Formula 3 champion and then Formula 2 champion, back to back"
+        },
+        "Alexander Albon": {
+          "alias": [
+            "Alex Albon"
+          ],
+          "team": "Williams",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0
+        },
+        "Carlos Sainz": {
+          "alias": [
+            "Carlos Sainz Jr."
+          ],
+          "team": "Williams",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 4,
+          "new_team": true,
+          "quotes": {
+            "good": [
+              "Smooth. Very smooth."
+            ]
+          }
+        },
+        "Franco Colapinto": {
+          "team": "Alpine",
+          "titles": 0,
+          "champion_years": [],
+          "wins": 0,
+          "new_team": true,
+          "note": "who came up from the reserve seat to take the second Alpine"
+        }
+      },
+      "teams": {
+        "McLaren": {
+          "strength": "the best car in the pit lane, and the kindest of all of them to its tyres",
+          "note": "the reigning constructors' champions"
+        },
+        "Ferrari": {
+          "strength": "a strong race car, and the driver line-up everyone is talking about"
+        },
+        "Red Bull": {
+          "strength": "enormous performance once the window is found",
+          "weakness": "a car that is very hard to drive when it is not"
+        },
+        "Mercedes": {
+          "strength": "a much better-behaved car than the ones that came before it"
+        },
+        "Williams": {
+          "strength": "a genuine step forward, and an experienced driver to make use of it"
+        },
+        "Racing Bulls": {
+          "strength": "a quick car on its day, in the hands of two very young drivers"
+        },
+        "Aston Martin": {
+          "weakness": "a car that has not moved forward, with everything aimed at next season"
+        },
+        "Alpine": {
+          "weakness": "a difficult car and a difficult season in front of them"
+        },
+        "Haas": {
+          "strength": "a completely reworked car after last year's problems"
+        },
+        "Sauber": {
+          "weakness": "a car that belongs at the back of the grid, and a long wait for a works future"
+        }
+      }
+    }
+  }
+}

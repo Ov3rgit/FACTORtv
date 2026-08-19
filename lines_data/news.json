@@ -1,0 +1,1185 @@
+{
+ "_comment": [
+  "FACTORtv — THE NEWS FEED.",
+  "",
+  "Three feeds, and only one of them is new knowledge.",
+  "",
+  "1. MILESTONES. These are the SAME EVENTS THE BOOTH ALREADY SPEAKS — a",
+  "   maiden win, a first title, a champion adding another. They are rendered",
+  "   from drivers.standing() and drivers.just_won_title(), the exact functions",
+  "   the commentary uses, and NOT from a second detector. A parallel detector",
+  "   would eventually print a headline contradicting Chuck, and the viewer",
+  "   would believe the one he can re-read.",
+  "",
+  "2. HIS OWN SEASON'S DRAMA. Generated from the career store and true by",
+  "   construction: a new championship leader, a lead coming down, a man",
+  "   winning most of the rounds. No per-season content, and it works",
+  "   identically in karting and in Formula One.",
+  "",
+  "3. PERIOD CONTROVERSY. Written per real season and era-gated. This is",
+  "   KNOWLEDGE, like driver records, and it obeys the same rule they do:",
+  "   NEVER NARRATE AN EVENT IN HIS SEASON THAT DID NOT HAPPEN. So it arrives",
+  "   as PADDOCK CONTEXT — the row about the rear wings, the directive on pit",
+  "   stops — which is period-true, claims nothing about his races, and cannot",
+  "   be contradicted by his own standings.",
+  "",
+  "Every slot is a fact the career store holds. {n} is a count and is written",
+  "out in words by the generator, never as a digit.",
+  "",
+  "A NOTE ON THE QUOTES. `news_needle` and `news_rivalry_ai` contain INVENTED",
+  "quotes, attributed in-world to whichever driver the career happens to be",
+  "racing — which may be a real name, because rF2's mods ship real grids.",
+  "They are a dramatisation and nothing more: no line here is a real",
+  "statement by a real person, and none of it is reported speech.",
+  "",
+  "The overlay says so out loud — see the DISCLAIMER row in the settings",
+  "menu, which exists specifically for this content.",
+  "",
+  "WHAT THE NEEDLE MAY BE ABOUT: driving, pace, and whether a rival has",
+  "earned his reputation yet. Never anybody's character, private life or",
+  "anything outside the sport. That restraint is also what makes them read",
+  "as real — actual paddock needle is almost always about the racing."
+ ],
+ "news_title_first": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} is champion for the first time",
+   "body": [
+    "{drv} has won the {series} championship, and it is the first of a career. A first title is not like the ones that may follow it: everything before it is potential and everything after it is record. The paddock has watched him arrive at this for a while now, and it arrived the way these things usually do — not with one enormous afternoon, but with a season in which he was rarely anything other than there.",
+    "What happens next is the interesting part. The sport has a long history of first-time champions who never won another, and of first-time champions who turned out to have been only getting started, and nothing in the numbers tells you which kind you are looking at until several years have gone by."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "A first title for {drv}",
+   "body": [
+    "{drv} has won the {series} championship for the first time. The sport has a habit of treating a first title as a beginning, which it sometimes is, and as a promise, which it is not — a great many first-time champions never won a second, and almost none of them saw that coming.",
+    "What can be said is that a first championship changes how a driver is looked at, in his own garage as much as anywhere else. He stops being the one with potential. That is a heavier thing to carry than it sounds."
+   ]
+  }
+ ],
+ "news_title_more": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} takes another championship",
+   "body": [
+    "{drv} has taken the {series} title again, and the number beside his name has moved once more. Repeat champions are judged differently from first-time ones and always have been — the question stops being whether he can do it and becomes how long he intends to go on doing it.",
+    "There is a version of this sport where a driver wins one championship and spends the rest of his career explaining it. He is not in that version. He is in the other one, where the record is now the thing his rivals have to plan around."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} adds to the collection",
+   "body": [
+    "Another {series} championship for {drv}, and the interesting question about a repeat champion is never whether he is quick. It is how long he intends to keep doing something that most people cannot sustain for more than a couple of years.",
+    "Careers like this are built out of seasons that look ordinary from the outside. The consistency is the achievement; the trophies are simply where it shows up."
+   ]
+  }
+ ],
+ "news_first_win": [
+  {
+   "from": "FACTORtv News",
+   "subject": "First win for {drv}",
+   "body": [
+    "{drv} has won a race for the first time. Every driver on a grid is waiting for this and most of them wait longer than they expected to, so the ones who get there tend to remember the afternoon in far more detail than the ones who go on to win thirty.",
+    "It changes very little on paper and rather a lot in practice. A driver who has won knows the last part of the job — the part nobody can teach him, and the part nobody can prove he has until the day he does it."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} wins one at last",
+   "body": [
+    "A first victory for {drv}, in the {series} championship. There is a specific look on a driver's face the first time, and it is not joy exactly — it is closer to relief, because up to that afternoon the question was always going to be asked.",
+    "The record will show a win and the record will not show what it took. Most drivers who get here waited longer than they told anybody they were waiting, and most of them remember the weekend in far more detail than they remember the ones that followed."
+   ]
+  }
+ ],
+ "news_win_tally": [
+  {
+   "from": "FACTORtv News",
+   "subject": "Win number {n} for {drv}",
+   "body": [
+    "That is {n} career victories for {drv} after another win in the {series} championship. Totals like this accumulate quietly — a driver sits on four of them for a long time, and then one weekend the number is one nobody expected to be discussing.",
+    "The sport keeps these figures because they are the only honest way of comparing men who never raced each other. What they cannot tell you is how hard any single one of them was, which is why the drivers themselves so rarely quote them."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{n} for {drv}",
+   "body": [
+    "{drv} reaches {n} career wins with another victory in the {series} championship. Numbers like that arrive slowly and then all at once, and drivers are famously bad at knowing their own.",
+    "Comparisons across eras are the sport's favourite argument and its least conclusive one. What a total does tell you is that somebody kept turning up and kept being quick, for years, which is rarer than talent."
+   ]
+  }
+ ],
+ "news_lead_change": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} takes over at the top",
+   "body": [
+    "There is a new leader of the {series} championship after round {round}: {drv} now heads the table on {pts} points. A change at the top this far into a season is worth more than the points that caused it, because it moves the pressure from one garage to another overnight.",
+    "The man who has just lost the lead will tell anyone who asks that it means nothing until the final round, and he will be technically correct and privately furious. Leading a championship and chasing one are different jobs, and very few drivers are equally good at both."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The lead changes hands in {series}",
+   "body": [
+    "Round {round} of the {series} championship has produced a new name at the top of the table: {drv}, on {pts} points, and by a margin small enough that it may not survive the next event. Championships change hands quietly far more often than they change hands dramatically.",
+    "What matters is less the swap than the fact that it happened at all. A season in which the lead moves is a season in which somebody is being made to work, and the drivers involved will all say publicly that the table means nothing at this stage."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} leads the {series} standings",
+   "body": [
+    "{drv} leads the {series} championship for the first time this season after round {round}, with {pts} points. The paddock's polite version of this is that the season has come alive; the less polite version is that somebody has finally been made to defend something.",
+    "Nobody who has done this for a living believes a mid-season lead is worth anything on its own. They do believe it changes how a driver sleeps, which over enough weekends amounts to the same thing."
+   ]
+  }
+ ],
+ "news_lead_gap": [
+  {
+   "from": "FACTORtv News",
+   "subject": "Championship lead down to {pts} points",
+   "body": [
+    "The {series} championship has tightened after round {round}, with {pts} points now separating the leader from the man behind him. Nothing in the regulations has changed and neither has the running order at most circuits; what has changed is that the arithmetic no longer does the leader any favours.",
+    "Seasons turn on stretches like this one. A lead that looked like a formality in the early rounds becomes something to be defended, and defending is where championships are usually lost rather than won."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{pts} points now covers the top two",
+   "body": [
+    "What looked like a comfortable season has stopped looking like one. After round {round} of the {series} championship, {pts} points separate the leader from the driver behind him, and the margin has been going one way for a while now.",
+    "There is a particular kind of pressure that arrives when a lead becomes a defence, and it is not the same job at all. The men who handle it well are rarely the ones who looked most comfortable when they were chasing."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The {series} title race tightens",
+   "body": [
+    "The gap at the top of the {series} standings is down to {pts} points following round {round}. It has closed rather than merely stayed small, which is the distinction that matters — a championship that has always been close is a shape, and one that is closing is a story.",
+    "From here the arithmetic starts making decisions for people. Strategy gets more conservative, incidents get more expensive, and every driver involved starts insisting that nothing has changed."
+   ]
+  }
+ ],
+ "news_dominance": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{n} wins from {of} rounds for {drv}",
+   "body": [
+    "{drv} has now won {n} of the {of} rounds run so far in the {series} championship. Dominance is uncomfortable to watch and almost impossible to argue with: it is the one thing in this sport that cannot be explained away by luck, because luck does not repeat itself that reliably.",
+    "The rest of the field will spend the winter working out which part of it is the car and which part is the man. They will get the answer roughly half right, which is the usual score."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} makes it {n} from {of}",
+   "body": [
+    "{n} wins from {of} rounds in the {series} championship, and the conversation in the paddock has shifted from whether {drv} can be beaten to what would have to happen for him to be. Nobody has a satisfying answer, which is usually the point at which a season is decided.",
+    "Runs like this are always explained afterwards, and the explanation is always too simple. What is visible from the outside is a driver who is not making the mistakes everybody else is making."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "A procession in {series}",
+   "body": [
+    "The {series} championship has produced {n} wins from {of} rounds for one driver, and the second half of the season now has a formality about it that nobody in the paddock is enjoying except the people responsible for it.",
+    "It is worth saying that dominance is not an accident and is not usually the car alone. It is a driver, an engineering group and a strategy office all failing to make the errors that everybody else makes at least twice a year."
+   ]
+  }
+ ],
+ "news_streak_podium": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} has not missed a podium yet",
+   "body": [
+    "{of} rounds into the {series} season, {drv} has finished on the podium at every one of them. Consistency of this kind attracts far less attention than a run of victories, and tends to be worth considerably more by the end of a year.",
+    "It is also the hardest thing on this list to keep going. A win requires one very good afternoon; a run like this requires the absence of a single bad one, and every driver in the paddock knows exactly how thin that margin is."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{of} rounds, {of} podiums for {drv}",
+   "body": [
+    "{drv} has been on the podium at every round of the {series} season so far. It is the least dramatic form of excellence there is and it is very often the one that ends the year holding the trophy.",
+    "The people who do this describe it as boring, which is the highest praise available in a sport where the alternative is being interesting on the way to the barriers. It ends the moment one thing goes wrong, and it has not yet."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Nothing has gone wrong for {drv}",
+   "body": [
+    "Through {of} rounds of the {series} season, {drv} has not finished off the podium. No retirements, no weekends written off, no afternoons spent explaining something to a steward.",
+    "That record is worth more in a championship than a handful of wins scattered between disasters, and it is far harder to keep going. Every driver in the paddock can tell you exactly how thin the margin is, because every one of them has lost it."
+   ]
+  }
+ ],
+ "period": {
+  "1988": [
+   {
+    "from": "FACTORtv News",
+    "subject": "Turbo era to end as regulations change",
+    "body": [
+     "The governing body has confirmed that forced induction will be legislated out of Formula One, ending an era that has produced the most powerful cars the championship has ever seen. Boost is already capped and fuel is limited, and the teams have spent this season racing an engine formula with a published expiry date.",
+     "The naturally aspirated cars that replace them will be slower in a straight line and, most in the paddock expect, considerably closer to one another. Whether that produces better racing is the argument currently being had in every motorhome up and down the pit lane."
+    ]
+   },
+   {
+    "from": "FACTORtv News",
+    "subject": "Fuel limit changing how these races are driven",
+    "body": [
+     "With a hundred and fifty litres to complete a Grand Prix and no refuelling permitted, the racing has quietly become an exercise in management. Drivers are turning the boost down on the straights and running to numbers on a pit board, which is not what most of them thought they were signing up for.",
+     "Engineers argue the regulation has produced a more interesting race than an unlimited one would. Drivers, almost without exception, do not agree — and the ones fighting for position at the end of a stint have the better of the argument."
+    ]
+   }
+  ],
+  "2021": [
+   {
+    "from": "FACTORtv News",
+    "subject": "Rivals ask for another look at rear wing tests",
+    "body": [
+     "Several teams have written to the governing body asking that the load tests applied to rear wings be revisited, following footage of wings appearing to deflect at speed. The tests are published, the parts pass them, and nobody has been accused of running anything illegal — which is precisely the complaint being made.",
+     "A revised test procedure is expected to be introduced during the season rather than at the end of it. The teams affected have pointed out, not unreasonably, that designing a part to a published test is the job."
+    ]
+   },
+   {
+    "from": "FACTORtv News",
+    "subject": "Directive issued on pit stop procedure",
+    "body": [
+     "A technical directive circulated to the teams sets minimum reaction times for the release of a car during a pit stop, following concerns that automated systems were signalling a release before the crew could confirm the car was safe. The quickest stops in this championship have been measured under two seconds.",
+     "Teams with the fastest crews have objected on the grounds that they are being penalised for competence. Race direction's position is that a wheel leaving a car in the pit lane is a safety matter and not a competitive one."
+    ]
+   },
+   {
+    "from": "FACTORtv News",
+    "subject": "Tyre pressure minimums raised again",
+    "body": [
+     "Minimum starting pressures have been raised for the coming events, with the supplier citing the loads these cars are now generating through high-speed corners. Teams have complained privately that every increase costs them performance, and that the numbers tend to arrive with very little notice.",
+     "The supplier's position is unchanged and has been for years: the pressures are a safety limit rather than a setup parameter, and a tyre run below them is being run outside what it was built for."
+    ]
+   }
+  ],
+  "2025": [
+   {
+    "from": "FACTORtv News",
+    "subject": "Cost cap submissions under review",
+    "body": [
+     "The teams have submitted their financial documentation for review, and the process is expected to take several months. The regulations that govern it are now detailed enough that most of the argument concerns what counts as a cost rather than whether a cost was incurred.",
+     "Nobody in the paddock expects a dramatic finding, and everybody in it is watching anyway. A championship in which spending is capped makes the accountants as interesting as the aerodynamicists, which is not a sentence anybody enjoys writing."
+    ]
+   },
+   {
+    "from": "FACTORtv News",
+    "subject": "Flexible bodywork tests to be tightened",
+    "body": [
+     "Revised deflection tests for front and rear wings will be introduced during the season, following a period in which several teams have run bodywork that moves more at speed than the current tests are able to detect. As ever, the parts in question pass every test currently applied to them.",
+     "The teams likely to be most affected have argued for the change to wait until the end of the year. The governing body's view is that a test which no longer measures what it was written to measure should not be left in place for another eight months."
+    ]
+   }
+  ]
+ },
+ "did_you_know": [
+  {
+   "from": "FACTORtv News",
+   "subject": "Did you know? The longest Le Mans",
+   "since": 1971,
+   "body": [
+    "The greatest distance ever covered in the Le Mans 24 Hours was set in 1971 — over five thousand three hundred kilometres, by a Porsche 917. It stood as the record for thirty-nine years, and it was set on a circuit that still ran flat out down the Mulsanne with no chicanes in it at all.",
+    "What makes the number remarkable is not the speed but the arithmetic behind it: it means averaging well over two hundred kilometres an hour for a day and a night, including every pit stop, every driver change and every minute lost in traffic."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Did you know? Six wheels",
+   "since": 1977,
+   "body": [
+    "The six-wheeled Tyrrell P34 is remembered as a curiosity, and it is worth remembering as something else: it won a Grand Prix. Sweden, 1976, a one-two finish, in a car with four small wheels at the front intended to cut frontal area while keeping the contact patch.",
+    "It was abandoned for a reason that has nothing to do with the idea being wrong. The tyre supplier had no interest in developing a bespoke ten-inch front tyre for one team, and without development the advantage quietly went away."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Did you know? The Targa Florio",
+   "since": 1973,
+   "body": [
+    "The Targa Florio was run on public roads in the Sicilian mountains over a lap of about seventy-two kilometres, which meant a driver could not learn it the way a driver learns a circuit. The great ones memorised as much as they could and drove the rest on what they could see.",
+    "It stopped counting for the World Championship in 1973, for the obvious reason. There is no version of a modern safety regime that can be applied to seventy kilometres of mountain road lined with spectators."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Did you know? A car of his own",
+   "since": 1966,
+   "body": [
+    "Jack Brabham remains the only man to have won the Formula One world championship driving a car bearing his own name, which he did in 1966. He had already won two titles with other teams before deciding he would rather build the thing himself.",
+    "It is an achievement that gets harder every year rather than easier. The gap between what one determined engineer can build and what a modern constructor produces is now measured in hundreds of people."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Did you know? Four manufacturers",
+   "since": 1957,
+   "body": [
+    "Juan Manuel Fangio won five world championships with four different manufacturers, which no driver has matched since. He had a habit of moving to whichever car looked quickest for the coming season, and of being right about it.",
+    "That is a different sport from the modern one in a specific way. A driver today signs multi-year agreements and lives with the consequences; Fangio's approach only works in a paddock small enough for everybody to know everybody."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Did you know? The Nordschleife",
+   "since": 1927,
+   "body": [
+    "The Nürburgring Nordschleife runs to about twenty kilometres and something over seventy corners, depending on who is counting and how they define a corner. It was built in the 1920s partly as a public works project, which is why it goes where it goes.",
+    "Drivers who have raced it in anger tend to say the same thing: you never learn all of it, you simply become confident about more of it. It stopped hosting the German Grand Prix in 1976, and everybody who was there understood why."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Did you know? Group B",
+   "since": 1987,
+   "body": [
+    "Group B rally cars ran for four seasons before the category was abolished at the end of 1986. They made more power than the tyres, the roads, or in some cases the drivers could reasonably use, and they remain the most romanticised machinery in the sport's history.",
+    "The reason they are romanticised is also the reason they were stopped, which is a pattern this sport repeats about once a generation. Every category remembered as a golden age was ended by something."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Did you know? The first Indianapolis 500",
+   "since": 1911,
+   "body": [
+    "The Indianapolis 500 was first run in 1911, which makes it older than almost every championship that now describes itself as historic. The surface gave the place its nickname: it was originally paved with more than three million bricks.",
+    "A yard of that brick is still exposed at the start-finish line, and the winner traditionally kisses it. Racing is not usually sentimental about its own history, so the exceptions are worth noticing."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Did you know? Michèle Mouton",
+   "since": 1982,
+   "body": [
+    "Michèle Mouton won four World Rally Championship events driving an Audi Quattro and finished runner-up in the 1982 championship, in the most dangerous machinery the sport has ever put on a public road.",
+    "She has said since that the hardest part was not the driving. It was being asked about being a woman in every interview of an entire career, while the man who finished behind her was asked about his gearbox."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Did you know? Ferrari, every season",
+   "since": 1980,
+   "body": [
+    "Ferrari have entered every season of the Formula One World Championship since it began in 1950, which no other constructor can say. Teams that looked permanent have come and gone twice over in that time.",
+    "Continuity of that kind is not only romance. It means an institutional memory — people who remember what was tried in 1978 and why it did not work — which is a real competitive asset and is almost impossible to buy."
+   ]
+  }
+ ],
+ "news_quali_pole": [
+  {
+   "from": "FACTORtv News",
+   "subject": "Pole for {drv} at round {round}",
+   "body": [
+    "{drv} took pole position for round {round} of the {series} championship, and Saturdays are where a season is quietly decided far more often than the results suggest. Nobody wins a championship on grid slots and a great many are lost on them.",
+    "A qualifying lap is the one part of a weekend where a driver is asked for everything at once with nothing to manage and nothing to save. It is also the only session where the car is as good as it is ever going to be, which is why the drivers who are quick on Saturday tend to be the ones talked about in the winter."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} quickest when it counted",
+   "body": [
+    "It was {drv} who found the lap in qualifying for round {round}, by a margin that will not appear in any headline and mattered a great deal to the people on that pit wall. The order after a qualifying session tells you more about a car than a race result usually does.",
+    "Races reward management. Saturday rewards a driver being willing to arrive at a corner faster than he is entirely sure about, and finding out on the way in whether he was right."
+   ]
+  }
+ ],
+ "news_quali_row": [
+  {
+   "from": "FACTORtv News",
+   "subject": "A front-row start for {drv}",
+   "body": [
+    "{drv} qualified {pos} for round {round} of the {series} championship, which puts him in the part of the grid where a race can be won rather than merely survived. The first corner is a different proposition from there.",
+    "Starting position matters most at circuits where it is hard to pass, and it matters least in the hands of drivers who are good in traffic. Which of those this weekend turns out to be will be obvious by the end of the first lap and impossible to predict before it."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} starts from the front row",
+   "body": [
+    "A front-row start for {drv} at round {round}, having qualified {pos}. It is the position every driver says he is not thinking about on a Friday and every engineer builds the whole Saturday programme around.",
+    "The value of it depends entirely on the circuit. At some of them the front row is worth most of a race; at others it is worth about three hundred metres, after which the afternoon starts properly and nobody cares where anyone began."
+   ]
+  }
+ ],
+ "news_form": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} has found something",
+   "body": [
+    "{drv} has been on the podium in {n} of the last four rounds of the {series} championship, which is the kind of run that changes how a driver is talked about without ever producing a headline of its own.",
+    "Form like that usually has a boring explanation — a setup direction that finally worked, or a driver who stopped trying to make up for the car. Both are worth far more over a season than a single spectacular afternoon."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "A run of results for {drv}",
+   "body": [
+    "Four rounds, {n} podiums: {drv} is in the middle of the best sequence of his {series} season, and the standings have started to reflect it.",
+    "The interesting question with any run of form is whether it is the driver or the circuits. The next three events will answer it, because they ask for entirely different things from a car, and nobody in the paddock is prepared to guess in public."
+   ]
+  }
+ ],
+ "news_climb": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} is coming back",
+   "body": [
+    "{drv} has climbed to {pos} in the {series} standings after a start to the season that gave no indication of it. Recoveries of this kind are the hardest thing in the sport to do and the easiest to overlook, because the highlights only ever show the front.",
+    "A driver who is out of contention races differently — there is nothing to protect and nothing to lose — and every so often that turns out to be the version of him that should have been racing all along."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Back into contention: {drv}",
+   "body": [
+    "{drv} is up to {pos} in the {series} standings, which is a considerably better sentence than anybody in that garage could have written earlier in the season. Recoveries are the least-reported thing in this sport and among the hardest to pull off.",
+    "There is a theory in the paddock that a driver out of contention is the most dangerous man on the circuit, because he has nothing to protect. It is not usually true, and it is spectacularly true about once a season."
+   ]
+  }
+ ],
+ "news_retro": [
+  {
+   "from": "FACTORtv News",
+   "subject": "Halfway: what {round} rounds have told us",
+   "body": [
+    "The {series} championship reaches its midpoint with {drv} leading on {pts} points, and it is worth saying that almost nothing about the first half of this season was predicted by anybody in the paddock in the winter.",
+    "Second halves rarely look like first halves. Development converges, drivers who were struggling with a car stop struggling with it, and the teams who spent the early rounds solving a problem arrive at the summer with the answer. The table is a snapshot, not a forecast."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Looking back at the first {round} rounds",
+   "body": [
+    "With {round} rounds of the {series} season run, the shape of it has become clear enough to describe: {drv} leads on {pts} points, and the gap behind him has been made and remade several times already.",
+    "What a mid-season review cannot tell you is which of the current problems are permanent. Every team in this paddock is carrying at least one, and the championship will be decided by which of them get solved before the weather turns."
+   ]
+  }
+ ],
+ "news_profile": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv}: the record so far",
+   "body": [
+    "{drv} arrives at this stage of the {series} season with {note}, which is the sort of detail that gets repeated in every broadcast until it stops being remarkable and starts being simply who he is.",
+    "Records have a way of shaping how a driver is raced by everybody around him. A man with a reputation gets a slightly wider berth at the first corner, which is worth something real and which no driver will ever admit to relying on."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The man they are all watching: {drv}",
+   "body": [
+    "Every championship has a driver whose record arrives in the room before he does, and in this one it is {drv} — {note}. Reputations of that kind are built slowly and then spent very quickly, usually at a first corner.",
+    "What a record actually buys a driver is the benefit of the doubt: from stewards, from rivals deciding whether to go round the outside, and from his own engineers when he says the car is doing something they cannot see in the data."
+   ]
+  }
+ ],
+ "news_status_riser": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} climbs out of {below}",
+   "body": [
+    "{drv} has earned a seat in {series} after a season in {below} that did what it needed to do. The step is the one that ends a great many careers before anybody outside the paddock has learned the name, and he has made it look ordinary.",
+    "What happens next is the part nobody can predict. A driver who dominates one category and disappears in the next is such a common story that the sport has stopped being surprised by it — and so is the driver who arrives, struggles for a season, and then never looks back."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "A rookie no longer: {drv}",
+   "body": [
+    "The word rookie has quietly stopped applying to {drv}, who arrives in {series} having climbed out of {below} on merit rather than on a budget. Nobody hands these seats out, whatever the paddock's more cynical residents will tell you.",
+    "He is not the finished article and nobody in his garage is pretending otherwise. What he is, on the evidence of last season, is a driver who gets faster the longer he spends in a car — which is the only quality at this level that cannot be bought."
+   ]
+  }
+ ],
+ "news_status_contender": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} arrives among the professionals",
+   "body": [
+    "A professional seat for {drv}, in {series}, and it is worth pausing on how short a time ago he was a rookie nobody had heard of. This is the level every driver in the categories below is climbing towards, and most of them never see it.",
+    "The demands change completely from here. Every driver he lines up against is somebody's employee with a contract to renew, and the margin between keeping a seat and losing one is measured in a few tenths across a season."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "From nowhere to the front: {drv}",
+   "body": [
+    "{drv} is now racing in {series}, which is a sentence that would have sounded absurd a handful of seasons ago. The climb has been quick and it has been earned in the only currency this sport recognises, which is results.",
+    "Drivers who arrive at this level with momentum tend to be either very good or very expensive. Nothing about this one suggests the second."
+   ]
+  }
+ ],
+ "news_status_champion": [
+  {
+   "from": "FACTORtv News",
+   "subject": "Champion: {drv} takes the {series} title",
+   "body": [
+    "{drv} is the {series} champion. He came into this sport at the bottom of the ladder with no record and nobody expecting anything of him, and he leaves this season with a championship on the board that nothing can ever take away.",
+    "It is worth saying what that actually took. Every division on the way up eliminates most of the drivers in it, and the ones who come through are not usually the quickest over one lap — they are the ones who kept turning up, kept finishing, and got better every single year."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The rise of {drv}",
+   "body": [
+    "A first championship for {drv}, won in {series} and built over a career that began several divisions further down. The sport produces one of these every few years and it is never the driver anybody predicted at the start.",
+    "What changes now is how he is raced. A champion gets a slightly wider berth at a first corner and a slightly harder time from everybody who has not won one, and both of those are worth real lap time over a season."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} joins the list",
+   "body": [
+    "There is a list in this sport of drivers who have won a championship, and it is shorter than people imagine. {drv} is on it as of this afternoon, having arrived in the sport with no record, no reputation and nobody expecting anything at all.",
+    "What it took is the part that does not photograph well: several seasons of learning cars that were not good enough, in categories nobody televises, against drivers who were also trying to get out. Most of them are not here any more."
+   ]
+  }
+ ],
+ "news_status_multi": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} makes it {titles}",
+   "body": [
+    "That is {titles} championships for {drv}, and the conversation about him has changed shape. One title can be a season where everything went right; the second one is the sport confirming what the first one suggested.",
+    "Multiple champions are a very short list in any category. The interesting question is no longer whether he can win — it is how long he intends to keep doing something that almost nobody sustains."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Two of a kind for {drv}",
+   "body": [
+    "{drv} has added a second championship to his record, and the sport's view of him has changed accordingly. A first title can be a season in which everything went right; a second one is the sport confirming what the first only suggested.",
+    "There is a version of this career where he wins one and spends the rest of it being asked about it. He is not in that version, and the drivers he is racing have started planning around that fact."
+   ]
+  }
+ ],
+ "news_status_legend": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv}: a career for the record books",
+   "body": [
+    "{titles} championships. At some point the sport stops describing a driver as a great one and starts describing him as part of its history, and {drv} has arrived at that point — by way of a career that started at the very bottom of the ladder and climbed every rung of it.",
+    "Careers like this are the reason the junior categories exist at all. Every kid in a kart this weekend has been told the story is possible; very occasionally somebody goes and does it, and the paddock spends the next twenty years telling it back."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The making of {drv}",
+   "body": [
+    "{titles} championships, and a career that began at the very bottom of the ladder in machinery nobody televises. The sport keeps a short list of drivers who climbed every rung of it and won at the top, and {drv} is now on that list.",
+    "Nobody in a kart this weekend needs the story explained to them. It is the one they have all been told, and it is true perhaps once a decade — which is exactly what gives it its power."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{titles} titles and counting",
+   "body": [
+    "{drv} has {titles} championships, and the conversation about him has moved from what he might do to what he has already done. Careers like this one are the reason people spend their childhoods in karts.",
+    "The sport is careless with the word great and precise with the record book. The record book says he climbed every rung of this ladder and won at the top of it, which is a sentence almost nobody gets to have written about them."
+   ]
+  }
+ ],
+ "news_fame": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} discovers the other job",
+   "body": [
+    "There is a part of this sport nobody warns a driver about, and {drv} has just arrived at it: the photographs that have nothing to do with racing, the restaurant tables that are suddenly available, and the discovery that a paper will run a picture of him buying a coffee.",
+    "Most drivers describe the same thing — that being recognised was thrilling for roughly a fortnight. The ones who last learn quickly to keep the two lives apart, and the ones who do not tend to be quicker on a Thursday than on a Sunday."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The making of a name",
+   "body": [
+    "{drv} has acquired the sort of profile that arrives without being asked for. There are magazine requests, a queue at the autograph table that did not exist last season, and — according to one weary member of his team — considerably more post than the entire garage received last year.",
+    "The paddock's view of this is unromantic and probably correct: fame is a tool, it pays for seats, and the drivers who treat it as a reward rather than a resource are the ones who end up explaining a promising career in a television studio."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Popular company",
+   "body": [
+    "It has not escaped the sports pages that {drv} is now the kind of driver photographers wait for, and the coverage has drifted some distance from lap times. He is, one columnist noted this week with no discernible embarrassment, extremely popular with a readership that could not name a single circuit.",
+    "Every era of this sport has had one, and the interesting question has never been whether the attention arrives — it is whether the driving survives it. The ones who kept winning are remembered as champions; the ones who did not are remembered as photographs."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "A queue at the merchandise stand",
+   "body": [
+    "There were caps with {drv}'s name on them at the last event, which is a small thing and a genuine milestone: nobody prints a cap for a driver who might not be there next season. The queue was longer than the one at the bar, which in this paddock is unheard of.",
+    "It is the least glamorous evidence of a rise and probably the most reliable. Sponsors read those numbers long before they read a results sheet, and a driver whose name sells a hat has a bargaining position he did not have a year ago."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The autograph queue",
+   "body": [
+    "A small and reliable measure of where a career has got to: the queue at {drv}'s autograph session ran forty minutes past its allotted time at the last event, and the organisers have quietly doubled the slot for the next one.",
+    "Drivers are famously bad at noticing this happening to them. Their engineers are not, and neither are the people who negotiate their contracts — a queue is a number, and numbers are what the conversation about next season is conducted in."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Sponsors have started calling",
+   "body": [
+    "There are two new names on {drv}'s overalls this weekend and a third, according to the paddock's better-informed gossips, waiting on the outcome of the next few rounds. None of this happens to a driver nobody has heard of.",
+    "It is the least romantic part of a rise and among the most important. Sponsorship is what turns a good season into a career, and the drivers who understand that early tend to still be racing when the ones who did not have gone home."
+   ]
+  }
+ ],
+ "news_compare": [
+  {
+   "from": "FACTORtv News",
+   "subject": "The next one?",
+   "body": [
+    "Somebody in the paddock has said the word Fangio out loud about {drv}, which tells you more about the mood around him than about anything he has actually achieved. Comparisons of that kind are cheap, and they are also how a reputation begins.",
+    "The sensible people are ignoring it and the sensible people are usually right. But every driver who ever earned that sentence heard it far too early, from somebody who turned out to have been paying attention."
+   ],
+   "since": 1958
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Echoes of a smoother era",
+   "body": [
+    "There is a quality to the way {drv} places a car that has drawn a comparison with Jim Clark from at least one broadcaster who should know better than to say it on air. It is the tidiness that invites it — the sense of a driver doing less than everybody around him and going faster for it.",
+    "Nobody who watched the original will accept the comparison and nobody making it really means it literally. What they mean is that watching this one is unusually easy on the eye, which is a real and rare thing to be able to say."
+   ],
+   "since": 1968
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "They are already saying the word",
+   "body": [
+    "It took four races for somebody to compare {drv} to Ayrton Senna, which is roughly three races longer than these things usually take. The comparison is doing no favours to anybody and it will follow him for the rest of his career either way.",
+    "What is worth noting is the specific thing being pointed at: a willingness to commit to a corner before the evidence is in. That is either the most valuable instinct in the sport or the most expensive one, and it usually takes a decade to find out which."
+   ],
+   "since": 1988
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "A record-book kind of career",
+   "body": [
+    "The comparison being made about {drv} this week is to Michael Schumacher, and it is being made about the working habits rather than the driving — the hours, the engineering meetings nobody else attends, the relentlessness of it.",
+    "That version of the comparison is more interesting than the usual one. Talent gets a driver into these categories; what he does on the Tuesdays is what decides how long he stays."
+   ],
+   "since": 1995
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The modern comparison",
+   "body": [
+    "Somebody has said the words 'a young Lewis Hamilton' about {drv} in print, which is the sort of thing that gets a driver noticed and a journalist teased. The similarity, such as it is, is the racecraft in traffic rather than anything over one lap.",
+    "It means very little and it will be repeated everywhere. That is how this works: a career gets a shorthand attached to it early, and the driver spends the next ten years either outgrowing it or being measured against it."
+   ],
+   "since": 2010
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Not since a name from the ovals",
+   "body": [
+    "The stock car paddock does not hand out comparisons lightly, and somebody has quietly made one between {drv} and Dale Earnhardt — on the specific grounds that he seems to know where a car is going to be rather than where it is.",
+    "It is a compliment about anticipation rather than aggression, whatever the name suggests to people who only remember the highlights. Drivers who have it tend to look unhurried in places where everybody else is busy."
+   ],
+   "since": 1995
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "A comparison from another discipline",
+   "body": [
+    "It is not only the single-seater people watching {drv} now. A comparison with Sébastien Loeb surfaced this week, made by somebody arguing that the defining skill is not raw pace at all but the ability to be exactly as quick on the twentieth lap as on the second.",
+    "Cross-discipline comparisons are usually nonsense and occasionally illuminating. This one has the merit of pointing at something measurable, which is more than most of them manage."
+   ],
+   "since": 2010
+  }
+ ],
+ "news_rivalry": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{a} and {b}: the fight this season is about",
+   "body": [
+    "{n} rounds into the {series} season, {a} and {b} have finished within sight of each other more often than not, and there are {pts} points between them in the championship. Neither has been able to shake the other off at any circuit this year.",
+    "Rivalries in this sport are made by arithmetic long before anybody says anything interesting about them. Two drivers who keep arriving at the same corner at the same time will eventually have a problem, and everybody in both garages knows it."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Nothing between {a} and {b}",
+   "body": [
+    "The {series} championship has narrowed to two names. {a} and {b} are separated by {pts} points after {n} rounds of finishing within a place or two of one another, which is the sort of season that decides how both of them are remembered.",
+    "The paddock's view is that the racing has been scrupulously fair so far. The paddock's other view, expressed more quietly, is that it will not stay that way — it never does, and it is usually the third-place driver who benefits."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "A season boiling down to two",
+   "body": [
+    "With {pts} points between them after {n} rounds, {a} and {b} have turned the {series} season into a two-man argument. The rest of the field has become, in the unkind phrase one engineer used this week, scenery.",
+    "What makes these fights interesting is that neither driver can afford a cautious afternoon. Every points finish the other one takes has to be answered, and that is precisely how two careful drivers end up in the gravel together."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Neither of them will let this go",
+   "body": [
+    "There are {pts} points between {a} and {b} after {n} rounds of a season that has increasingly been about the two of them. Every time one finds something the other one finds it a fortnight later, which is either coincidence or two very attentive engineering groups.",
+    "Championships fought like this tend to be decided by something neither driver controls — a failure, a safety car, a weekend where the weather does something stupid. Both of them know it, which is why neither is willing to give up a single position."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The season has two names on it",
+   "body": [
+    "{a} and {b} are separated by {pts} points, and the rest of the {series} field has spent {n} rounds watching them disappear. It has been close, and so far it has been clean.",
+    "The paddock is enjoying this more than either garage is. Fighting somebody all season is exhausting in a way that fighting for a win is not — there is no afternoon off, and no round in which finishing second quietly is good enough."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Level, and nobody blinking",
+   "body": [
+    "{a} and {b} cannot be separated in the standings after {n} rounds, which is a rarer thing than it sounds and a more uncomfortable one. There is no lead to protect and no deficit to chase; there is only whoever finishes in front on the next afternoon.",
+    "Rivalries like this one are decided by the rounds nobody remembers. Both of them will take the wins when the wins are there, and the season will turn on which of them was better at the weekend where the car was wrong and fourth was the most that was available."
+   ]
+  }
+ ],
+ "news_needle": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{b} on the new arrival: not especially impressed",
+   "body": [
+    "Asked about {a} after another weekend of the two of them finishing within touching distance, {b} was notably unmoved. “I am not especially impressed, no. Anybody can be quick when nothing has gone wrong for them yet. Ask me again when something does.”",
+    "It is the oldest move in the paddock and it is rarely accidental. A driver who talks like that about a rival is a driver who has noticed him, and everybody in the room understood the compliment buried in the insult."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The temperature rises between {a} and {b}",
+   "body": [
+    "There was no handshake after the last round, which in this paddock counts as a headline. {b} left without speaking to anybody, and {a} was asked three times whether there was a problem before giving an answer that satisfied nobody.",
+    "Neither team wants this and both teams are quietly delighted by it. Rivalries sell everything this sport has to sell, right up until the afternoon they cost somebody a championship and the sponsors discover they preferred the boring version."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{b}: “we will see”",
+   "body": [
+    "{b} has watched a great many highly rated young drivers arrive at this level and leave again. Asked this week what he made of {a}, his answer was four words long. “We will see. Yes?”",
+    "There is no way to read that as warm and no way to quote it as hostile, which is presumably the point. Drivers learn early that the safest thing to say about a rival is something that can be printed either way."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "An old-fashioned falling out",
+   "body": [
+    "Whatever has gone on between {a} and {b} did not begin this weekend, and neither of them is explaining it. What is visible is a pair of drivers who now leave each other noticeably less room than they leave anybody else on the circuit.",
+    "Stewards tend to notice these things about two events after everybody else has. Both men have been quick and both have been careful; the question is which of those goes first, and it is never the pace."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{b} is not enjoying the coverage",
+   "body": [
+    "The suggestion that {b} might be tiring of how much is being written about {a} was put to him fairly directly this week. He said he had not noticed any of it and does not read the coverage — an answer undermined slightly by his knowing exactly which magazine had run the piece.",
+    "None of this is unusual. A paddock is a small place full of people who have been the best at this since they were nine years old, and being told that somebody else is the future is not a thing any of them enjoys hearing."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{a} answers on the circuit",
+   "body": [
+    "{a} was invited several times this weekend to respond to what {b} has been saying about him, and declined every time — before qualifying ahead of him and finishing ahead of him, which the paddock took as the response.",
+    "It is the only reply that has ever worked. Everything else a driver says in that situation is available to be read back to him at the end of the season, and usually is."
+   ]
+  }
+ ],
+ "news_rivalry_ai": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{a} and {b} are not going to be friends",
+   "body": [
+    "The most interesting fight in the {series} championship at the moment does not involve the front of the field at all. {a} and {b} have been split by {pts} points for weeks and have started racing each other with an edge everybody in the paddock has noticed.",
+    "Neither of them is fighting for the title. That is exactly why it is worth watching: there is nothing to protect, no team order that makes any sense, and two drivers who have each decided the other one is the problem."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The needle down the order",
+   "body": [
+    "{a} and {b} are separated by {pts} points in a part of the {series} standings nobody outside their two garages is watching, and they are racing each other as though a championship depended on it.",
+    "Every paddock has one of these. It is rarely about anything anybody can point at, it never resolves, and it produces some of the best racing of any season precisely because neither man has anything to lose by trying."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "A private war down the order",
+   "body": [
+    "{a} and {b} have {pts} points between them and are racing each other with a commitment neither is showing to anybody else on the circuit. Nobody outside their two garages could tell you how it started.",
+    "These are the fights worth watching precisely because nothing depends on them. No team orders, no championship to protect, and two drivers who have decided this is personal."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Nothing between them after {n} rounds",
+   "body": [
+    "{a} and {b} cannot be separated in the standings after {n} rounds, which is a rarer thing than it sounds and a more uncomfortable one. There is no lead to protect and no deficit to chase; there is only whoever finishes in front on the next afternoon.",
+    "Rivalries like this one are decided by the rounds nobody remembers. Both of them will take the wins when the wins are there, and the season will turn on which of them was better at the weekend where the car was wrong and fourth was the most that was available."
+   ]
+  }
+ ],
+ "news_champion": [
+  {
+   "subject": "{drv} is the {series} champion",
+   "body": [
+    "{drv} has won the {series} championship. The table is final, the arithmetic is settled, and the number beside his name is the only one that will be remembered from this season.",
+    "Championships are not won on the afternoons people remember. They are won on the ordinary ones, where a driver takes what the day is offering instead of what he wants from it, and arrives at the last round with enough in hand that the last round does not matter."
+   ],
+   "from": "FACTORtv News"
+  },
+  {
+   "subject": "The {series} title is decided",
+   "body": [
+    "The {series} championship has been settled, and it is {drv} who takes it. A season that ran its full length has produced a final table, and he is at the top of it.",
+    "There is no asterisk on a title won over a whole season. Whatever the individual afternoons looked like, the driver who is leading after the last round is the one who was quickest at being consistent, which is a different skill from being quick and a rarer one."
+   ],
+   "from": "FACTORtv News"
+  },
+  {
+   "subject": "Champion: {drv}",
+   "body": [
+    "It is done. {drv} is the {series} champion, and the rest of the field spends the winter working out what to do about it.",
+    "The paddock will spend some time deciding whether this was a great season or merely a well-executed one, and the answer will not change the entry in the record book. He won it. That is the whole of the story, and it is enough."
+   ],
+   "from": "FACTORtv News"
+  }
+ ],
+ "news_title_maths": [
+  {
+   "from": "FACTORtv News",
+   "subject": "What {drv} needs at the final round",
+   "body": [
+    "The {series} championship comes down to one afternoon, and the arithmetic is no longer complicated. {drv} needs to finish {need} or better and the title is his, whatever {rival} does about it.",
+    "That is the position a driver spends a season trying to reach and then spends a fortnight trying not to think about. A target is a strange thing to race towards: it is not the same as racing, and every driver who has been in this position will tell you the temptation is to drive to the number rather than to the circuit."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} v {rival}: the last round, and the sum",
+   "body": [
+    "{gap} points separate {drv} and {rival} going into the final round of the {series} season. {need} is the finish that settles it in {drv}'s favour regardless of the result behind him.",
+    "Championships that reach the last round are remembered differently from ones that do not, and usually unfairly. A season is thirty afternoons of work and it gets reduced to one, which is hard on whoever loses it and does not much help whoever wins."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The {series} title: down to the last afternoon",
+   "body": [
+    "It is {drv}'s championship to lose, and the number he has to remember is {need}. Finish there or better and no result anywhere else on the circuit matters.",
+    "{rival} arrives needing everything to fall his way, which is a lighter thing to carry. The pressure at the final round almost never sits with the man chasing, and that asymmetry has decided a great many championships on its own."
+   ]
+  }
+ ],
+ "news_title_finish": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} needs only to finish",
+   "body": [
+    "The {series} championship is all but settled. {drv} arrives at the final round needing nothing more than to take the chequered flag; no result {rival} can produce would be enough to overturn what has already been done.",
+    "That is not the same as it being over. Cars stop, and a season that has been won over months can go unrewarded in an afternoon — which is why nobody in that garage will say the word champion until the flag has actually fallen."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "A formality, and not quite a formality",
+   "body": [
+    "{drv} can be crowned {series} champion with any classified finish at the final round. {rival} remains mathematically alive only in the sense that arithmetic allows it, and not in any sense a bookmaker would recognise.",
+    "Teams treat this weekend differently. The car will be checked more carefully than it has been all year and the driver will be told, repeatedly, that there is nothing to be gained by racing anybody. He will find that harder to do than it sounds."
+   ]
+  }
+ ],
+ "news_title_fight": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{n} rounds left, and {gap} points in it",
+   "body": [
+    "The {series} championship has {n} rounds to run and {gap} points between {drv} and {rival}. Neither of those numbers is comfortable, and the second one is small enough that a single afternoon can turn the whole thing over.",
+    "What decides seasons at this stage is rarely pace. It is which of them takes the fifth place that is available instead of the second place that is not, and which of them is still doing that when the arithmetic starts to feel personal."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "How the {series} title is shaping up",
+   "body": [
+    "With {n} rounds remaining, {drv} leads {rival} by {gap} points in the {series} standings. The run-in is where a championship stops being a table and starts being a countdown, and both men will now be doing the same sums between sessions.",
+    "It may well come down to the final round, and if it does the pressure will not be shared evenly. The leader has something to protect, which is a heavier thing to carry than a deficit, and the sport is full of drivers who found that out the hard way."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The run-in: {drv}, {rival} and {gap} points",
+   "body": [
+    "{gap} points is the whole of it, with {n} rounds of the {series} season still to run. A retirement either way rewrites the picture entirely, and both of them know exactly what that means for how they race each other from here.",
+    "The interesting question is whether either man changes his approach. Drivers say they do not and the evidence usually says otherwise — the racing gets more careful, the overtakes get later, and somebody eventually decides that being sensible is costing him more than it is saving."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Nothing between them with {n} to run",
+   "body": [
+    "{drv} and {rival} cannot be separated in the {series} standings with {n} rounds of the season remaining. Level on points is a strange place for a championship to be: there is no lead to defend and no deficit to attack, only the next result.",
+    "It also removes the one excuse either of them has. Neither can say he is racing to a plan, because there is no plan available beyond finishing in front of the other man, and they both know that is now the entire season."
+   ]
+  }
+ ],
+ "news_finale_title": [
+  {
+   "from": "FACTORtv News",
+   "subject": "One race left, and {chasers} can still win it",
+   "body": [
+    "The {series} season reaches its final round, and it does so with the championship unresolved. {leader} carries the lead into it by {gap} points, and {chasers} of the drivers behind can still finish the year ahead of him.",
+    "A season is nine tenths patience and one tenth this. Everything either of them has done since the opening round is now worth exactly what it is worth on Sunday evening, and nothing about the way a title race resolves has much to do with how it looked from the outside a fortnight before."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The {series} title goes to the last round",
+   "body": [
+    "Round {round} is the last of the {series} season and the championship is still to be settled. {leader} leads it, {chasers} men behind him can still take it off him, and none of them will spend this week thinking about anything else.",
+    "There is a particular quiet about a paddock in this position. The work is done, the season is what it is, and the only thing left is to go out and race with a number in the back of everybody's mind that they have all promised themselves they will ignore."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "It comes down to Sunday",
+   "body": [
+    "This season's last race is upon us. The {series} championship arrives at round {round} with {leader} in front and the thing still live — {chasers} of the men chasing him can leave this weekend as champion, and all of them know exactly what they need.",
+    "Nobody manages a finale well by talking about managing it. The drivers who come through these afternoons tend to be the ones who treat them as one more race, which is easy to say in the week before and very hard to do once the lights go out on it."
+   ]
+  }
+ ],
+ "news_finale_decided": [
+  {
+   "from": "FACTORtv News",
+   "subject": "A champion already, and one race still to run",
+   "body": [
+    "The {series} season goes to its final round with the championship already in {champ}'s hands, which changes what the afternoon is for rather than making it pointless. There is a season's worth of places behind him still being argued over, and every one of them is somebody's year.",
+    "Drivers will tell you a dead rubber does not exist. A seat for next season, a first podium, a result that turns a quiet year into a respectable one — the things being raced for at the back of a finale are usually worth more to the men involved than the trophy at the front."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The last round of the {series} season",
+   "body": [
+    "Round {round} closes out the {series} season, and it does so with the title settled: {champ} has done that work already. What is left is the rest of the table, and the rest of the table has been nowhere near as tidy.",
+    "This is the race where a season stops being a championship and becomes a set of individual afternoons — the man who needs one more finish, the man who has not been on the podium yet, the man whose whole winter depends on what a team manager thinks of him on Sunday evening."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{champ} arrives at the finale with it already won",
+   "body": [
+    "This season's last race is upon us, and the {series} championship is not the question — {champ} answered that one already. It is still the last time this field will be on a circuit together, and there is more riding on that than the standings make obvious.",
+    "The end of a season has a habit of producing racing nobody expected, for the simple reason that a driver with nothing left to protect drives differently. Every year somebody finishes the campaign with the best afternoon they have had all season, and every year it surprises the people watching."
+   ]
+  }
+ ],
+ "news_finale": [
+  {
+   "from": "FACTORtv News",
+   "subject": "This season's last race is upon us",
+   "body": [
+    "Round {round} is the final round of the {series} season, and whatever this year turned out to be, it ends on Sunday. A season is a long thing while it is happening and a very short one to look back on, and it is only in the last week of one that anybody notices the difference.",
+    "The finale is also where the paddock quietly starts thinking about next year. Conversations that have been politely postponed since the middle of the season tend to happen in the hour after the last chequered flag, which is why a good result in this race is worth rather more than the points on it."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The {series} season ends here",
+   "body": [
+    "The {series} field arrives at round {round}, the last of the season. Everything anybody has done since the opening round has already been done; what remains is one afternoon, and then a winter of talking about it.",
+    "Finales tend to be raced harder than the results suggest. There is no next weekend to be sensible for, and a driver who has spent a season being careful with a car has one last chance to find out what it will do if he stops being careful with it."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "One more to go",
+   "body": [
+    "This is it for the {series} season — round {round}, and then it is over. The build-up to a finale is unlike the build-up to anything else on a calendar, because for once nobody can put anything off until the next one.",
+    "Whatever the standings say by Sunday evening, the drivers in this field will spend the winter with this afternoon as the last thing anybody saw them do. That is a strange amount of weight to hang on one race, and every one of them is aware of it."
+   ]
+  }
+ ],
+ "news_title_win": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} must win it",
+   "body": [
+    "There is no calculation left for {drv} at the final round of the {series} season. He has to win the race, and nothing short of that is enough to take the championship from {rival}.",
+    "It is the cleanest position a title fight can arrive at and much the hardest to execute. A driver who needs a result can manage a race; a driver who needs a victory has to go and take one from a field that has no particular interest in helping him."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The {series} title: winner takes it",
+   "body": [
+    "The {series} championship reduces to a single instruction for {drv} - win the final round. Any other result hands the title to {rival}, whatever else happens on the circuit that afternoon.",
+    "Seasons that end like this are the reason people watch championships rather than races. Both men will have spent the winter working towards a weekend neither of them can now control, and one of them is going to spend the next one thinking about a single corner."
+   ]
+  }
+ ],
+ "news_arrival_debut": [
+  {
+   "from": "FACTORtv News",
+   "subject": "A new face on the grid",
+   "body": [
+    "There is a name on the {series} entry list that nobody in the paddock has seen before. {drv} joins the championship this season with no record behind him, no reputation to defend and nobody with any particular expectation of what he is going to do.",
+    "That is a rarer position than it sounds and it does not last. For one season a driver is judged entirely on what he does in front of people, without anybody deciding in advance what he is. Most of them look back on it fondly and almost none of them enjoy it at the time."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} joins the {series} field",
+   "body": [
+    "{drv} has been added to the {series} entry list for the coming season. He arrives without a competition record of any kind, which puts him in the same position as most of the grid was once and none of them can remember clearly.",
+    "The paddock will form an opinion within three rounds and it will be roughly the right one. Racing is unusually quick at working out who can drive, and unusually slow at revising the answer afterwards, so the early weekends matter more than the calendar suggests."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Who is {drv}?",
+   "body": [
+    "A name few people can place appears on the {series} list this season. {drv} has no results anybody can look up and no history in this championship, which means the season itself is going to be the introduction.",
+    "There is no shortcut past this part. A driver arrives, races, and is either quick or is not, and the paddock decides on the evidence. What happens between now and the summer is the whole of his reputation."
+   ]
+  }
+ ],
+ "news_arrival_promoted": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} steps up to {series}",
+   "body": [
+    "{drv} moves into {series} this season, having done what the regulations asked of him in the division below. The seat was earned on results rather than granted, which is the only way up that anybody in this paddock respects.",
+    "Stepping up is a harder transition than the calendar makes it look. Everybody in the new championship arrived the same way he did, so the thing that made him quick last season is now the entry requirement rather than an advantage."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Promotion confirmed: {drv} to {series}",
+   "body": [
+    "The move is official. {drv} takes a {series} seat for the coming season after finishing high enough in the division below to earn one.",
+    "What follows is the part nobody can prepare him for. A promoted driver spends the first half of a season learning that the field is deeper than the one he left, and the good ones spend the second half of it proving that they belong anyway."
+   ]
+  }
+ ],
+ "news_arrival_champion": [
+  {
+   "from": "FACTORtv News",
+   "subject": "The {below} champion arrives in {series}",
+   "body": [
+    "{drv} steps up to {series} as the reigning {below} champion, which is a very different arrival from the ordinary kind. A title in the division below does not guarantee anything here, and everybody in this paddock knows at least one driver who proved it.",
+    "It does change how he is watched. A champion coming up is measured against what he did rather than against the other newcomers, and that is a heavier thing to carry into a first round than most people appreciate."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} brings a title into {series}",
+   "body": [
+    "The {below} championship winner joins the {series} field this season. {drv} arrives with a trophy behind him and the particular problem that comes with one: nobody will be impressed by a solid year.",
+    "Champions moving up tend to be judged early and harshly. The sport has a long memory for the ones who could not repeat it and a short one for how difficult the step actually is."
+   ]
+  }
+ ],
+ "news_arrival_switch": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} changes direction",
+   "body": [
+    "{drv} will race in {series} this coming season, a change of discipline rather than a step up. The seat above him in the division he leaves did not come, and he has chosen to go and race somewhere else instead of waiting another year for it.",
+    "Drivers who move sideways are often written off and frequently should not be. A career is not a single ladder, and a man who is quick in one kind of car has a reasonable chance of being quick in another — which is a thing this sport periodically has to relearn."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "A new direction for {drv} in {series}",
+   "body": [
+    "{drv} joins the {series} grid, having taken a seat on a different path after missing the promotion he was racing for. It is a lateral move and nobody involved is pretending otherwise.",
+    "What matters now is whether the change suits him. Some drivers spend years in the wrong machinery and look ordinary in it; a few of them move, find something that fits, and are unrecognisable within a season."
+   ]
+  }
+ ],
+ "news_arrival_newpath": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} takes on {series}",
+   "body": [
+    "Having finished what he set out to do, {drv} turns up in {series} this season with the governing body's blessing to compete somewhere entirely new. There is nothing left for him to prove where he came from, which is precisely why this is interesting.",
+    "Drivers who have won everything available to them tend to go one of two ways: they stop, or they go and find out whether it transfers. The second is much the harder choice and it is the one that produces the careers people talk about decades later."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "A champion arrives in {series}",
+   "body": [
+    "{drv} joins the {series} field having completed his arc elsewhere. It is not a promotion and it is not a step down; it is a driver with nothing left to win in one discipline arriving in another to see what happens.",
+    "The field will be curious rather than deferential. Reputations do not travel between disciplines nearly as well as the people who have them expect, and he will spend the early rounds discovering exactly how much of his is portable."
+   ]
+  }
+ ],
+ "news_dev_year": [
+  {
+   "from": "FACTORtv News",
+   "subject": "All eyes on 2021: will the development driver take the seat?",
+   "body": [
+    "{drv} has spent a season out of a racing car, and the paddock has spent it speculating. The Formula 2 champion signed a development deal rather than a race seat, which is either the most patient piece of career management in years or a year nobody gets back, and there is no way to know which until the cars run.",
+    "What is not in doubt is where the seat is. {f1team} have run the same pairing for long enough that a change is news on its own, and a development driver with a championship behind him is exactly the sort of change teams make when they have decided something. The alternative reading — that a year in the simulator is where promising drivers go quiet — has plenty of history behind it too.",
+    "The 2021 season will settle it in about three races, the way these things always are. Either he belongs there or the paddock will decide he does not, and it will decide quickly."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "A year in the dark, and a season to answer it",
+   "body": [
+    "The development year is nearly over and {drv} has not raced since taking the Formula 2 title. The arrangement was public and the terms were plain: a season of simulator work and testing in exchange for a seat at {f1team}, starting in 2021.",
+    "It is the oldest gamble in this sport. A year away costs a driver rhythm, race craft and the small brutal instincts that only come from being in traffic — and it buys him a year inside a Formula One team learning how one actually works. Some drivers come back sharper for it. Others never quite look the same again, and nobody can tell you in advance which sort they were.",
+    "He arrives alongside {lead}, which removes any question of how the season will be measured. There is no hiding place in the other side of that garage."
+   ]
+  }
+ ],
+ "news_seat_taken": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{seat} to lose the {f1team} seat",
+   "body": [
+    "{f1team} will field a new driver alongside {lead} next season, and it is {seat} who makes way. The team has not dressed it up: the seat was reviewed on performance, and the review did not go his way.",
+    "The driver replacing him is {drv}, currently serving a development year with the team after winning the Formula 2 championship. That is a considerable bet on a driver who has never started a Grand Prix, and the people making it are not in the habit of gambling.",
+    "It is a hard business and this is the hardest part of it. {seat} has been quick, has won races, and has been measured every weekend against one of the best drivers in the sport in identical machinery - which is a standard almost nobody survives indefinitely."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{f1team} confirm the change for next season",
+   "body": [
+    "The second {f1team} seat changes hands for next season. {seat} departs and {drv} arrives, promoted from the team's own development programme on the strength of a Formula 2 title.",
+    "The team's position is that the seat is earned annually and was not earned this year. Nobody has suggested {seat} has stopped being a fine driver; what has been suggested, quietly and in the way these things always are, is that the man in the simulator has been quick enough for long enough that leaving him there had become the bigger risk.",
+    "He inherits the hardest job on the grid: the other side of {lead}'s garage, where every lap is a direct comparison and there is nothing to blame it on."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "The rookie takes the seat",
+   "body": [
+    "{drv} will race for {f1team} next season, replacing {seat} alongside {lead}. He arrives with a Formula 2 championship and a year of development behind him, and not a single Grand Prix start.",
+    "Teams do not make this decision on potential alone, whatever they say publicly. They make it when the numbers in the simulator stop being encouraging and start being awkward, and when the driver those numbers are being compared against is in the other car every fortnight.",
+    "{seat} leaves with a record that will outlast the manner of his going. That is not much comfort in the week it happens, and it is usually the truth."
+   ]
+  }
+ ]
+}

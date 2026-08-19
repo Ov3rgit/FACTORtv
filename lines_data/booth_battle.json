@@ -1,0 +1,52 @@
+{
+ "_note": [
+  "THE LAYERS OF A FIGHT. A pass is a moment and it already has pools;",
+  "these are the shapes a fight takes that no single call covered.",
+  "",
+  "battle_three  - three cars, one place. The middle man is in both fights",
+  "                at once, which is the situation. {a} leads the queue,",
+  "                {b} is the meat in the sandwich, {c} is behind them.",
+  "battle_traded - the same two men swapping a place over and over. {n} is",
+  "                the number of times it has changed hands, measured, never",
+  "                asserted (LAW 17).",
+  "",
+  "EVERY LINE STANDS ALONE (LAW 14): the bag can draw any of them first, so",
+  "none of these may read as a reply to the line before it. And no two open",
+  "on the same four words - six wordings that all begin '{a} is' are one",
+  "wording with six endings.",
+  "",
+  "ERA-NEUTRAL BY CONSTRUCTION. Nothing here names a piece of equipment, a",
+  "regulation or a decade, so all of it is legal in 1966 and in 2025 and",
+  "Brett delivers the lot. Three cars fighting over one corner is the one",
+  "thing about this sport that has never changed."
+ ],
+ "battle_escaped": [
+  {"t": "And he manages to pull away! {a} holds {pos}, and {b} has run out of answers.", "i": 2},
+  {"t": "{a} has done it - he defended for {dur} and now there is {gap} in it. That place is his.", "i": 2},
+  {"t": "That is the fight over. {b} could not find a way past, and now he is {gap} adrift.", "i": 2},
+  {"t": "Watch the gap: {gap}, and growing. {a} kept his head and kept {pos}.", "i": 2},
+  {"t": "All that pressure, and {a} has come through it. {b} drops away.", "i": 2},
+  {"t": "{b} threw everything at that and it was not enough. {gap} now, and the moment has gone.", "i": 2},
+  {"t": "You have to admire that from {a} - {dur} under siege, and he is clear of it.", "i": 2},
+  {"t": "The tow is broken. {a} has {gap} in hand and {pos} is settled for now.", "i": 2}
+ ],
+ "battle_three": [
+  {"t": "Three cars, one place. {a} leads it, {b} is all over him, and {c} is all over {b}.", "i": 2},
+  {"t": "It is a queue for {pos} now - {a}, then {b}, then {c}, and nobody is getting a breath.", "i": 2},
+  {"t": "{b} is the man in trouble here. He cannot go after {a} without handing the door to {c}.", "i": 2},
+  {"t": "Look at this train: {a}, {b} and {c}, and the whole thing is being decided one corner at a time.", "i": 2},
+  {"t": "Watch {c} in all this - he is racing two cars at once, and only one of them knows it.", "i": 2},
+  {"t": "That is three abreast in everything but name. {a} holds {pos}, and he holds it from two of them.", "i": 2},
+  {"t": "Nobody in this group can afford a mistake. {a} in front, {b} and {c} waiting on exactly that.", "i": 2},
+  {"t": "The middle of that fight is the worst place to be, and {b} has been sat in it for a while now.", "i": 2}
+ ],
+ "battle_traded": [
+  {"t": "And they have swapped it again! {a} back through on {b}, and that is {n} times now.", "i": 3},
+  {"t": "{a} takes it straight back. These two have traded this place {n} times and neither will settle for it.", "i": 3},
+  {"t": "Round they go again - {pos} changes hands for the {n}th time, and it is {a} who holds it this second.", "i": 3},
+  {"t": "Every corner, one of them has a go. {n} changes of position between {a} and {b}, and it is not over.", "i": 3},
+  {"t": "This has stopped being a pass and started being a war. {a} leads it again, {n} swaps in.", "i": 3},
+  {"t": "{b} will not accept that. He was past, he is behind again, and {a} has {pos} for now.", "i": 3},
+  {"t": "You could not separate these two with a crowbar. {n} times that place has moved, and {a} has it.", "i": 3}
+ ]
+}

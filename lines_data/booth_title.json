@@ -1,0 +1,108 @@
+{
+ "_note": [
+  "THE CHAMPIONSHIP ARITHMETIC, SAID OUT LOUD.",
+  "",
+  "Every number in these lines comes from `season.title_scenarios()`, which",
+  "is proven exhaustively against every remaining permutation and returns",
+  "None the moment it cannot be exact. So {need} is never a guess and never",
+  "a likely case - it is the worst finish that wins the title whatever",
+  "everybody else does.",
+  "",
+  "NO LINE HERE MAY SAY A TITLE IS WON. These are all about what is still",
+  "required; the moment it IS won, `title_decided` and the driver-record",
+  "pools take over. A line that anticipates the result is the one thing this",
+  "feature cannot survive getting wrong.",
+  "",
+  "{need} and {pos} carry their own ordinal ('fifth'), so no template may",
+  "put a determiner in front of them (LAW 13).",
+  "Every line stands alone (LAW 14) and no two open on the same four words."
+ ],
+ "title_needs": [
+  {
+   "t": "So the arithmetic is simple enough: {need} today, and the championship is his.",
+   "i": 3
+  },
+  {
+   "t": "{drv} needs {need} this afternoon. Do that, and nothing {rival} does matters.",
+   "i": 3
+  },
+  {
+   "t": "Everything comes down to one number - {need}. That is what wins {drv} this championship.",
+   "i": 3
+  },
+  {
+   "t": "Here is the situation. {need} or better for {drv}, and the title is settled today.",
+   "i": 3
+  },
+  {
+   "t": "A season, and it reduces to this: {drv} takes {need} and it is over.",
+   "i": 3
+  },
+  {
+   "t": "The maths puts it plainly. {need} for {drv}, and {rival} can do nothing about it.",
+   "i": 3
+  }
+ ],
+ "title_needs_finish": [
+  {
+   "t": "{drv} does not need a result today. He needs to take the flag, and the championship is his.",
+   "i": 3
+  },
+  {
+   "t": "Remarkably, the arithmetic is already almost done - {drv} simply has to finish this race.",
+   "i": 3
+  },
+  {
+   "t": "All that is left for {drv} is to bring the car home. Any classified finish wins it.",
+   "i": 3
+  },
+  {
+   "t": "There is no target for {drv} this afternoon beyond the chequered flag itself.",
+   "i": 3
+  }
+ ],
+ "title_live": [
+  {
+   "t": "And that is {drv} up to {pos} - which is inside the {need} he needs. The championship is in his hands right now!",
+   "i": 3
+  },
+  {
+   "t": "{pos} for {drv}! He needs {need}. As it stands, he is champion.",
+   "i": 3
+  },
+  {
+   "t": "Look at this. {drv} is {pos}, the number is {need}, and he has just moved onto the right side of it.",
+   "i": 3
+  },
+  {
+   "t": "He has done it the hard way - {drv} into {pos}, and that wins him the title on the road.",
+   "i": 3
+  },
+  {
+   "t": "That move might have just decided a championship. {drv} is {pos}, and {need} was the target.",
+   "i": 3
+  }
+ ],
+ "title_lost": [
+  {
+   "t": "And {drv} drops to {pos} - which is outside the {need} he needs. The championship is slipping away.",
+   "i": 3
+  },
+  {
+   "t": "That is a disaster for {drv}. {pos} now, and {need} is what the title requires.",
+   "i": 3
+  },
+  {
+   "t": "He has lost the place, and he may have lost the championship with it. {drv} is {pos}.",
+   "i": 3
+  },
+  {
+   "t": "{pos} for {drv}, and on this order the title goes elsewhere. He needs {need}.",
+   "i": 3
+  },
+  {
+   "t": "The season has just turned. {drv} is down to {pos} and needs {need} to take this championship.",
+   "i": 3
+  }
+ ]
+}

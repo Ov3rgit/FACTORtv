@@ -1,0 +1,47 @@
+{
+ "_comment": [
+  "FACTORtv — SEASON PRESETS.",
+  "",
+  "A preset is a calendar plus a points system. Copy one, change the",
+  "rounds, and it appears in the overlay's New Career list — which is why",
+  "calendars live here as data rather than behind a track picker in the",
+  "menu: editing JSON is faster and more precise than clicking through 24",
+  "circuits with a mouse the game also wants.",
+  "",
+  "`slug` must be a circuit slug that track.py resolves — run",
+  "`python track.py` to list them. A round whose slug is unknown is kept",
+  "but can never be matched to a live session, so the booth will simply",
+  "never mention it.",
+  "",
+  "`open: true` means no fixed calendar: each new circuit you race becomes",
+  "the next round. You get 'round six of the season' with no setup, and",
+  "lose 'six rounds remaining' and the title maths, because with no end",
+  "date neither of those is a true statement.",
+  "",
+  "`points` is scored by finishing position, index 0 = first place. rF2's",
+  "own Points field is deliberately ignored: it is only populated inside",
+  "rF2's own championships, and on the development machine 89 of 132 races",
+  "awarded zero to every driver.",
+  "",
+  "`fastest_lap` awards one extra point for the fastest lap of the race,",
+  "F1-style, and only to a driver finishing in the points."
+ ],
+ "open": {
+  "name": "Open season",
+  "open": true,
+  "points": [
+   25,
+   18,
+   15,
+   12,
+   10,
+   8,
+   6,
+   4,
+   2,
+   1
+  ],
+  "fastest_lap": false,
+  "calendar": []
+ }
+}

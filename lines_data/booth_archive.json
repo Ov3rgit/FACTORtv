@@ -1,0 +1,427 @@
+{
+ "_comment": [
+  "FACTORtv — THE ARCHIVE BROADCAST, and the grid.",
+  "",
+  "Pre-2000 racing is presented as a fixture from the archive: Brett",
+  "Calloway leads, Chuck Brannigan alongside. Both are MODERN broadcasters",
+  "watching old footage and calling it live.",
+  "",
+  "THE RULES THESE ARE WRITTEN TO — all of them easy to break, and all of",
+  "them break immersion loudly when broken:",
+  "",
+  "1. NEITHER OF THEM WAS THERE. No 'I remember this one', no 'I raced",
+  "   against these men'. Brett is a WEC champion and Chuck a NASCAR Cup",
+  "   champion; neither has ever driven a Formula One car, and neither was",
+  "   in the race being shown.",
+  "2. THEY DO NOT KNOW HOW IT ENDS. The user is driving it. 'Of course, we",
+  "   all know what happened next' is false and ruins a career season.",
+  "3. NO YEARS, NO CIRCUIT HISTORY, NO REAL RESULTS. The cars and tracks in",
+  "   any session are an approximation of a PERIOD assembled from whatever",
+  "   mods exist, not a reconstruction of a specific event. Say 'this era',",
+  "   never 'the 1988 season'.",
+  "4. CAR AND ERA CHARACTER ONLY. What these machines demanded of a driver",
+  "   is always true and always safe. What happened at a named race is",
+  "   neither.",
+  "",
+  "Gated by year in the pool entries and by the play-by-play SEAT in",
+  "cast.py — before 2000 Brett is in the chair, and these lines come with",
+  "him. `archive_*` categories are offered only on historic sessions.",
+  "",
+  "Slots: {trk} circuit, {cls} car class, {series} field, {grid} where the",
+  "subject started, {n} a count, {pos} their place now."
+ ],
+ "archive_open": [
+  {
+   "t": "Welcome along to a fixture from the archive. Brett Calloway with you, Chuck Brannigan alongside me.",
+   "i": 2,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "We're going back for this one — an archive fixture, called as it happened.",
+   "i": 2,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "A race from the vault today, and Chuck's here to make sense of it with me.",
+   "i": 2,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "This is one from the archive, and it's a proper reminder of what these machines were.",
+   "i": 2,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "Out of the archive and onto your screen. Let's watch it unfold.",
+   "i": 2,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "An old fixture, restored and running again. Brett Calloway with you.",
+   "i": 2,
+   "year": [
+    1950,
+    1999
+   ]
+  }
+ ],
+ "archive_era": [
+  {
+   "t": "No traction control, no launch control, no help of any kind. Everything you see is the driver.",
+   "i": 1,
+   "who": "ANALYST",
+   "not": [
+    "tc"
+   ],
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "These are manual gearboxes. A missed shift here costs an engine, not a tenth.",
+   "i": 1,
+   "who": "ANALYST",
+   "not": [
+    "semiauto"
+   ],
+   "year": [
+    1950,
+    1985
+   ]
+  },
+  {
+   "t": "Look at how much they're moving in the cockpit. There's no power steering to hide behind.",
+   "i": 1,
+   "who": "ANALYST",
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "Skinny tyres, enormous power, and a driver holding the two together. That's the whole era.",
+   "i": 1,
+   "who": "ANALYST",
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "Cars of this period punished you immediately. There was no margin built in anywhere.",
+   "i": 1,
+   "who": "ANALYST",
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "Nobody in that field has a screen telling them what the car is doing. It's all through the seat.",
+   "i": 1,
+   "who": "ANALYST",
+   "year": [
+    1950,
+    1995
+   ]
+  },
+  {
+   "t": "Brakes of this era faded. You planned a race around them, not just a lap.",
+   "i": 1,
+   "who": "ANALYST",
+   "year": [
+    1950,
+    1990
+   ]
+  },
+  {
+   "t": "That's a lot of horsepower and very little downforce. It moves under them constantly.",
+   "i": 1,
+   "who": "ANALYST",
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "Safety was an afterthought in this period, and every driver out there knows it.",
+   "i": 2,
+   "who": "ANALYST",
+   "year": [
+    1950,
+    1985
+   ]
+  },
+  {
+   "t": "Racing like this asked a different question of a driver. Not 'how fast', but 'how long can you keep this up'.",
+   "i": 1,
+   "who": "ANALYST",
+   "year": [
+    1950,
+    1999
+   ]
+  }
+ ],
+ "archive_watch": [
+  {
+   "t": "Worth remembering how little these drivers had to help them.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "You don't see driving like this any more.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "This is why footage of this era is still worth watching.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "Every one of these laps was hand-made. Nothing about it is automatic.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "A different sport, in a lot of ways. Same instinct, though.",
+   "i": 1,
+   "who": "ANALYST",
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "I never raced anything like that, and watching it I'm quietly relieved.",
+   "i": 1,
+   "who": "ANALYST",
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "In a stock car you had weight and time. These men have neither.",
+   "i": 1,
+   "who": "ANALYST",
+   "year": [
+    1950,
+    1999
+   ],
+   "disc": [
+    "formula"
+   ]
+  },
+  {
+   "t": "This is the sort of thing that doesn't survive into the modern game.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "Machines like this asked for a kind of bravery the sport has since engineered out.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  }
+ ],
+ "grid_progress": [
+  {
+   "t": "{drv} started {grid}. He's up to {pos} now.",
+   "i": 1
+  },
+  {
+   "t": "That's {n} places gained by {drv} since the flag dropped.",
+   "i": 1
+  },
+  {
+   "t": "{grid} on the grid, {pos} now — a good afternoon's work from {drv}.",
+   "i": 1
+  },
+  {
+   "t": "{drv} has made {n} places up from {grid}.",
+   "i": 1
+  },
+  {
+   "t": "Started {grid}, running {pos}. {drv} is going the right way.",
+   "i": 1
+  },
+  {
+   "t": "{drv} is {n} places better off than where he qualified.",
+   "i": 1
+  }
+ ],
+ "grid_slipped": [
+  {
+   "t": "{drv} started {grid} and has slipped to {pos}.",
+   "i": 1
+  },
+  {
+   "t": "That's {n} places lost by {drv} since the start.",
+   "i": 1
+  },
+  {
+   "t": "{grid} on the grid, {pos} now. It has not gone {drv}'s way.",
+   "i": 1
+  },
+  {
+   "t": "{drv} is going backwards — {n} places down on where he started.",
+   "i": 1
+  },
+  {
+   "t": "Whatever {drv} qualified for, he isn't showing it. Down to {pos} from {grid}.",
+   "i": 1
+  }
+ ],
+ "broadcast_archive": [
+  {
+   "t": "You're watching FACTORtv Classic, from {trk}.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "This is FACTORtv Classic — an archive fixture from {trk}.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "If you've just joined us, this is FACTORtv Classic.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "FACTORtv Classic, and there's plenty of this one left.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "Stay with us here on FACTORtv Classic.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  }
+ ],
+ "broadcast_promo_archive": [
+  {
+   "t": "This is FACTORtv Classic, where we keep the old fixtures — and Miles Crawford has the modern racing over on the main channel.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "You're on FACTORtv Classic. If it's the current season you want, that's Miles Crawford on FACTORtv.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "FACTORtv Classic — the archive channel, and there is a great deal more of it where this came from.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "Everything modern lives on the main channel with Miles. Everything like this lives here with us.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "Chuck does the modern season with Miles as well. I get him for the interesting cars.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  }
+ ],
+ "broadcast_racertv_archive": [
+  {
+   "t": "Miles and I came up through RacerTV together, our sister station. He was quicker on the microphone than I ever was.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "RacerTV next door still runs the sportscar coverage, and I still watch every minute of it.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "Half this booth came out of RacerTV, and you can hear it.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  },
+  {
+   "t": "RacerTV, our sister station, is where I was taught this job, and very little of it has changed since.",
+   "i": 1,
+   "year": [
+    1950,
+    1999
+   ]
+  }
+ ]
+}

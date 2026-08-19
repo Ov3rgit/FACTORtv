@@ -1,0 +1,679 @@
+{
+ "_comment": [
+  "FACTORtv — THE INBOX.",
+  "",
+  "The dry 95%. Entry confirmations, result sheets, licence points, testing",
+  "allocations, seat offers. Written straight, because the personal mail that",
+  "arrives later only lands against this background — and because a driver's",
+  "actual inbox IS this. Nobody sends a racing driver a one-line email.",
+  "",
+  "WHY THERE ARE SO MANY VARIANTS NOW. The first version had ONE result-sheet",
+  "template with two wordings, sent after every single round. Across a career",
+  "that is sixty near-identical letters, and the user's verdict was exact: the",
+  "repetition got so bad that the personal mail became the thing he was WAITING",
+  "for — which destroys the whole mechanism, because the story only works if he",
+  "has been trained to skim.",
+  "",
+  "Two fixes, and both matter:",
+  "  1. THE RESULT SHEET DEPENDS ON THE RESULT. A win, a podium, a points",
+  "     finish, a bad afternoon and a retirement are five different letters,",
+  "     because a team manager writing the same paragraph after a victory and",
+  "     after a shunt is a team manager nobody believes in.",
+  "  2. EVERY KIND HAS SEVERAL WORDINGS, and the one chosen varies with the",
+  "     round. A letter is read once; the same letter read six times is a",
+  "     template.",
+  "",
+  "EVERY NUMBER IN HERE COMES FROM THE CAREER STORE. A slot is filled from a",
+  "recorded round, a real standings position or a real points total, because",
+  "the user can open the standings and check. An email that quotes a figure",
+  "the timing screen contradicts is worse than no email at all.",
+  "",
+  "A VARIANT MAY ASK FOR A FACT THAT DOES NOT EXIST YET — {behind} means",
+  "nothing to a championship leader — and that is safe: the composer walks the",
+  "variants until one can be filled, so a letter is never sent with a hole in",
+  "it and never silently skipped either.",
+  "",
+  "`body` is a LIST OF PARAGRAPHS. One paragraph is a notification, not a",
+  "letter, and the whole point of the inbox is that it reads like",
+  "correspondence from people with jobs.",
+  "",
+  "SLOTS — every one of them is a fact the store already holds:",
+  "  {drv} the name he races under        {series} the tier, eg 'Formula 3'",
+  "  {path} the ladder, eg 'Endurance'    {round} round number",
+  "  {rounds} rounds in the season        {pos} his championship position",
+  "  {pts} his points total               {need} position the next seat needs",
+  "  {next} the tier above                {rpos} his finish in the last round",
+  "  {races} races started in the career  {seasons} seasons completed",
+  "  {behind} points to the leader        {left} rounds still to run",
+  "",
+  "REGISTER PER SENDER, and it is the thing that makes them read as real:",
+  "  FIA        bureaucratic, passive, never warm. Notifies; does not advise.",
+  "  Team       brisk and specific. Talks about the car and next week.",
+  "  Agent      transactional and slightly pushy. Deals, seats, money."
+ ],
+ "season_open": [
+  {
+   "from": "FIA — Entries & Sporting",
+   "subject": "Entry confirmed — {series}",
+   "body": [
+    "This is to confirm receipt and acceptance of your entry for the forthcoming {series} season. Your competitor licence has been checked against the requirements for this category and no outstanding matters were found. The season runs to {rounds} rounds and the sporting regulations published for this year apply in full.",
+    "You are reminded that championship points are awarded on classified finishing positions only, and that a competitor who does not take the start is not classified. Any change of entrant, chassis or competition number must be notified in writing before the relevant event."
+   ]
+  },
+  {
+   "from": "FIA — Entries & Sporting",
+   "subject": "{series} — entry list published",
+   "body": [
+    "The entry list for the {series} season has been published and your name appears on it. Scrutineering will take place at each event in the hour before first practice, and competitors are responsible for presenting the car in the condition declared on the entry form.",
+    "The championship comprises {rounds} rounds. Points are scored on classified finishing positions, and the classification at the end of the final round determines the championship order. There is no provision for dropped scores in this category."
+   ]
+  },
+  {
+   "from": "FIA — Entries & Sporting",
+   "subject": "Sporting regulations — {series}",
+   "body": [
+    "The sporting regulations for the {series} season are now in force and have been circulated to all entrants. Competitors are responsible for familiarising themselves with them; ignorance of a published regulation has never yet been accepted as mitigation by any stewards' panel and will not be this year.",
+    "Particular attention is drawn to the articles governing driving standards, the procedure at the start, and the circumstances in which a lap time may be deleted. The season runs to {rounds} rounds."
+   ]
+  },
+  {
+   "from": "FIA — Entries & Sporting",
+   "subject": "Licence endorsement — {series}",
+   "body": [
+    "Your competitor licence has been endorsed for the {series} category and the endorsement is recorded against your licence number. It remains valid for the duration of the season subject to the usual medical requirements.",
+    "Entrants are reminded that the endorsement covers this category only. Competitors wishing to enter events outside it should apply in the normal way and allow twenty-eight days, which in this department's experience is optimistic."
+   ]
+  }
+ ],
+ "seat": [
+  {
+   "from": "Race Team — Team Principal",
+   "subject": "Welcome to {series}",
+   "body": [
+    "Delighted to have you with us for the {series} season. You will have seen the car by now; it is a genuinely different animal from what you have been driving and it will take you a few sessions to stop driving it like the old one. That is normal and we have built the test programme around it.",
+    "The engineering group will be in touch about seat fitting and pedal position before the first event. Come to us early with anything that does not feel right — we would far rather sort it in the workshop than discover it on a Saturday afternoon."
+   ]
+  },
+  {
+   "from": "Race Team — Team Manager",
+   "subject": "{series} — first event arrangements",
+   "body": [
+    "Your seat for the {series} season is confirmed and the paperwork has gone to the organisers. Travel and accreditation for the opening round are with our office; you will get passes on arrival rather than in advance, so give yourself an extra half hour at the circuit.",
+    "One thing worth saying now. This category is a step up in preparation as much as in pace, and the drivers who do well in their first season are almost always the ones who are ready before they are quick. Learn the car, finish the races, and the speed follows."
+   ]
+  },
+  {
+   "from": "Race Team — Team Principal",
+   "subject": "Before the season starts",
+   "body": [
+    "A short note before we get going, because once the season starts there is never time for one. You are here on merit, the people who make the decisions here were unanimous about it, and nobody in this building expects you to be perfect in your first year in {series}.",
+    "What we do expect is that you tell us the truth about the car. The quickest way to waste a season is a driver who says everything is fine because he thinks that is what we want to hear. It is not what we want to hear. We want the problem, early and in detail."
+   ]
+  }
+ ],
+ "result_win": [
+  {
+   "from": "Race Team — Team Manager",
+   "subject": "Round {round} — result sheet",
+   "body": [
+    "Provisional classification from round {round}: first. The timing data is with the engineering group and there is very little in it to complain about, which is not a sentence this office writes often.",
+    "You are {pos} in the championship on {pts} points. Enjoy it for the evening. We are back in the workshop on Tuesday and the car needs work regardless of what the trophy says."
+   ]
+  },
+  {
+   "from": "Race Team — Race Engineer",
+   "subject": "Round {round} debrief notes",
+   "body": [
+    "Won it. Notes are short because there is not much to fix: the balance was where we wanted it from the middle of the race onwards and the tyres came home in better condition than the runs suggested they would.",
+    "One thing for next time — the first three laps were slower than they needed to be. That is not a criticism, it is worth about a second and a half, and a second and a half is a pit stop you might not have to make. Championship stands at {pos} on {pts} points."
+   ]
+  },
+  {
+   "from": "Race Team — Team Principal",
+   "subject": "Well driven",
+   "body": [
+    "Briefly, because I know you will be doing the rounds: that was a proper win. Not an inherited one, not a lucky one, and everybody in this garage knows the difference even when the results sheet does not record it.",
+    "{pos} in the championship on {pts} points. There is a long way to go and I would rather you were slightly annoyed about something than pleased with everything, but take the evening."
+   ]
+  }
+ ],
+ "result_podium": [
+  {
+   "from": "Race Team — Team Manager",
+   "subject": "Round {round} — provisional classification",
+   "body": [
+    "Provisional classification from round {round} has you finishing {rpos}. A podium is a good weekend by any measure and the crew are pleased; the debrief will still concern itself entirely with the part that was not good enough, which is how this works.",
+    "You are {pos} in the championship on {pts} points. Championships are built out of afternoons like that one rather than out of the spectacular ones."
+   ]
+  },
+  {
+   "from": "Race Team — Race Engineer",
+   "subject": "Notes from round {round}",
+   "body": [
+    "{rpos} at round {round}, and the data says we left something on the table in the middle stint rather than at the end, which is the opposite of what it felt like from the wall. That happens more often than drivers like to hear.",
+    "Nothing to worry about. The car did what we asked and you drove it within itself, which was the right call on that surface. Championship stands at {pos} on {pts} points."
+   ]
+  },
+  {
+   "from": "Race Team — Team Manager",
+   "subject": "Round {round} — the timing package",
+   "body": [
+    "Classified {rpos} at round {round}. Provisional until the stewards publish, but there is nothing outstanding against us and no reason to expect a change.",
+    "The championship reads {pos} on {pts} points. The office will circulate the full timing package tomorrow; there is a run of laps in the second half worth looking at properly rather than in the paddock with somebody reading them over your shoulder."
+   ]
+  }
+ ],
+ "result_points": [
+  {
+   "from": "Race Team — Team Manager",
+   "subject": "Round {round} — classification",
+   "body": [
+    "Round {round}: classified {rpos}. Points on the board and the car came home in one piece, which on a weekend that was never going to be ours is the sensible outcome rather than a disappointing one.",
+    "You are {pos} in the championship on {pts} points. Seasons are long and the difference between the drivers who are there at the end and the ones who are not is almost entirely made up of afternoons like this."
+   ]
+  },
+  {
+   "from": "Race Team — Race Engineer",
+   "subject": "Round {round}: where the time went",
+   "body": [
+    "{rpos} from round {round}. Honestly, that was about what the car had in it — we were down on the leaders through the quick sections all weekend and no amount of driving was going to make that up.",
+    "The useful part is in your consistency: your spread across the stint was tighter than anybody near you. That is worth having and it is the thing that turns into results when the car is better. {pos} in the championship on {pts} points."
+   ]
+  },
+  {
+   "from": "Race Team — Team Manager",
+   "subject": "After round {round}",
+   "body": [
+    "Provisional classification: {rpos} at round {round}. The stewards had a busy afternoon but nothing involving us, and the car is going back on the truck without a list.",
+    "Championship position is {pos} on {pts} points. The engineering group will have a proper look at the middle sector before the next one; there is time in there we have not found in three visits."
+   ]
+  }
+ ],
+ "result_low": [
+  {
+   "from": "Race Team — Team Manager",
+   "subject": "Round {round} — result sheet",
+   "body": [
+    "Round {round}: classified {rpos}. Not the afternoon anybody wanted, and the debrief will be longer than usual because there are two separate problems in that result rather than one.",
+    "You are {pos} in the championship on {pts} points. Nobody here is panicking and nobody here is pretending it was fine either. We will go through it properly on Tuesday, with the data up on the screen and without anybody in the room needing to defend themselves."
+   ]
+  },
+  {
+   "from": "Race Team — Race Engineer",
+   "subject": "Round {round} — a long debrief",
+   "body": [
+    "{rpos}, and I have been through it twice. The car was not right from the second run on Saturday and we did not get on top of it — that is on the engineering side and I am not going to dress it up as anything else.",
+    "What I would say is that the last ten laps were your quickest of the weekend, in a car you had every reason to give up on. Championship stands at {pos} on {pts} points and there is a long way to go."
+   ]
+  },
+  {
+   "from": "Race Team — Team Manager",
+   "subject": "Round {round}: not our weekend",
+   "body": [
+    "Classified {rpos} at round {round}. Provisional, but there is nothing coming that will improve it.",
+    "The championship reads {pos} on {pts} points. The one useful thing to come out of the weekend is a very clear picture of what the car does when the track temperature drops, which we did not have before and which we will need in the autumn."
+   ]
+  }
+ ],
+ "result_dnf": [
+  {
+   "from": "Race Team — Team Manager",
+   "subject": "Round {round} — retirement",
+   "body": [
+    "Round {round} recorded as a retirement. The car is back at the workshop and will be stripped this week; you will get the report when there is something in it worth reading rather than a guess dressed up as a finding.",
+    "You are {pos} in the championship on {pts} points. It is a weekend's damage rather than a season's, provided we understand what happened before the next one."
+   ]
+  },
+  {
+   "from": "Race Team — Race Engineer",
+   "subject": "Round {round} — what we know so far",
+   "body": [
+    "Retirement at round {round}, and I would rather tell you what we know than speculate: the data stops in a way that suggests the failure came before anything you did about it. That is not me being kind, it is what the traces say.",
+    "We will know properly when it is apart. Championship stands at {pos} on {pts} points. Put it out of your head — there is nothing in that one for you to correct."
+   ]
+  }
+ ],
+ "licence": [
+  {
+   "from": "FIA — Licensing Department",
+   "subject": "Superlicence points — statement",
+   "body": [
+    "This statement records the superlicence points credited to your licence following the most recent round of the {series} championship, in accordance with the published points scale for this category.",
+    "Points are credited on the final classification of the championship at the end of the season, and any interim figure is indicative only. Competitors are reminded that the licence requirement for the senior categories is assessed on a rolling basis and that this department does not advise on eligibility in advance."
+   ]
+  },
+  {
+   "from": "FIA — Licensing Department",
+   "subject": "Licence — annual medical",
+   "body": [
+    "Your competitor licence records a medical examination due within the current period. Examinations must be carried out by a practitioner on the approved list and the certificate submitted to this department before the licence may be renewed for the following season.",
+    "Competitors are reminded that a licence which lapses for want of a medical certificate cannot be reinstated retrospectively, whatever the circumstances of the omission, and that the approved list is published on request."
+   ]
+  },
+  {
+   "from": "FIA — Licensing Department",
+   "subject": "Notice — competition numbers",
+   "body": [
+    "Competition numbers for the {series} championship have been allocated for the season and may not be changed once the entry list is published. Numbers are the property of the championship and revert to it at the end of the year.",
+    "Where a competitor wishes to retain a number in a subsequent season the application must be made in writing before the closing date. Applications received after that date are not considered, and the department does not enter into correspondence about the closing date."
+   ]
+  }
+ ],
+ "testing": [
+  {
+   "from": "Race Team — Team Manager",
+   "subject": "Test day allocation",
+   "body": [
+    "We have been allocated a test day and you are in the car for the whole of it. The plan is long runs rather than headline lap times: we want to understand how the car behaves as the tyres go off, because that is where our races are being decided at the moment.",
+    "Bring nothing you would not run in a race. It is a working day, the data is worth more than the stopwatch, and if it rains we will use it to learn something about the wet setup instead."
+   ]
+  },
+  {
+   "from": "Race Team — Race Engineer",
+   "subject": "Test plan",
+   "body": [
+    "Test plan for the day is attached and it is duller than you would like: three long runs, a change in the middle, and one short run at the end only if we have the tyres left for it. No qualifying simulations.",
+    "I want your feedback in the same words each time so I can compare it — pick your description of the rear on entry and stick with it all day. Half the value of a test is lost to drivers describing the same thing three different ways."
+   ]
+  },
+  {
+   "from": "Race Team — Team Manager",
+   "subject": "Filming day and sponsor commitments",
+   "body": [
+    "You are needed for a filming day next week, which is a hundred kilometres on demonstration tyres and no performance running whatsoever. It is tedious and it pays for the racing, in roughly that order.",
+    "There are also two sponsor commitments attached to it, both short. The office will send times. Wear the overalls rather than carrying them, which we should not have to say and do."
+   ]
+  }
+ ],
+ "steward": [
+  {
+   "from": "FIA — Race Direction",
+   "subject": "Notice to competitors — track limits",
+   "body": [
+    "Competitors are reminded that the track limits at each circuit are defined by the white lines, and that a lap during which a car leaves the track with all four wheels may be deleted at the discretion of the stewards. Repeated infringement will be reported to the stewards and may attract a penalty.",
+    "This notice is issued to all competitors and does not indicate that any infringement has been recorded against you."
+   ]
+  },
+  {
+   "from": "FIA — Race Direction",
+   "subject": "Notice to competitors — starting procedure",
+   "body": [
+    "Competitors are reminded of the procedure to be followed on the formation lap, and in particular that practice starts may only be carried out in the designated area and that weaving to warm tyres must not impede another competitor.",
+    "A car that moves before the signal is given will be reported to the stewards. The transponder data is the sole determinant of whether a car has moved, and the stewards do not accept video submissions on this point."
+   ]
+  },
+  {
+   "from": "FIA — Race Direction",
+   "subject": "Notice to competitors — flag signals",
+   "body": [
+    "Competitors are reminded that a yellow flag requires a reduction in speed sufficient to demonstrate that the driver has responded to it, and that no overtaking is permitted until the incident has been passed and a green flag displayed.",
+    "The stewards will assess compliance from the telemetry rather than from the driver's account of it. This notice is issued to all competitors and does not indicate that any infringement has been recorded against you."
+   ]
+  }
+ ],
+ "promotion": [
+  {
+   "from": "Driver Management",
+   "subject": "{next} — we have the seat",
+   "body": [
+    "Good news, and I will keep it short because there is paperwork behind it. Finishing {pos} in {series} has done exactly what we needed it to do, and the {next} seat is ours. I have the terms in front of me and they are fair for a driver at this stage.",
+    "Say yes and I will close it this week. It is a harder championship than the one you have just left, the field is deeper and nobody there is going to be impressed by what you did last season — but you have earned the right to find that out."
+   ]
+  },
+  {
+   "from": "Driver Management",
+   "subject": "Offer — {next}",
+   "body": [
+    "The {next} offer is on the table. They have been watching since the middle of the season and {pos} in the final standings settled it; there was a second name on their list and there is not any more.",
+    "My advice is to take it. Seats at this level do not stay open while a driver thinks, and the alternative is another year proving something you have already proved."
+   ]
+  },
+  {
+   "from": "Driver Management",
+   "subject": "Moving up",
+   "body": [
+    "It is done, or as near as makes no difference. {next} for next season, on terms I am happy with, and the medical and the licence work are formalities we will get out of the way in the next fortnight.",
+    "One piece of advice you did not ask for. Every driver who moves up spends his first three races comparing himself to the man who won the last one. Do not. Compare yourself to your own team mate, in the same car, and ignore everything else until the summer."
+   ]
+  }
+ ],
+ "missed": [
+  {
+   "from": "Driver Management",
+   "subject": "Where we are",
+   "body": [
+    "I will give you this straight, because you will hear it from somewhere else otherwise. {pos} in the championship is not enough for the {next} seat — they wanted {need} and they have taken someone who had it. There is no version of this conversation where I tell you that is unfair.",
+    "So there are two roads. Stay where you are, go again, and win it properly, which is a year of your career but it is a year that ends with nobody arguing. Or we look sideways: there are teams in other disciplines who would take you now, and I have had two of them ask about you already. Think about it and call me."
+   ]
+  },
+  {
+   "from": "Driver Management",
+   "subject": "The {next} seat",
+   "body": [
+    "The {next} seat has gone elsewhere. They wanted {need} in the championship and you finished {pos}, and I have spent two days trying to argue them past that and got nowhere worth reporting.",
+    "This is a normal part of a career and it does not read like one from where you are sitting. Another season here is not a punishment — the drivers who go up having won a championship arrive with something the ones who scraped in do not. Or we look at another discipline entirely, which is a conversation I am happy to have."
+   ]
+  }
+ ],
+ "sideways": [
+  {
+   "from": "Driver Management",
+   "subject": "Something else on the table",
+   "body": [
+    "Following on from my last note. I have a firm expression of interest from a team outside the single-seater world, and before you dismiss it, understand that this is not a consolation prize. Plenty of drivers who could not make the last step upwards have gone on to have the better career for it.",
+    "It is a different kind of racing and it asks different things of a driver. Say the word and I will arrange for you to meet them."
+   ]
+  },
+  {
+   "from": "Driver Management",
+   "subject": "A different door",
+   "body": [
+    "One more thought before you decide. The route you are on is not the only one, and the sport is full of men who spent three seasons hammering at a door that was never going to open while a different one stood ajar down the corridor.",
+    "I am not telling you to give up on it. I am telling you that a seat is a seat, that seat time is the only thing that has ever made a driver better, and that the teams asking about you are serious people. Your call, and I will back whichever way it goes."
+   ]
+  }
+ ],
+ "title": [
+  {
+   "from": "Race Team — Team Principal",
+   "subject": "{series} champion",
+   "body": [
+    "Champion. It has not sunk in here yet either, so take the evening and let it. {pts} points across {rounds} rounds, and not one of them arrived by accident — the whole factory has watched you build this since the first test.",
+    "There will be a debrief and there will be photographs and there will be people who want your time. Before all of that: thank you. Teams like ours do not get many of these, and everyone here knows exactly who put the car where it needed to be."
+   ]
+  },
+  {
+   "from": "Race Team — Team Manager",
+   "subject": "Champion — and the admin, sorry",
+   "body": [
+    "Congratulations from all of us. {pts} points and the {series} title, and the workshop has not done a stroke of useful work since the flag, which I am choosing not to notice today.",
+    "The unglamorous part: the prizegiving is compulsory, the organisers want you for media the morning after, and the car has to be presented for final scrutineering before either. I will send times. Well done — genuinely, from everyone here."
+   ]
+  }
+ ],
+ "arc_win": [
+  {
+   "from": "FIA — Licensing Department",
+   "subject": "Category eligibility — {path}",
+   "body": [
+    "Following the conclusion of the {series} championship, your competitor licence has been endorsed at the highest grade available within the {path} discipline. The endorsement is recorded against your licence number and takes effect immediately.",
+    "This endorsement carries eligibility to enter championships in other disciplines without the usual qualifying period. Competitors wishing to do so should submit an entry in the normal way; no further approval from this department is required."
+   ]
+  }
+ ],
+ "newpath": [
+  {
+   "from": "Driver Management",
+   "subject": "So — what now?",
+   "body": [
+    "You have won the thing you set out to win, and the licence endorsement came through this morning, which means the door is open to anywhere you want to go. I have spent twenty years watching drivers get to this point and freeze, so I will say the useful thing instead of the polite one.",
+    "You can start at the bottom of something new and learn it properly, or you can take a professional seat on the strength of what you have already done. Neither is wrong. What you cannot do is nothing — the sport forgets quickly, and {seasons} seasons of work is a thing worth spending."
+   ]
+  }
+ ],
+ "fia_notice": [
+  {
+   "from": "FIA — Race Direction",
+   "subject": "Notice to competitors — parc fermé",
+   "body": [
+    "Competitors are reminded that once a car has entered parc fermé no work may be carried out on it other than that listed in the permitted operations schedule. The schedule is published and is not subject to interpretation by individual teams, whatever has been agreed verbally with a scrutineer at a previous event.",
+    "Cars will be released from parc fermé at the time stated in the timetable. A team which begins work before that time will be reported to the stewards, and this has happened at three of the last five events."
+   ]
+  },
+  {
+   "from": "FIA — Race Direction",
+   "subject": "Notice to competitors — driver briefing",
+   "body": [
+    "Attendance at the drivers' briefing is compulsory for every driver entered in the event, including reserve drivers who do not expect to take part. The briefing will cover the start procedure, the pit lane entry, and any changes to the circuit since the last visit.",
+    "A driver who does not attend will be reported to the stewards. Arriving after the briefing has begun counts as not attending, which is a rule that exists because it had to be written down."
+   ]
+  },
+  {
+   "from": "FIA — Timing",
+   "subject": "Transponder allocation",
+   "body": [
+    "Transponders for the {series} season have been allocated and must be fitted in the position specified in the technical regulations. A car whose transponder is not detected will not appear in the timing and no manual classification will be issued.",
+    "Teams are responsible for checking that the unit is charged and that the mounting has not been disturbed by bodywork changes. The timing office will not take telephone calls about missing cars during a session."
+   ]
+  },
+  {
+   "from": "FIA — Entries & Sporting",
+   "subject": "Entry fees and deposits",
+   "body": [
+    "The balance of entry fees for the {series} season falls due before the next event, and the damage deposit lodged at the start of the season remains held against the return of timing equipment and passes.",
+    "Deposits are refunded within ninety days of the final round provided all equipment is returned. Competitors who have not received a refund within that period should write to this office rather than to the championship organisers, who will simply forward the letter here."
+   ]
+  },
+  {
+   "from": "FIA — Medical",
+   "subject": "Extrication and safety equipment",
+   "body": [
+    "All competitors are reminded that helmets, head restraints and overalls carry an expiry date, and that equipment which has passed it will not be accepted at scrutineering regardless of its condition. Homologation labels must be legible.",
+    "Drivers are also reminded of the extrication procedure practised at the start of the season: remain in the car, keep the wheel attached unless instructed otherwise, and allow the crew to do the work. Almost every injury this office sees in a minor incident comes after the car has stopped."
+   ]
+  },
+  {
+   "from": "FIA — Race Direction",
+   "subject": "Notice to competitors — pit lane",
+   "body": [
+    "The pit lane speed limit for the {series} season is as published in the supplementary regulations and applies from the first timing line to the last, including during practice sessions when the pit lane is otherwise empty.",
+    "Penalties for exceeding it are fixed and are not reduced on appeal. The stewards have been asked to remind competitors that the limiter is a tool and not a defence: the telemetry records the speed of the car, not the intention of the driver."
+   ]
+  }
+ ],
+ "eligible": [
+  {
+   "from": "FIA — Technical Department",
+   "subject": "Eligible machinery — {series}",
+   "body": [
+    "For the avoidance of doubt, the following cars are homologated for the {series} championship and may be entered at any round: {cars}. A car outside that list will not be classified, whatever it does on the circuit, and the timekeepers will record it as a non-starter.",
+    "Competitors running more than one eligible chassis across the season should note that no change of homologation is required between rounds. This department does not comment on which of them is quicker and has no intention of starting."
+   ]
+  },
+  {
+   "from": "FIA — Technical Department",
+   "subject": "{series} — homologation list",
+   "body": [
+    "The homologation list for the {series} season is unchanged from the version circulated with your entry pack. Eligible cars are: {cars}. Anything else presented at scrutineering will be refused, and the refusal is not appealable during an event.",
+    "Teams are reminded that the onus is on the competitor to satisfy himself that the car he has entered is on the list. The list is published; the excuse that it was not read has been tried."
+   ]
+  }
+ ],
+ "eligible_revised": [
+  {
+   "from": "FIA — Technical Department",
+   "subject": "{series} — REVISED homologation list",
+   "body": [
+    "This notice supersedes the homologation list previously circulated for the {series} championship. The eligible cars are: {cars}. Competitors should work from this version and discard the earlier one.",
+    "The names given here are the names under which the cars appear on the official entry system, which is not always the name a competitor knows them by. Where the two differ, the entry system governs — a car entered under a name nobody at the circuit recognises is a car that has not been entered."
+   ]
+  },
+  {
+   "from": "FIA — Technical Department",
+   "subject": "{series} — homologation list, second issue",
+   "body": [
+    "The {series} homologation list has been re-issued. In full, the eligible cars are: {cars}. The previous version should be treated as withdrawn with immediate effect.",
+    "Re-issues of this kind are almost always a matter of naming rather than of eligibility, and this one is no exception: the cars themselves are as they were. Competitors are nonetheless asked to check the list against what they have entered, since a discrepancy found at scrutineering is a discrepancy found too late."
+   ]
+  },
+  {
+   "from": "FIA — Technical Department",
+   "subject": "Correction — {series} eligible machinery",
+   "body": [
+    "A correction to the eligible machinery for the {series} championship. The list, in full and superseding all earlier versions, is: {cars}.",
+    "The department accepts that the previous notice named at least one car in a form that does not appear on the entry system. That is regretted. Competitors who have already entered are not required to do anything; those who have not should use the names exactly as they are given above."
+   ]
+  }
+ ],
+ "prog_offer": [
+  {
+   "from": "Your agent",
+   "subject": "Three doors, and you pick one",
+   "body": [
+    "I have three seats on the table for the Formula 2 season and I am not going to pretend they are equivalent. Each of these teams is backed by a Formula One junior programme, and the programme is what you are really choosing - the car is a consequence.",
+    "Prema Racing, backed by the Ferrari Driver Academy. ART Grand Prix, with the Mercedes junior programme behind them. Carlin, who have run Red Bull juniors for years. Any of the three will put you in a competitive car; only one of them can put you where you are trying to go.",
+    "Take your time and then do not take too much of it. These seats do not stay open, and the people offering them are talking to other drivers this week."
+   ]
+  }
+ ],
+ "prog_signed": [
+  {
+   "from": "Your agent",
+   "subject": "Signed - {f2team}",
+   "body": [
+    "It is done. You are with {f2team} for the season, and that puts {prog} behind you. I want you to understand exactly what that means, because it is not the good news everybody will tell you it is.",
+    "It means you are being watched by people who can end this. A driver with no programme has a bad season and gets another one; a driver with a programme has a bad season and gets a conversation. What you have bought yourself is attention, and attention runs both ways.",
+    "Win it. That is the whole brief and I am not going to dress it up."
+   ]
+  }
+ ],
+ "prog_won": [
+  {
+   "from": "{team}",
+   "subject": "The seat, and the condition attached to it",
+   "body": [
+    "Congratulations on the championship. The seat is yours - {f1team}, alongside {lead}, taking over from {seat}. That is not a sentence we write often and it was not written lightly.",
+    "There is a condition and it is not negotiable. You do not step into the car next season. You will spend a year with us in development - simulator, tyre work, the test programme, and a great deal of time in rooms rather than cars - and you will start in the 2021 season. Every driver we have promoted has done this year and every one of them has told us afterwards that it was the year they learned the most.",
+    "It is a year of your career and we are asking for it up front. If you would rather race, say so now and we will part on good terms. If you want the seat, sign it and we will see you at the factory."
+   ]
+  }
+ ],
+ "prog_test": [
+  {
+   "from": "{team}",
+   "subject": "Test programme — {ofn} outings, and what we need from each",
+   "body": [
+    "Your development year starts with running, not with meetings. We have {of} test days booked in the {car}, and the car is last season's — which is the point of it. You will learn this team's procedures in a car we already understand, rather than learning both at once.",
+    "The parameters for each outing, and they are not flexible:\n\nSESSION TYPE:  Practice\nCAR:           {car}\nCIRCUIT:       Your choice, and a different one each time\nDURATION:      Your choice",
+    "Book them when you like and run as long as you like; the circuits are yours to choose, but we want three different ones. Nothing you do in these sessions is scored and nothing goes on your record. That is deliberate — this is the one year of your career where nobody is counting, and you should use it accordingly."
+   ]
+  },
+  {
+   "from": "{team}",
+   "subject": "{ofn} test outings — the details",
+   "body": [
+    "Confirming the shape of your development year. {of} private test outings, all of them in the {car}. It is a year old and that is intentional: everything you learn about how we work, you learn in a car whose behaviour is already on paper.",
+    "What each outing has to be:\n\nSESSION TYPE:  Practice\nCAR:           {car}\nCIRCUIT:       Your choice, and a different one each time\nDURATION:      Your choice",
+    "Choose your own circuits — three different ones — and run for as long as you find useful. There is no classification, no timing sheet that leaves this garage, and no result. Drivers who have done this year with us say the same thing afterwards: it was the only time anybody let them make mistakes."
+   ]
+  },
+  {
+   "from": "{team}",
+   "subject": "Welcome to the development programme",
+   "body": [
+    "You will not race for us next season, and you already know that. What you will do is drive: {of} test outings in the {car}, which is last year's car and the one we use for this exactly because it holds no surprises for our engineers.",
+    "Each outing, without exception:\n\nSESSION TYPE:  Practice\nCAR:           {car}\nCIRCUIT:       Your choice, and a different one each time\nDURATION:      Your choice",
+    "The length of each run is up to you and so is the circuit, provided you give us three different ones. None of it is scored. Come out of it knowing how this team talks to a driver and the season after will not be the shock it is for most people."
+   ]
+  }
+ ],
+ "prog_test_run": [
+  {
+   "from": "{team}",
+   "subject": "Test {n} of {ofn} — {circuit}",
+   "body": [
+    "Thank you for today. {laps} laps at {circuit}, and a best of {best} — which is not the number we care about, though you will care about it and that is fine.",
+    "What we were looking at was consistency across a run and how you talk to the engineers when something does not feel right. Both were better than the last group of drivers who sat in this car. {left}"
+   ]
+  },
+  {
+   "from": "{team}",
+   "subject": "Debrief — {circuit}",
+   "body": [
+    "A useful day. {laps} laps, best of {best}. The engineers have what they wanted, which was long-run data rather than one quick lap — you will notice we never asked you for one.",
+    "The habit worth keeping from today is that you told us what the car was doing before we asked. Drivers who wait to be asked cost themselves half a season. {left}"
+   ]
+  },
+  {
+   "from": "{team}",
+   "subject": "Test {n} of {ofn} — notes",
+   "body": [
+    "{laps} laps at {circuit}, best of {best}, and no drama — which in a test programme is exactly the report we want to be writing.",
+    "You are being measured on whether you can be trusted with a car nobody is watching, and today you could. The engineers will not tell you that themselves, so take it from me: the difference between a driver who gets the seat and one who does not is almost never the lap time. {left}"
+   ]
+  }
+ ],
+ "prog_retry": [
+  {
+   "from": "{team}",
+   "subject": "Where we are",
+   "body": [
+    "You did not win it. We are aware of the reasons and some of them are real, and neither of those things changes the standings, which is the only document anybody in this building will read in five years.",
+    "The seat is still open and we are giving you another season to take it. That is not generosity, it is arithmetic: we think you are quick and we are prepared to be wrong about it once. We are not prepared to be wrong twice.",
+    "The same brief applies, and it applies harder because you have already had a year to learn the car."
+   ]
+  }
+ ],
+ "prog_dropped": [
+  {
+   "from": "{team}",
+   "subject": "Notice",
+   "body": [
+    "We are ending our association with immediate effect. Two seasons and no championship is a clear enough result and we do not think a third would read differently.",
+    "For what it is worth, and it may be worth nothing today: this is a judgement about a programme with one seat and a queue for it, not about whether you can drive. Several drivers this academy has released have gone on to have careers we would rather have been part of.",
+    "Your contract is settled to the end of the season. We wish you well, and we mean it more than the format of this letter suggests."
+   ]
+  }
+ ],
+ "prog_seat": [
+  {
+   "from": "{team}",
+   "subject": "2021 - you are in the car",
+   "body": [
+    "The year is over and you are racing. {f1team}, the {seat} car, alongside {lead}. Everything from here is measured against the other side of the garage, and you already know that.",
+    "One practical note for the first weekend: the car you want is the {f1team} entry that {seat} drove. That is your seat now, and the number goes with it.",
+    "We have spent a year telling you what this will be like. None of it will have prepared you and that is normal. Drive it."
+   ]
+  }
+ ],
+ "prog_dev1": [
+  {
+   "from": "{team}",
+   "subject": "Induction",
+   "body": [
+    "You start on Monday. Badge, medical, and four days of being shown rooms you will not be allowed back into unaccompanied. Nobody will ask you to drive anything for some weeks.",
+    "The simulator programme begins the following Tuesday and it is not what you are expecting. You are not there to be quick in it; you are there so the engineers can find out what you notice and what you do not. Say what the car is doing, in the words you would use on the radio, and resist the urge to be impressive."
+   ]
+  }
+ ],
+ "prog_dev2": [
+  {
+   "from": "{team}",
+   "subject": "Simulator - first block",
+   "body": [
+    "Forty hours in and the feedback is broadly good. You are describing understeer accurately and you are describing the rear end in language nobody here can act on, which is the ordinary place for a driver to arrive and a fixable one.",
+    "The first race of the season is this weekend. You will watch it from the engineering room with the rest of us. Some drivers find that year hard in a way they did not anticipate; if you are one of them, say so early rather than in August."
+   ]
+  }
+ ],
+ "prog_dev3": [
+  {
+   "from": "{team}",
+   "subject": "Mid-year note",
+   "body": [
+    "Half the season has gone and you have not driven a racing car in five months. That is the part of this arrangement we never manage to explain properly beforehand, so: it is normal, it is temporary, and every driver who has done this year has written us a version of the message you have been drafting.",
+    "The tyre test at the end of next month is yours. Two days, our current car, and a run plan that will bore you. Do the run plan."
+   ]
+  }
+ ],
+ "prog_dev4": [
+  {
+   "from": "{team}",
+   "subject": "Tyre test - report",
+   "body": [
+    "Two days, four hundred and thirty kilometres, and no incidents worth reporting, which in a test context is the highest praise available. Pace was within a reasonable margin of where we expected and the long runs were better than that.",
+    "More usefully: the feedback has improved beyond what the lap times show. What you said about the front axle on the second afternoon was the same thing the data said, in fewer words, and half an hour earlier. That is what this year has been for."
+   ]
+  }
+ ],
+ "prog_dev5": [
+  {
+   "from": "{team}",
+   "subject": "Seat fit",
+   "body": [
+    "Seat fit is Thursday, and after that there is nothing standing between you and the season. Bring nothing. It takes longer than anybody thinks and involves lying still in a tub of foam while eight people discuss your shoulders.",
+    "The year is effectively over. You will be told a great deal in the next fortnight about pressure, expectation and the size of the opportunity; most of it will be well meant and none of it will help. You have done the work. Go and drive the car."
+   ]
+  }
+ ]
+}
