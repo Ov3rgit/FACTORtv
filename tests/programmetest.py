@@ -839,6 +839,37 @@ check(P.bar_state(_ord) is None,
       "a driver who was not called up has no bar to chase",
       str(P.bar_state(_ord)))
 
+print("\n7k. THE ARC'S BAR IS THIRD, AND THE DASHBOARD SAYS SO")
+# Read off the live dashboard: "im in F2 and on the progress line it says P2 as
+# the goal the achieve to prgress but it is supposed to be p3 and above".
+#
+# THERE ARE GENUINELY TWO BARS ON THAT SEASON, and both are right:
+#
+#   * the LADDER wants SECOND in Formula 2 to be promoted to Formula One. The
+#     entry bar escalates 5, 4, 3, 2 all the way up the path, and finishing
+#     third without a programme is where "missing the cut is not a dead end"
+#     comes from — the sideways move to another path. `laddertest` §2 and §13
+#     protect both, and changing the data broke five checks in them.
+#   * the PROGRAMME wants THIRD, because that is what having an academy behind
+#     you is FOR. It is the number in the letters, the news, the commentary and
+#     the engineer's brief.
+#
+# So the ladder was not wrong. The dashboard was reading the wrong one of the two.
+_f1 = [t for t in L.tiers("single_seater") if t.get("key") == "f1"]
+check(_f1 and _f1[0].get("needs") == 2,
+      "the ladder still asks a driver with no programme for second",
+      "P%s" % (_f1[0].get("needs") if _f1 else "?"))
+check(P.CALLUP_BAR == 3,
+      "and the arc still asks its own driver for third", "P%s" % P.CALLUP_BAR)
+# A CALLED-UP DRIVER WITH NOTHING ON THE BOARD STILL HAS A BAR. `bar_state`
+# returns None until he has scored — rightly, there is no gap to measure — and
+# the screen used to fall through to the ladder's number for a different thing.
+_fresh = to_f2(f3_career(rounds=10), "ferrari")
+check(P.bar_state(_fresh) is None,
+      "nothing to measure before he scores", str(P.bar_state(_fresh)))
+check(P.called_up(_fresh),
+      "but he is a called-up driver, which is knowable without a measurement")
+
 print("\n8. NOTHING ABOUT IT SURVIVES A CAREER THAT DID NOT EARN IT")
 fresh = f2_career()
 check(P.state(fresh) == P.OFFERED and not P.signed(fresh)[0],

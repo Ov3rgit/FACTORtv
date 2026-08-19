@@ -3622,6 +3622,45 @@ tutorial's pointer, accent for a season waiting to be decided.
 **The lesson for any future mark on a corner control:** the canvas is not the
 screen. A panel is a window, and a window clips.
 
+### TWO BARS ON ONE SEASON, AND THE SCREEN READ THE WRONG ONE
+
+*"im in F2 and on the progress line it says P2 as the goal the achieve to prgress
+but it is supposed to be p3 and above"*.
+
+My first move was to change `ladders.json` so Formula One asks for third, and
+**five checks in `laddertest` immediately said no.** They were right:
+
+  * §2 protects the entry bar ESCALATING up the path — 5, 4, 3, 2. Making the
+    last step 3 flattens it.
+  * §13 is a whole section called "missing the cut is not a dead end": third in
+    Formula 2 is a fine season and NOT a Formula One seat, which is what produces
+    the sideways move to another path.
+
+So there are genuinely two bars on that season and both are correct:
+
+  * the LADDER wants **second** from a driver with no programme;
+  * the ARC wants **third**, because a podium being enough is *what having an
+    academy behind you is for*.
+
+That is good design and it was already in the code. **The bug was that the
+dashboard read the wrong one of the two** — `bar_state` returns None until he has
+scored, and the screen then fell through to the ladder's number for a different
+thing. A called-up driver now sees "Formula One seat — needs P3" from the moment
+he arrives, and the measured version once there is a gap to measure.
+
+**Reverting my own data change was the fix.** A test suite that stops a change is
+doing its job, and the right response is to read what it is protecting rather
+than to update it.
+
+### AND THE BASE VOLUME IS 65%
+
+*"the intro race engineer is very soft, can we have the base volume at 65"*. The
+engineer is not attenuated — the introduction speaks at the calm rung like the
+rest of his lines. The cause was the master volume sitting at 35% in his own
+settings. `DEFAULTS["volume"]` is now 0.65 so nobody has to go and find it, and a
+first-run introduction is the first thing anybody hears: if that is quiet, the
+product is quiet.
+
 ### "ANY CLICK ENDS IT" FOUGHT THE SCRIPT'S OWN INSTRUCTION
 
 *"you said it was a click to end it, but i need to click the trophy thing whcih i

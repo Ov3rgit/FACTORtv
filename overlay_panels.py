@@ -1670,6 +1670,22 @@ class PanelsMixin(object):
             bar = prog_mod.bar_state(car)
         except Exception:
             bar = None
+        # A CALLED-UP DRIVER WITH NOTHING ON THE BOARD still has the bar, and it
+        # is still third. `bar_state` returns None until he has scored — rightly,
+        # because there is no gap to measure — and the dashboard then fell
+        # through to the LADDER's requirement, which is a different number for a
+        # different thing. He read it off the screen: "on the progress line it
+        # says P2 as the goal the achieve to prgress but it is supposed to be p3".
+        if bar is None:
+            try:
+                import programme as _pm
+                if _pm.called_up(car):
+                    rows.append({"kind": "bar", "label": "Formula One seat",
+                                 "note": "needs P%d" % _pm.CALLUP_BAR,
+                                 "val": 0.0, "hot": True})
+                    bar = False        # handled; do not fall through
+            except Exception:
+                pass
         if bar:
             # THE SEAT IS THE POINT OF THIS SEASON, so it is a bar with a target
             # rather than a sentence in a list.
@@ -1681,7 +1697,7 @@ class PanelsMixin(object):
                          "val": (1.0 if bar["holding"]
                                  else max(0.05, 1.0 - min(1.0, bar["gap"] / 50.0))),
                          "good": bar["holding"], "hot": not bar["holding"]})
-        elif ev.get("needs"):
+        elif bar is None and ev.get("needs"):
             # PROMOTION IS A TARGET, so it is drawn as one. "needs P3" in a grey
             # row is a fact; a bar showing him inside or outside it is the
             # afternoon he is about to have.

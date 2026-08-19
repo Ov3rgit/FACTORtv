@@ -72,7 +72,12 @@ DEFAULTS = {
     "rivals": True,           # rival driver radio on/off
     "show_sectors": True,
     "show_map": True,
-    "volume": 0.9,
+    # 0.65 RATHER THAN 0.9, on his own listening: "the intro race engineer
+    # is very soft, can we have the base volume at 65". A default nobody
+    # has to go and find is worth more than a default that is technically
+    # louder, and a first-run introduction is the first thing anybody
+    # hears — if that is quiet, the product is quiet.
+    "volume": 0.65,
 }
 
 
