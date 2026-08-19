@@ -24,7 +24,7 @@ If you have already downloaded the plugin DLL, hand it over and the installer
 puts it in the right place:
 
 ```bash
-python install.py --plugin \path\to\rFactor2SharedMemoryMapPlugin64.dll
+python install.py --plugin C:\Users\you\Downloads\rFactor2SharedMemoryMapPlugin64.dll
 Factor2SharedMemoryMapPlugin64.dll
 ```
 
