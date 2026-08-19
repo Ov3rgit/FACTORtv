@@ -1097,6 +1097,7 @@ class BoothMixin(object):
         self._story_told = set()     # drivers already reported on this race
         self._hist_told = {}         # driver -> history angles already used
         self._season_armed = False   # has this session been matched yet?
+        self._grid_logged = False    # and has the starting grid been reported?
         self._season_round = None    # which round of the career this is
         self._season_count = False   # ...and whether it will be recorded
         self._said_launch = False    # the "career mode is running" opener
@@ -1191,6 +1192,32 @@ class BoothMixin(object):
             self._new_session(s)
         self._was_green = s.started
         self._last_et_seen = et
+        grid = getattr(s, "grid", None)
+        if grid and not self._grid_logged:
+            self._grid_logged = True
+            names = []
+            for c in sorted(s.order, key=lambda c: grid.get(c.id) or 99):
+                if grid.get(c.id):
+                    names.append("%d %s" % (grid[c.id], c.display_name))
+            self._log("GRID", "captured %d of %d: %s"
+                      % (len(names), len(s.order), ", ".join(names[:6])
+                         + (" ..." if len(names) > 6 else "")))
+        # SATURDAY'S RESULT IS BANKED HERE, ABOVE THE ON-AIR GATE.
+        #
+        # It used to be banked from the post-session speaking path, which is
+        # below that gate, and `_quali_bank` refuses to act until `s.finished` —
+        # true only at phase OVER, which is exactly when rF2 drops
+        # `mInRealtime` and `on_air` goes false. So `update_booth` returned
+        # before reaching it and the position was never stored: the 18:26 log
+        # has him qualifying P13 at Montreal and `quali_results` in the save is
+        # empty. The engineer's "last time out you put it fourth" could never
+        # have worked, and Saturday's news pieces had no data to read.
+        #
+        # THE THIRD TIME something needed at the END of a session has been found
+        # sitting under a gate that closes at the end of the session. Anything
+        # that REMEMBERS belongs in here with the rest of the housekeeping;
+        # anything that SPEAKS belongs below.
+        self._quali_bank(s)
         if not self._season_armed and s.kind == "race":
             # ONCE PER SESSION — BUT NOT UNTIL THE ANSWER CAN BE KNOWN.
             #
@@ -2120,6 +2147,21 @@ class BoothMixin(object):
             rnd = {}
         self._season_count = (bool(rnd)
                               and bool(getattr(self, "season_record", True)))
+        # SAY WHAT WAS DECIDED, EVERY TIME. A successful arm logged nothing at
+        # all, so "this is round one of the Formula 3 season" and "the match
+        # failed and I never told you" produced identical logs — and the first
+        # question asked of every session is which of those it was. LAW 23 cuts
+        # both ways: the log is only worth reading if the answer is in it.
+        if rnd:
+            self._log("SEASON", "round %s of %s%s — this session counts"
+                      % (rnd.get("n"), getattr(career, "name", "") or "?",
+                         (" at %s" % rnd.get("slug")) if rnd.get("slug") else ""))
+        else:
+            self._log("SEASON", "no round matched — off-career "
+                                "(circuit=%r class=%r year=%s)"
+                      % (getattr(circuit, "key", "") or getattr(circuit, "slug", ""),
+                         getattr(car, "cls", None),
+                         getattr(_e, "year", None)))
 
     # THE IN-SESSION PROMPT IS GONE, AND ITS ABSENCE IS THE FEATURE.
     #
@@ -2890,11 +2932,15 @@ class BoothMixin(object):
                                             or getattr(w, "started_place", 0)))
         if gap is not None and gap < 1.0:
             return "win_wire", kw
-        if (st.get("worst") or 1) - 1 >= 6:
+        # BOTH OF THESE ARE CLAIMS ABOUT THE GRID, so both are gated on having
+        # seen one — which `_has_grid` exists for and this pair was skipping.
+        # `win_charge` went further and INVENTED the slot when it was missing,
+        # `1 + places_gained`, which is the arithmetic that produced "up from
+        # thirteenth" about a car that started on the front row.
+        if self._has_grid(w) and (st.get("worst") or 1) - 1 >= 6:
             return "win_comeback", kw
-        if (getattr(w, "places_gained", 0) or 0) >= 5:
-            kw["from_pos"] = spoken_place(getattr(w, "started_place", 0)
-                                          or (1 + (w.places_gained or 0)))
+        if self._has_grid(w) and (getattr(w, "places_gained", 0) or 0) >= 5:
+            kw["from_pos"] = spoken_place(getattr(w, "started_place", 0))
             return "win_charge", kw
         if gap is not None and gap < 3.0:
             return "win_duel", kw
@@ -3160,6 +3206,7 @@ class BoothMixin(object):
         self._story_told.clear()
         self._hist_told.clear()
         self._season_armed = False
+        self._grid_logged = False
         self._season_round = None
         self._season_count = False
         self._season_done = False

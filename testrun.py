@@ -183,11 +183,19 @@ class Recorder(object):
         order = s.order
         if not order:
             return
+        # BEFORE THE GREEN, HALF OF THIS IS NORMAL rF2 AND NOT A FAULT. In the
+        # garage every car reports P255 because it has no position yet, and cars
+        # sitting in the pit box report a negative lap distance because the box
+        # is behind the timing line. Both were filed as FAIL on every tick: 250
+        # of the 669 lines in the 18:26 log, which is a log that hides the four
+        # real findings inside it. The checks that only make sense on a moving
+        # field now wait for one.
+        racing = bool(s.started)
 
         places = [c.place for c in order]
-        if places != sorted(places):
+        if racing and places != sorted(places):
             bad.append("order not sorted by place: %s" % places[:8])
-        if places and places != list(range(1, len(places) + 1)):
+        if racing and places and places != list(range(1, len(places) + 1)):
             bad.append("places not contiguous 1..N: %s" % places[:8])
 
         # Gap to leader must not decrease as you go down the order.
@@ -197,7 +205,10 @@ class Recorder(object):
             bad.append("gap-to-leader decreases at %d point(s)" % len(drops))
 
         for c in order:
-            if c.lap_dist is not None and not (-50 <= c.lap_dist <= s.track_len + 50):
+            # A CAR IN ITS BOX IS BEHIND THE LINE. Only worth reporting for a
+            # car that is actually on the circuit.
+            if (c.lap_dist is not None and not getattr(c, "in_pits", False)
+                    and not (-50 <= c.lap_dist <= s.track_len + 50)):
                 bad.append("%s lap_dist %.0f outside track %.0f"
                            % (c.display_name, c.lap_dist, s.track_len))
             if c.best_lap and not (10.0 < c.best_lap < 900.0):

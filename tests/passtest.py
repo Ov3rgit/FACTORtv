@@ -739,6 +739,42 @@ sc2._new_session(s3)
 check(not sc2._sc_state, "and the safety car does not survive the session")
 
 
+print("\n13. THE WINNER'S STORY NEEDS A GRID TO HAVE COME FROM")
+# "they once again thought the race leader started from the bottm and gained 12
+# places when he didn't". `win_charge` did not check that a grid had been seen,
+# and when it had not it INVENTED the slot as `1 + places_gained` — the
+# arithmetic that puts a front-row start at the back of the field.
+b = Booth()
+s = FakeSession(grid())
+w = s.order[0]
+w.started_place = 0            # the grid was never captured
+w.places_gained = 12           # ...so this is garbage, and must not be used
+b._story[w.id] = {"best": 1, "worst": 1}
+kind, kw = b._win_call(s)
+check(kind not in ("win_charge", "win_comeback"),
+      "with no grid, no recovery drive is claimed", str(kind))
+# ...AND WITH ONE, THE STORY IS TOLD AND THE NUMBER IS THE REAL ONE.
+w.started_place = 13
+w.places_gained = 12
+kind2, kw2 = b._win_call(s)
+check(kind2 == "win_charge", "a real charge is still called", str(kind2))
+# A GRID SLOT IS A LABEL, so `spoken_place` writes "P13" rather than a word —
+# the same rule the timing screen follows and the opposite of a POSITION in
+# prose, which is spelled out.
+check("13" in str(kw2.get("from_pos", "")),
+      "from the slot he actually started in", str(kw2.get("from_pos")))
+# THE COMEBACK IS THE SAME RULE, keyed on the worst place he ran rather than on
+# the grid, but still refused when there is no grid to have come from.
+b2 = Booth()
+s2 = FakeSession(grid())
+w2 = s2.order[0]
+w2.started_place = 0
+w2.places_gained = 0
+b2._story[w2.id] = {"best": 1, "worst": 9}
+kind3, _ = b2._win_call(s2)
+check(kind3 != "win_comeback", "nor a comeback from a race nobody measured",
+      str(kind3))
+
 print("\n" + ("ALL PASSED" if not fails else "FAILED: %d" % len(fails)))
 for f in fails:
     print("   -", f)

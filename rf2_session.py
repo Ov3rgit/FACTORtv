@@ -177,7 +177,7 @@ class Session(object):
         "air_temp", "track_temp", "raining", "wetness", "dark",
         "best_lap_time", "best_lap_driver", "best_s1", "best_s2", "best_s3",
         "started", "replay", "pit_speed_limit", "classes", "circuit",
-        "on_air", "status_message", "status_message_new",
+        "on_air", "status_message", "status_message_new", "grid",
     )
 
     def __init__(self):
@@ -666,12 +666,26 @@ class SessionTracker(object):
         rather than partly trusted: half a grid is not a grid.
         """
         n = len(s.order)
-        if not s.started and n:
+        # ONLY FROM A SESSION THAT HAS A GRID, AND ONLY WHILE THE CARS ARE ON
+        # IT. "The last sane order before the green" was too generous by a
+        # whole session: the garage order is sane — 1..N, nothing missing — and
+        # it is NOT the grid. On a weekend where rF2 published nothing usable
+        # during the countdown, the garage snapshot was the one that survived,
+        # and the booth then reported the winner as having come from last.
+        #
+        # The user, twice: *"they once again thought the race leader started
+        # from the bottm and gained 12 places when he didn't"*.
+        #
+        # `s.countdown` is exactly FORMATION/COUNTDOWN/GRIDWALK — the phases in
+        # which a car's position IS its grid slot. No snapshot from those means
+        # no grid, which every caller already handles by saying nothing.
+        if s.kind == "race" and s.countdown and not s.started and n:
             places = [c.place for c in s.order]
             sane = (all(0 < p <= n for p in places)
                     and len(set(places)) == n)
             if sane:
                 self._grid = {c.id: c.place for c in s.order}
+        s.grid = dict(self._grid)
         for c in s.order:
             c.started_place = self._grid.get(c.id) or 0
             # No grid means no claim. Reporting zero gains is honest;

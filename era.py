@@ -136,7 +136,12 @@ _RULES = [
     # (regex on class,                  key,        label,                     year, discipline, series)
     (r"formula\s*1\s*1992|f1\s*1992|1992\s*season",
      "f1_1992", "1992 Formula One", 1992, "f1", "Formula One"),
-    (r"\bf1\s*test\s*20(2\d)|formula\s*hybrid[-\s]*(\d\d)|asmg",
+    # THE DEVELOPMENT YEAR'S CAR IS AN F1 CAR. `F1_AM_2020` — the mod the 2020
+    # test programme is built on — matched nothing, so the one season the whole
+    # arc pivots on ran with no discipline at all. Same fault as the F3 class:
+    # a token followed by an underscore is still that token.
+    (r"\bf1\s*test\s*20(2\d)|formula\s*hybrid[-\s]*(\d\d)|asmg"
+     r"|f1[_\s-]*am[_\s-]*20(\d\d)",
      "f1_modern", "Formula One", 2025, "f1", "Formula One"),
     (r"\bfsr\s*20(\d\d)", "fsr", "FSR", 2026, "f1", "FSR"),
     (r"stock\s*car.*x\s*series|stockcar\s*20(\d\d)",
@@ -171,9 +176,20 @@ _RULES = [
      "touring", "Super Touring", 1998, "touring", "Super Touring"),
     (r"clio\s*cup|civic|megane|mini\s*cooper|caterham",
      "clubman", "club racing", 2013, "touring", ""),
-    (r"tatuus|usf\s*2000|f4\b|formula\s*3|\bf3\b|skip\s*barber",
+    # A MOD PREFIX IS NOT A WORD BOUNDARY. `\bf3\b` cannot match the class
+    # rF2 actually publishes for the official Formula 3 cars, `SMMGF3_2019`,
+    # because there is no boundary between "SMMG" and "F3" — so the rung the
+    # junior arc now STARTS on ran as `disc=unknown conf=none`, losing its wings,
+    # its compounds and every discipline-specific line. `F2_2019` matched all
+    # along, which is why one of the two looked right and the other did not.
+    # Anchored on what FOLLOWS the token instead: a letter or digit after it means
+    # this is some other word, and anything else is the category.
+    (r"tatuus|usf\s*2000|f4(?![0-9a-z])|formula\s*3"
+     r"|f3(?![0-9a-z])|skip\s*barber",
      "junior", "junior formula", 2018, "formula", ""),
-    (r"formula\s*renault|formula\s*2|\bf2\b|formula\s*rc|fisir",
+    (r"formula\s*renault|formula\s*2|f2(?![0-9a-z])"
+     r"|formula\s*rc|fisir|fr\s*3\.?5(?![0-9a-z])"
+     r"|fr\s*2[.\s]*0(?![0-9a-z])",
      "junior_sr", "formula racing", 2012, "formula", ""),
     (r"kart", "kart", "karting", 2014, "kart", ""),
 ]

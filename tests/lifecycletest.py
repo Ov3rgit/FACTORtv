@@ -409,5 +409,63 @@ finally:
     _sh.rmtree(_dir, ignore_errors=True)
 
 
+print("\n14. THE GRID IS THE GRID, NOT THE GARAGE ORDER")
+# Reported twice, the second time as: "they once again thought the race leader
+# started from the bottm and gained 12 places when he didn't". The capture took
+# the LAST SANE ORDER BEFORE THE GREEN, and the garage order is sane — 1..N,
+# nothing missing — while being nothing to do with where anybody starts.
+import rf2_session as R2
+
+
+class _C(object):
+    def __init__(self, cid, place):
+        self.id = cid
+        self.place = place
+        self.started_place = 0
+        self.places_gained = 0
+
+
+class _S(object):
+    def __init__(self, places, kind="race", countdown=False, started=False):
+        self.order = [_C(i, p) for i, p in enumerate(places)]
+        self.kind = kind
+        self.countdown = countdown
+        self.started = started
+        self.grid = {}
+
+
+def _track(tracker, s):
+    R2.SessionTracker._track_grid(tracker, s)
+    return s
+
+
+t = R2.SessionTracker.__new__(R2.SessionTracker)
+t._grid = {}
+# THE GARAGE IS NOT A GRID, even though its order is perfectly contiguous.
+_track(t, _S([1, 2, 3, 4], kind="race", countdown=False, started=False))
+check(not t._grid, "a garage order is not captured as a grid", str(t._grid))
+# THE COUNTDOWN IS. A car's place on the grid IS its position in those phases.
+_track(t, _S([4, 3, 2, 1], kind="race", countdown=True, started=False))
+check(t._grid == {0: 4, 1: 3, 2: 2, 3: 1},
+      "the grid is taken from the countdown", str(t._grid))
+# AND THE CAR THAT STARTED FOURTH AND NOW LEADS HAS GAINED THREE.
+s = _track(t, _S([1, 2, 3, 4], kind="race", countdown=False, started=True))
+gained = dict((c.id, c.places_gained) for c in s.order)
+check(gained[0] == 3, "places gained is measured against it", str(gained))
+check(s.grid == t._grid, "and the grid is published for the log", str(s.grid))
+# A QUALIFYING SESSION HAS NO GRID AT ALL, so nothing is remembered from one.
+t2 = R2.SessionTracker.__new__(R2.SessionTracker)
+t2._grid = {}
+_track(t2, _S([1, 2, 3], kind="quali", countdown=True, started=False))
+check(not t2._grid, "qualifying never captures a grid", str(t2._grid))
+# NONSENSE IS STILL REFUSED WHOLE — the P255 garage placeholder rF2 publishes.
+t3 = R2.SessionTracker.__new__(R2.SessionTracker)
+t3._grid = {}
+_track(t3, _S([255, 255, 255], kind="race", countdown=True, started=False))
+check(not t3._grid, "and a placeholder order is refused", str(t3._grid))
+s3 = _track(t3, _S([1, 2, 3], kind="race", countdown=False, started=True))
+check(all(c.places_gained == 0 for c in s3.order),
+      "no grid means no claim, rather than an invented one")
+
 print("\n" + ("FAILED: %d" % len(fails) if fails else "ALL PASSED"))
 sys.exit(1 if fails else 0)

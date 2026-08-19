@@ -770,5 +770,44 @@ finally:
     _sh3.rmtree(_d3, ignore_errors=True)
 
 
+print("\n19. SATURDAY IS BANKED EVEN THOUGH THE BOOTH HAS GONE OFF AIR")
+# From the 18:26 log: he qualified P13 at Montreal and `quali_results` in the
+# save was EMPTY. `_quali_bank` refuses to act until `s.finished`, which is only
+# true at game phase OVER — the same moment rF2 drops `mInRealtime` and `on_air`
+# goes false, so `update_booth` returned above the call every time. The third
+# time something needed at the END of a session was found under a gate that
+# closes at the end of the session.
+_qc = _S3.create("open", me="Kandasamy", rounds=4)
+_qc.data["quali"] = True
+_qc.save()
+qb = Booth()
+qb.season = _qc
+qb.career = None
+qs = FakeSession(grid(), kind="quali")
+qs.circuit = _C3()
+qs.on_air = False            # the booth is off air, as it is at phase OVER
+qs.finished = True           # ...which is exactly when the session is over
+qs.started = True
+qs.green = False
+me = qs.player
+for j, c in enumerate(qs.order):
+    c.best_lap = 90.0 + j     # a real sheet, with him last of those who ran
+qb.update_booth(qs)
+banked = _qc.data.get("quali_results") or []
+check(banked, "the qualifying position is stored with the booth off air",
+      str(banked))
+if banked:
+    check(banked[0].get("pos") == 1 + [c.id for c in sorted(
+        qs.order, key=lambda c: c.best_lap)].index(me.id),
+        "and it is where he actually finished on the sheet", str(banked[0]))
+    check(banked[0].get("n") == 1, "against the round the career is on",
+          str(banked[0].get("n")))
+# ...AND ONCE ONLY, however many ticks arrive after the flag.
+qb.update_booth(qs)
+qb.update_booth(qs)
+check(len(_qc.data.get("quali_results") or []) == 1,
+      "once, not once per tick",
+      str(len(_qc.data.get("quali_results") or [])))
+
 print("\n" + ("FAILED: %d" % len(fails) if fails else "ALL PASSED"))
 sys.exit(1 if fails else 0)

@@ -547,6 +547,263 @@
    "era": [
     "golden"
    ]
+  },
+  {
+   "t": "Same car, same engine, same tyre for all of them. Whatever you see out there is the driver.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "formula"
+   ],
+   "year": [
+    2010,
+    2100
+   ]
+  },
+  {
+   "t": "There is nowhere to hide in a series like this. You cannot blame the machinery when the man beside you has an identical one.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "formula"
+   ],
+   "year": [
+    2010,
+    2100
+   ]
+  },
+  {
+   "t": "The margins are absurd in these cars. Half a tenth is four or five places on a grid this tight.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "formula"
+   ],
+   "year": [
+    2010,
+    2100
+   ]
+  },
+  {
+   "t": "Everybody here is used to being the quickest driver they know. That is the adjustment, not the lap time.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "formula"
+   ],
+   "year": [
+    2010,
+    2100
+   ]
+  },
+  {
+   "t": "Track position is everything, because you can see the traffic building before the lap even starts.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "formula"
+   ],
+   "year": [
+    2010,
+    2100
+   ]
+  },
+  {
+   "t": "These cars want commitment through a corner. Ease off in the middle and the aerodynamics stop working for you.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "f1",
+    "formula"
+   ],
+   "year": [
+    2010,
+    2100
+   ]
+  },
+  {
+   "t": "Tyre temperature is the whole art of a lap like that. A degree either side of the window and it is gone.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "f1",
+    "formula"
+   ],
+   "year": [
+    2010,
+    2100
+   ]
+  },
+  {
+   "t": "Nobody out there is guessing any more. Every one of them has been told exactly where the lap time is before they left the garage.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "f1",
+    "formula"
+   ],
+   "year": [
+    2010,
+    2100
+   ]
+  },
+  {
+   "t": "Kerbs are part of the racing line now, and they are also how you break a car. Every driver picks his own compromise.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "f1",
+    "formula"
+   ],
+   "year": [
+    2010,
+    2100
+   ]
+  },
+  {
+   "t": "The gap between a good lap and their best is tiny at this level, which is exactly why one mistake costs so much.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "f1",
+    "formula"
+   ],
+   "year": [
+    2010,
+    2100
+   ]
+  },
+  {
+   "t": "No wings, no downforce, no help. Everything you see here is throttle, brake and where he puts the kart.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "kart"
+   ],
+   "year": [
+    1950,
+    2100
+   ]
+  },
+  {
+   "t": "Momentum is the whole thing in a kart. Scrub the speed off in the middle of a corner and you spend the next straight paying for it.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "kart"
+   ],
+   "year": [
+    1950,
+    2100
+   ]
+  },
+  {
+   "t": "Every driver on a Formula One grid learned to race in one of these. It is the purest version of the job.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "kart"
+   ],
+   "year": [
+    1950,
+    2100
+   ]
+  },
+  {
+   "t": "You feel a kart through your back rather than through your hands. There is nothing between the driver and the road.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "kart"
+   ],
+   "year": [
+    1950,
+    2100
+   ]
+  },
+  {
+   "t": "Bodywork contact is part of karting in a way it never is further up. That does not make it clumsy - it makes it close.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "kart"
+   ],
+   "year": [
+    1950,
+    2100
+   ]
+  },
+  {
+   "t": "A GT car has weight to manage that a single-seater does not. Braking is where the good ones make their money.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "gt"
+   ],
+   "year": [
+    1990,
+    2100
+   ]
+  },
+  {
+   "t": "These are cars built to be driven for hours by more than one driver, and you can feel that compromise in every corner.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "gt"
+   ],
+   "year": [
+    1990,
+    2100
+   ]
+  },
+  {
+   "t": "Traffic is the story in this category. Half of the skill is what a driver does with cars that are not racing him.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "gt"
+   ],
+   "year": [
+    1990,
+    2100
+   ]
+  },
+  {
+   "t": "A car with a roof moves around under you far more than the lap times suggest. Nothing about that is tidy.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "touring"
+   ],
+   "year": [
+    1950,
+    2100
+   ]
+  },
+  {
+   "t": "Front-wheel drive punishes greed. Ask for too much too early and it simply runs wide.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "touring"
+   ],
+   "year": [
+    1980,
+    2100
+   ]
+  },
+  {
+   "t": "Aerodynamics matter more in these than people expect, and the moment you lose the air off the car in front you feel it.",
+   "i": 0,
+   "who": "ANALYST",
+   "disc": [
+    "stock"
+   ],
+   "year": [
+    1990,
+    2100
+   ]
   }
  ],
  "strategy": [

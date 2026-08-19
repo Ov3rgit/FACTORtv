@@ -3566,6 +3566,87 @@ the user can drive it after step 1 rather than waiting for all of it.
 
 ---
 
+## WHAT THE 18:26 LOG SAID — six findings, five of them faults
+
+He drove the F3 season and the arc worked live: `prog_offer` -> `prog_signed` ->
+`news_prog_signed` are all in `careers/karting.json`, he is signed with the
+Mercedes programme, and the booth used it on air. Overtakes fired hard all race,
+including the traded-places escalation. Then the log answered six questions.
+
+### THE GRID WAS THE GARAGE ORDER — reported twice
+
+*"they once again thought the race leader started from the bottm and gained 12
+places when he didn't"*.
+
+`_track_grid` captured **the last sane order before the green**, and the garage
+order is sane: places 1..N, nothing missing, nothing repeated. It is also
+nothing whatever to do with where anybody starts. On a weekend where rF2
+published nothing usable during the countdown, the garage snapshot was the one
+that survived, and every `places_gained` in the race was measured against it.
+
+Capture is now restricted to `s.kind == "race" and s.countdown` — FORMATION,
+COUNTDOWN and GRIDWALK, the only phases in which a car's position IS its grid
+slot. No snapshot from those means no grid, which every caller already handles.
+
+**AND `win_charge` INVENTED THE SLOT WHEN IT WAS MISSING**: `started_place or
+(1 + places_gained)`. That is the arithmetic that puts a front-row start at the
+back of the field, in the one line that airs to the race winner. `_has_grid`
+exists precisely to gate lines that mention the grid, and this pair — the charge
+and the comeback — were the two that skipped it.
+
+### SATURDAY WAS NEVER BANKED — the third instance of one mistake
+
+He qualified P13 at Montreal; `quali_results` in the save was empty.
+`_quali_bank` waits for `s.finished`, true only at game phase OVER — which is
+the same moment rF2 drops `mInRealtime`, so `on_air` goes false and
+`update_booth` returns above the call. The engineer's "last time out you put it
+fourth" could never have worked, and Saturday's news had no data.
+
+**THE RULE, because this is the third time:** anything that REMEMBERS belongs in
+`_season_pre_arm` with the housekeeping, above the on-air gate. Anything that
+SPEAKS belongs below it. A gate that closes at the end of the session cannot be
+trusted to hold work that has to happen at the end of the session.
+
+### THE F3 RUNG HAD NO ERA AT ALL
+
+`ERA unknown_2019 disc=unknown conf=none`, raw class `SMMGF3_2019`. The pattern
+was `\bf3\b`, and there is no word boundary between "SMMG" and "F3". `F2_2019`
+matched all along, which is why one of the two looked right. The tokens are now
+anchored on what FOLLOWS them — `f3(?![0-9a-z])` — which also fixed `FR35_2014`,
+`FR2.0`, and **`F1_AM_2020`, the car the whole development year is built on**.
+
+### A TWO-LINE POOL IS A REPEAT WAITING TO HAPPEN
+
+One analyst line aired six times in a single qualifying session. The bag and the
+recency window were both working: `analysis_era` had exactly TWO entries legal
+for a modern single-seater, so it alternated. Karting — where every career
+begins — had ONE, and GT3 had one. Twenty-one lines added across formula, kart,
+GT, touring and stock, gated so they are era-true rather than merely new.
+
+LAW 21 is about pools nothing can reach. This is its other half: **a pool the
+filter narrows to one is not a pool**, and the only way to see it is to count
+candidates per era rather than per file.
+
+### THE LOG COULD NOT ANSWER ITS OWN FIRST QUESTION
+
+A successful arm logged nothing, so "this is round one" and "the match failed
+and I never told you" produced identical logs. It now says which round, or names
+the circuit, class and year it could not match. The captured grid is logged once
+per session for the same reason: this bug has now been reported twice with
+nothing in the log either time to settle it.
+
+250 of the log's 669 lines were `SANITY FAIL` noise — the P255 placeholder every
+car reports in the garage, and the negative lap distance of a car sitting in its
+box behind the timing line. Both checks now wait for green, and the lap-distance
+check skips cars in the pits.
+
+### AND ONE THING THAT WAS NOT A FAULT
+
+Nothing was recorded from the race because he quit with it still running. There
+was no result to bank.
+
+---
+
 ## WHAT CHANGED ON 2026-08-19 (fourth session) — F3, THE CALL-UP, AND A FIXED FINALE
 
 ### THE JUNIOR PROGRAMME NOW STARTS IN F3, AND HE IS CALLED UP MID-SEASON
