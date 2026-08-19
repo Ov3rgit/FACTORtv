@@ -53,7 +53,12 @@ def stamp_for():
     if not head:
         # NO GIT, NO CLAIM ABOUT A COMMIT. The date alone is still worth having.
         return day
-    dirty = bool(_git("status", "--porcelain"))
+    # ITS OWN EDIT DOES NOT COUNT. Writing the stamp modifies `version.py`, so a
+    # naive dirty check makes every stamped build claim to be built from
+    # uncommitted work — which is the exact lie this flag exists to prevent.
+    lines = [ln for ln in _git("status", "--porcelain").splitlines()
+             if ln[3:].strip() not in ("version.py",)]
+    dirty = bool(lines)
     return "%s.%s%s" % (day, head, "+" if dirty else "")
 
 
