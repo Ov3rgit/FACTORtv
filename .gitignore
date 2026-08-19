@@ -34,4 +34,9 @@ __pycache__/
 *.pyc
 build/
 dist/
-*.spec
+dist_exe/
+
+# ...but NOT the spec file. That is source: it carries the two traps this
+# build has already fallen into once each, and rebuilding without it means
+# finding them again.
+!factortv.spec

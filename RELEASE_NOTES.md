@@ -5,17 +5,18 @@ commentary booth for **rFactor 2**: three voices, a timing tower, a telemetry
 dash, six career ladders, an inbox, three news feeds, and a story told entirely
 in correspondence.
 
-**Download `FACTORtv-0.0.1-beta.zip` below** — not the source zip. It carries the
-artwork and the installer.
+## Which file
+
+**`FACTORtv-0.0.1-beta-standalone.zip`** — take this one. Nothing to install: no
+Python, no packages, no plugin download. The interpreter, the artwork and the
+shared-memory plugin are all inside it.
+
+`FACTORtv-0.0.1-beta.zip` is the source build, for anybody who wants to read or
+change the code. It needs Python 3.9+ with *Add python.exe to PATH* ticked.
 
 ## Setting it up
 
-**You need Python 3.9 or newer first** — <https://www.python.org/downloads/> —
-and you must **tick "Add python.exe to PATH"** on the installer's first screen.
-It is off by default and it is the box everybody misses. That is the only thing
-`INSTALL.bat` cannot do for you, and it will tell you so plainly if it is missing.
-
-Then unzip anywhere you can write to — `C:\FACTORtv` is fine, **not** Program Files
+Unzip anywhere you can write to — `C:\FACTORtv` is fine, **not** Program Files
 and not inside the rFactor 2 folder — and run `INSTALL.bat` (or
 `python install.py`). Close rFactor 2 first.
 
@@ -25,14 +26,14 @@ That is the whole setup, in one command. The installer:
   it) and **switches it on in rF2's own config**, which is the step everybody
   misses, because a plugin that is present but not enabled does nothing;
 * copies the artwork where the overlay reads it;
-* installs the three Python packages;
+* installs the Python packages, if you are running the source build;
 * and finishes by saying READY, or exactly what is still wrong.
 
 Leave about 400MB free: the first run renders its own audio.
 
-Then start the game, load a session, and run `Start FACTORtv.bat`.
+Then start the game, load a session, and double-click `Start FACTORtv.bat`.
 
-Requires Windows 64-bit and Python 3.9+. Full detail in `SETUP.md`.
+Requires Windows 64-bit. Full detail in `SETUP.md`.
 
 ## Two things that will make it look broken and are not
 

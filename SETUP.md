@@ -4,20 +4,24 @@ A broadcast overlay and commentary booth for **rFactor 2**: three voices, a
 timing tower, a telemetry dash, a career that climbs six ladders, an inbox and
 three news feeds.
 
-Run step 0, then read the four numbered steps. Step 1 is the one everything
-else depends on, and it is the one people skip.
+## Which download
+
+| | |
+|---|---|
+| **`FACTORtv-0.0.1-beta-standalone.zip`** | **Start here.** Nothing to install — no Python, no packages. Unzip, run `INSTALL.bat`, race. |
+| `FACTORtv-0.0.1-beta.zip` | The source build. Needs Python 3.9+ with *Add python.exe to PATH* ticked. For anybody who wants to read or change the code. |
+
+Everything below applies to both; where they differ it says so.
 
 ---
 
 ## 0. Run the installer. That is the whole setup.
 
-**One command. The plugin ships with this build, so there is nothing to download.**
+**Double-click `INSTALL.bat`.** One run, nothing to download first — the plugin
+ships inside the build. (From source: `python install.py`. In the standalone
+build the same thing is `FACTORtv.exe --install`.)
 
-```bash
-python install.py
-```
-
-Or double-click `INSTALL.bat`. In one run it:
+In one run it:
 
 * copies the artwork into `Pictures\Factor Overlay\...` where the overlay reads
   it — never overwriting anything you have added yourself;
@@ -36,8 +40,7 @@ If you have already downloaded the plugin DLL, hand it over and the installer
 puts it in the right place:
 
 ```bash
-python install.py --plugin C:\Users\you\Downloads\rFactor2SharedMemoryMapPlugin64.dll
-Factor2SharedMemoryMapPlugin64.dll
+FACTORtv.exe --install --plugin C:\Users\you\Downloads\rFactor2SharedMemoryMapPlugin64.dll
 ```
 
 `python install.py --check` says what is missing and changes nothing.
@@ -77,16 +80,21 @@ report anything as broken.
 
 ---
 
-## 2. Python and three packages
+## 2. Python — the SOURCE build only
 
-Windows, 64-bit, **Python 3.9 or newer** (developed on 3.13). Then:
+**The standalone build needs none of this.** The interpreter, tkinter, Pillow and
+the audio stack are inside the executable.
+
+From source: Windows 64-bit, **Python 3.9 or newer** (developed on 3.13), and
 
 ```bash
 pip install -r requirements.txt
 ```
 
-That is pillow, edge-tts and miniaudio. Everything else — the entire UI, the
-memory reader — is standard library.
+which is pillow, edge-tts and miniaudio. Everything else — the entire UI, the
+shared-memory reader — is standard library. `INSTALL.bat` runs it for you and
+tells you plainly if Python is missing or was installed without the PATH box
+ticked, which is the box everybody misses.
 
 ---
 
@@ -125,17 +133,14 @@ python preview.py --live
 
 ## 4. Run it
 
-```bash
-python factor_tv.py
+Double-click **`Start FACTORtv.bat`** — or `FACTORtv.exe` directly in the
+standalone build, `python factor_tv.py` from source. Start the game, load a
+session, and the overlay attaches on its own.
+
+**If you are reporting a bug, use this instead:**
+
 ```
-
-Or use `Start FACTORtv.bat`. Start the game, load a session, and the overlay
-attaches on its own.
-
-**If you are reporting a bug, run this instead:**
-
-```bash
-python testrun.py
+TEST RUN (logs a session).bat
 ```
 
 Identical overlay, but it writes `_session_log.txt` — every line that aired, what

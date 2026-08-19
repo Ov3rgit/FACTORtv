@@ -123,7 +123,77 @@ def collect():
     return inc, skip, odd
 
 
+# THE STANDALONE BUILD. `dist_exe/FACTORtv` as PyInstaller leaves it, minus
+# anything a test run left behind — a tester should not receive my rendered audio
+# or my session logs, and `_voice_cache` alone would double the download.
+EXE_DIR = os.path.join(_DIR, "dist_exe", "FACTORtv")
+EXE_NEVER = ("_settings.json", "_career.json", "_bag.json", "_modnames.json",
+             "_session_log.txt", "_transcript.log")
+EXE_NEVER_DIRS = ("_voice_cache", "_voice_tmp", "stings", "careers")
+
+
+def package_exe():
+    """Zip the standalone build. Returns the path, or "" if it is not built.
+
+    NO PYTHON, NO PIP, NO DEPENDENCIES. The whole point of this archive is that a
+    tester unzips it, double-clicks INSTALL.bat and races — so it must not carry
+    a single file that only makes sense on the machine that built it.
+    """
+    if not os.path.isdir(EXE_DIR):
+        print("no standalone build — run:")
+        print("    python -m PyInstaller --noconfirm --distpath dist_exe "
+              "--workpath build factortv.spec")
+        return ""
+    name = "FACTORtv-%s-standalone.zip" % version.full()
+    root = "FACTORtv-%s" % version.full()
+    files, dropped = [], []
+    for dirpath, dirs, fns in os.walk(EXE_DIR):
+        dirs[:] = [d for d in dirs if d not in EXE_NEVER_DIRS]
+        for fn in fns:
+            rel = os.path.relpath(os.path.join(dirpath, fn), EXE_DIR)
+            if fn in EXE_NEVER or fn.endswith(".log"):
+                dropped.append(rel)
+                continue
+            files.append(rel)
+    os.makedirs(OUT_DIR, exist_ok=True)
+    path = os.path.join(OUT_DIR, name)
+    with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as z:
+        for rel in files:
+            z.write(os.path.join(EXE_DIR, rel), os.path.join(root, rel))
+    raw = sum(os.path.getsize(os.path.join(EXE_DIR, r)) for r in files)
+    print("FACTORtv %s STANDALONE — %d files" % (version.full(), len(files)))
+    print("  uncompressed: %.1f MB" % (raw / 1048576.0))
+    if dropped:
+        print("  left out %d file(s) of local state: %s"
+              % (len(dropped), ", ".join(dropped[:4])))
+    print("wrote %s  (%.1f MB compressed)"
+          % (path, os.path.getsize(path) / 1048576.0))
+    # THE SAME PROOF THE SOURCE ARCHIVE GETS. A build nobody verified is a build
+    # nobody should send.
+    import hashlib
+    bad = []
+    with zipfile.ZipFile(path) as z:
+        for rel in files:
+            member = os.path.join(root, rel).replace(chr(92), "/")
+            with z.open(member) as f:
+                a = hashlib.sha256(f.read()).hexdigest()
+            with open(os.path.join(EXE_DIR, rel), "rb") as f:
+                b = hashlib.sha256(f.read()).hexdigest()
+            if a != b:
+                bad.append(rel)
+    if bad:
+        for r in bad:
+            print("  DIFFERS: %s" % r)
+        print("  VERIFY FAILED — do not ship this archive")
+        return ""
+    print("  verified: all %d files byte-identical to the build" % len(files))
+    return path
+
+
 def main():
+    if "--exe" in sys.argv:
+        package_exe()
+        return
     inc, skip, odd = collect()
     name = "FACTORtv-%s.zip" % version.full()
     print("FACTORtv %s — %d files to ship" % (version.full(), len(inc)))

@@ -246,6 +246,13 @@ def deps(check=False):
     here is reported and survived: everything else this script did is still
     valid, and the one command that fixes it is printed rather than implied.
     """
+    if getattr(sys, "frozen", False):
+        # A STANDALONE BUILD HAS NO PACKAGES TO INSTALL. The interpreter, tkinter,
+        # Pillow and the audio stack are inside the executable — offering to run
+        # pip would be offering to install something that is already here, at a
+        # tester who may not have pip at all.
+        print("  packages: built in — nothing to install")
+        return True
     if "--no-deps" in sys.argv:
         print("  packages: skipped (--no-deps)")
         return True
@@ -340,17 +347,29 @@ def main():
     # rather than hand over a second list of chores.
     ready = bool(ok) and os.path.isdir(art_dest())
     print("")
+    # THE INSTRUCTIONS HAVE TO NAME THE THING HE ACTUALLY HAS. A standalone build
+    # has no .bat files worth mentioning and no python on the PATH to call.
+    frozen = getattr(sys, "frozen", False)
     if ready:
         print("  READY. Start rFactor 2, load a session, and run:")
-        print("      Start FACTORtv.bat          (or: python factor_tv.py)")
+        if frozen:
+            print("      FACTORtv.exe")
+        else:
+            print("      Start FACTORtv.bat          (or: python factor_tv.py)")
         print("")
-        print("  Reporting a bug? Use  TEST RUN (logs a session).bat  instead")
-        print("  and send me _session_log.txt — it is worth more than a "
+        if frozen:
+            print("  Reporting a bug? Run  FACTORtv.exe --testrun  instead and")
+        else:
+            print("  Reporting a bug? Use  TEST RUN (logs a session).bat  "
+                  "instead and")
+        print("  send me _session_log.txt — it is worth more than a "
               "description.")
     else:
         print("  NOT READY — deal with the plugin lines above, then run this "
               "again.")
-        print("      python verify_plugin.py     is rF2 publishing yet?")
+        print("      %s     is rF2 publishing yet?"
+              % ("FACTORtv.exe --verify" if frozen
+                 else "python verify_plugin.py"))
     print("")
     print("  The two things that break a first run are the plugin above and the")
     print("  voices, which need an internet connection. Both are in SETUP.md.")
