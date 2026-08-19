@@ -738,6 +738,89 @@ check(_mn.pick_names("Tatuus_F4_2018") == [],
       "and an empty map is 'we do not know', not a guess")
 _mn._cache = None
 
+
+print("\n18. THE HISTORIC TOUR IS EARNED, ONE ERA AT A TIME")
+# The user's idea: "can those races be unlocked through an invite the player
+# receives after completing their championship, so if I beat 2021 then I get
+# invited to compete in the 1988 F1 season as a reward as well."
+#
+# It fits because the tour was already the odd one out: `career_paths()` excludes
+# it from the 100% (nobody is promoted from 1966 to 1975, so there is no final
+# championship to win), which is exactly what makes it the right thing to give
+# away — the one path with nothing to lose by being optional.
+#
+# His three decisions: Formula One only, one era per championship, and it counts
+# for nothing.
+import inbox as _inbox
+
+_top = len(L.tiers("single_seater")) - 1
+tour = S.create("open", me="Tester", rounds=3,
+                ladder_path="single_seater", tier_index=_top)
+check((tour.ladder.tier() or {}).get("key") == "f1",
+      "a career at the top of the single-seater path")
+check(tour.f1_titles() == 0 and not tour.tour_state()["owed"],
+      "before he wins anything, no era is owed")
+_inbox.refresh(tour)
+check(not [m for m in _inbox.messages(tour) if m["kind"] == "tour_invite"],
+      "and no invitation is written")
+check(not tour.tour_open("eighties"),
+      "the eras are shut until one is earned")
+
+for _n in (1, 2, 3):
+    tour.record({"n": _n, "slug": "t%d" % _n, "pos": 1, "laps": 20,
+                 "race_laps": 20,
+                 "classified": [("Tester", 1), ("A Rival", 2)]})
+check(tour.f1_titles() == 1,
+      "winning the top championship counts, on the afternoon it happens",
+      str(tour.f1_titles()))
+st = tour.tour_state()
+check(st["owed"] == 1 and st["next"] and st["next"][1]["key"] == "eighties",
+      "and the era owed is the EIGHTIES first — the best one, not the oldest",
+      str(st["next"][1]["name"] if st["next"] else None))
+
+got = [m for m in (_inbox.refresh(tour) or []) if m
+       and m["kind"] == "tour_invite"]
+check(len(got) == 1, "the invitation arrives as a letter", str(len(got)))
+check(got and "eighties" in (got[0]["subject"] + got[0]["body"][0]).lower(),
+      "naming the era it opens", got[0]["subject"] if got else "")
+check(tour.tour_open("eighties"),
+      "and the era he has been INVITED to is the era he may race")
+check(not tour.tour_open("nineties"),
+      "one championship, one era — the rest stay shut")
+check(not [m for m in (_inbox.refresh(tour) or []) if m
+           and m["kind"] == "tour_invite"],
+      "and the invitation is not sent twice")
+
+# A SECOND TITLE OPENS THE NEXT ONE, not the same one again.
+tour.advance("retry")
+for _n in (1, 2, 3):
+    tour.record({"n": _n, "slug": "s%d" % _n, "pos": 1, "laps": 20,
+                 "race_laps": 20,
+                 "classified": [("Tester", 1), ("A Rival", 2)]})
+_inbox.refresh(tour)
+check(tour.tour_state()["unlocked"] == ["eighties", "nineties"],
+      "a second championship opens the next era in turn",
+      str(tour.tour_state()["unlocked"]))
+
+# FORMULA ONE ONLY. A champion of another path is not invited to a Grand Prix
+# season — the user was explicit, and it is the stranger sentence.
+other = S.create("open", me="Tester", rounds=3, ladder_path="stock_car",
+                 tier_index=len(L.tiers("stock_car")) - 1)
+for _n in (1, 2, 3):
+    other.record({"n": _n, "slug": "n%d" % _n, "pos": 1, "laps": 20,
+                  "race_laps": 20,
+                  "classified": [("Tester", 1), ("A Rival", 2)]})
+check(other.title_count() >= 1, "he has won a championship elsewhere",
+      str(other.title_count()))
+check(other.f1_titles() == 0 and not other.tour_state()["owed"],
+      "but a NASCAR title does not invite him to 1988", str(other.f1_titles()))
+
+# AND IT COUNTS FOR NOTHING, which is decision three and the reason this was
+# safe to add late: the 100% arithmetic is untouched.
+check(L.tour_key() not in L.career_paths(),
+      "the tour is still outside the paths a 100% career is counted over")
+check(len(L.career_paths()) == 5, "which is still five", str(len(L.career_paths())))
+
 shutil.rmtree(_tmp, ignore_errors=True)
 
 print("\n" + ("FAILED: %d" % len(fails) if fails else "ALL PASSED"))

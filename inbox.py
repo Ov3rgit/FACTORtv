@@ -491,6 +491,29 @@ def refresh(career, now=None):
             new.append(_post(career, _compose_any(
                 "seat", "seat:%s" % base, kw, variant=sn, when=now)))
 
+    # -- THE HISTORIC TOUR, EARNED ------------------------------------------
+    #
+    # One era per Formula One championship, at the user's instruction, and the
+    # invitation is where it is BANKED: an era he can race is an era he has a
+    # letter about, so there is no way to unlock something silently.
+    #
+    # It reads `tour_state()`, which derives the count from titles rather than
+    # keeping its own — the same discipline the milestones follow, and the reason
+    # the paper and the menu can never disagree about which eras are open.
+    try:
+        tour = career.tour_state()
+    except Exception:
+        tour = None
+    if tour and tour.get("next"):
+        _idx, _era = tour["next"]
+        m = _post(career, _compose_any(
+            "tour_invite", "tour:%s" % _era.get("key", _idx),
+            dict(kw, era=_era.get("name", "")),
+            variant=len(tour.get("unlocked") or ()), when=now))
+        if m:
+            new.append(m)
+            career.tour_grant(_era.get("key", ""))
+
     # -- the junior programme -----------------------------------------------
     # The scripted arc out of Formula 2. Every letter is driven by a STAGE
     # rather than by a round number, so the story cannot get ahead of the

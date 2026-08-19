@@ -626,6 +626,32 @@
    ]
   }
  ],
+ "tour_invite": [
+  {
+   "from": "FIA — Entries & Sporting",
+   "subject": "Invitation — {era}",
+   "body": [
+    "The championship you have just won carries an invitation with it, and this is it. The FIA Heritage Commission runs a demonstration series in period machinery, and it extends entries each year to the current champion. {era} is yours if you want it.",
+    "It is not a championship and it will not appear on your record as one. The cars are the cars, with the tyres and the brakes and the aerodynamics of the time, and every driver who has done one of these seasons says the same thing about it: it explains what the men who came before you were actually doing. Nothing scores, nothing is at stake, and you will drive it harder than anything you have raced this year."
+   ]
+  },
+  {
+   "from": "FIA — Entries & Sporting",
+   "subject": "{era} — an entry is open to you",
+   "body": [
+    "Congratulations on the championship. As is customary, an entry in the Heritage Commission's period series is offered to the champion, and the era released to you is {era}.",
+    "The Commission is careful about who it puts in these cars and the reason is simple: they are irreplaceable and they do not forgive very much. There is no title to win, no points, and nothing that touches your career record. What there is, is the only opportunity you will get to find out how this was done before any of it was made safe."
+   ]
+  },
+  {
+   "from": "FIA — Entries & Sporting",
+   "subject": "A car from {era}, if you want it",
+   "body": [
+    "Winning a championship opens a door that is closed to everybody else, and it is a stranger door than you might expect. {era} has been released to you under the Heritage Commission's demonstration entry — the real cars, run to the regulations of the period.",
+    "Take it or leave it; it counts for nothing either way, and it is offered to you because you won. Drivers tend to arrive at these thinking of them as an exhibition and leave having discovered something about the sport they thought they already knew."
+   ]
+  }
+ ],
  "prog_dev1": [
   {
    "from": "{team}",

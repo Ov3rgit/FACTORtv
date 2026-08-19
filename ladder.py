@@ -115,6 +115,38 @@ def career_paths():
     return {k: p for k, p in paths().items() if not p.get("tour")}
 
 
+# THE ORDER THE ERAS ARE HANDED OUT, best first. The user's call was one era per
+# championship won, and the eighties is the one to give a 2021 champion: handing
+# him the season Senna and Prost were team-mates is the best version of this
+# reward, and a reward that opens with its weakest item is a worse reward.
+TOUR_ORDER = ("eighties", "nineties", "seventies", "sixties")
+
+
+def tour_key():
+    """The path key of the historic tour, or "". One place knows which it is."""
+    for k, p in paths().items():
+        if p.get("tour"):
+            return k
+    return ""
+
+
+def tour_eras():
+    """[(tier_index, tier)] for the tour, in the order they are unlocked.
+
+    Ordered by `TOUR_ORDER` rather than by the data file, because the file is
+    chronological — which is the right way to READ a tour and the wrong way to
+    give one away.
+    """
+    ts = tiers(tour_key())
+    by_key = {t.get("key"): (i, t) for i, t in enumerate(ts)}
+    out = [by_key[k] for k in TOUR_ORDER if k in by_key]
+    # Anything the order forgot still comes last, so a new era added to the data
+    # cannot silently become unreachable.
+    out += [(i, t) for i, t in enumerate(ts)
+            if t.get("key") not in TOUR_ORDER]
+    return out
+
+
 def entry_options(key, mods=None):
     """Where a proven driver may join this path: [(tier_index, tier), ...].
 

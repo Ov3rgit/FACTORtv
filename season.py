@@ -1543,6 +1543,98 @@ class Career(object):
                 if h.get("pos") == 1)
         return n + (1 if self.won_live_season() else 0)
 
+    # -- THE HISTORIC TOUR, EARNED -------------------------------------------
+    #
+    # The user's idea: *"can those races be unlocked through an invite the player
+    # receives after completing their championship, so if I beat 2021 then I get
+    # invited to compete in the 1988 F1 season as a reward as well."*
+    #
+    # It fits because the tour was already the odd one out. `career_paths()`
+    # excludes it from the 100% — nobody is promoted from 1966 to 1975, so there
+    # is no final championship to win — and that is exactly what makes it the
+    # right thing to give away: the one path with nothing to lose by being
+    # optional.
+    #
+    # HIS THREE DECISIONS, and they settle the whole design:
+    #   * FORMULA ONE ONLY. Winning the top rung of the single-seater path is
+    #     what invites him. A NASCAR champion being invited to a 1988 Grand Prix
+    #     season is a stranger sentence than it looks.
+    #   * ONE ERA PER CHAMPIONSHIP. Four rewards rather than one.
+    #   * IT COUNTS FOR NOTHING. Recorded like any season, outside the 100%.
+    TOUR_FROM_PATH = "single_seater"
+
+    def f1_titles(self):
+        """Championships won in the TOP rung of the single-seater path.
+
+        Read from the archive plus the season he is standing in, exactly as
+        `title_count` does — for the same reason, which is that on the afternoon
+        he actually wins it nothing has been archived yet.
+        """
+        try:
+            import ladder as ladder_mod
+            ts = ladder_mod.tiers(self.TOUR_FROM_PATH)
+        except Exception:
+            return 0
+        if not ts:
+            return 0
+        top = ts[-1].get("key")
+        n = 0
+        for h in (self.data.get("ladder_history") or ()):
+            if h.get("tier") == top and h.get("pos") == 1:
+                n += 1
+        prog = self.ladder
+        if (prog is not None and prog.path == self.TOUR_FROM_PATH
+                and (prog.tier() or {}).get("key") == top
+                and self.won_live_season()):
+            n += 1
+        return n
+
+    def tour_state(self):
+        """{"unlocked": [keys], "owed": n, "next": (index, tier) or None}.
+
+        WRITES NOTHING. The count is derived from titles, so it cannot drift out
+        of step with what the rest of the product believes about his career —
+        and `tour_grant` is the only thing that banks an era, called by the
+        letter that tells him about it.
+        """
+        try:
+            import ladder as ladder_mod
+            eras = ladder_mod.tour_eras()
+        except Exception:
+            eras = []
+        got = [str(k) for k in (self.data.get("tour_unlocked") or ()) if k]
+        owed = max(0, self.f1_titles() - len(got))
+        nxt = None
+        if owed:
+            for i, t in eras:
+                if t.get("key") not in got:
+                    nxt = (i, t)
+                    break
+        return {"unlocked": got, "owed": owed if nxt else 0, "next": nxt,
+                "titles": self.f1_titles(), "eras": eras}
+
+    def tour_grant(self, key):
+        """Bank one era as unlocked. Returns True if this call did it.
+
+        ONE PLACE WRITES, and it is called where the invitation is SENT — so an
+        era he has been invited to is an era he has a letter about, and there is
+        no way to unlock something silently.
+        """
+        if not key:
+            return False
+        got = [str(k) for k in (self.data.get("tour_unlocked") or ()) if k]
+        if key in got:
+            return False
+        got.append(key)
+        self.data["tour_unlocked"] = got
+        self.save()
+        return True
+
+    def tour_open(self, tier_key):
+        """May he race this era? Every era is invitation-only until it is won."""
+        return str(tier_key or "") in [
+            str(k) for k in (self.data.get("tour_unlocked") or ()) if k]
+
     def status(self):
         """(key, label) — what the booth and the papers should call him.
 

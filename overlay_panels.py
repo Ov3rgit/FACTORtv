@@ -2038,12 +2038,37 @@ class PanelsMixin(object):
                      "note": "<"})
         return rows
 
+    def _tour_key(self):
+        try:
+            import ladder as ladder_mod
+            return ladder_mod.tour_key()
+        except Exception:
+            return ""
+
     def _rows_path(self):
         """Which ladder to climb. Six of them, and the blurb matters — the
         difference between the paths is the whole reason to pick one."""
         import ladder as ladder_mod
+        car = getattr(self, "season", None)
         rows = [{"label": "Which career?", "kind": "info"}]
         for key, p in ladder_mod.paths().items():
+            if p.get("tour"):
+                # THE TOUR IS INVITATION ONLY, and each era is its own reward —
+                # one per Formula One championship. It is still LISTED when
+                # locked, with what unlocks it, for the same reason the divisions
+                # view names a rung he owns no car for: knowing the content
+                # exists is information, and hiding it makes the game look
+                # smaller than it is.
+                for idx, t in ladder_mod.tour_eras():
+                    open_ = car is not None and car.tour_open(t.get("key"))
+                    rows.append({
+                        "label": ("%s — %s" % (p.get("name", key),
+                                               t.get("name", "")))[:26],
+                        "key": ("path:%s:%d" % (key, idx)) if open_ else None,
+                        "kind": "action" if open_ else "info",
+                        "hot": open_,
+                        "note": "invited" if open_ else "win Formula One"})
+                continue
             rows.append({"label": p.get("name", key)[:24],
                          "key": "path:" + key, "kind": "action",
                          "note": p.get("sub", "")[:22]})
@@ -2666,7 +2691,13 @@ class PanelsMixin(object):
 
         elif act == "path":
             # Chosen a ladder; now how long one rung's season runs for.
-            self._menu_path = arg
+            #
+            # A TOUR CARRIES ITS ERA IN THE KEY ("historic:2"), because the eras
+            # are unlocked one at a time and which one he was invited to is part
+            # of the choice rather than a page after it.
+            key, _, era = (arg or "").partition(":")
+            self._menu_path = key
+            self._menu_tier = int(era) if era.isdigit() else 0
             self.menu_page = "career_plen"
 
         elif act == "plen":
@@ -2674,12 +2705,31 @@ class PanelsMixin(object):
             # the rung already names every car that belongs to it, in both of
             # the two names a car has. Locking the exact CarClass string on
             # top would tie the season to whichever chassis loaded first.
+            # ...AND THE ERA HE WAS INVITED TO. A tour career starts in the era
+            # he picked rather than at the bottom of the file: the eras are
+            # unlocked one at a time and the sixties may well not be open yet.
             car = season_mod.create("open",
                                     me=self.cfg.get("display_name", ""),
                                     rounds=int(arg or 5),
-                                    ladder_path=getattr(self, "_menu_path", ""))
+                                    ladder_path=getattr(self, "_menu_path", ""),
+                                    tier_index=getattr(self, "_menu_tier", 0))
             if car is not None:
+                # THE UNLOCKS TRAVEL WITH THE DRIVER, NOT WITH THE SAVE FILE. A
+                # new career is a clean slate everywhere else in this product,
+                # and it should be here too — except that an invitation earned by
+                # winning Formula One would then be unusable, because taking it
+                # up means starting a career on the tour. So the era he was
+                # invited to is opened in the new file, and nothing else is.
+                try:
+                    if getattr(self, "_menu_path", "") == self._tour_key():
+                        old_car = getattr(self, "season", None)
+                        if old_car is not None:
+                            for k in (old_car.data.get("tour_unlocked") or ()):
+                                car.tour_grant(k)
+                except Exception:
+                    pass
                 self._menu_activate(car)
+            self._menu_tier = 0
             self.menu_page = "career"
 
         elif act == "adv":
