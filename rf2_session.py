@@ -316,7 +316,11 @@ class SessionTracker(object):
         s.session_index = si.mSession
         s.kind = R.session_kind(si.mSession)
         s.phase = si.mGamePhase
-        s.phase_name = _PHASE_NAMES.get(si.mGamePhase, "?")
+        # THE NUMBER WHEN THE NAME IS UNKNOWN. A log line reading "phase=?" was
+        # the only clue to four separate attempts at the career prompt, and it
+        # withheld the one thing that would have identified the problem.
+        s.phase_name = _PHASE_NAMES.get(si.mGamePhase,
+                                        "?%s" % si.mGamePhase)
         s.green = si.mGamePhase == R.GamePhase.GREEN
         s.countdown = si.mGamePhase in (R.GamePhase.FORMATION,
                                         R.GamePhase.COUNTDOWN,

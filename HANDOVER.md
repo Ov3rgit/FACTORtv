@@ -166,7 +166,6 @@ python newsshot.py                     # news articles WITH his photographs
 python podiumshot.py                   # the end-of-session result card
 python mailshot.py                     # a letter, with its letterhead
 python menushot.py                     # a menu page (inbox + career)
-python promptshot.py                   # the "count this race?" card, in the garage
 python modnames.py                     # what the GAME calls each mod
 python newsart.py                      # what pictures are on disk, per division
 python programme.py                    # the three seats, dumped + validated
@@ -3986,6 +3985,62 @@ SEASON   cannot decide the round yet — player=yes cars=12 circuit=NO class='F1
 That line would have ended this in one run instead of four. When a decision is
 deferred on data somebody else publishes, LOG WHICH FIELD — the alternative is
 what happened here.
+
+### THE IN-SESSION PROMPT IS GONE. THE DECISION LIVES IN THE MENU
+
+Four attempts, four different causes, one symptom. The user, correctly, stopped
+asking for a fix and asked the right question instead: *"is there a better way to
+do this or is how it's set up now the only viable way?"*
+
+**THE FOURTH CAUSE, FOR THE RECORD, AND IT IS THE BEST ARGUMENT FOR REMOVING THE
+FEATURE.** `s.started` is `mGamePhase >= GREEN`, and rF2 publishes a phase OUTSIDE
+0..8 in the pit screen after moving to the next session — his log said `phase=?`
+in exactly the place the card was missing. An unrecognised phase therefore counted
+as "the race has begun", and the prompt refuses once a race is under way. Pressing
+Drive moved the phase to `gridwalk` and the card appeared. `_PHASE_NAMES` now
+prints the NUMBER for an unknown phase, because "phase=?" withheld the one fact
+that would have identified this on the first read.
+
+**EVERY ONE OF THE FOUR WAS THE SAME DESIGN FAULT.** The decision was being asked
+for in a window the GAME controls, out of data the game publishes when it feels
+like it, while the driver is about to drive. No amount of moving it earlier could
+fix that, and the log proves the pattern: matched under the on-air gate, armed
+before the data arrived, never reached by the frame, refused on a phase nobody
+recognises.
+
+**SO IT IS A ROW ON THE CAREER PAGE**, `Round N counts`, and the user's shape for
+it: *"a choice that needs clicking before a round like how we did the F4 seat
+acceptance ... to switch it off it must be done by either turning that off or
+closing the career."*
+
+* `Career.round_counts(n)` / `set_round_counts(n, yes)` — **in the career file**,
+  because session state is wiped when rF2 moves from qualifying to the race, which
+  is the window every previous attempt died in.
+* **ONLY THE EXCEPTIONS ARE STORED** (`rounds_off`). Default is to count, per the
+  law that a race which quietly failed to count is unrecoverable while one that
+  counted wrongly is one click from undone — and an old career file needs no
+  migration.
+* **A SWITCHED-OFF ROUND IS OFF-CAREER, NOT MERELY UNRECORDED.** His framing, and
+  he is right: *"if I want to do a random race I just switch it off and the
+  commentary system and race engineer will know."* `_season_arm` drops the match
+  entirely, so the booth says nothing about the championship, the engineer loses
+  his round talk, no qualifying result is banked, and the badge reads OFF-CAREER.
+  A booth calling something "round two of the Formula 4 season" while nothing
+  records is contradicting the standings screen.
+* Switching it in the menu clears `_season_armed`, so a change made while sitting
+  in the garage takes effect immediately rather than at the next session change.
+
+**WHAT WENT WITH IT**: `season_prompt`, `season_answer`, `draw_career_prompt`, the
+Ctrl+Shift+Y/N hotkeys, `_season_asked`, `_season_pref` and `promptshot.py`. Dead
+code around a removed feature is a LAW 21 hazard; there is nothing left of it.
+
+**WHICH SESSIONS THIS AFFECTS**, since it was asked directly:
+
+| session | writes | governed by the switch |
+|---|---|---|
+| practice | nothing at all | n/a |
+| qualifying | grid slot and the team-mate comparison, no points | it is context — but a switched-off round banks no quali result either, because there is no round |
+| race | the championship result, at the chequered flag only | yes |
 
 ### EVERY OVERTAKE CALL IN THE PRODUCT WAS DEAD — one expression
 

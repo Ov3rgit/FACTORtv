@@ -35,7 +35,7 @@ from overlay_common import UPDATE_MS
 # stays correct if a stage grows a new panel inside it.
 STAGES = ("draw_header", "draw_flags", "draw_tower", "draw_relative",
           "draw_dash", "draw_sectors", "draw_map", "draw_podium",
-          "draw_career_prompt", "draw_menu_button", "draw_settings",
+          "draw_menu_button", "draw_settings",
           "update_booth", "update_radio", "update_rivals", "release_cards",
           "draw_caption", "draw_radio", "_sweep_panels")
 

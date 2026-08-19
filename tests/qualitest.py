@@ -677,226 +677,97 @@ check("quali" not in _ob.BOOTH_SILENT and "race" not in _ob.BOOTH_SILENT,
       "and the broadcast sessions are not")
 
 
-print("\n18. THE CAREER PROMPT ARRIVES IN THE GARAGE")
-# Asked for: "you know how I start a race then I get a prompt for either Y/N for
-# this race to be counted towards career ... can we not have the prompt come up
-# when we are in the pit screen before the event starts, as I will at least have
-# time to accept and read it properly."
+print("\n18. DOES THIS ROUND COUNT — DECIDED IN THE MENU, NOT IN A WINDOW")
+# The in-session card is GONE. It failed four times in four different ways —
+# matched under the on-air gate, armed before the data arrived, never reached by
+# the frame, and finally refused because rF2 publishes a game phase outside 0..8
+# in the pit screen, which `started` read as "the race has begun". Every one was a
+# symptom of the same fault: THE DECISION WAS BEING ASKED FOR IN A WINDOW THE GAME
+# CONTROLS, out of data the game publishes when it feels like it.
 #
-# THE CAUSE WAS THE ON-AIR GATE, NOT THE PROMPT. `on_air` is `mInRealtime AND
-# phase > GARAGE` — the rule that stops the intro airing over a loading screen,
-# and right about SPEAKING. But the ROUND was being matched underneath it, so
-# the overlay did not know which round the session was until he was already on
-# track, and the card appeared as the lights went out.
-#
-# Arming is free (LAW 3: context is free, RECORDING is confirmed) and everything
-# it needs is published while he sits in the garage.
-import season as _S2, shutil as _sh2, tempfile as _tf2
-_d2 = _tf2.mkdtemp(prefix="factortv_prompt_")
-_old2 = _S2.CAREER_DIR
-_S2.CAREER_DIR = _d2
-try:
-    car = _S2.create("open", me="Kandasamy", rounds=5)
-    b3 = Booth()
-    b3.season = car
-    b3.career = None
-    g = FakeSession(grid(), kind="race")
-    # A CIRCUIT THE OVERLAY RECOGNISES. `_season_arm` refuses to match a round
-    # at a circuit it cannot name — rightly, since a round has to be recorded
-    # against something — so the fixture needs one.
-    class _Circ:
-        slug = "zandvoort"
-        name = "Zandvoort"
-        known = True
-        country = staticmethod(lambda: "Netherlands")
-    g.circuit = _Circ()
-    g.on_air = False          # in the garage: not in realtime, phase = garage
-    g.started = False
-    g.green = False
-    for c in g.order:
-        c.cls = "F1 Test 2025"
-    b3.update_booth(g)
-    check(b3._season_armed,
-          "the round is matched while he is still in the pit screen")
-    check(b3._season_round is not None,
-          "so there IS a round to ask him about", str(b3._season_round))
-    p = b3.season_prompt(g)
-    check(p is not None,
-          "and the prompt is ready before the session goes live", str(p))
-    check(p and p.get("round", "").startswith("Round 1"),
-          "naming the round it is about", str(p and p.get("round")))
-    # AND STILL NOTHING IS SAID. The gate that matters is untouched: a booth
-    # that greets him over the loading screen was the original bug.
-    check(not b3.tts.said,
-          "while the booth stays silent in the garage, as it must",
-          str([t[1][:40] for t in b3.tts.said][:2]))
-    # ...AND IT IS GONE ONCE THE RACE IS RUNNING, because a decision already
-    # made is not a question.
-    g.started = True
-    check(b3.season_prompt(g) is None,
-          "the prompt does not follow him into the race")
-finally:
-    _S2.CAREER_DIR = _old2
-    _sh2.rmtree(_d2, ignore_errors=True)
+# The user's call: *"let the player have control and make it a choice that needs
+# clicking before a round ... to switch it off it must be done by either turning
+# that off or closing the career."*
+import shutil as _sh3, tempfile as _tf3
+import season as _S3
+
+_d3 = _tf3.mkdtemp(prefix="factortv_count_")
+_old3 = _S3.CAREER_DIR
+_S3.CAREER_DIR = _d3
 
 
-
-# ...AND IT MUST NOT DECIDE BEFORE IT CAN. THIS SHIPPED BROKEN FOR ONE SESSION.
-#
-# Moving the arming into the garage put it ahead of the data it needs: rF2
-# publishes the circuit and the car class a beat after the session appears, and
-# `_season_arm` gives up silently when the circuit is not resolved. The flag was
-# set FIRST, so "I cannot tell yet" became "this is not a round" for the whole
-# race — no prompt at all, and an OFF-CAREER badge reading "Formula 4 paused" on
-# round one. A no-match must be an ANSWER, not a missing input.
-_S2.CAREER_DIR = _d2
-car2 = _S2.create("open", me="Kandasamy", rounds=5)
-b4 = Booth()
-b4.season = car2
-b4.career = None
-cold = FakeSession(grid(), kind="race")
-cold.circuit = None                 # the garage, one tick in: nothing resolved
-cold.on_air = False
-cold.started = False
-cold.green = False
-b4.update_booth(cold)
-check(not b4._season_armed,
-      "with no circuit published yet, the round is NOT decided")
-# ...BUT THE PROMPT IS STILL OFFERED, and that reversal is the point. The card
-# used to wait for the round to be MATCHED, which needs the car class — and rF2
-# does not reliably publish a class, or even a player, until the car is on track.
-# So it could never appear in the pit screen, which is the only place a driver has
-# time to read it. The question is "may this count", and that is answerable before
-# the session has been identified: if the class turns out to belong to another
-# division, nothing records and the answer had nothing to apply to.
-_early = b4.season_prompt(cold)
-check(_early is not None,
-      "the prompt is offered before the round is even matched", str(_early))
-check(_early and _early.get("round", "").startswith("Round"),
-      "naming the round the career is expecting next",
-      str(_early and _early.get("round")))
-
-class _CircEarly:
-    """A circuit the overlay recognises, defined here because the fixture used
-    lower down this file does not exist yet at this point."""
+class _C3:
     slug = "zandvoort"
     key = "zandvoort"
     name = "Zandvoort"
     known = True
 
 
-# AND AN ANSWER GIVEN THAT EARLY HAS TO SURVIVE. A "no" in the pit screen was
-# being silently lost in exactly the window this feature exists to fill.
-b4b = Booth()
-b4b.season = _S2.create("open", me="Kandasamy", rounds=5)
-b4b.career = None
-early = FakeSession(grid(), kind="race")
-early.circuit = None
-early.on_air = False
-early.started = False
-early.green = False
-b4b.update_booth(early)
-check(b4b.season_answer(False), "he can decline before the round is known")
-early.circuit = _CircEarly()
-b4b.update_booth(early)
-check(b4b._season_round is not None, "the round is matched a moment later")
-check(not b4b._season_count,
-      "and the NO he gave in the pit screen is what stands")
+try:
+    car = _S3.create("open", me="Kandasamy", rounds=5)
+    check(car.round_counts(1),
+          "a round counts by default — a race that quietly failed to count "
+          "cannot be recovered")
+    check(car.set_round_counts(1, False) is False and not car.round_counts(1),
+          "switching it off is one call")
+    check(car.round_counts(2),
+          "and it is PER ROUND, so the next one is unaffected")
+    check(car.data.get("rounds_off") == [1],
+          "only the exceptions are stored, so an old career file needs no "
+          "migration", str(car.data.get("rounds_off")))
+    _re = _S3.load(car.slug)
+    check(_re is not None and not _re.round_counts(1),
+          "and it SURVIVES a reload — the whole reason it is not session state")
 
-b4c = Booth()
-b4c.season = _S2.create("open", me="Kandasamy", rounds=5)
-b4c.career = None
-yes = FakeSession(grid(), kind="race")
-yes.circuit = _CircEarly()
-yes.on_air = False
-yes.started = False
-yes.green = False
-b4c.update_booth(yes)
-check(b4c.season_answer(True) and b4c._season_count,
-      "and a yes still counts the race")
+    # A SWITCHED-OFF ROUND IS OFF-CAREER, not merely unrecorded. His own framing:
+    # "if I want to do a random race I just switch it off and the commentary
+    # system and race engineer will know". A booth calling it "round two of the
+    # Formula 4 season" while nothing records contradicts the standings screen.
+    b = Booth()
+    b.season = car
+    b.career = None
+    sess = FakeSession(grid(), kind="race")
+    sess.circuit = _C3()
+    sess.on_air = False
+    sess.started = False
+    sess.green = False
+    b.update_booth(sess)
+    check(b._season_armed and b._season_round is None,
+          "with the round switched off, the session is not a round at all",
+          str(b._season_round))
+    check(not b._season_count, "so nothing will be recorded")
 
-# The circuit arrives a moment later, and NOW it decides.
-class _Circ2:
-    slug = "zandvoort"
-    name = "Zandvoort"
-    known = True
-cold.circuit = _Circ2()
-b4.update_booth(cold)
-check(b4._season_armed and b4._season_round is not None,
-      "as soon as it is published, the round is matched",
-      str(b4._season_round))
-check(b4.season_prompt(cold) is not None,
-      "and the prompt appears — still in the garage, before the green")
+    car.set_round_counts(1, True)
+    b2 = Booth()
+    b2.season = car
+    b2.career = None
+    s2 = FakeSession(grid(), kind="race")
+    s2.circuit = _C3()
+    s2.on_air = False
+    s2.started = False
+    s2.green = False
+    b2.update_booth(s2)
+    check(b2._season_round is not None and b2._season_count,
+          "switched back on, it is round one again and it will be recorded",
+          str(b2._season_round))
 
-# A CAR WITH NO CLASS IS THE SAME PROBLEM. The class is what a rung is matched
-# on, and it arrives separately from the circuit.
-b5 = Booth()
-b5.season = _S2.create("open", me="Kandasamy", rounds=5)
-b5.career = None
-noc = FakeSession(grid(), kind="race")
-noc.circuit = _Circ2()
-noc.on_air = False
-noc.started = False
-noc.green = False
-for c in noc.order:
-    c.cls = ""
-b5.update_booth(noc)
-check(not b5._season_armed, "a car with no class published yet waits too")
-
-# THE GREEN FLAG IS THE DEADLINE. Whatever is known by then is the answer —
-# never deciding at all would be worse than deciding wrongly, because nothing
-# downstream would ever record or refuse.
-noc.started = True
-b5.update_booth(noc)
-check(b5._season_armed,
-      "but once the race has started it decides on what it has")
-
-
-
-# A CIRCUIT THE OVERLAY HAS NEVER HEARD OF IS STILL A ROUND. THIS COST HIM A RACE.
-#
-# `_season_arm` refused unless `circuit.known` — which means "we hold facts about
-# this place". That is the wrong question asked of the wrong field: his Formula 4
-# season reached "ANA - INDY GRAND PRIX", nothing in `tracks.json` recognises it,
-# and every attempt to start reported the career as PAUSED. No prompt, no round,
-# nothing recorded — in an OPEN season whose definition is "N races, ANY circuit".
-#
-# THE CAR IDENTIFIES THE CHAMPIONSHIP; the circuit is only what the round is
-# filed under. `Track.key` always supplies one.
-import track as _track_mod
-
-_unknown = _track_mod.Track("ANA - INDY GRAND PRIX")
-check(not _unknown.known and _unknown.key,
-      "an unrecognised circuit has no facts but does have a key",
-      "known=%s key=%s" % (_unknown.known, _unknown.key))
-
-b6 = Booth()
-b6.season = _S2.create("open", me="Kandasamy", rounds=5,
-                       ladder_path="single_seater", tier_index=1)
-b6.career = None
-odd = FakeSession(grid(), kind="race")
-odd.circuit = _unknown
-odd.track = "ANA - INDY GRAND PRIX"
-odd.on_air = False
-odd.started = False
-odd.green = False
-for c in odd.order:
-    c.cls = "Tatuus_F4-T014"
-b6.update_booth(odd)
-check(b6._season_armed and b6._season_round is not None,
-      "the round is matched at a circuit nobody has written an entry for",
-      str(b6._season_round))
-check(b6.season_prompt(odd) is not None,
-      "so the prompt appears instead of the career reading as paused")
-check((b6._season_round or {}).get("slug") == _unknown.key,
-      "and it is filed under the derived key",
-      str((b6._season_round or {}).get("slug")))
-
-# ...AND THE BOOTH STILL SAYS NOTHING ABOUT THE PLACE. `known` is untouched: a
-# round being countable and a circuit being describable are separate questions,
-# and inventing facts about an unknown track is the one thing this must not do.
-check(not _unknown.known,
-      "while the circuit itself stays unknown, so no fact can be invented")
+    # AN UNRECOGNISED GAME PHASE CANNOT BREAK IT ANY MORE, which is the point of
+    # moving the decision out of the session: rF2 may publish what it likes.
+    b3 = Booth()
+    b3.season = car
+    b3.career = None
+    s3 = FakeSession(grid(), kind="race")
+    s3.circuit = _C3()
+    s3.on_air = False
+    s3.started = True
+    s3.green = False
+    s3.phase_name = "?9"
+    b3.update_booth(s3)
+    check(b3._season_round is not None,
+          "a phase nobody recognises no longer decides anything")
+finally:
+    _S3.CAREER_DIR = _old3
+    _sh3.rmtree(_d3, ignore_errors=True)
 
 
 print("\n" + ("FAILED: %d" % len(fails) if fails else "ALL PASSED"))

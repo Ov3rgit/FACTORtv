@@ -23,7 +23,7 @@ _DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _DIR)
 
 CW, CH = 620, 620
-PAGES = ("inbox", "career_ladder", "career_nextlen")
+PAGES = ("career", "career_ladder")
 
 
 def _career():
@@ -40,7 +40,9 @@ def _career():
                  ladder_path="single_seater", tier_index=0)
     c.data["nationality"] = "Australia"
     field = ["Marco Bellini", "Theo Vasseur", "Sam Okonkwo"]
-    for n in (1, 2, 3, 4):
+    # THREE OF FOUR ROUNDS RACED, so the career page carries the row that decides
+    # whether the NEXT one counts — the control that replaced the in-session card.
+    for n in (1, 2, 3):
         order = [c.me] + field
         c.record({"n": n, "slug": "t%d" % n, "pos": 1, "laps": 18,
                   "race_laps": 18,

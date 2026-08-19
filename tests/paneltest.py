@@ -68,11 +68,6 @@ class Host(DrawMixin, PanelsMixin, DashMixin):
         import career as _c; s.career=_c.History()
         s.tracker=type('T',(),{'display_name':None})()
         s.season=None; s.season_record=True
-    # The career prompt asks the booth what round this is; the panel test has
-    # no booth, so it stands in with a fixed answer and checks the DRAWING.
-    def season_prompt(s, sess):
-        return {"name":"F1 2025","round":"Round 10 of 24",
-                "event":"Canadian Grand Prix","rerun":True}
     def _begin_panel(s,name,x,y,w,h,clickable=False):
         s._panels_drawn.append((name,int(w),int(h),int(x),int(y)))
         class P:
@@ -111,7 +106,6 @@ try_draw('menu page with no session', h.draw_settings)
 check_no_session = [n for n, *_ in h._panels_drawn]
 check(("menubtn" in check_no_session and "menu" in check_no_session),
       "the menu draws with no session loaded", str(check_no_session))
-try_draw('career prompt', h.draw_career_prompt, s)
 # The caption box must sit on the bottom edge beside the map, clear of the
 # dash, and out of the centre where the driver is looking.
 h.tts = type('T', (), {'now_playing': ('PLAY',

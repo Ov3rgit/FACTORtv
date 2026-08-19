@@ -437,6 +437,44 @@ class Career(object):
         self.save()
         return rec
 
+    # -- DOES THIS ROUND COUNT? ---------------------------------------------
+    #
+    # The user's call, after the in-session prompt failed him four times:
+    # *"let the player have control and make it a choice that needs clicking
+    # before a round like how we did the F4 seat acceptance ... to switch it off
+    # it must be done by either turning that off or closing the career."*
+    #
+    # It lives IN THE CAREER FILE, not in the booth, and that is the whole point.
+    # A decision held in session state is lost the moment rF2 moves from
+    # qualifying to the race — which is exactly the window the old card tried to
+    # work in — and it cannot be made in advance, out of the car, where a driver
+    # actually has time to think about it.
+    #
+    # ONLY THE EXCEPTIONS ARE STORED. Default is to count: a race that quietly
+    # failed to count is unrecoverable, while one that counted wrongly is one
+    # click from undone. So the file lists the rounds switched OFF, which also
+    # means an old career file reads correctly with no migration.
+    def round_counts(self, n):
+        """Will round `n` be recorded when it is raced?"""
+        if not n:
+            return False
+        off = [int(x) for x in (self.data.get("rounds_off") or ()) if x]
+        return int(n) not in off
+
+    def set_round_counts(self, n, yes):
+        """Switch a round on or off. Returns the new state."""
+        if not n:
+            return False
+        n = int(n)
+        off = [int(x) for x in (self.data.get("rounds_off") or ()) if x]
+        if yes and n in off:
+            off.remove(n)
+        elif not yes and n not in off:
+            off.append(n)
+        self.data["rounds_off"] = sorted(off)
+        self.save()
+        return self.round_counts(n)
+
     def save(self):
         try:
             os.makedirs(CAREER_DIR, exist_ok=True)

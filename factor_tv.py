@@ -369,7 +369,6 @@ class Overlay(DrawMixin, PanelsMixin, DashMixin, BoothMixin, RadioMixin,
                        (VK_E, self._toggle_tower), (VK_V, self._toggle_rel), (VK_R, self._toggle_radio),
                        (VK_T, self._toggle_dash), (VK_M, self._cycle_gap),
                        (VK_C, self._toggle_booth), (VK_S, self._toggle_menu),
-                       (VK_Y, self._career_yes), (VK_N, self._career_no),
                        (VK_Q, self.quit)):
             if key_down(vk):
                 if vk not in self._keys_down:
@@ -407,12 +406,6 @@ class Overlay(DrawMixin, PanelsMixin, DashMixin, BoothMixin, RadioMixin,
         if not self.booth_enabled:
             self.tts.interrupt()
         save_settings(self.cfg)
-
-    def _career_yes(self):
-        self.season_answer(True)
-
-    def _career_no(self):
-        self.season_answer(False)
 
     def _toggle_menu(self):
         self.menu_open = not self.menu_open
@@ -563,8 +556,9 @@ class Overlay(DrawMixin, PanelsMixin, DashMixin, BoothMixin, RadioMixin,
             self.draw_mode_badge()
             self.draw_division_logo()
             self.draw_settings()
-            # THE GARAGE IS PART OF THE WEEKEND, AND THIS EARLY RETURN WAS WHY THE
-            # PROMPT NEVER APPEARED THERE.
+            # THE GARAGE IS PART OF THE WEEKEND. `draw_status` claims the whole
+            # tick whenever the session is not live, which includes the pit
+            # screen — so the booth was not even RUNNING there.
             #
             # `draw_status` claims the frame whenever the session is not live —
             # which includes the pit screen, where a driver sits deciding what to
@@ -580,7 +574,6 @@ class Overlay(DrawMixin, PanelsMixin, DashMixin, BoothMixin, RadioMixin,
             # that gate has always been for.
             self.update_booth(s)
             self._test_watch(s)
-            self.draw_career_prompt(s)
             self._sweep_panels()
             return
 
@@ -595,7 +588,6 @@ class Overlay(DrawMixin, PanelsMixin, DashMixin, BoothMixin, RadioMixin,
         self.draw_sectors(s)
         self.draw_map(s)
         self.draw_podium(s)
-        self.draw_career_prompt(s)
         # THE TEST PROGRAMME WATCHES EVERY SESSION, INCLUDING THE ONES THE BOOTH
         # DOES NOT COVER. A test outing IS a practice session, and `update_booth`
         # returns immediately for those — so hanging this off the booth would put

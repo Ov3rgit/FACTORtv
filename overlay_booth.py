@@ -1099,10 +1099,6 @@ class BoothMixin(object):
         self._season_armed = False   # has this session been matched yet?
         self._season_round = None    # which round of the career this is
         self._season_count = False   # ...and whether it will be recorded
-        self._season_asked = False
-        # An intention given before the round was known. Cleared with the
-        # session, like every other answer about a race that is now over.
-        self._season_pref = None
         self._said_launch = False    # the "career mode is running" opener
         self._season_done = False    # result banked, once, at the flag
         # HIS RACE MAY NOT BE OVER WHEN THE RACE IS. See `_season_settle`.
@@ -1753,13 +1749,6 @@ class BoothMixin(object):
 
         # LIGHTS OUT — the single most timing-critical line in the product,
         # and it outranks everything still sitting in the pre-race queue.
-        if s.kind == "race" and s.green and not self._season_asked:
-            # The prompt never survives the start. Unanswered means COUNT IT:
-            # the result still has to survive the completion check, and a
-            # menu action can undo it, whereas a race that quietly failed to
-            # count cannot be recovered at all.
-            self._season_asked = True
-
         if s.kind == "race" and s.green and not self._said_start:
             # Dropping in at COUNTDOWN leaves no room for a running order, so
             # the welcome and the start become the same beat: the show still
@@ -2103,66 +2092,52 @@ class BoothMixin(object):
         # The default is to count it. The user can decline from the prompt or
         # drop the result afterwards from the menu, and both of those are
         # easier to reach for than a race that quietly failed to count.
-        pref = getattr(self, "_season_pref", None)
-        self._season_count = (bool(self._season_round)
-                              and bool(getattr(self, "season_record", True))
-                              and (True if pref is None else pref))
+        # THE DECISION IS THE CAREER'S, NOT THE SESSION'S. Made in the menu,
+        # before the round, out of the car — see `Career.round_counts`. Session
+        # state could not hold it: rF2 moving from qualifying to the race wipes
+        # everything the booth knows, which is the window the old in-session card
+        # spent four attempts failing to work in.
+        # A ROUND SWITCHED OFF IS NOT A ROUND, AND THE WHOLE BROADCAST SHOULD
+        # AGREE ABOUT THAT.
+        #
+        # The user's own framing: *"if I want to do a random race I just have to
+        # switch it off and the commentary system and race engineer will know."*
+        # He is right, and the alternative is incoherent — a booth calling this
+        # "round two of the Formula 4 season" while nothing is being recorded is
+        # telling him something the standings will contradict.
+        #
+        # So the match itself is dropped. Everything downstream already handles
+        # "no round": the booth says nothing about the championship, the engineer
+        # loses his round talk, no qualifying result is banked, nothing records,
+        # and the mode badge reads OFF-CAREER — which is exactly what a race
+        # outside the career is.
+        rnd = self._season_round or {}
+        if rnd and not career.round_counts(rnd.get("n")):
+            self._log("SEASON", "round %s is switched off in the career menu — "
+                                "this session is off-career"
+                      % rnd.get("n"))
+            self._season_round = None
+            rnd = {}
+        self._season_count = (bool(rnd)
+                              and bool(getattr(self, "season_record", True)))
 
-    def season_answer(self, yes):
-        """The user's answer to the pre-race prompt. True if there was one to
-        answer — the hotkeys are live all the time and must do nothing at all
-        when no prompt is showing."""
-        if self._season_asked:
-            return False
-        self._season_asked = True
-        # THE ANSWER MAY ARRIVE BEFORE THE ROUND IS KNOWN, because the card is now
-        # offered in the pit screen where the car class often is not published
-        # yet. So it is REMEMBERED as an intention and applied by `_season_arm`
-        # when there is something to apply it to — a no was being silently lost
-        # in exactly the window this feature exists to fill.
-        self._season_pref = bool(yes)
-        self._season_count = bool(yes) and bool(self._season_round)
-        return True
-
-    def season_prompt(self, s):
-        """What the prompt card should say, or None when it should not show.
-
-        Only before the green flag: asking mid-race is asking about a
-        decision already made, and asking after it is too late to matter.
-        """
-        career = getattr(self, "season", None)
-        if (career is None or self._season_asked
-                or s is None or s.kind != "race" or s.started):
-            return None
-        rnd = self._season_round
-        if not rnd:
-            # ASK ABOUT INTENT, NOT ABOUT A MATCH. This used to refuse until the
-            # round had been MATCHED, which needs the car class — and rF2 does not
-            # reliably publish a class, or even a player, until the car is on
-            # track. So the card could not appear in the pit screen no matter how
-            # early everything else ran, which is the whole thing the user asked
-            # for three times: *"nothing happens until I press drive, and then
-            # only the prompt will show up."*
-            #
-            # THE QUESTION IS "MAY THIS COUNT", AND THAT IS ANSWERABLE BEFORE THE
-            # SESSION IS IDENTIFIED. If the class turns out to belong to another
-            # division, `_season_round` stays None and NOTHING RECORDS — the
-            # answer simply had nothing to apply to. Asking early is therefore
-            # free, and it is the only version of this that a driver can read in
-            # time.
-            rnd = career.next_round()
-            if not rnd:
-                return None
-        total = career.total_rounds
-        return {
-            "name": career.name,
-            "round": ("Round %d of %d" % (rnd["n"], total) if total
-                      else "Round %d" % rnd["n"]),
-            "event": rnd.get("event", ""),
-            # Re-running a round is allowed, and saying so out loud is the
-            # difference between a helpful prompt and a trap.
-            "rerun": bool(rnd.get("done")),
-        }
+    # THE IN-SESSION PROMPT IS GONE, AND ITS ABSENCE IS THE FEATURE.
+    #
+    # `season_prompt` and `season_answer` used to offer a card before the green
+    # flag and take Ctrl+Shift+Y/N. It failed four times in a row, each time for
+    # a different reason — matched under the on-air gate, armed before the data
+    # arrived, never reached by the frame, and finally refused because rF2
+    # publishes a game phase outside 0..8 in the pit screen, which the code read
+    # as "the race has started".
+    #
+    # Every one of those was a symptom of the same design fault: THE DECISION WAS
+    # BEING ASKED FOR IN A WINDOW THE GAME CONTROLS, out of data the game
+    # publishes when it feels like it, while the driver is about to drive. It now
+    # lives on the career page as a row he clicks whenever he likes, and it is
+    # stored per round in the career file. See `Career.round_counts`.
+    #
+    # `_season_count` is still the flag `_season_record` obeys — only its source
+    # changed.
 
     def _season_call(self, s):
         """The pre-race season line: which round, and where he stands."""
@@ -3186,10 +3161,6 @@ class BoothMixin(object):
         self._hist_told.clear()
         self._season_armed = False
         self._season_round = None
-        self._season_asked = False
-        # An intention given before the round was known. Cleared with the
-        # session, like every other answer about a race that is now over.
-        self._season_pref = None
         self._season_count = False
         self._season_done = False
         self._season_settle = None

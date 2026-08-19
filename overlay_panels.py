@@ -936,83 +936,6 @@ class PanelsMixin(object):
             return "race them once first"
         return None
 
-    def draw_career_prompt(self, s):
-        """"Round 6 of 24 — count this towards the championship?"
-
-        Shown only before the green flag, and only when the loaded session
-        actually matches a round of the active career. It governs RECORDING,
-        not commentary: the booth already knows which round this is and will
-        say so regardless. What is being asked is whether the result may be
-        written into a championship, which is the half that cannot be undone
-        by simply racing again.
-
-        Unanswered is a yes. A race that quietly failed to count is
-        unrecoverable; one that counted wrongly is one menu click away from
-        being undone.
-        """
-        info = self.booth_enabled and self.season_prompt(s)
-        if not info:
-            self._hide_panel("career")
-            return
-
-        w, h = UI(430), UI(92)
-        gx, gy, gw, gh = self.game_rect
-        # Bottom edge, left of the telemetry dash and right of the sector
-        # strip. Everything hugs an edge; the centre belongs to the driver.
-        #
-        # STACKED ABOVE THE CAPTION BOX, which now lives in the same corner —
-        # and which is active at exactly this moment, since the pre-race
-        # running order is subtitled. Sitting a little higher than the very
-        # bottom edge is acceptable here in a way it would not be mid-race:
-        # this prompt only exists before the green flag, with the car
-        # stationary on the grid.
-        x = gx + UI(EDGE) + UI(340)
-        y = gy + gh - h - UI(EDGE) - UI(CAPTION_STACK)
-        p = self._begin_panel("career", x, y, w, h)
-        c = p.canvas_at(x, y)
-        self._body(c, x, y, w, h)
-
-        c.create_text(x + UI(14), y + UI(18), anchor="w",
-                      text=info["name"].upper(), fill=TH.accent,
-                      font=self.f_small)
-        c.create_text(x + w - UI(14), y + UI(18), anchor="e",
-                      text=info["round"], fill=TH.text, font=self.f_small)
-
-        line = info["event"] or ""
-        if info["rerun"]:
-            # Say it out loud: re-running a round REPLACES the result that is
-            # already stored, and finding that out afterwards would be nasty.
-            line = (line + " — already raced, this replaces it").strip(" —")
-        c.create_text(x + UI(14), y + UI(42), anchor="w", text=line[:52],
-                      fill=TH.bad if info["rerun"] else TH.dim,
-                      font=self.f_tiny)
-
-        c.create_text(x + UI(14), y + UI(68), anchor="w",
-                      text="Count this race towards the championship?",
-                      fill=TH.text, font=self.f_tiny)
-        c.create_text(x + w - UI(14), y + UI(68), anchor="e",
-                      text="Ctrl+Shift+Y / N", fill=TH.accent,
-                      font=self.f_tiny)
-
-    # -- settings menu --------------------------------------------------------------
-    #
-    # The only clickable panel in the product, and now the only one with more
-    # than one page. Careers need list-selection — pick a preset, pick a save,
-    # delete one — which a flat list of toggles cannot express. They do NOT
-    # need text entry, which is why career names come from the preset and
-    # calendars are edited as JSON: typing into an overlay while the game also
-    # wants the keyboard is a fight nobody wins.
-    #
-    # A row is a dict so the drawing code never has to guess what it is:
-    #
-    #   toggle   an on/off pill, the original behaviour
-    #   nav      opens another page
-    #   action   does something, possibly via a confirm page
-    #   info     text only, not clickable
-    #
-    # Anything destructive goes through `confirm`. This panel sits under the
-    # mouse during a race, and a mis-click must not be able to delete a season.
-
     def draw_settings(self):
         """Everything else is click-through so the mouse always belongs to
         the game; this one deliberately is not, and it is only ever on screen
@@ -1363,6 +1286,23 @@ class PanelsMixin(object):
                 #
                 # It banks a result, so it goes behind the same confirmation
                 # as everything else that cannot be undone by racing again.
+                # DOES THIS ROUND COUNT? The user's call, after the in-session
+                # card failed four times in four different ways:
+                #
+                #   *"let the player have control and make it a choice that needs
+                #   clicking before a round ... to switch it off it must be done
+                #   by either turning that off or closing the career."*
+                #
+                # Out of the car, no timing pressure, and stored per round in the
+                # career file so it survives the session changes that wiped every
+                # previous attempt. Switching it OFF makes the whole session
+                # off-career — the booth and the engineer stop treating it as a
+                # round at all, which is what a random race actually is.
+                counts = car.round_counts(nxt["n"])
+                rows.append({"label": "Round %d counts" % nxt["n"],
+                             "key": "roundcount", "val": counts,
+                             "hot": not counts,
+                             "note": "" if counts else "off-career"})
                 total = car.total_rounds or 0
                 finale = bool(total and nxt.get("n") == total)
                 why = self._sim_blocked(car)
@@ -2892,6 +2832,18 @@ class PanelsMixin(object):
         self._season_round = None
 
     def _menu_toggle(self, key):
+        if key == "roundcount":
+            car = getattr(self, "season", None)
+            nxt = car.next_round() if car is not None else None
+            if car is not None and nxt:
+                car.set_round_counts(nxt["n"], not car.round_counts(nxt["n"]))
+                # THE BOOTH HAS TO BE TOLD, because it decided which round this
+                # session was when the session loaded. Without this, switching a
+                # round off mid-garage would leave the booth still calling it a
+                # championship round until the next session change.
+                self._season_armed = False
+                self._season_round = None
+            return
         if key == "career_quali":
             car = getattr(self, "season", None)
             if car is not None:
