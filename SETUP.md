@@ -9,16 +9,27 @@ else depends on, and it is the one people skip.
 
 ---
 
-## 0. Run the installer first
+## 0. Install the plugin, then run the installer. That is the whole setup.
+
+**Do the plugin first (step 1 below) and this is a one-command install.**
 
 ```bash
 python install.py
 ```
 
-Or double-click `INSTALL.bat`. It copies the artwork where the overlay looks for
-it, finds your rFactor 2, and tells you whether the plugin below is in place —
-with the exact path if it is not. It never overwrites anything you already have,
-so it is safe to run twice.
+Or double-click `INSTALL.bat`. In one run it:
+
+* copies the artwork into `Pictures\Factor Overlay\...` where the overlay reads
+  it — never overwriting anything you have added yourself;
+* finds rFactor 2 and checks the plugin is in `Bin64\Plugins`;
+* **switches the plugin ON in rF2's own config**, which is the step people miss —
+  a plugin that is present but not enabled publishes nothing, and the overlay then
+  sits there saying it is waiting for the game;
+* installs the three Python packages;
+* and finishes by telling you either READY or exactly what is still wrong.
+
+It is safe to run twice, and `--check` changes nothing. Close rFactor 2 before
+running it, or the game may write over the plugin setting on its way out.
 
 If you have already downloaded the plugin DLL, hand it over and the installer
 puts it in the right place:
@@ -44,8 +55,12 @@ Install the plugin into:
 <your rFactor 2>\Bin64\Plugins\rFactor2SharedMemoryMapPlugin64.dll
 ```
 
-Then enable it in rF2's own launcher under **Settings → Plugins**. To check it
-from here:
+Then it has to be ENABLED. rF2 records that in
+`UserData\player\CustomPluginVariables.JSON` under `" Enabled"` — note the
+leading space, which is rF2's own spelling — and `install.py` sets it for you.
+By hand it is **Settings → Plugins** in rF2's launcher.
+
+To check the whole chain:
 
 ```bash
 python verify_plugin.py

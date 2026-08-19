@@ -152,6 +152,54 @@ def main():
                     os.path.join("FACTORtv-%s" % version.full(), rel))
     print("wrote %s  (%.1f MB compressed)"
           % (path, os.path.getsize(path) / 1048576.0))
+    verify(path, inc)
+
+
+def verify(path, inc):
+    """Re-open the archive and prove every file in it matches the source.
+
+    ASKED DIRECTLY — *"is the version I have now and the shipped version byte
+    identical?"* — and it is the sort of question that deserves a check rather
+    than an assurance. A zip is written by a loop, and a loop that skips a file,
+    truncates one or picks up a half-saved editor buffer produces an archive that
+    looks perfectly healthy from the outside.
+
+    So: read every member back out of the finished archive, hash it, and hash the
+    file on disk beside it. Anything that differs is named. This is cheap (a few
+    megabytes of SHA-256) and it turns "it should be the same" into "these 181
+    files are the same".
+    """
+    import hashlib
+    root = "FACTORtv-%s" % version.full()
+    bad, missing = [], []
+    with zipfile.ZipFile(path) as z:
+        names = set(z.namelist())
+        for rel in inc:
+            member = os.path.join(root, rel).replace("\\", "/")
+            if member not in names:
+                missing.append(rel)
+                continue
+            with z.open(member) as f:
+                zipped = hashlib.sha256(f.read()).hexdigest()
+            with open(os.path.join(_DIR, rel), "rb") as f:
+                ondisk = hashlib.sha256(f.read()).hexdigest()
+            if zipped != ondisk:
+                bad.append(rel)
+        extra = sorted(n for n in names
+                       if os.path.relpath(n, root).replace("/", os.sep)
+                       not in set(inc))
+    if bad or missing or extra:
+        for r in missing:
+            print("  MISSING from the archive: %s" % r)
+        for r in bad:
+            print("  DIFFERS from the source:  %s" % r)
+        for r in extra:
+            print("  IN THE ARCHIVE AND NOT IN THE MANIFEST: %s" % r)
+        print("  VERIFY FAILED — do not ship this archive")
+        return False
+    print("  verified: all %d files byte-identical to this working copy, and "
+          "nothing else in the archive" % len(inc))
+    return True
 
 
 if __name__ == "__main__":
