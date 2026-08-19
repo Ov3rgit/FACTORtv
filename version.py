@@ -31,7 +31,7 @@ STAGE = "beta"
 # commit, so a stamp cannot claim a state the repository was not in. "dev" means
 # nobody has stamped this working copy, which is the honest answer for a source
 # tree somebody is editing.
-BUILD = "2026-08-19.b59f490+"
+BUILD = "2026-08-19.85d48b5"
 
 # What a tester is actually being asked to look at, in the order it matters.
 # Kept here so the release notes and the setup guide cannot drift from it.
