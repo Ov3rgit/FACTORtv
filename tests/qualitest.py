@@ -802,5 +802,52 @@ check(b5._season_armed,
       "but once the race has started it decides on what it has")
 
 
+
+# A CIRCUIT THE OVERLAY HAS NEVER HEARD OF IS STILL A ROUND. THIS COST HIM A RACE.
+#
+# `_season_arm` refused unless `circuit.known` — which means "we hold facts about
+# this place". That is the wrong question asked of the wrong field: his Formula 4
+# season reached "ANA - INDY GRAND PRIX", nothing in `tracks.json` recognises it,
+# and every attempt to start reported the career as PAUSED. No prompt, no round,
+# nothing recorded — in an OPEN season whose definition is "N races, ANY circuit".
+#
+# THE CAR IDENTIFIES THE CHAMPIONSHIP; the circuit is only what the round is
+# filed under. `Track.key` always supplies one.
+import track as _track_mod
+
+_unknown = _track_mod.Track("ANA - INDY GRAND PRIX")
+check(not _unknown.known and _unknown.key,
+      "an unrecognised circuit has no facts but does have a key",
+      "known=%s key=%s" % (_unknown.known, _unknown.key))
+
+b6 = Booth()
+b6.season = _S2.create("open", me="Kandasamy", rounds=5,
+                       ladder_path="single_seater", tier_index=1)
+b6.career = None
+odd = FakeSession(grid(), kind="race")
+odd.circuit = _unknown
+odd.track = "ANA - INDY GRAND PRIX"
+odd.on_air = False
+odd.started = False
+odd.green = False
+for c in odd.order:
+    c.cls = "Tatuus_F4-T014"
+b6.update_booth(odd)
+check(b6._season_armed and b6._season_round is not None,
+      "the round is matched at a circuit nobody has written an entry for",
+      str(b6._season_round))
+check(b6.season_prompt(odd) is not None,
+      "so the prompt appears instead of the career reading as paused")
+check((b6._season_round or {}).get("slug") == _unknown.key,
+      "and it is filed under the derived key",
+      str((b6._season_round or {}).get("slug")))
+
+# ...AND THE BOOTH STILL SAYS NOTHING ABOUT THE PLACE. `known` is untouched: a
+# round being countable and a circuit being describable are separate questions,
+# and inventing facts about an unknown track is the one thing this must not do.
+check(not _unknown.known,
+      "while the circuit itself stays unknown, so no fact can be invented")
+
+
 print("\n" + ("FAILED: %d" % len(fails) if fails else "ALL PASSED"))
 sys.exit(1 if fails else 0)

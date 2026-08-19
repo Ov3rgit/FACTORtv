@@ -224,6 +224,17 @@ def _norm(name):
     return re.sub(r"\s+", " ", s).strip()
 
 
+def _slugify(raw):
+    """A stable key for a circuit nobody has written an entry for. "" if empty.
+
+    Deliberately NOT the same shape as a curated slug — it keeps the digits a
+    curated slug drops, because for an unknown track the year in the folder name
+    may be the only thing separating two layouts of the same place.
+    """
+    n = re.sub(r"[^a-z0-9]+", "_", (raw or "").lower()).strip("_")
+    return n[:48]
+
+
 def resolve(name):
     """rF2 track name -> canonical slug, or None if we do not recognise it.
 
@@ -366,7 +377,7 @@ def _scrape_year(raw):
 class Track(object):
     """What we know about the circuit currently loaded."""
 
-    __slots__ = ("slug", "name", "raw", "known", "_d", "year")
+    __slots__ = ("slug", "name", "raw", "known", "_d", "year", "key")
 
     def __init__(self, raw):
         self.raw = raw or ""
@@ -374,6 +385,24 @@ class Track(object):
         self._d = load().get(self.slug or "", {})
         self.known = bool(self._d)
         self.name = self._d.get("name") or _pretty(raw)
+        # AN IDENTITY, EVEN WHEN WE KNOW NOTHING ABOUT THE PLACE.
+        #
+        # `slug` is None for a circuit the alias table has never heard of, and
+        # `known` is False, and both of those are right: the booth must say
+        # nothing about a track it cannot recognise. But a CAREER ROUND has to be
+        # recorded against something, and "we have no trivia about this place" is
+        # a completely different question from "this race did not happen".
+        #
+        # The user's own report: a Formula 4 round at "ANA - INDY GRAND PRIX",
+        # which nothing here recognises, and every attempt to start it reported
+        # the career as paused — no prompt, no round, nothing recorded, in an
+        # OPEN season whose whole definition is "N races, ANY circuit".
+        #
+        # So `key` is always usable: the canonical slug where there is one, and a
+        # normalised form of the raw name where there is not. Two different
+        # tracks cannot collide on it, and the same track is stable across
+        # sessions, which is all a round number needs.
+        self.key = self.slug or _slugify(raw)
         # WHICH LAYOUT THIS IS. rF2 content names the year — "ISI_Belgium_1966",
         # "Silverstone_1991", "Monza_2021" — and it matters enormously,
         # because a historic circuit is not a shorter version of the modern

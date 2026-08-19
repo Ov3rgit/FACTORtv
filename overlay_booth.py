@@ -1141,8 +1141,14 @@ class BoothMixin(object):
             return True
         me = getattr(s, "player", None)
         circuit = getattr(s, "circuit", None)
+        # A KEY, NOT RECOGNITION. Waiting for a circuit the alias table knows
+        # would wait for ever at an unrecognised track, which is exactly where
+        # this went wrong: the round was never decided and the badge reported a
+        # paused career at every attempt.
         return bool(me is not None
-                    and circuit is not None and getattr(circuit, "known", False)
+                    and circuit is not None
+                    and (getattr(circuit, "key", "")
+                         or getattr(circuit, "slug", ""))
                     and (getattr(me, "cls", "") or "").strip())
 
     def _season_pre_arm(self, s, now):
@@ -2053,15 +2059,31 @@ class BoothMixin(object):
         # and it is how the user hears that career mode is running before the
         # race itself. RECORDING remains race-only: `_season_record` is
         # called from the chequered-flag bookend, which no other session has.
+        # A ROUND DOES NOT NEED A CIRCUIT THIS OVERLAY HAS HEARD OF.
+        #
+        # This read `not circuit.known`, which means "we hold no facts about this
+        # place" — and refusing a round on those grounds is the wrong question
+        # asked of the wrong field. The user's Formula 4 season reached "ANA -
+        # INDY GRAND PRIX", which nothing in `tracks.json` recognises, and every
+        # attempt to start it reported the career as PAUSED: no prompt, no round,
+        # nothing recorded. In an OPEN season, whose entire definition is "N
+        # races, ANY circuit, one car class".
+        #
+        # THE CAR IS WHAT IDENTIFIES THE CHAMPIONSHIP; the circuit is only what
+        # the round is filed under, and `Track.key` always supplies one. The
+        # booth still says nothing about an unknown place — that is `known`, and
+        # it is untouched.
         if (career is None or car is None or circuit is None
-                or not circuit.known
+                or not (getattr(circuit, "key", "")
+                        or getattr(circuit, "slug", ""))
                 or s.kind not in ("race", "quali", "practice")):
             return
         # THE SEASON YEAR GOES WITH IT, for a rung that locks one. The era is
         # built from the WHOLE class list, which is what dates a team-named
         # Formula One grid — one constructor on its own cannot be dated.
         _e = getattr(s, "player_era", None) or getattr(s, "era", None)
-        self._season_round = career.match(circuit.slug,
+        self._season_round = career.match(getattr(circuit, "key", "")
+                                          or circuit.slug,
                                           getattr(car, "cls", None),
                                           year=getattr(_e, "year", None),
                                           vehicle=getattr(car, "vehicle", ""))
@@ -2753,7 +2775,8 @@ class BoothMixin(object):
         # where the same circuit may well come round again.
         career = getattr(self, "season", None)
         if career is not None:
-            been = career.visits(circuit.slug)
+            been = career.visits(getattr(circuit, "key", "")
+                                 or circuit.slug)
             if been:
                 last = been[-1]
                 kw.update({"n": last.get("n", 0),
@@ -2766,7 +2789,8 @@ class BoothMixin(object):
                 return ("season_here_won" if last.get("pos") == 1
                         else "season_here"), kw
 
-        rec = hist.at(circuit.slug, getattr(me, "cls", None))
+        rec = hist.at(getattr(circuit, "key", "") or circuit.slug,
+                      getattr(me, "cls", None))
         if rec is None:
             # A circuit he has never raced is worth saying ONCE, and only
             # when there is a career to compare it against. "First time at

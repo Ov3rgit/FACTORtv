@@ -3857,6 +3857,51 @@ an inference. A picture cannot be fooled by a shim three layers below the bug.
 Add it to the preview tools list: it belongs beside `menushot.py` and
 `dashshot.py`, and it is the only one that asserts rather than just showing.
 
+### A CIRCUIT THE OVERLAY HAS NEVER HEARD OF IS STILL A ROUND
+
+Reported after the arming fix: *"everytime I press drive now it says career
+paused."* His Formula 4 season had reached **"ANA - INDY GRAND PRIX"**, which
+nothing in `tracks.json` recognises.
+
+**`_season_arm` REFUSED UNLESS `circuit.known`, AND THAT IS THE WRONG QUESTION
+ASKED OF THE WRONG FIELD.** `known` means "we hold facts about this place" — it
+gates the trivia, the corner names and the character lines, correctly. It has
+nothing to do with whether a race counts. So an open season — whose entire
+definition is *N races, ANY circuit, one car class* — silently stopped counting at
+the first unrecognised track, with no prompt and an OFF-CAREER badge at every
+attempt.
+
+His own question cut to it: *"doesn't the overlay recognize events by car?"* It
+does. **THE CAR IDENTIFIES THE CHAMPIONSHIP; THE CIRCUIT IS ONLY WHAT THE ROUND IS
+FILED UNDER.**
+
+`Track.key` is new and always usable: the canonical slug where there is one, a
+normalised form of the raw name where there is not. `slug` and `known` are
+untouched, so the booth still says nothing about a place it cannot recognise —
+which is the distinction that was collapsed:
+
+| | means | gates |
+|---|---|---|
+| `known` | we hold facts about this place | trivia, corners, character |
+| `slug` | the canonical entry, or None | the facts table |
+| `key` | an identity, always | rounds, results, his own history there |
+
+**IT APPLIES TO EVERY CAREER SHAPE, AND THEY STILL DIFFER CORRECTLY.** A ladder
+career IS an open season with a path attached, so a campaign round now counts
+anywhere. A FIXED-CALENDAR season still has to recognise the track, because there
+the round IS the Brazilian Grand Prix at Interlagos — `Career.match` decides that,
+and an unknown circuit legitimately matches nothing. What was wrong was the booth
+refusing to ask.
+
+`career.visits()` and the history lookup take the key too, so "we were here in
+round two as well" works at an unknown circuit — a claim about HIS results there,
+never about the place.
+
+**AND THE CIRCUIT IS READ DEFENSIVELY** (`getattr(circuit, "key", "")`). A missing
+attribute on a circuit must never be why the booth stops working, and `Track` is
+not the only thing that has ever been handed to that method — two test fixtures
+had their own.
+
 ### EVERY OVERTAKE CALL IN THE PRODUCT WAS DEAD — one expression
 
 Reported as *"the overtaking priority system isn't working at all"*. He drove
