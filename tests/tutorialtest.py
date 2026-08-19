@@ -197,6 +197,78 @@ check(T.done(h6.cfg), "a player who skipped it has told you something",
       str(h6.cfg))
 check(h6._tut_point == "", "and no button is left glowing")
 
+print("\n6b. ...BUT NOT THE BUTTONS IT IS TELLING HIM TO PRESS")
+# The contradiction he found: the script says *open the trophy and start a
+# career*, and "any click ends it" included that one — so following the
+# instruction cancelled the lesson. "you said it was a click to end it, but i
+# need to click the trophy thing whcih i do then it ends it, so i dont know what
+# you mean".
+#
+# Opening the menu or the trophy IS the tutorial working. Anything else is a man
+# who has started doing something of his own.
+import overlay_panels as _P
+
+
+class _ClickHost(_P.PanelsMixin, R.RadioMixin):
+    def __init__(self):
+        self.cfg = {}
+        self.tts = _TTS()
+        self.radio_enabled = True
+        self.season = None
+        self.career = None
+        self.menu_open = True
+        self.menu_page = "main"
+        self._menu_confirm = None
+        self._mail_offset = 0
+        self._mail_feed = "mail"
+        self._menu_hits = [("page_legal", 0, 0, 300, 30)]
+        self._inbox_btn_rect = (68, 22, 106, 60)
+        self._menu_btn_rect = (22, 22, 60, 60)
+        self._tut_i = 0
+        self._tut_last = 0.0
+        self._tut_point = ""
+        self.saved = 0
+
+    def _push_msg(self, who, text, now):
+        pass
+
+    def _tut_save(self):
+        self.saved += 1
+
+
+def _pump(hh, n=6):
+    for _ in range(n):
+        hh.update_tutorial(None)
+        hh.tts.speaking = False
+        hh._tut_last = 0.0
+
+
+hc = _ClickHost()
+_pump(hc, 3)
+_n3 = len(hc.tts.said)
+hc.menu_click(80, 40)                      # the TROPHY, as instructed
+check(hc.menu_page == "dash",
+      "clicking the trophy still opens the career dashboard", hc.menu_page)
+_pump(hc, 3)
+check(len(hc.tts.said) > _n3,
+      "and the engineer carries on talking through it",
+      "%d then %d" % (_n3, len(hc.tts.said)))
+_n6 = len(hc.tts.said)
+hc.menu_click(40, 40)                      # ...and the menu button
+_pump(hc, 3)
+check(len(hc.tts.said) > _n6, "the menu button does not cancel it either",
+      "%d then %d" % (_n6, len(hc.tts.said)))
+# A ROW, HOWEVER, IS HIM DOING SOMETHING ELSE.
+hr = _ClickHost()
+_pump(hr, 2)
+_n2 = len(hr.tts.said)
+hr.menu_click(10, 10)
+_pump(hr, 12)
+check(len(hr.tts.said) == _n2,
+      "but clicking a menu row does end it, as it always did",
+      "%d then %d" % (_n2, len(hr.tts.said)))
+check(T.done(hr.cfg), "and that still counts as heard", str(hr.cfg))
+
 print("\n7. NO ENGINEER, NO LESSON — AND IT STAYS OWED")
 # Somebody who has switched the engineer off has said something; shouting the
 # introduction at him anyway is not a welcome.

@@ -2866,17 +2866,6 @@ class PanelsMixin(object):
     # -- clicks -----------------------------------------------------------------
     def menu_click(self, sx, sy):
         """Handle a click at screen coordinates. True if it hit something."""
-        # ANY CLICK ENDS THE INTRODUCTION. A player who has started pressing
-        # things does not need to be told where they are, and being talked at
-        # while trying to use a menu is the definition of a tutorial nobody
-        # finishes. The click still does whatever it was going to do.
-        if getattr(self, "_tut_i", 0) and not getattr(self, "_tut_done_seen",
-                                                      False):
-            try:
-                self.tutorial_stop()
-                self._tut_done_seen = True
-            except Exception:
-                pass
         b = getattr(self, "_inbox_btn_rect", None)
         if b and b[0] <= sx <= b[2] and b[1] <= sy <= b[3]:
             # THE TROPHY OPENS THE CAREER DASHBOARD, or closes it if that is
@@ -2899,6 +2888,26 @@ class PanelsMixin(object):
             self.menu_page = "main"
             self._menu_confirm = None
             return True
+        # THE INTRODUCTION SURVIVES THE BUTTONS IT IS POINTING AT.
+        #
+        # It said "any click ends it" and it meant it, including the click it had
+        # just asked for: the script says *open the trophy and start a career*,
+        # so following the instruction cancelled the lesson. He put it plainly —
+        # *"you said it was a click to end it, but i need to click the trophy
+        # thing whcih i do then it ends it, so i dont know what you mean"*.
+        #
+        # Opening the menu or the trophy IS the tutorial working. Anything else —
+        # a row, a toggle, a page — is a man who has started doing something of
+        # his own, and being talked at through that is the tutorial nobody
+        # finishes. So the two button branches above return before ever reaching
+        # this, and everything below it stops the talking.
+        if getattr(self, "_tut_i", 0) and not getattr(self, "_tut_done_seen",
+                                                      False):
+            try:
+                self.tutorial_stop()
+                self._tut_done_seen = True
+            except Exception:
+                pass
         if not self.menu_open:
             return False
         for key, x0, y0, x1, y1 in getattr(self, "_menu_hits", ()):

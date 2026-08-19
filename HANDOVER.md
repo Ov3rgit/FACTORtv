@@ -3622,6 +3622,26 @@ tutorial's pointer, accent for a season waiting to be decided.
 **The lesson for any future mark on a corner control:** the canvas is not the
 screen. A panel is a window, and a window clips.
 
+### "ANY CLICK ENDS IT" FOUGHT THE SCRIPT'S OWN INSTRUCTION
+
+*"you said it was a click to end it, but i need to click the trophy thing whcih i
+do then it ends it, so i dont know what you mean"*.
+
+The script says **open the trophy and start a career** — and "any click ends the
+introduction" included that click. Doing what the engineer just asked cancelled
+him mid-sentence. The rule and the content were written an hour apart and neither
+knew about the other.
+
+**Opening the menu or the trophy IS the tutorial working.** The two button
+branches at the top of `menu_click` return before the stop is ever reached;
+everything below it — a row, a toggle, a page — is a player who has started doing
+something of his own, and being talked at through that is the tutorial nobody
+finishes.
+
+Worth keeping as a design note beyond this feature: **a dismissal rule has to know
+what the thing it is dismissing asked for.** "Any interaction cancels" is only
+correct when the thing being cancelled never invites an interaction.
+
 ### AND THEN HE USED THE DASHBOARD
 
 **New career and Load career went to the settings page.** The router maps the name
