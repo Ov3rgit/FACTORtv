@@ -166,6 +166,7 @@ python newsshot.py                     # news articles WITH his photographs
 python podiumshot.py                   # the end-of-session result card
 python mailshot.py                     # a letter, with its letterhead
 python menushot.py                     # a menu page (inbox + career)
+python promptshot.py                   # the "count this race?" card, in the garage
 python modnames.py                     # what the GAME calls each mod
 python newsart.py                      # what pictures are on disk, per division
 python programme.py                    # the three seats, dumped + validated
@@ -3812,6 +3813,49 @@ to confirm.
 A side effect worth having: a restart is now noticed in the garage rather than
 once the car is on track, which is where the last race's state should have been
 cleared all along.
+
+### ...AND THAT FIX SHIPPED BROKEN FOR ONE SESSION. `promptshot.py`
+
+The user, after driving it: *"I should've just left the previous race check Y/N
+system cause it messed up how you accept races — this time when I loaded into the
+garage I didn't get the prompt, nothing."* His screenshot showed the badge reading
+**OFF-CAREER / "Formula 4 paused"** on round one of a Formula 4 season.
+
+**MOVING THE ARMING EARLIER PUT IT AHEAD OF THE DATA IT NEEDS.** `_season_arm`
+gives up silently when the circuit is not resolved, and the flag was set FIRST:
+
+```python
+self._season_armed = True     # <- before
+self._season_arm(s)           # <- ...which then could not decide
+```
+
+rF2 publishes the circuit and the CarClass a beat after the session appears, and
+in the garage that gap is seconds. So "I cannot tell yet" was frozen into "this is
+not a round" for the whole race — no prompt, nothing recorded, and a badge
+confidently reporting a paused career.
+
+**A LOOKUP KEYED ON STATE THAT DOES NOT EXIST YET**, for the fourth time in this
+project. `_can_arm()` now requires the three things `Career.match` actually reads
+— a circuit the overlay can name, the player, and a non-empty car class — and
+otherwise tries again next tick. **The green flag is the deadline**: whatever is
+known by then is the answer, because never deciding is worse than deciding wrongly
+(nothing downstream would ever record or refuse).
+
+**AND THE ASSERTION TEST PASSED THROUGHOUT**, because it called `season_prompt()`
+directly on a hand-built session — which is the half that was never broken. The
+user's response is the lesson, and he was right to ask for it:
+
+> *"you should do a test, like a fake preview test if someone loads into a garage
+> does the prompt even show to begin with"*
+
+`promptshot.py` drives the REAL `update_booth` over a garage session — tick one
+with nothing published, tick two with the circuit and class arriving — then draws
+with the real `draw_career_prompt` and screenshots it. **It fails on an empty
+frame**, measured as ink spread, so "the card is on screen" is a fact rather than
+an inference. A picture cannot be fooled by a shim three layers below the bug.
+
+Add it to the preview tools list: it belongs beside `menushot.py` and
+`dashshot.py`, and it is the only one that asserts rather than just showing.
 
 ### EVERY OVERTAKE CALL IN THE PRODUCT WAS DEAD — one expression
 

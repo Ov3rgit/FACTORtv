@@ -740,5 +740,67 @@ finally:
     _sh2.rmtree(_d2, ignore_errors=True)
 
 
+
+# ...AND IT MUST NOT DECIDE BEFORE IT CAN. THIS SHIPPED BROKEN FOR ONE SESSION.
+#
+# Moving the arming into the garage put it ahead of the data it needs: rF2
+# publishes the circuit and the car class a beat after the session appears, and
+# `_season_arm` gives up silently when the circuit is not resolved. The flag was
+# set FIRST, so "I cannot tell yet" became "this is not a round" for the whole
+# race — no prompt at all, and an OFF-CAREER badge reading "Formula 4 paused" on
+# round one. A no-match must be an ANSWER, not a missing input.
+_S2.CAREER_DIR = _d2
+car2 = _S2.create("open", me="Kandasamy", rounds=5)
+b4 = Booth()
+b4.season = car2
+b4.career = None
+cold = FakeSession(grid(), kind="race")
+cold.circuit = None                 # the garage, one tick in: nothing resolved
+cold.on_air = False
+cold.started = False
+cold.green = False
+b4.update_booth(cold)
+check(not b4._season_armed,
+      "with no circuit published yet, the round is NOT decided")
+check(b4.season_prompt(cold) is None,
+      "and no prompt is offered on a decision that has not been made")
+
+# The circuit arrives a moment later, and NOW it decides.
+class _Circ2:
+    slug = "zandvoort"
+    name = "Zandvoort"
+    known = True
+cold.circuit = _Circ2()
+b4.update_booth(cold)
+check(b4._season_armed and b4._season_round is not None,
+      "as soon as it is published, the round is matched",
+      str(b4._season_round))
+check(b4.season_prompt(cold) is not None,
+      "and the prompt appears — still in the garage, before the green")
+
+# A CAR WITH NO CLASS IS THE SAME PROBLEM. The class is what a rung is matched
+# on, and it arrives separately from the circuit.
+b5 = Booth()
+b5.season = _S2.create("open", me="Kandasamy", rounds=5)
+b5.career = None
+noc = FakeSession(grid(), kind="race")
+noc.circuit = _Circ2()
+noc.on_air = False
+noc.started = False
+noc.green = False
+for c in noc.order:
+    c.cls = ""
+b5.update_booth(noc)
+check(not b5._season_armed, "a car with no class published yet waits too")
+
+# THE GREEN FLAG IS THE DEADLINE. Whatever is known by then is the answer —
+# never deciding at all would be worse than deciding wrongly, because nothing
+# downstream would ever record or refuse.
+noc.started = True
+b5.update_booth(noc)
+check(b5._season_armed,
+      "but once the race has started it decides on what it has")
+
+
 print("\n" + ("FAILED: %d" % len(fails) if fails else "ALL PASSED"))
 sys.exit(1 if fails else 0)

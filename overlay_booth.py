@@ -1059,6 +1059,7 @@ class BoothMixin(object):
         # left set would have the next race believing it is already neutralised.
         self._sc_state = 0
         self._sc_since = None
+        self._arm_waited = False
         self._intro_at = 0.0
         self._pre = []              # pre-race running order, stages remaining
         self._pre_failed = set()    # stages that raised, one retry each
@@ -1123,6 +1124,27 @@ class BoothMixin(object):
         self._caption_until = 0.0
 
     # -- main ---------------------------------------------------------------
+    def _can_arm(self, s):
+        """Is there enough published yet to decide which round this is?
+
+        The three things `_season_arm` and `Career.match` actually read: a
+        circuit the overlay can name, the player, and his car's CLASS — which is
+        what a rung is matched on. rF2 publishes them a beat apart from the
+        session appearing, and in the garage the gap is seconds rather than
+        milliseconds.
+
+        A career that does not exist needs no data: there is nothing to match, so
+        that answer is available immediately and correctly.
+        """
+        car = getattr(self, "season", None)
+        if car is None:
+            return True
+        me = getattr(s, "player", None)
+        circuit = getattr(s, "circuit", None)
+        return bool(me is not None
+                    and circuit is not None and getattr(circuit, "known", False)
+                    and (getattr(me, "cls", "") or "").strip())
+
     def _season_pre_arm(self, s, now):
         """Session housekeeping that must happen BEFORE anything is spoken.
 
@@ -1165,14 +1187,35 @@ class BoothMixin(object):
         self._was_green = s.started
         self._last_et_seen = et
         if not self._season_armed and s.kind == "race":
-            # ONCE PER SESSION. A no-match is a real answer and must not be
-            # retried every tick for the length of a race.
+            # ONCE PER SESSION — BUT NOT UNTIL THE ANSWER CAN BE KNOWN.
             #
-            # RACE ONLY, HERE. Qualifying arms on the normal path below, where
-            # it always did — a quali session has nothing to confirm, and the
-            # prompt this exists for is about a RESULT being recorded.
-            self._season_armed = True
-            self._season_arm(s)
+            # THIS BROKE THE PROMPT, and the mistake is the one this file warns
+            # about most often. Moving the arming into the garage put it ahead of
+            # the data it needs: `_season_arm` gives up silently when the circuit
+            # is not resolved yet, and because the flag was set FIRST, "I cannot
+            # tell yet" was frozen into "this is not a round" for the whole
+            # session. The user got no prompt at all and an OFF-CAREER badge
+            # reading "Formula 4 paused" on a race that was round one.
+            #
+            # A LOOKUP KEYED ON STATE THAT DOES NOT EXIST YET — the same shape as
+            # `simulate_round` reading a class the first race fills in, and
+            # `installed_mods` caching an empty list. Ask what the key is filled
+            # in BY, and whether that has happened yet.
+            #
+            # So the flag is set only when the decision was actually possible,
+            # and otherwise it is tried again next tick. The deadline is the
+            # green flag: by then the answer is whatever it is, and an honest
+            # OFF-CAREER beats never deciding.
+            #
+            # RACE ONLY, HERE. Qualifying arms on the normal path below, where it
+            # always did.
+            if self._can_arm(s) or s.started:
+                self._season_armed = True
+                self._season_arm(s)
+            elif not getattr(self, "_arm_waited", False):
+                self._arm_waited = True
+                self._log("SEASON", "holding the round decision until the "
+                                    "circuit and car are published")
 
     def update_booth(self, s):
         if not self.booth_enabled or s is None or not s.valid:
@@ -3052,6 +3095,7 @@ class BoothMixin(object):
         # left set would have the next race believing it is already neutralised.
         self._sc_state = 0
         self._sc_since = None
+        self._arm_waited = False
         self._intro_at = 0.0
         self._pre = []
         self._pre_last = 0.0
