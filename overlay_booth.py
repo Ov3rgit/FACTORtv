@@ -1129,6 +1129,7 @@ class BoothMixin(object):
         self._season_count = False   # ...and whether it will be recorded
         self._said_launch = False    # the "career mode is running" opener
         self._season_done = False    # result banked, once, at the flag
+        self._season_retired = False  # ...or earlier, when HIS race ended
         # HIS RACE MAY NOT BE OVER WHEN THE RACE IS. See `_season_settle`.
         self._season_settle = None    # (started, last written, round) or None
         self._story = {}            # car id -> {best, worst, now} place arc
@@ -1245,6 +1246,7 @@ class BoothMixin(object):
         # that REMEMBERS belongs in here with the rest of the housekeeping;
         # anything that SPEAKS belongs below.
         self._quali_bank(s)
+        self._season_retire(s, now)
         if not self._season_armed and s.kind == "race":
             # ONCE PER SESSION — BUT NOT UNTIL THE ANSWER CAN BE KNOWN.
             #
@@ -2471,6 +2473,43 @@ class BoothMixin(object):
     # three minutes, and after that the last thing seen is the honest answer.
     RESULT_SETTLE_MAX = 180.0
 
+    def _season_retire(self, s, now):
+        """Bank his result the moment HIS race ends, not when the winner's does.
+
+        A play tester ran out of fuel in round two, stopped on track, and nothing
+        was recorded — because the ONLY place a race result was ever written is
+        the winner's flag (`s.finished`, game phase OVER). A driver who retires
+        and then leaves the session, which is the only thing there is to do when
+        the car will not move, never reaches it. The championship simply had no
+        round two.
+
+        `mFinishStatus` says whether HE is done: 1 finished, 2 and 3 are the
+        retirements. So the moment it is set, the result exists and is banked.
+
+        IT IS PROVISIONAL, and deliberately so. The classification of the REST of
+        the field is their running order, because the race is still going — so
+        the flag path overwrites this with the real one, and `record` replaces a
+        round with the same number rather than adding to it. What this guarantees
+        is that HIS result — a retirement, in round two, at this circuit — cannot
+        be lost by leaving a session there is no reason to stay in. A provisional
+        table is a smaller wrongness than a missing race.
+        """
+        if s.kind != "race" or not getattr(self, "_season_count", False):
+            return
+        if getattr(self, "_season_done", False) or self._season_retired:
+            return
+        me = s.player
+        if me is None or not getattr(me, "finish_status", 0):
+            return
+        self._season_retired = True
+        # NO LETTER. A result sheet is frozen when it is sent, and this figure
+        # may yet be corrected by the flag — the same rule `_season_resettle`
+        # documents.
+        if self._season_record(s, final=False) is not None:
+            self._log("RESULT", "his race ended early — banked P%s status=%s "
+                                "laps=%s provisionally"
+                      % (me.place, me.finish_status, me.laps))
+
     def _season_resettle(self, s, now):
         """Re-bank the result while the player's own race is still going.
 
@@ -3293,6 +3332,7 @@ class BoothMixin(object):
         self._season_round = None
         self._season_count = False
         self._season_done = False
+        self._season_retired = False
         self._season_settle = None
         self._last_pass = None
         self._story.clear()

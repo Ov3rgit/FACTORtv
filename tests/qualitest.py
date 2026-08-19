@@ -864,5 +864,78 @@ check([r.get("n") for r in _1c.rounds] == [1],
       "so the career holds round one and nothing else",
       str([r.get("n") for r in _1c.rounds]))
 
+print("\n21. A RETIREMENT IS A RESULT, AND IT IS BANKED WHEN HIS RACE ENDS")
+# A play tester "ran out of feul at the redbull ring kart race doing round 2 but
+# the the race result never recorded or anyhting". The only place a race result
+# was ever written is the WINNER'S flag — `s.finished`, game phase OVER — and a
+# driver stopped on track who then leaves the session, which is the only thing
+# there is to do when the car will not move, never reaches it. The championship
+# simply had no round two.
+_rc = _S3.create("open", me="Kandasamy", rounds=5)
+_rb = Booth()
+_rb.season = _rc
+_rb.career = None
+_rs = FakeSession(grid(), kind="race")
+_rs.circuit = _C3()
+_rs.on_air = True
+_rs.started = True
+_rs.green = True
+_rb.update_booth(_rs)
+check(_rb._season_count and _rb._season_round,
+      "the round arms", str(_rb._season_round))
+# HE RUNS OUT OF FUEL. The race is still running — the leader has not finished,
+# so `s.finished` is false and always will be as far as he is concerned.
+_me = _rs.player
+_me.place = 9
+_me.laps = 4
+_me.finish_status = 2            # rF2: 2 and 3 are the retirements
+_rb.update_booth(_rs)
+check(len(_rc.rounds) == 1,
+      "his retirement is banked while the race is still going",
+      str(len(_rc.rounds)))
+if _rc.rounds:
+    _r = _rc.rounds[0]
+    check(_r.get("dnf"), "recorded as a retirement", str(_r.get("dnf")))
+    check(_r.get("pos") == 9, "where he actually stopped", str(_r.get("pos")))
+    check(_r.get("laps") == 4, "on the lap he actually reached",
+          str(_r.get("laps")))
+# NO RESULT SHEET YET, because the figure may still be corrected by the flag and
+# a letter is frozen when it is sent.
+import inbox as _ibx2
+check(not [m for m in _ibx2.messages(_rc) if m["kind"].startswith("result")],
+      "with no result letter sent on a provisional figure")
+# AND ONCE, however long he sits there.
+_rb.update_booth(_rs)
+_rb.update_booth(_rs)
+check(len(_rc.rounds) == 1, "banked once, not once per tick",
+      str(len(_rc.rounds)))
+# HE LEAVES. The round survives, which is the whole point.
+_rs2 = FakeSession(grid(), kind="race")
+_rs2.circuit = _C3()
+_rs2.order = []
+_rs2.player = None
+_rs2.on_air = False
+_rs2.started = False
+_rb.update_booth(_rs2)
+check([r.get("n") for r in _rc.rounds] == [1],
+      "and leaving the session cannot lose it",
+      str([r.get("n") for r in _rc.rounds]))
+# A DRIVER WHOSE RACE IS STILL RUNNING BANKS NOTHING, which is the other half:
+# this must not turn every green-flag lap into a result.
+_gc = _S3.create("open", me="Kandasamy", rounds=5)
+_gb = Booth()
+_gb.season = _gc
+_gb.career = None
+_gs = FakeSession(grid(), kind="race")
+_gs.circuit = _C3()
+_gs.on_air = True
+_gs.started = True
+_gs.green = True
+_gs.player.finish_status = 0
+_gb.update_booth(_gs)
+_gb.update_booth(_gs)
+check(not _gc.rounds, "a race in progress records nothing at all",
+      str(len(_gc.rounds)))
+
 print("\n" + ("FAILED: %d" % len(fails) if fails else "ALL PASSED"))
 sys.exit(1 if fails else 0)

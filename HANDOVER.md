@@ -3566,6 +3566,57 @@ the user can drive it after step 1 rather than waiting for all of it.
 
 ---
 
+## A RETIREMENT IS A RESULT — the tester's missing round two
+
+Paul *"ran out of feul at the redbull ring kart race doing round 2 but the the
+race result never recorded or anyhting"*.
+
+**The only place a race result was ever written is the winner's flag.**
+`_season_record` is called from `if s.finished and not self._said_win` — game
+phase OVER — and from `_season_resettle`, which only exists after that. A driver
+stopped on track with an empty tank, who then leaves the session because there is
+nothing else to do when the car will not move, never reaches either. The
+championship simply had no round two.
+
+This is the THIRD distinct failure in the same family, and they all read the same
+way: something that has to happen at the end of a session was hung off an event
+that only fires when the session ends cleanly.
+
+  1. Qualifying was banked below the on-air gate, which closes at phase OVER.
+  2. A pending settle carried no round, so it landed on the next one.
+  3. A result only existed if the LEADER finished while he watched.
+
+`_season_retire` banks on `mFinishStatus` — HIS race, not the winner's — the
+moment it is set. 1 is finished, 2 and 3 are retirements, and all three mean the
+result exists.
+
+**IT IS PROVISIONAL AND THAT IS THE POINT.** The rest of the field's
+classification is their running order, because the race is still going, so the
+flag path overwrites it with the real one — `record` replaces a round with the
+same number. No result letter is sent on a provisional figure, because a letter
+is frozen when it is sent. What this guarantees is that HIS result cannot be lost
+by leaving a session there is no reason to stay in: **a provisional table is a
+smaller wrongness than a missing race.**
+
+### A BOUNDARY THIS DELIBERATELY DOES NOT CROSS
+
+Quitting a race WITHOUT retiring — alt-F4, or back to the monitor while the car
+is still healthy — still records nothing, because `mFinishStatus` is 0 and the
+game's position on it is that he has not finished anything. That is a design
+choice rather than an oversight: a player who abandons a session has not had a
+result, and turning every exit into a DNF would bank one on somebody who left a
+race he was treating as practice. If a rage-quit should cost a DNF, that is a new
+rule and needs saying out loud before it is written.
+
+### AND NOTHING NEEDS REPAIRING ON HIS MACHINE
+
+Because the round was never recorded, round two is still the NEXT round. He
+updates and races it again. There is no phantom to remove and no archive to
+correct — the failure that lost the result is also what makes it recoverable by
+simply driving it.
+
+---
+
 ## THE COMMENTARY IS THE GAME — read this before building another arc beat
 
 His steer, and it reorders the priorities of everything in this project:
