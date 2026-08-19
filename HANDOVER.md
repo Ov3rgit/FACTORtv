@@ -3566,6 +3566,66 @@ the user can drive it after step 1 rather than waiting for all of it.
 
 ---
 
+## WHAT THE 20:03 LOG SAID — the call-up, driven
+
+The three fixes from the 18:26 log are all confirmed live in this one:
+`ERA junior disc=formula year=2019 conf=high` on the F3 rung, `GRID captured 13
+of 13` off the countdown with Lawson on pole where he actually started, and
+`SEASON round 1 of Formula 3 at montreal — this session counts`. Then he took the
+call-up and reported three things.
+
+### THE CALL CAME AFTER TWO RACES
+
+`callup_round` was `min(CALLUP_AFTER, max(1, total // 2))`, and half-distance on
+the five-round season he chose is round **two** — so the entire Formula 3
+campaign was one result and one telephone call. `CALLUP_MIN = 3` is his own
+number: *"i think we need to comeplete 3 races of F3 first"*.
+
+A season too short to hold three races AND a round to be called up from now gets
+no call-up at all — he finishes F3 and is promoted the ordinary way, which is a
+real outcome rather than a compressed version of this one.
+
+### THE STORY WAS UNDERNEATH THE ADMIN
+
+*"the emails for F2 came but ninde really specicief how and why i got the F2
+seat, it was just boom you are now in F2"*.
+
+The call-up letter did explain it, in detail. Then five ordinary
+start-of-season letters arrived on top of it, and the newest and most prominent
+thing in his inbox was **"Delighted to have you with us for the Formula 2
+season"** followed by a **test day allocation** — while the call-up letter three
+messages down says in as many words *"you get no test in it"*.
+
+So the arrival letters now know how he arrived. `season_open_callup` registers a
+mid-season substitution and states that points already awarded to the seat are
+not transferable; `seat_callup` opens with "You are in this car because we took
+somebody else out of it"; and no test day is allocated for a season entered by
+call-up. **A letter contradicting another letter in the same inbox is worse than
+either of them alone.**
+
+### THE FEED WAS ONE TAB AWAY AND NOTHING SAID SO
+
+*"also there was NO news reports about it ether"* — and `news_prog_callup` was in
+his save, on the news feed, as the newest item in it. It was never missing; it
+was on a tab he had no reason to open, while the inbox he WAS looking at
+collected six letters about the same weekend. The tab-switch row now carries the
+other feed's unread count and reads as hot when there is something in it.
+
+**Diagnosis note for next time:** `inbox.messages()` sorts by timestamp, so
+slicing it by index does NOT give arrival order. Reading it that way made three
+Formula 3 letters look like they had arrived after the call-up. Tracing
+`inbox._post` is the way to answer when something was written.
+
+### AND ONE THING NOBODY REPORTED
+
+The race that EARNS the call-up had no result sheet. `_programme_mail` ran above
+the result loop, and taking the call-up archives the F3 season and replaces
+`career.rounds` — so the most consequential weekend in the arc was the only one
+he never got a letter about. The programme block now runs last, and that ordering
+is load-bearing.
+
+---
+
 ## WHAT THE 18:26 LOG SAID — six findings, five of them faults
 
 He drove the F3 season and the arc worked live: `prog_offer` -> `prog_signed` ->

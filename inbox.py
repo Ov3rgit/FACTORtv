@@ -453,10 +453,23 @@ def refresh(career, now=None):
     now = now or time.time()
     new = []
 
+    # WAS THIS SEASON JOINED MID-WAY? It changes what every letter at the top of
+    # it may say, and it was changing none of them.
+    #
+    # Reported after driving it: *"the emails for F2 came but ninde really
+    # specicief how and why i got the F2 seat, it was just boom you are now in
+    # F2"*. The call-up letter DID explain it — but the five letters that
+    # followed were the ordinary start-of-season set, so the newest and most
+    # prominent thing in his inbox was "Delighted to have you with us for the
+    # Formula 2 season" and a test day allocation, which is precisely the "boom
+    # you are now in F2" he described. The story was underneath the admin.
+    called_up = career.data.get("arrived_by") == "callup"
+
     # -- the season starts --------------------------------------------------
     if kw["series"]:
         new.append(_post(career, _compose_any(
-            "season_open", "season_open:%s" % base, kw, variant=sn, when=now)))
+            "season_open_callup" if called_up else "season_open",
+            "season_open:%s" % base, kw, variant=sn, when=now)))
         # WHICH CAR TO LOAD. Sent once per season, right at the top, and
         # dropped silently when the cars cannot be listed — a "you may run the
         # following" notice with nothing following it is worse than no notice.
@@ -489,7 +502,8 @@ def refresh(career, now=None):
         # is where everybody starts and nobody is welcomed to it.
         if ev.get("index"):
             new.append(_post(career, _compose_any(
-                "seat", "seat:%s" % base, kw, variant=sn, when=now)))
+                "seat_callup" if called_up else "seat",
+                "seat:%s" % base, kw, variant=sn, when=now)))
 
     # -- THE HISTORIC TOUR, EARNED ------------------------------------------
     #
@@ -513,13 +527,6 @@ def refresh(career, now=None):
         if m:
             new.append(m)
             career.tour_grant(_era.get("key", ""))
-
-    # -- the junior programme -----------------------------------------------
-    # The scripted arc out of Formula 2. Every letter is driven by a STAGE
-    # rather than by a round number, so the story cannot get ahead of the
-    # racing — and the ids carry the stage, so a refresh on every menu draw
-    # posts nothing twice.
-    new += _programme_mail(career, base, kw, now)
 
     # -- the season runs ----------------------------------------------------
     for i, rnd in enumerate(sorted(career.rounds, key=lambda r: r.get("n", 0))):
@@ -550,7 +557,11 @@ def refresh(career, now=None):
             new.append(_post(career, _compose_any(
                 "licence", "licence:%s:%d" % (base, n), rkw,
                 variant=n // LICENCE_EVERY + sn, when=when, rnd=n)))
-        if n == 1:
+        # NO TEST DAY FOR A MID-SEASON REPLACEMENT, because the letter that put
+        # him in the car says so in as many words: "you get no test in it". Two
+        # letters in one inbox, one of them contradicting the other, is worse
+        # than either of them alone.
+        if n == 1 and career.data.get("arrived_by") != "callup":
             new.append(_post(career, _compose_any(
                 "testing", "testing:%s" % base, rkw, variant=sn, when=when,
                 rnd=n)))
@@ -591,6 +602,19 @@ def refresh(career, now=None):
             if ev.get("sideways"):
                 new.append(_post(career, _compose_any(
                     "sideways", "sideways:%s" % base, kw, when=now)))
+
+    # -- the junior programme, LAST ------------------------------------------
+    # Every letter is driven by a STAGE rather than by a round number, so the
+    # story cannot get ahead of the racing — and the ids carry the stage, so a
+    # refresh on every menu draw posts nothing twice.
+    #
+    # IT RUNS AFTER THE RESULT SHEETS, and that ordering is load-bearing: taking
+    # the call-up ARCHIVES the Formula 3 season and replaces `career.rounds`
+    # with the new championship's. Sitting above the loop, it meant the race he
+    # had just driven — the one that earned him the seat — was gone before its
+    # result sheet was written, so the most consequential weekend of the arc was
+    # the only one he never got a letter about.
+    new += _programme_mail(career, base, kw, now)
 
     new = [m for m in new if m]
     if len(career.data.get("mail") or []) != before:

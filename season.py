@@ -1856,18 +1856,27 @@ class Career(object):
     # so the deficit is real and the target is still reachable — the whole point
     # of the arc is that he has to climb, not that he cannot.
     CALLUP_SIM = 2
+    # THE FLOOR, AND HE ASKED FOR IT AFTER LIVING WITH THE OLD ONE: *"i think by
+    # the second race is too sooon, i think we need to comeplete 3 races of F3
+    # first"*. Half-distance on the five-round season he chose was round TWO, so
+    # the whole Formula 3 campaign was one result and one call. Three races is a
+    # body of form — enough that a team promoting him is reacting to something.
+    CALLUP_MIN = 3
 
     def callup_round(self):
         """Which round of this season the call-up lands after. 0 if it cannot.
 
-        Four rounds where the season is long enough, half-distance where it is
-        not, and never the last round — a call-up with nothing left to race is a
-        letter about a seat he will never sit in.
+        Four rounds where the season is long enough, three at the shortest, and
+        never the last round — a call-up with nothing left to race is a letter
+        about a seat he will never sit in. A season too short to hold three races
+        AND a round to be called up from gets no call-up at all: he finishes
+        Formula 3 and is promoted the ordinary way, which is a real outcome
+        rather than a compressed version of this one.
         """
         total = self.total_rounds or 0
         if total < 2:
             return 0
-        return min(self.CALLUP_AFTER, max(1, total // 2))
+        return min(self.CALLUP_AFTER, max(self.CALLUP_MIN, total // 2))
 
     def callup_due(self):
         """Has he raced far enough for the seat to open? True/False."""

@@ -816,6 +816,40 @@ check(spoken_lap(91.234) == "1:31.234" and spoken_lap(None) == "",
 check(fmt_lap(None) == "--:--.---",
       "while fmt_lap keeps the dashes, because a PANEL wants them")
 
+# THE OTHER TAB HAS TO ANNOUNCE ITSELF. Reported as "there was NO news reports
+# about it either" — about a career whose save held the piece, on the news feed,
+# as the newest item in it. It was one tab away, and nothing on the screen said
+# so while the inbox he WAS looking at collected six letters about the same
+# weekend.
+import inbox as _ibx
+_fc = h.season
+if _fc is not None:
+    h.menu_page = "inbox"
+    h._mail_feed = "mail"
+    # ONE UNREAD NEWS ITEM, injected so the badge branch is actually exercised —
+    # a fixture with an empty news feed only ever tests the quiet case.
+    _fc.data.setdefault("mail", []).append(
+        {"kind": "news_prog_callup", "feed": "news", "id": "paneltest:news",
+         "from": "FACTORtv News", "subject": "A seat has changed hands",
+         "body": ["Body."], "when": 9999999999})
+    _un = _ibx.unread(_fc, feed="news")
+    _row = h._rows_inbox()[0]
+    if _un:
+        check("new news" in str(_row.get("note", "")),
+              "the inbox says how much unread news is waiting",
+              str(_row.get("note")))
+        check(_row.get("hot"), "and the row is marked so it reads as new",
+              str(_row.get("hot")))
+    else:
+        check("see news" in str(_row.get("note", "")),
+              "with nothing unread it just offers the tab",
+              str(_row.get("note")))
+    # AND IT STILL SWITCHES TABS, which is the row's actual job.
+    check(str(_row.get("key")) == "mailfeed:news",
+          "and the row still switches to the news tab", str(_row.get("key")))
+    h._mail_feed = "mail"
+    h.menu_page = "main"
+
 print("\n" + ("FAILED: %d" % len(fails) if fails else "ALL PASSED"))
 root.destroy()
 sys.exit(1 if fails else 0)

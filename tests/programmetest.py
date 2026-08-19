@@ -710,6 +710,71 @@ if eras:
           "and reporting it unlocks nothing further",
           str(tour.data.get("tour_unlocked")))
 
+print("\n7i. THREE RACES BEFORE THE CALL, AND THE LETTERS KNOW WHY HE IS THERE")
+# Driven and reported: "i managed to get into f2 but i think by the second race
+# is too sooon, i think we need to comeplete 3 races of F3 first". Half-distance
+# on the five-round season he chose was round TWO, so the whole Formula 3
+# campaign was one result and one telephone call.
+for _len, _want in ((3, 3), (4, 3), (5, 3), (6, 3), (8, 4), (10, 4)):
+    _c = S.create("open", me=ME, rounds=_len, ladder_path="single_seater",
+                  tier_index=F3_TIER)
+    check(_c.callup_round() == _want,
+          "a %d-round season calls him up after round %d" % (_len, _want),
+          str(_c.callup_round()))
+# A SEASON TOO SHORT FOR THREE RACES AND A ROUND TO BE CALLED FROM gets no
+# call-up at all: he finishes Formula 3 and is promoted the ordinary way, which
+# is a real outcome rather than a compressed version of this one.
+_short = S.create("open", me=ME, rounds=3, ladder_path="single_seater",
+                  tier_index=F3_TIER)
+P.accept(_short, "ferrari")
+for _n in (1, 2, 3):
+    race(_short, 2, _n)
+    inbox.refresh(_short)
+check(not P.called_up(_short),
+      "and a three-round season never calls him up mid-way",
+      str(P.called_up(_short)))
+
+# THE LETTERS AT THE TOP OF THE NEW SEASON KNOW HOW HE GOT THERE. His words:
+# "the emails for F2 came but ninde really specicief how and why i got the F2
+# seat, it was just boom you are now in F2". The call-up letter always explained
+# it — and was then buried under the ordinary start-of-season set, whose newest
+# and most prominent member said "Delighted to have you with us for the season".
+_up = f3_career(rounds=5)
+inbox.refresh(_up)
+P.accept(_up, "ferrari")
+inbox.refresh(_up)
+_n = 0
+while not P.called_up(_up) and _n < 6:
+    _n += 1
+    race(_up, 3, _n)
+    inbox.refresh(_up)
+check(_n == 3, "he races three rounds before the seat opens", str(_n))
+# THE RACE THAT EARNED IT GETS ITS RESULT SHEET. Taking the call-up ARCHIVES the
+# Formula 3 season, and the programme mail used to run ABOVE the result loop —
+# so the most consequential weekend of the arc was the only one with no letter.
+_res = [m for m in inbox.messages(_up) if m["kind"].startswith("result")]
+check(len(_res) == 3, "every round he drove has a result sheet",
+      "%d sheets for 3 rounds" % len(_res))
+race(_up, 6, len(_up.rounds) + 1)
+inbox.refresh(_up)
+_kinds = [m["kind"] for m in inbox.messages(_up)]
+check("seat_callup" in _kinds,
+      "the team writes to a replacement, not to a new signing", str(_kinds[:4]))
+check("season_open_callup" in _kinds,
+      "and the governing body registers a mid-season substitution")
+_seat = [m for m in inbox.messages(_up) if m["kind"] == "seat_callup"][0]
+_body = " ".join(_seat["body"]).lower()
+check("took somebody else out of it" in _body or "changes a driver" in _body,
+      "and it says plainly why the seat was free", _body[:70])
+# ...AND THE TEST DAY IS NOT OFFERED, because the call-up letter says in as many
+# words that he does not get one. Two letters contradicting each other is worse
+# than either alone.
+check(not [m for m in inbox.messages(_up) if m["kind"] == "testing"
+           and ":f2:" in str(m.get("id"))],
+      "no test day is allocated for a car he gets no test in",
+      str([m.get("id") for m in inbox.messages(_up)
+           if m["kind"] == "testing"]))
+
 print("\n8. NOTHING ABOUT IT SURVIVES A CAREER THAT DID NOT EARN IT")
 fresh = f2_career()
 check(P.state(fresh) == P.OFFERED and not P.signed(fresh)[0],

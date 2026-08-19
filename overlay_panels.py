@@ -1557,10 +1557,23 @@ class PanelsMixin(object):
         # talking about the sport. They are separated because the story's
         # final beat is a NEWS story — the one place the two worlds touch —
         # and that only lands if the reader already knows the difference.
+        # THE OTHER TAB HAS TO ANNOUNCE ITSELF. Reported as "there was NO news
+        # reports about it either" — about a career whose save held the piece, on
+        # the news feed, as the newest item in it. It was one tab away and
+        # nothing on the screen said so, while the inbox he WAS looking at
+        # collected six letters about the same weekend. A tab with unread
+        # content in it and no badge is a tab nobody opens.
+        _other = "news" if feed == "mail" else "mail"
+        _n_other = inbox_mod.unread(car, feed=_other)
+        _note = "see news >" if feed == "mail" else "< see inbox"
+        if _n_other:
+            _note = ("%d new news >" % _n_other if feed == "mail"
+                     else "< %d new in inbox" % _n_other)
         rows = [{"label": "Inbox" if feed == "mail" else "News",
-                 "key": "mailfeed:%s" % ("news" if feed == "mail" else "mail"),
+                 "key": "mailfeed:%s" % _other,
                  "kind": "action",
-                 "note": "see news >" if feed == "mail" else "< see inbox"},
+                 "hot": bool(_n_other),
+                 "note": _note},
                 {"label": car.name[:26], "kind": "info",
                  "note": ("%d unread" % n_un if n_un else "all read")}]
         # THE DECISION LIVES WHERE HE ALREADY IS. Asked for directly: to move

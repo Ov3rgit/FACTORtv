@@ -764,5 +764,43 @@
     "The year is effectively over. You will be told a great deal in the next fortnight about pressure, expectation and the size of the opportunity; most of it will be well meant and none of it will help. You have done the work. Go and drive the car."
    ]
   }
+ ],
+ "season_open_callup": [
+  {
+   "from": "FIA — Entries & Sporting",
+   "subject": "Licence endorsement — {series}, mid-season entry",
+   "body": [
+    "Your competitor licence has been endorsed for the {series} category following notification of a change of driver by your entrant. The endorsement takes effect from the next event on the calendar and is recorded against your licence number.",
+    "Entrants are reminded that a driver substituted into a championship after the opening round scores from the point of entry only. Points already awarded to the seat this season are not transferable, and the classification will show you against the rounds you contest."
+   ]
+  },
+  {
+   "from": "FIA — Entries & Sporting",
+   "subject": "Amended entry list — {series}",
+   "body": [
+    "An amended entry list for the {series} season has been published to reflect a change of driver notified by your entrant. Your name replaces the previously declared driver with effect from the next round.",
+    "Note that this department does not comment on the reasons for a change of driver, which are a matter between entrant and competitor. What concerns us is that the substitution is properly declared, and it is. Scrutineering and medical requirements apply from your first event as though it were the first of the season."
+   ]
+  }
+ ],
+ "seat_callup": [
+  {
+   "from": "Race Team — Team Principal",
+   "subject": "Straight talking before your first race with us",
+   "body": [
+    "You are in this car because we took somebody else out of it. I am not going to dress that up, and I would rather you heard it from me than worked it out from the way the garage goes quiet when you walk in. The decision was made on a season of form, by people who watched every lap of it, and it was not made lightly.",
+    "What that means for you is simple and hard. You have the rounds that are left, in a championship where everybody else has been scoring since the opening weekend, and there is no test day and no easing you in. You will learn this car on Friday afternoons in front of everybody.",
+    "Two things I want from you. Tell the engineers the truth about the car, even when the truth is that you are the problem. And finish races — a replacement driver who brings it home is a replacement driver we stop calling a replacement."
+   ]
+  },
+  {
+   "from": "Race Team — Team Manager",
+   "subject": "Arrangements — you start at the next round",
+   "body": [
+    "Everything is in place for you to start with us at the next event. Seat fit is Wednesday, and it is a short one because the tub was built around a driver who is not you and we are working with what the calendar allows.",
+    "You should know how the paddock will read this. A team that changes a driver mid-season is a team under pressure, and every question you get asked for the next month will really be a question about whether we were right to do it. You do not have to answer any of them. The results will.",
+    "One practical note: you have no test in this car and there will not be one. The first time you drive it in anger is Friday practice, and everybody who matters knows that, so nobody sensible is expecting miracles on the first weekend."
+   ]
+  }
  ]
 }
