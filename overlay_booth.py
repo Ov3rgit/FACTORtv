@@ -1100,6 +1100,9 @@ class BoothMixin(object):
         self._season_round = None    # which round of the career this is
         self._season_count = False   # ...and whether it will be recorded
         self._season_asked = False
+        # An intention given before the round was known. Cleared with the
+        # session, like every other answer about a race that is now over.
+        self._season_pref = None
         self._said_launch = False    # the "career mode is running" opener
         self._season_done = False    # result banked, once, at the flag
         # HIS RACE MAY NOT BE OVER WHEN THE RACE IS. See `_season_settle`.
@@ -1220,8 +1223,18 @@ class BoothMixin(object):
                 self._season_arm(s)
             elif not getattr(self, "_arm_waited", False):
                 self._arm_waited = True
-                self._log("SEASON", "holding the round decision until the "
-                                    "circuit and car are published")
+                # NAME THE MISSING INPUT. "Holding" was true and useless: three
+                # separate fixes for this one symptom were spent guessing which
+                # of these rF2 had not published yet, when the overlay could have
+                # said so in one line.
+                me = getattr(s, "player", None)
+                circuit = getattr(s, "circuit", None)
+                self._log("SEASON", "cannot decide the round yet — "
+                                    "player=%s cars=%s circuit=%s class=%r"
+                          % ("yes" if me is not None else "NO",
+                             getattr(s, "num_cars", "?"),
+                             (getattr(circuit, "key", "") or "NO"),
+                             (getattr(me, "cls", "") if me is not None else "")))
 
     def update_booth(self, s):
         if not self.booth_enabled or s is None or not s.valid:
@@ -2090,17 +2103,25 @@ class BoothMixin(object):
         # The default is to count it. The user can decline from the prompt or
         # drop the result afterwards from the menu, and both of those are
         # easier to reach for than a race that quietly failed to count.
-        self._season_count = bool(self._season_round) and bool(
-            getattr(self, "season_record", True))
+        pref = getattr(self, "_season_pref", None)
+        self._season_count = (bool(self._season_round)
+                              and bool(getattr(self, "season_record", True))
+                              and (True if pref is None else pref))
 
     def season_answer(self, yes):
         """The user's answer to the pre-race prompt. True if there was one to
         answer — the hotkeys are live all the time and must do nothing at all
         when no prompt is showing."""
-        if not self._season_round or self._season_asked:
+        if self._season_asked:
             return False
         self._season_asked = True
-        self._season_count = bool(yes)
+        # THE ANSWER MAY ARRIVE BEFORE THE ROUND IS KNOWN, because the card is now
+        # offered in the pit screen where the car class often is not published
+        # yet. So it is REMEMBERED as an intention and applied by `_season_arm`
+        # when there is something to apply it to — a no was being silently lost
+        # in exactly the window this feature exists to fill.
+        self._season_pref = bool(yes)
+        self._season_count = bool(yes) and bool(self._season_round)
         return True
 
     def season_prompt(self, s):
@@ -2109,11 +2130,29 @@ class BoothMixin(object):
         Only before the green flag: asking mid-race is asking about a
         decision already made, and asking after it is too late to matter.
         """
-        rnd = self._season_round
         career = getattr(self, "season", None)
-        if (career is None or not rnd or self._season_asked
+        if (career is None or self._season_asked
                 or s is None or s.kind != "race" or s.started):
             return None
+        rnd = self._season_round
+        if not rnd:
+            # ASK ABOUT INTENT, NOT ABOUT A MATCH. This used to refuse until the
+            # round had been MATCHED, which needs the car class — and rF2 does not
+            # reliably publish a class, or even a player, until the car is on
+            # track. So the card could not appear in the pit screen no matter how
+            # early everything else ran, which is the whole thing the user asked
+            # for three times: *"nothing happens until I press drive, and then
+            # only the prompt will show up."*
+            #
+            # THE QUESTION IS "MAY THIS COUNT", AND THAT IS ANSWERABLE BEFORE THE
+            # SESSION IS IDENTIFIED. If the class turns out to belong to another
+            # division, `_season_round` stays None and NOTHING RECORDS — the
+            # answer simply had nothing to apply to. Asking early is therefore
+            # free, and it is the only version of this that a driver can read in
+            # time.
+            rnd = career.next_round()
+            if not rnd:
+                return None
         total = career.total_rounds
         return {
             "name": career.name,
@@ -3148,6 +3187,9 @@ class BoothMixin(object):
         self._season_armed = False
         self._season_round = None
         self._season_asked = False
+        # An intention given before the round was known. Cleared with the
+        # session, like every other answer about a race that is now over.
+        self._season_pref = None
         self._season_count = False
         self._season_done = False
         self._season_settle = None

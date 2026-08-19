@@ -3948,6 +3948,45 @@ One trap while writing that: splitting the source on `"return"` cut the branch
 short inside a COMMENT containing "returns", found no calls, and reported a
 working frame as broken. Split on the statement, not the word.
 
+### THE FOURTH CAUSE: THE PROMPT WAS WAITING FOR A CAR CLASS
+
+*"Nah still same story — I will start quali, then when I say next session I will
+be in the pit screen and nothing happens until I press drive, and then only the
+prompt will show up."*
+
+Three fixes in, and he was still right. The remaining cause is the one that could
+not be fixed by running things earlier: **`season_prompt` refused until the round
+had been MATCHED, and matching needs the car class — which rF2 does not reliably
+publish, or even a player, until the car is on track.** So no amount of arming
+earlier could produce a card in the pit screen; the input was not there to arm
+with.
+
+**SO THE QUESTION CHANGED, AND IT IS A BETTER QUESTION.** The card asks *may this
+count*, and that is answerable before the session has been identified:
+
+* the prompt now offers `career.next_round()` when nothing has been matched yet;
+* an answer is remembered as an INTENTION (`_season_pref`) and applied by
+  `_season_arm` when there is finally something to apply it to — a "no" given in
+  the pit screen was previously accepted and silently dropped, which is worse
+  than not asking;
+* if the class turns out to belong to another division, `_season_round` stays
+  None and NOTHING RECORDS. The answer simply had nothing to apply to, which is
+  exactly the same outcome as today.
+
+Asking early is therefore free, and it is the only version of this a driver can
+read in time.
+
+**AND THE LOG NOW NAMES THE MISSING INPUT.** Three fixes were spent guessing
+which field rF2 had withheld:
+
+```
+SEASON   cannot decide the round yet — player=yes cars=12 circuit=NO class='F1 Test 2025'
+```
+
+That line would have ended this in one run instead of four. When a decision is
+deferred on data somebody else publishes, LOG WHICH FIELD — the alternative is
+what happened here.
+
 ### EVERY OVERTAKE CALL IN THE PRODUCT WAS DEAD — one expression
 
 Reported as *"the overtaking priority system isn't working at all"*. He drove

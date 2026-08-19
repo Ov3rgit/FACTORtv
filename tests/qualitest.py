@@ -762,8 +762,58 @@ cold.green = False
 b4.update_booth(cold)
 check(not b4._season_armed,
       "with no circuit published yet, the round is NOT decided")
-check(b4.season_prompt(cold) is None,
-      "and no prompt is offered on a decision that has not been made")
+# ...BUT THE PROMPT IS STILL OFFERED, and that reversal is the point. The card
+# used to wait for the round to be MATCHED, which needs the car class — and rF2
+# does not reliably publish a class, or even a player, until the car is on track.
+# So it could never appear in the pit screen, which is the only place a driver has
+# time to read it. The question is "may this count", and that is answerable before
+# the session has been identified: if the class turns out to belong to another
+# division, nothing records and the answer had nothing to apply to.
+_early = b4.season_prompt(cold)
+check(_early is not None,
+      "the prompt is offered before the round is even matched", str(_early))
+check(_early and _early.get("round", "").startswith("Round"),
+      "naming the round the career is expecting next",
+      str(_early and _early.get("round")))
+
+class _CircEarly:
+    """A circuit the overlay recognises, defined here because the fixture used
+    lower down this file does not exist yet at this point."""
+    slug = "zandvoort"
+    key = "zandvoort"
+    name = "Zandvoort"
+    known = True
+
+
+# AND AN ANSWER GIVEN THAT EARLY HAS TO SURVIVE. A "no" in the pit screen was
+# being silently lost in exactly the window this feature exists to fill.
+b4b = Booth()
+b4b.season = _S2.create("open", me="Kandasamy", rounds=5)
+b4b.career = None
+early = FakeSession(grid(), kind="race")
+early.circuit = None
+early.on_air = False
+early.started = False
+early.green = False
+b4b.update_booth(early)
+check(b4b.season_answer(False), "he can decline before the round is known")
+early.circuit = _CircEarly()
+b4b.update_booth(early)
+check(b4b._season_round is not None, "the round is matched a moment later")
+check(not b4b._season_count,
+      "and the NO he gave in the pit screen is what stands")
+
+b4c = Booth()
+b4c.season = _S2.create("open", me="Kandasamy", rounds=5)
+b4c.career = None
+yes = FakeSession(grid(), kind="race")
+yes.circuit = _CircEarly()
+yes.on_air = False
+yes.started = False
+yes.green = False
+b4c.update_booth(yes)
+check(b4c.season_answer(True) and b4c._season_count,
+      "and a yes still counts the race")
 
 # The circuit arrives a moment later, and NOW it decides.
 class _Circ2:
