@@ -3573,6 +3573,106 @@ since the pass work was written, and it answered four reports in one read —
 including the discovery that **the headline feature of the product had been dead
 since the day it was built.** Read the section under LAW 24 first.
 
+### THE DEVELOPMENT YEAR IS DRIVEN NOW — the 2020 test programme
+
+The user found F1 2020 by A&M on the workshop and asked what the year out was
+for. The gap in the arc is exactly 2020 (F2 2019 -> year out -> F1 2021), and his
+own design for filling it is better than the letters it replaces, because it is
+what junior drivers actually do — private testing in last season's car:
+
+> *"can we make it so that they HAVE to set up a practice session for it to be
+> picked up properly ... SESSION TYPE: Practice, Car Class: Ferrari 2020 car
+> (depending on the path they chose) ... if they just start a practice and all
+> parameters are met then boom that will be a tick ... this way the practice
+> isn't completed by ending the session, just by starting it, so they can choose
+> how long they want to run for and which track also."*
+
+**THE PARAMETERS ARE CHECKABLE ON ARRIVAL, and that is the whole reason it
+works.** Session type, car and circuit are all known the moment he is on track,
+so the overlay never has to judge whether he has tested ENOUGH — the programme
+states its terms, he meets them, the tick lands. A lap threshold would have made
+the overlay the referee of his own test day.
+
+**IT IS THE TEAM'S CAR, AND THAT IS A REAL PARAMETER.** These A&M mods publish
+the CONSTRUCTOR as the CarClass — his career store learned "McLaren" and
+"Mercedes" from 2021 races — and `F1_AM_2020` ships one `.MAS` per team
+(FERRARI, MERCEDES, REDBULL, ...), which is all three programmes covered.
+
+| refused because | the badge says |
+|---|---|
+| it is a race or a qualifying session | `TEST — practice only` |
+| the car is this year's | `TEST — 2020 car` |
+| the car is somebody else's team | `TEST — Mercedes car` |
+| the circuit has already been used | `TEST — a new circuit` |
+| he is in the garage watching | `TEST — get on track` |
+| nothing is wrong | `TEST — 1/3 outings` |
+
+**A REASON, NEVER A BARE REFUSAL.** `test_check` returns why, and the mode badge
+shows it — the lesson from the sim-round button that did nothing and said
+nothing. A fourth badge state was the right home for it: a test day is not a
+round and not off-career, and what he needs to know is whether this session
+counts.
+
+**STRICT WHERE IT CAN VERIFY, LENIENT WHERE IT CANNOT** — the same rule `match()`
+follows for the seat. A class naming a DIFFERENT team is refused; a class naming
+no team at all is unknown rather than wrong, so a mod that publishes one class
+for the whole field cannot stop the year progressing.
+
+**ONE OUTING PER CIRCUIT.** Three outings at three different tracks, the user's
+call, and it is what stops the year being three sessions in ten minutes without
+anybody deciding it should be.
+
+**BOTH HALVES OPEN THE SEAT.** `_maybe_seat` requires the letters read AND the
+outings served. Either alone can be walked straight through: five emails without
+loading the car is not a development year, and three tests with no word from the
+team is not a story. This REVERSED the old contract, and `programmetest.py` §5
+was updated rather than worked around — a test encoding a decision the user has
+since changed is a fossil.
+
+**THE LETTER IS AN INSTRUCTION SHEET**, because the feature is unusable if he has
+to guess what to load — and guessing what to load has gone wrong four times now.
+`prog_test` carries the parameters as a block, with `{car}` filled from what the
+GAME calls the mod (`modnames`), and `prog_test_run` reports each outing from the
+laps and best lap the overlay watched. **A test has no result, so neither letter
+quotes a position or a comparison against anybody.**
+
+**AND IT INHERITS THE PRACTICE RULE FOR FREE.** A test outing IS a practice
+session, so the booth is already silent for it and the engineer already runs it.
+The tick therefore lives in the frame (`_test_watch`) rather than in the booth: it
+must not sit behind a gate that is guaranteed to be shut, and it must not depend
+on the commentary being switched on.
+
+### THE FIRST BUILD TO LEAVE THIS MACHINE — 0.0.1-beta
+
+A play tester needs a copy, so: `git init`, `version.py`, `requirements.txt`,
+`SETUP.md`, `tools_package.py`, tag `v0.0.1-beta`. 130 files tracked, 127 in the
+zip, 1.1MB.
+
+**THE MANIFEST IS EXPLICIT AND ANYTHING UNRECOGNISED IS REPORTED, NOT
+INCLUDED.** A zip built with a wildcard from this folder ships the career store,
+the settings, the shuffle bag, the learned mod names and 280MB of rendered
+speech. `python tools_package.py --check` lists what would go in, what is being
+left out, and — loudly — anything the manifest has never heard of, because a new
+file is either an asset that needs shipping or private data that must not be, and
+only a person can say which.
+
+**WHAT IS DELIBERATELY ABSENT**: `stings/` and `_voice_cache/` (rebuilt on first
+run), all career and settings state, `_modnames.json` (correct here and wrong
+everywhere else), the handover and this file (they belong in git, not in a
+tester's zip), and **the division art** — those files include marks belonging to
+the FIA and others, and `newsart` already treats a missing folder as a supported
+state.
+
+**THE TESTER'S FIRST DEPENDENCY IS NOT PYTHON, IT IS THE PLUGIN.** rF2 publishes
+nothing without The Iron Wolf's shared-memory plugin, so SETUP.md opens with it
+and `verify_plugin.py` is the check. The second is an internet connection: same
+voice names give identical output, and the failure mode is a silent fall back to
+SAPI, which is what "the voices sound robotic" actually means.
+
+**STILL OWED BY THE USER**: a licence for the repository, whether it is public or
+private, and whether any art ships at all. All three are his to decide and none
+of them can be inferred. The commit identity is set REPO-LOCAL only.
+
 ### PRACTICE IS THE ENGINEER'S SESSION, AND THE PROMPT COMES IN THE GARAGE
 
 Two asks, one afternoon, and both are structural rather than content.
