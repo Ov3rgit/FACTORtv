@@ -3566,6 +3566,82 @@ the user can drive it after step 1 rather than waiting for all of it.
 
 ---
 
+## THE CAREER DASHBOARD — and the door that nearly got bricked up
+
+His verdict on the career page, with a dashboard screenshot for reference:
+*"theres literally not much happening there and its all just a bunch of words ...
+Can we have a career dashboard instead, and then the Email icon lives insde the
+dashboard instead and then the email icon truns into a Trophy icon instead, and
+then we take out career in the settings tab?"*
+
+He was right. Thirty grey rows of sentences, in which the four facts he actually
+wanted — championship position, points, how far through the season, whether there
+is post — were the same size and colour as "Nationality".
+
+### WHAT THE DASHBOARD IS
+
+`_rows_dash`, on page `dash`, top to bottom in the order he cares:
+
+  1. **A header card** — the division's mark, his name, the division, his status,
+     and a RING for season progress. "4/10" is a number to read; a ring is a
+     thing to see.
+  2. **Four tiles** — champ, points, wins, podiums.
+  3. **A target bar** — the Formula One seat with the measured gap
+     (`programme.bar_state`), or promotion against the rung's requirement. The
+     season's POINT, drawn as a target rather than written as a sentence.
+  4. **Inbox and News**, with counts, flagged when they hold something.
+  5. **THIS WEEKEND** — the round, whether it counts, simulate. When the season
+     has ended this whole section collapses to the one accent row that takes the
+     next seat.
+  6. **THE RECORD** — championship, results, career record, divisions.
+  7. **Manage career** — everything touched once a season.
+
+Four new row kinds carry it: `head`, `tiles`, `bar`, `band` (plus `gap`). The
+renderer is a row-list with a `kind` dispatch, so a dashboard is new KINDS rather
+than a new drawing path — the click hit-boxes, scrolling and page routing all
+keep working untouched.
+
+**THE FIRST VERSION WAS TALLER THAN THE SCREEN**, which defeats the entire point
+of a dashboard. That is what `_rows_manage` exists for: nationality, undo,
+delete, close, new and load are once-a-season things and they are one row deeper.
+
+### THE TROPHY, AND WHY IT IS ALWAYS DRAWN
+
+The envelope became a trophy and now opens the dashboard rather than the post.
+Drawn with polygons like every other mark here — a 30px icon that needs a PNG is
+a 30px icon that can go missing. Two passes: the first bowl was a half-ellipse
+and came out lopsided with a handle reading as a loop, and the count badge sat on
+top of the handles (it is bottom-right now, where a trophy is narrow).
+
+**AND THEN THE BUG THAT MATTERED.** The envelope had always been hidden when no
+career existed — correct, while the way to START one was Settings → Career → New
+career. Removing the career from settings deleted that row and left the product
+with **no route to a career at all**: no button, and a settings page that no
+longer mentions careers. He hit it in minutes: *"now we have moved the career so
+there is no way to activate the email icon"*.
+
+The trophy is permanent, career or not, and the dashboard's no-career state is
+new / load / bring one across from an older copy. **When you remove the last
+route to a feature, the thing to check is not whether the feature still works —
+it is whether anything on screen still leads to it.** `paneltest` now drives the
+button's real drawing code with `season = None` and asserts it is clickable and
+never hidden.
+
+### THE MARKS NEEDED MEASURING, NOT A RULE
+
+The header logo is the player's own file. The Formula 2 mark is light ink and
+reads on the dark card; karting is dark maroon line-art and was nearly invisible.
+A blanket light plate would have fixed karting and made the Formula One mark
+vanish, since that one is largely dark on white too. So `_logo_ink` MEASURES the
+mean luminance of the pixels that are actually opaque, and anything below 0.42
+gets a plate: karting 0.09, F3 0.35, F4 0.39, F1 0.40 — plate; F2 0.43 — straight
+on the card. Cached per path, because the header redraws every frame the
+dashboard is open and answering means opening the file.
+
+No art, no gap: the text starts where the mark would have ended.
+
+---
+
 ## A RETIREMENT IS A RESULT — the tester's missing round two
 
 Paul *"ran out of feul at the redbull ring kart race doing round 2 but the the

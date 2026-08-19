@@ -479,7 +479,16 @@ class PanelsMixin(object):
         self._menu_btn_rect = (x, y, x + sz, y + sz)
 
     def draw_inbox_button(self):
-        """An envelope beside the hamburger, with an unread count on it.
+        """A TROPHY beside the hamburger, with the unread count still on it.
+
+        It was an envelope opening straight onto the post. His instruction: the
+        mail now lives INSIDE the career dashboard, and the button that opens it
+        becomes a trophy — because what this button leads to is a career, of
+        which the post is one part.
+
+        THE COUNT STAYS ON IT. The badge is the only thing on screen a driver can
+        act on later rather than now, and moving the mail a level deeper must not
+        cost him the tell that there IS mail.
 
         THIS IS THE WHOLE IN-SESSION PRESENCE OF THE INBOX. A driver cannot
         read at 200mph, so during a session there is a badge and nothing else;
@@ -488,16 +497,24 @@ class PanelsMixin(object):
         because the top-right IS the relative panel and taking that away costs
         him something he uses every lap.
 
-        Only drawn when a career exists. With no career there is no post, and
-        an envelope that opens on an empty list is furniture.
+        IT IS ALWAYS DRAWN, career or not, and that is not a detail. The
+        envelope was hidden when no career existed — reasonable when the way to
+        START one was Settings → Career → New career. That row has now gone with
+        the old career page, so hiding this button left the product with **no
+        route to a career at all**: nothing to click, and the overlay waiting for
+        a career the player had no way to create.
+
+        His words: *"now we have moved the career so there is no way to activate
+        the email icon, the fix is to have the trophy icon act as the career
+        settings all in one and must be permantly there"*.
+
+        With no career the dashboard opens on its own no-career state — new,
+        load, or bring one across from an older copy — which is exactly what this
+        button is for.
         """
         car = getattr(self, "season", None)
-        if car is None:
-            self._hide_panel("inboxbtn")
-            self._inbox_btn_rect = None
-            return
         import inbox as inbox_mod
-        n = inbox_mod.unread(car)
+        n = inbox_mod.unread(car) if car is not None else 0
         # NEW MAIL SINCE THE LAST FRAME. Compared against a remembered count
         # rather than a flag, because mail is generated in three different
         # places (a banked result, the panel refreshing, the story) and a flag
@@ -505,7 +522,7 @@ class PanelsMixin(object):
         # is a number that went up.
         was = getattr(self, "_inbox_seen", None)
         self._inbox_seen = n
-        if was is not None and n > was:
+        if car is not None and was is not None and n > was:
             self._inbox_flash = time.time()
             self._mail_ping()
         sz = UI(CONTROL_BTN)
@@ -514,27 +531,50 @@ class PanelsMixin(object):
         y = gy + UI(EDGE)
         p = self._begin_panel("inboxbtn", x, y, sz, sz, clickable=True)
         c = p.canvas_at(x, y)
-        open_ = self.menu_open and getattr(self, "menu_page", "") in ("inbox",
-                                                                     "mail")
+        open_ = self.menu_open and getattr(self, "menu_page", "") in (
+            "dash", "inbox", "mail")
         c.create_rectangle(x, y, x + sz, y + sz,
                            fill=TH.accent if open_ else TH.panel,
                            outline=TH.border)
         ink = TH.panel if open_ else TH.accent
-        # An envelope: a rectangle and the two lines of its flap.
-        ex0, ey0 = x + sz * 0.24, y + sz * 0.32
-        ex1, ey1 = x + sz * 0.76, y + sz * 0.68
-        c.create_rectangle(ex0, ey0, ex1, ey1, outline=ink,
-                           width=max(1, UI(1)))
-        c.create_line(ex0, ey0, (ex0 + ex1) / 2, (ey0 + ey1) / 2 + UI(1),
-                      fill=ink, width=max(1, UI(1)))
-        c.create_line(ex1, ey0, (ex0 + ex1) / 2, (ey0 + ey1) / 2 + UI(1),
-                      fill=ink, width=max(1, UI(1)))
+        # A TROPHY: a tapered cup, two handles, a stem and a base. Drawn rather
+        # than loaded, like every other mark in this overlay — a 30px icon that
+        # needs a PNG is a 30px icon that can go missing.
+        #
+        # The first attempt built the bowl out of a half-ellipse and came out
+        # lopsided at 30px, with one handle reading as a loop across the cup.
+        # A POLYGON IS THE RIGHT PRIMITIVE for a shape this small: it is exactly
+        # the four corners of a cup and nothing is left to rounding.
+        lw = max(1, UI(1))
+        cx = x + sz * 0.5
+        top = y + sz * 0.30
+        low = y + sz * 0.55
+        c.create_polygon(x + sz * 0.35, top, x + sz * 0.65, top,
+                         x + sz * 0.57, low, x + sz * 0.43, low,
+                         fill=ink if open_ else "", outline=ink, width=lw)
+        # The handles, one arc each, opening away from the cup.
+        for side in (-1, 1):
+            # TOUCHING THE CUP. A gap of even a pixel at this size reads as a
+            # pair of brackets around a trophy rather than as its handles.
+            hx0 = cx + side * sz * 0.12
+            hx1 = cx + side * sz * 0.27
+            c.create_arc(min(hx0, hx1), top - sz * 0.02,
+                         max(hx0, hx1), top + sz * 0.20,
+                         start=90 if side > 0 else -270,
+                         extent=-180 if side > 0 else 180,
+                         style="arc", outline=ink, width=lw)
+        # Stem and the two steps of the base.
+        c.create_line(cx, low, cx, y + sz * 0.66, fill=ink, width=lw + 1)
+        c.create_line(x + sz * 0.40, y + sz * 0.67, x + sz * 0.60,
+                      y + sz * 0.67, fill=ink, width=lw + 1)
+        c.create_line(x + sz * 0.33, y + sz * 0.73, x + sz * 0.67,
+                      y + sz * 0.73, fill=ink, width=lw + 2)
         if n:
             # The count, not a plain dot: "you have four things waiting" is
             # worth more than "something happened", and it is the only number
             # on screen the driver can act on later rather than now.
             r = UI(8)
-            cx, cy = x + sz - r * 0.8, y + r * 0.8
+            cx, cy = x + sz - r * 0.8, y + sz - r * 0.8
             c.create_oval(cx - r, cy - r, cx + r, cy + r, fill=TH.bad,
                           outline="")
             c.create_text(cx, cy - UI(1), text=(str(n) if n < 10 else "9+"),
@@ -548,8 +588,20 @@ class PanelsMixin(object):
             bx, by = x + sz + UI(6), y + (sz - bh) / 2
             c.create_rectangle(bx, by, bx + bw, by + bh, fill=TH.bad,
                                outline="")
-            c.create_text(bx + bw / 2, by + bh / 2 - UI(1), text="NEW MAIL",
+            c.create_text(bx + bw / 2, by + bh / 2 - UI(1), text="NEW POST",
                           fill=TH.text, font=self.f_tiny)
+        # A DECISION WAITING IS MARKED ON THE BUTTON ITSELF. The settings row
+        # that used to carry this tell is gone with the career page, and the end
+        # of a season is the one moment this career cannot continue without him —
+        # he nearly missed the Formula 4 seat once already. A ring around the
+        # whole button rather than a second badge: the count is already a badge,
+        # and two marks in one 30px square is a mess.
+        self._career_waiting = bool(car is not None
+                                    and self._ladder_waiting(car))
+        if self._career_waiting:
+            c.create_rectangle(x - UI(2), y - UI(2), x + sz + UI(2),
+                               y + sz + UI(2), outline=TH.accent,
+                               width=max(2, UI(2)))
         self._inbox_btn_rect = (x, y, x + sz, y + sz)
 
     def _mail_ping(self):
@@ -783,6 +835,48 @@ class PanelsMixin(object):
         cache[key] = photo
         return photo
 
+    def _logo_ink(self, path):
+        """How dark this mark's own ink is, 0..1, or None if it cannot be read.
+
+        A DARK MARK ON A DARK CARD IS NOT A MARK. The karting logo is maroon
+        line-art with transparency, so `_logo_plate` correctly says it needs no
+        plate — and it still came out nearly invisible on the dashboard's header.
+        The Formula One mark is the opposite case and proves a blanket plate is
+        wrong: white ink on a white tile disappears just as completely.
+
+        So it is MEASURED. The mean luminance of the pixels that are actually
+        opaque, which is the only thing that decides whether the mark needs
+        something light behind it.
+
+        Cached with the paths: this opens and scans a file, and the header is
+        drawn every frame the dashboard is open.
+        """
+        cache = getattr(self, "_ink_cache", None)
+        if cache is None:
+            cache = self._ink_cache = {}
+        if path in cache:
+            return cache[path]
+        lum = None
+        try:
+            from PIL import Image
+            im = Image.open(path).convert("RGBA")
+            im.thumbnail((48, 48))
+            tot, n = 0.0, 0
+            px = im.load()
+            for yy in range(im.height):
+                for xx in range(im.width):
+                    r, g, b, a = px[xx, yy]
+                    if a < 128:
+                        continue
+                    tot += (0.299 * r + 0.587 * g + 0.114 * b) / 255.0
+                    n += 1
+            if n:
+                lum = tot / n
+        except Exception:
+            lum = None
+        cache[path] = lum
+        return lum
+
     def _logo_plate(self, path):
         """Does this mark need a light plate behind it?
 
@@ -963,11 +1057,31 @@ class PanelsMixin(object):
         # rather than illustrated.
         imw = w - UI(20) * 2
         imh = int(imw * 9 / 16.0)
-        h = (UI(46) + UI(12)
-             + sum(imh + UI(10) if r.get("kind") == "image"
-                   else (UI(26) if r.get("kind") == "logo"
-                         else (trh if r.get("kind") == "text" else rh))
-                   for r in rows))
+        # THE DASHBOARD'S OWN ROWS HAVE THEIR OWN HEIGHTS. A career screen made
+        # of thirty identical grey rows is a page you read rather than a page you
+        # glance at, which is the wrong shape for the one screen a driver opens
+        # between sessions.
+        def _row_h(r):
+            k = r.get("kind")
+            if k == "image":
+                return imh + UI(10)
+            if k == "logo":
+                return UI(26)
+            if k == "text":
+                return trh
+            if k == "head":
+                return UI(58)
+            if k == "tiles":
+                return UI(52)
+            if k == "bar":
+                return UI(34)
+            if k == "gap":
+                return UI(8)
+            if k == "band":
+                return UI(20)
+            return rh
+
+        h = UI(46) + UI(12) + sum(_row_h(r) for r in rows)
         gx, gy, gw, gh = self.game_rect
         # Below the hamburger, so the button stays visible and clickable
         # while the panel is open.
@@ -1016,6 +1130,130 @@ class PanelsMixin(object):
                                         bx0 - UI(6), ry, bx1 + UI(6),
                                         ry + rh - UI(4)))
                 ry += rh
+                continue
+            if kind == "head":
+                # THE ONE CARD THAT SAYS WHOSE CAREER THIS IS: his name, the
+                # division he is in, and how far through the season he is — as a
+                # ring, because "two of ten" is a number to read and a ring is a
+                # thing to see.
+                hh = UI(58) - UI(6)
+                c.create_rectangle(x0, ry, x1, ry + hh,
+                                   fill=shade(TH.panel, 1.18), outline="")
+                c.create_rectangle(x0, ry, x0 + UI(3), ry + hh,
+                                   fill=TH.accent, outline="")
+                # THE DIVISION'S MARK, on the left of the card. Asked for
+                # directly. It is the one thing on this page that says which
+                # championship this is without being read, and the header is
+                # where a reader looks first.
+                #
+                # NO ART, NO GAP. The logos are the player's own files and are
+                # not shipped, so the text simply starts where the mark would
+                # have ended — an empty square reserved for a picture nobody has
+                # is worse than no picture.
+                tx = x0 + UI(14)
+                mark = None
+                if row.get("logo"):
+                    mark = self._logo_photo(row["logo"], UI(30), UI(46),
+                                            shade(TH.panel, 1.18))
+                if mark:
+                    my = ry + (hh - mark.height()) / 2
+                    # A DARK MARK GETS SOMETHING LIGHT TO SIT ON, measured rather
+                    # than assumed — see `_logo_ink`.
+                    _lum = self._logo_ink(row["logo"])
+                    if _lum is not None and _lum < 0.42:
+                        c.create_rectangle(x0 + UI(9), my - UI(3),
+                                           x0 + UI(15) + mark.width(),
+                                           my + mark.height() + UI(3),
+                                           fill="#eef0f3", outline="")
+                        mark = self._logo_photo(row["logo"], UI(30), UI(46),
+                                                "#eef0f3")
+                    c.create_image(x0 + UI(12), my, image=mark, anchor="nw")
+                    # HELD ON THE HOST, or Tk drops it the instant this frame
+                    # ends and the card draws an empty space.
+                    self._dash_mark = mark
+                    tx = x0 + UI(12) + mark.width() + UI(10)
+                c.create_text(tx, ry + UI(16), anchor="w",
+                              text=row.get("label", ""), fill=TH.text,
+                              font=self.f_row)
+                c.create_text(tx, ry + UI(34), anchor="w",
+                              text=row.get("note", ""), fill=TH.dim,
+                              font=self.f_tiny)
+                frac = max(0.0, min(1.0, float(row.get("val") or 0.0)))
+                cx, cy, rr = x1 - UI(30), ry + hh / 2, UI(18)
+                c.create_oval(cx - rr, cy - rr, cx + rr, cy + rr,
+                              outline=shade(TH.border, 1.2),
+                              width=max(2, UI(4)))
+                if frac > 0:
+                    # -90 is twelve o'clock; a progress ring that starts on the
+                    # right reads as an angle rather than as progress.
+                    c.create_arc(cx - rr, cy - rr, cx + rr, cy + rr,
+                                 start=90, extent=-359.9 * frac,
+                                 style="arc", outline=TH.accent,
+                                 width=max(2, UI(4)))
+                c.create_text(cx, cy - UI(1), text=row.get("ring", ""),
+                              fill=TH.text, font=self.f_tiny)
+                ry += UI(58)
+                continue
+            if kind == "tiles":
+                # THE NUMBERS, SIDE BY SIDE. Position, points, wins, podiums —
+                # the four facts a driver actually wants off this screen, big
+                # enough to read without looking for them.
+                tiles = row.get("tiles") or []
+                th = UI(52) - UI(6)
+                if tiles:
+                    gapw = UI(6)
+                    tw = (x1 - x0 - gapw * (len(tiles) - 1)) / float(len(tiles))
+                    for ti, t in enumerate(tiles):
+                        tx = x0 + ti * (tw + gapw)
+                        c.create_rectangle(tx, ry, tx + tw, ry + th,
+                                           fill=shade(TH.panel, 1.12),
+                                           outline="")
+                        c.create_text(tx + tw / 2, ry + UI(15),
+                                      text=str(t.get("val", "")),
+                                      fill=(TH.accent if t.get("hot")
+                                            else TH.text), font=self.f_row)
+                        c.create_text(tx + tw / 2, ry + UI(33),
+                                      text=str(t.get("label", "")).upper(),
+                                      fill=TH.dim, font=self.f_tiny)
+                ry += UI(52)
+                continue
+            if kind == "bar":
+                # A LABELLED BAR, for a thing with a target: how far through the
+                # season, or how far off the seat.
+                bh = UI(34) - UI(6)
+                c.create_text(x0 + UI(4), ry + UI(6), anchor="nw",
+                              text=row.get("label", ""), fill=TH.dim,
+                              font=self.f_tiny)
+                c.create_text(x1 - UI(4), ry + UI(6), anchor="ne",
+                              text=row.get("note", ""),
+                              fill=TH.accent if row.get("hot") else TH.dim,
+                              font=self.f_tiny)
+                by0 = ry + UI(19)
+                c.create_rectangle(x0 + UI(4), by0, x1 - UI(4), by0 + UI(6),
+                                   fill=shade(TH.panel, 0.7),
+                                   outline=shade(TH.border, 1.2))
+                frac = max(0.0, min(1.0, float(row.get("val") or 0.0)))
+                if frac > 0:
+                    c.create_rectangle(
+                        x0 + UI(4), by0,
+                        x0 + UI(4) + (x1 - x0 - UI(8)) * frac, by0 + UI(6),
+                        fill=TH.good if row.get("good") else TH.accent,
+                        outline="")
+                ry += UI(34)
+                continue
+            if kind == "band":
+                # A SECTION HEADING. Four words that turn one long list into
+                # three short ones.
+                c.create_text(x0 + UI(4), ry + UI(9), anchor="w",
+                              text=str(row.get("label", "")).upper(),
+                              fill=TH.dim, font=self.f_tiny)
+                c.create_line(x0 + UI(4) + UI(7) * len(str(row.get("label", ""))),
+                              ry + UI(10), x1 - UI(4), ry + UI(10),
+                              fill=shade(TH.border, 1.1))
+                ry += UI(20)
+                continue
+            if kind == "gap":
+                ry += UI(8)
                 continue
             if kind == "logo":
                 # A LETTERHEAD, NOT AN ILLUSTRATION. Small, right-aligned and
@@ -1158,7 +1396,8 @@ class PanelsMixin(object):
         return rows
 
     def _menu_title(self):
-        return {"career": "CAREER", "career_new": "NEW CAREER",
+        return {"dash": "CAREER", "career": "MANAGE CAREER",
+                "career_new": "NEW CAREER",
                 "career_load": "LOAD CAREER", "career_delete": "DELETE CAREER",
                 "career_path": "CHOOSE A PATH", "career_plen": "SEASON LENGTH",
                 "career_ladder": "END OF SEASON",
@@ -1173,8 +1412,10 @@ class PanelsMixin(object):
     # -- pages ------------------------------------------------------------------
     def _menu_rows(self):
         page = getattr(self, "menu_page", "main")
+        if page == "dash":
+            return self._rows_dash()
         if page == "career":
-            return self._rows_career()
+            return self._rows_manage()
         if page == "career_new":
             return self._rows_new()
         if page == "career_len":
@@ -1247,16 +1488,18 @@ class PanelsMixin(object):
             {"label": "Volume", "key": "vol", "kind": "slider",
              "val": self.cfg.get("volume", 0.9),
              "note": "%d%%" % round(self.cfg.get("volume", 0.9) * 100)},
-            {"label": "Career", "key": "page_career", "kind": "nav",
-             "hot": self._ladder_waiting(car) is not None,
-             "note": ("season over" if self._ladder_waiting(car)
-                      else (car.name if car else "none"))},
+            # THE CAREER IS NOT A SETTING AND HAS LEFT THIS PAGE. His
+            # instruction, along with the dashboard: "then we take out career in
+            # the settings tab". Settings is what the overlay DOES; the career is
+            # the game, and it has its own button — the trophy, beside the
+            # hamburger, which is on screen at all times.
+            #
+            # The inbox row goes with it: the post lives inside the dashboard now,
+            # and two routes to it from two different pages is how a player ends
+            # up unsure which screen he is meant to be on.
             {"label": "Disclaimer", "key": "page_legal", "kind": "nav",
              "note": "fiction"},
-        ] + ([] if car is None else [
-            {"label": "Inbox", "key": "page_inbox", "kind": "nav",
-             "note": self._inbox_note(car)},
-        ])
+        ]
 
     def _inbox_note(self, car):
         import inbox as inbox_mod
@@ -1289,116 +1532,260 @@ class PanelsMixin(object):
                      "hot": True, "note": "nothing is overwritten"})
         return rows
 
-    def _rows_career(self):
+    def _rows_dash(self):
+        """THE CAREER DASHBOARD — the screen a driver opens between sessions.
+
+        Asked for after living with the old one: *"theres literally not much
+        happening there and its all just a bunch of words ... Can we have a
+        career dashboard instead, and then the Email icon lives insde the
+        dashboard"*. He was right. The career page was thirty grey rows of
+        sentences, and the four facts he actually wanted off it — where he is in
+        the championship, how far through the season, what is next, whether there
+        is post — were the same size and colour as "Nationality".
+
+        So: the numbers first, as tiles and a ring; then the ONE thing waiting
+        for him; then the lists; then the housekeeping, in that order, because
+        that is the order he cares about them in.
+        """
         car = getattr(self, "season", None)
-        rows = []
         if car is None:
-            rows.append({"label": "No career loaded", "kind": "info"})
-            # A CAREER LEFT IN AN OLDER COPY OF THE OVERLAY. Saves live beside
-            # the executable, so a player who updates by extracting the new zip
-            # into a NEW folder — what Windows suggests every time — sees an
-            # empty career screen while his real one sits next door. Nothing is
-            # destroyed and there is no way for him to know that.
-            #
-            # IT OFFERS, IT DOES NOT ACT. Importing somebody's championship
-            # without being asked is worse than making him click once, and the
-            # row names the folder it found so he can tell whether the answer is
-            # the right one before he takes it.
+            rows = [{"label": "No career", "kind": "info",
+                     "note": "nothing running"}]
             rows += self._rows_orphans()
+            rows.append({"label": "New career", "key": "page_career_new",
+                         "kind": "action", "hot": True, "note": "start one >"})
+            rows.append({"label": "Load career", "key": "page_career_load",
+                         "kind": "nav", "note": ">"})
+            rows.append({"label": "Back", "key": "page_main", "kind": "nav",
+                         "note": "<"})
+            return rows
+
+        import inbox as inbox_mod
+        rows = []
+        done = len(car.rounds)
+        total = car.total_rounds or 0
+        ev = {}
+        try:
+            ev = car.evaluate() or {}
+        except Exception:
+            ev = {}
+
+        # -- who and where ---------------------------------------------------
+        div = ev.get("tier_name") or car.name
+        try:
+            _mark = newsart.logo(ev.get("tier_name")) if ev.get("tier_name") \
+                else None
+        except Exception:
+            _mark = None
+        rows.append({"label": car.me or "Driver", "kind": "head",
+                     "logo": _mark,
+                     "note": "%s%s" % (div, "  ·  %s" % car.status()[0].upper()
+                                       if car.status() else ""),
+                     "val": (float(done) / total) if total else 0.0,
+                     "ring": ("%d/%d" % (done, total)) if total else str(done)})
+
+        # -- the four numbers ------------------------------------------------
+        pos = None
+        try:
+            pos = car.my_position()
+        except Exception:
+            pos = None
+        pts = dict(car.standings() or ()).get(car.me or "")
+        wins = len([r for r in car.rounds if r.get("pos") == 1])
+        pods = len([r for r in car.rounds
+                    if r.get("pos") and 1 <= r.get("pos") <= 3])
+        rows.append({"kind": "tiles", "tiles": [
+            {"val": ("P%d" % pos) if pos else "-", "label": "champ",
+             "hot": bool(pos and pos <= 3)},
+            {"val": pts if pts is not None else "-", "label": "points"},
+            {"val": wins, "label": "wins", "hot": bool(wins)},
+            {"val": pods, "label": "podiums"},
+        ]})
+
+        # -- what the season is for, when there is a bar on it ---------------
+        try:
+            import programme as prog_mod
+            bar = prog_mod.bar_state(car)
+        except Exception:
+            bar = None
+        if bar:
+            # THE SEAT IS THE POINT OF THIS SEASON, so it is a bar with a target
+            # rather than a sentence in a list.
+            rows.append({"kind": "bar", "label": "Formula One seat",
+                         "note": ("holding P%d, +%d" % (bar["pos"], bar["gap"]))
+                                 if bar["holding"]
+                                 else ("P%d, %d off P%d"
+                                       % (bar["pos"], bar["gap"], bar["bar"])),
+                         "val": (1.0 if bar["holding"]
+                                 else max(0.05, 1.0 - min(1.0, bar["gap"] / 50.0))),
+                         "good": bar["holding"], "hot": not bar["holding"]})
+        elif ev.get("needs"):
+            # PROMOTION IS A TARGET, so it is drawn as one. "needs P3" in a grey
+            # row is a fact; a bar showing him inside or outside it is the
+            # afternoon he is about to have.
+            _need = int(ev["needs"])
+            _in = bool(pos and pos <= _need)
+            rows.append({"kind": "bar", "label": "Promotion",
+                         "note": ("P%s of P%d" % (pos or "-", _need)),
+                         "val": (1.0 if _in else
+                                 (max(0.08, float(_need) / pos) if pos else 0.0)),
+                         "good": _in, "hot": not _in})
+
+        # -- THE POST, INSIDE THE DASHBOARD ---------------------------------
+        #
+        # His instruction: the mail lives in here now. It is the one row on this
+        # page that changes on its own, so it goes above the lists and carries
+        # the count rather than a "»".
+        n_mail = inbox_mod.unread(car, feed="mail")
+        n_news = inbox_mod.unread(car, feed="news")
+        rows.append({"kind": "gap"})
+        rows.append({"label": "Inbox", "key": "page_inbox", "kind": "action",
+                     "hot": bool(n_mail),
+                     "note": ("%d unread" % n_mail) if n_mail else "all read"})
+        rows.append({"label": "News", "key": "page_news", "kind": "action",
+                     "hot": bool(n_news),
+                     "note": ("%d new" % n_news) if n_news else "nothing new"})
+
+        # -- the weekend in front of him ------------------------------------
+        nxt = car.next_round()
+        rows.append({"kind": "band", "label": "This weekend"})
+        if nxt:
+            counts = car.round_counts(nxt["n"])
+            rows.append({"label": "Round %d" % nxt["n"], "kind": "info",
+                         "note": (nxt.get("event") or nxt.get("slug")
+                                  or "any circuit")[:20]})
+            rows.append({"label": "Round %d counts" % nxt["n"],
+                         "key": "roundcount", "kind": "toggle", "val": counts})
+            rows.append({"label": "Simulate this round",
+                         "key": "confirm:simulate", "kind": "action",
+                         "note": "round %d" % nxt["n"]})
         else:
-            rows.append({"label": car.name, "kind": "info"})
-            rows.append({"label": "Progress", "kind": "info",
-                         "note": "%d/%s rounds" % (len(car.rounds),
-                                                   car.total_rounds or "open")})
-            rows += self._rows_ladder_status(car)
-            nxt = car.next_round()
-            if nxt:
-                rows.append({"label": "Next up", "kind": "info",
-                             "note": (nxt.get("event") or nxt.get("slug")
-                                      or "round %d" % nxt["n"])[:22]})
-                # SIMULATE THIS ROUND. Asked for as a testing convenience and
-                # kept as a real feature: the physics ladder is steep, and a
-                # driver who wants to see his career progress should not have
-                # to master every division to do it.
-                #
-                # It banks a result, so it goes behind the same confirmation
-                # as everything else that cannot be undone by racing again.
-                # DOES THIS ROUND COUNT? The user's call, after the in-session
-                # card failed four times in four different ways:
-                #
-                #   *"let the player have control and make it a choice that needs
-                #   clicking before a round ... to switch it off it must be done
-                #   by either turning that off or closing the career."*
-                #
-                # Out of the car, no timing pressure, and stored per round in the
-                # career file so it survives the session changes that wiped every
-                # previous attempt. Switching it OFF makes the whole session
-                # off-career — the booth and the engineer stop treating it as a
-                # round at all, which is what a random race actually is.
-                counts = car.round_counts(nxt["n"])
-                rows.append({"label": "Round %d counts" % nxt["n"],
-                             "key": "roundcount", "val": counts,
-                             "hot": not counts,
-                             "note": "" if counts else "off-career"})
-                total = car.total_rounds or 0
-                finale = bool(total and nxt.get("n") == total)
-                why = self._sim_blocked(car)
-                rows.append({"label": "Simulate this round",
-                             "key": None if why else "sim_round",
-                             "kind": "info" if why else "action",
-                             "note": (why if why
-                                      else ("decides the title" if finale
-                                            else "round %d" % nxt["n"])),
-                             "danger": finale and not why})
-        rows += [
-            {"label": "New career", "key": "page_new", "kind": "nav",
-             "note": ">"},
-            {"label": "Load career", "key": "page_load", "kind": "nav",
-             "note": ">"},
-            {"label": "Delete career", "key": "page_delete", "kind": "nav",
-             "note": ">", "danger": True},
-        ]
-        if car is not None:
-            # THE SEASON, NOT THE CAREER. Both of these exist because a
-            # simulated round is never watched: the standings and the results
-            # are the only place it is visible at all.
-            rows.append({"label": "Championship", "key": "page_standings",
-                         "kind": "nav", "note": ">"})
-            rows.append({"label": "Season results", "key": "page_results",
-                         "kind": "nav", "note": ">"})
-            if car.on_ladder:
-                rows.append({"label": "Career record", "key": "page_record",
-                             "kind": "nav", "note": ">"})
-            rows.append({"label": "Nationality", "key": "page_nation",
-                         "kind": "nav",
-                         "note": (car.nationality or "not set")[:20]})
-            rows.append({"label": "Racing as", "key": "page_name",
-                         "kind": "nav",
-                         "note": (car.data.get("driver") or "your own name")[:20]})
-            rows.append({"label": "Quali sessions", "key": "career_quali",
-                         "val": car.uses_quali})
-            rows.append({"label": "Count races", "key": "career_record",
-                         "val": getattr(self, "season_record", True)})
-            if car.rounds:
-                last = sorted(car.rounds, key=lambda r: r.get("when", 0))[-1]
-                rows.append({"label": "Undo last result", "key": "drop_last",
-                             "kind": "action",
-                             "note": "round %d" % last.get("n", 0),
-                             "danger": True})
-            rows.append({"label": "Close career", "key": "career_none",
-                         "kind": "action", "note": "keeps the file"})
+            # THE SEASON IS OVER AND THE DECISION IS THE PAGE. `_ladder_waiting`
+            # returns the evaluate dict rather than rows, so the row is built
+            # here — and it is `hot`, because it is the one thing in this career
+            # that cannot continue without him.
+            _w = self._ladder_waiting(car)
+            if _w:
+                rows.append({"label": self._waiting_label(_w),
+                             "key": "page_career_ladder", "kind": "action",
+                             "hot": True, "note": "season over >"})
+            else:
+                rows.append({"label": "Season complete", "kind": "info",
+                             "note": "%d rounds" % len(car.rounds)})
+
+        # -- the record ------------------------------------------------------
+        rows.append({"kind": "band", "label": "The record"})
+        rows.append({"label": "Championship", "key": "page_standings",
+                     "kind": "nav", "note": ">"})
+        rows.append({"label": "Season results", "key": "page_results",
+                     "kind": "nav", "note": ">"})
+        rows.append({"label": "Career record", "key": "page_record",
+                     "kind": "nav", "note": ">"})
+        rows.append({"label": "Divisions", "key": "page_divisions",
+                     "kind": "nav", "note": ">"})
+
+        # -- AND THE HOUSEKEEPING IS NOT ON THIS PAGE ------------------------
+        #
+        # It was, in the first version, and the dashboard came out taller than the
+        # screen — which defeats the point of it. Nationality, undo, delete and
+        # the rest are things a player touches once a season; a dashboard is for
+        # the things he wants at a glance every time. One row down to its own
+        # page, and this screen fits.
+        rows.append({"kind": "gap"})
+        rows.append({"label": "Manage career", "key": "page_career",
+                     "kind": "nav", "note": ">"})
         rows.append({"label": "Back", "key": "page_main", "kind": "nav",
                      "note": "<"})
         return rows
 
-    # -- the test programme -----------------------------------------------------
-    #
-    # THE TICK LANDS ON ARRIVAL, NOT ON COMPLETION — the user's design, and the
-    # reason it works: every parameter is knowable the moment he is on track, so
-    # the length of the run and the choice of circuit stay his.
-    #
-    # It lives on the panels mixin because it is career bookkeeping that has to
-    # draw its own state, and because the booth is silent in practice.
+    def _rows_manage(self):
+        """The once-a-season things, off the dashboard so it stays glanceable."""
+        car = getattr(self, "season", None)
+        if car is None:
+            return [{"label": "No career", "kind": "info"},
+                    {"label": "New career", "key": "page_career_new",
+                     "kind": "action", "hot": True, "note": "start one >"},
+                    {"label": "Load career", "key": "page_career_load",
+                     "kind": "nav", "note": ">"},
+                    {"label": "Back", "key": "page_dash", "kind": "nav",
+                     "note": "<"}]
+        rows = [{"label": car.name, "kind": "info",
+                 "note": "%d rounds" % len(car.rounds)}]
+        rows.append({"kind": "band", "label": "This career"})
+        rows.append({"label": "Quali sessions", "key": "career_quali",
+                     "kind": "toggle", "val": car.uses_quali})
+        rows.append({"label": "Count races", "key": "career_record",
+                     "kind": "toggle",
+                     "val": bool(getattr(self, "season_record", True))})
+        rows.append({"label": "Racing as", "kind": "info",
+                     "note": (car.me or "")[:20]})
+        rows.append({"label": "Nationality", "key": "page_career_nation",
+                     "kind": "action", "note": car.nationality or "-"})
+        if car.rounds:
+            rows.append({"label": "Undo last result", "key": "confirm:undo",
+                         "kind": "action", "danger": True,
+                         "note": "round %d" % car.rounds[-1].get("n", 0)})
+        rows.append({"kind": "band", "label": "Other careers"})
+        rows.append({"label": "New career", "key": "page_career_new",
+                     "kind": "nav", "note": ">"})
+        rows.append({"label": "Load career", "key": "page_career_load",
+                     "kind": "nav", "note": ">"})
+        rows.append({"label": "Close career", "key": "career_close",
+                     "kind": "action", "note": "keeps the file"})
+        rows.append({"label": "Delete career", "key": "page_career_delete",
+                     "kind": "nav", "danger": True, "note": ">"})
+        rows.append({"label": "Back", "key": "page_dash", "kind": "nav",
+                     "note": "<"})
+        return rows
+
+    def _ladder_waiting(self, car=None):
+        """The end-of-season decision, if one is sitting there unanswered.
+
+        THE SEASON ENDING IS THE ONE MOMENT THIS CAREER STOPS BEING ABLE TO
+        CONTINUE ON ITS OWN. Everything else in the campaign happens by
+        driving; this needs him to come and choose something, and it was
+        reachable only by opening settings, opening Career and reading nine
+        rows down. The user simulated a whole karting season and nearly missed
+        the Formula 4 seat entirely.
+
+        So the answer is one function, and every surface that wants to point at
+        the decision reads it: the mode badge on screen, the settings page, the
+        inbox page, and the career page. `evaluate()` WRITES NOTHING, which is
+        what makes it safe to ask on every redraw — the same property the rung
+        readout already relies on.
+
+        Returns the evaluate dict, or None. A dict rather than a bare True
+        because every caller wants to NAME the thing waiting — "take the
+        Formula 4 seat" is a tell and "something is waiting" is a puzzle.
+        """
+        if car is None:
+            car = getattr(self, "season", None)
+        if car is None or not getattr(car, "on_ladder", False):
+            return None
+        try:
+            ev = car.evaluate() or {}
+        except Exception:
+            # A COLOUR SOURCE THAT RAISES COSTS A LINE, NEVER THE BROADCAST
+            # (LAW 22) — and this one is asked by the drawing code on every
+            # frame, which is the caller that must never be the reason the
+            # overlay stops painting.
+            return None
+        return ev if ev.get("complete") else None
+
+    def _waiting_label(self, ev):
+        """What the decision IS, in the fewest words that name it.
+
+        Four states, and they are genuinely different afternoons: he earned
+        the seat, he won the whole arc, he is at the top already, or he missed
+        the cut and has to choose between going again and moving across.
+        """
+        if ev.get("promoted"):
+            return "Take the %s seat" % (ev.get("next_name") or "next")
+        if ev.get("arc_done"):
+            return "Champion — choose a new path"
+        if ev.get("top"):
+            return "Season over — what next"
+        return "Season over — go again or move"
 
     def _test_watch(self, s):
         """Tick a test outing when a session meets the programme's parameters.
@@ -1463,55 +1850,6 @@ class PanelsMixin(object):
         if why:
             return ("TEST", why)
         return ("TEST", "%d/%d outings" % (st["n"], st["of"]))
-
-    def _ladder_waiting(self, car=None):
-        """The end-of-season decision, if one is sitting there unanswered.
-
-        THE SEASON ENDING IS THE ONE MOMENT THIS CAREER STOPS BEING ABLE TO
-        CONTINUE ON ITS OWN. Everything else in the campaign happens by
-        driving; this needs him to come and choose something, and it was
-        reachable only by opening settings, opening Career and reading nine
-        rows down. The user simulated a whole karting season and nearly missed
-        the Formula 4 seat entirely.
-
-        So the answer is one function, and every surface that wants to point at
-        the decision reads it: the mode badge on screen, the settings page, the
-        inbox page, and the career page. `evaluate()` WRITES NOTHING, which is
-        what makes it safe to ask on every redraw — the same property the rung
-        readout already relies on.
-
-        Returns the evaluate dict, or None. A dict rather than a bare True
-        because every caller wants to NAME the thing waiting — "take the
-        Formula 4 seat" is a tell and "something is waiting" is a puzzle.
-        """
-        if car is None:
-            car = getattr(self, "season", None)
-        if car is None or not getattr(car, "on_ladder", False):
-            return None
-        try:
-            ev = car.evaluate() or {}
-        except Exception:
-            # A COLOUR SOURCE THAT RAISES COSTS A LINE, NEVER THE BROADCAST
-            # (LAW 22) — and this one is asked by the drawing code on every
-            # frame, which is the caller that must never be the reason the
-            # overlay stops painting.
-            return None
-        return ev if ev.get("complete") else None
-
-    def _waiting_label(self, ev):
-        """What the decision IS, in the fewest words that name it.
-
-        Four states, and they are genuinely different afternoons: he earned
-        the seat, he won the whole arc, he is at the top already, or he missed
-        the cut and has to choose between going again and moving across.
-        """
-        if ev.get("promoted"):
-            return "Take the %s seat" % (ev.get("next_name") or "next")
-        if ev.get("arc_done"):
-            return "Champion — choose a new path"
-        if ev.get("top"):
-            return "Season over — what next"
-        return "Season over — go again or move"
 
     def _rows_ladder_status(self, car):
         """The rung, and what the seat above it costs. Rows, or none.
@@ -2466,13 +2804,15 @@ class PanelsMixin(object):
         """Handle a click at screen coordinates. True if it hit something."""
         b = getattr(self, "_inbox_btn_rect", None)
         if b and b[0] <= sx <= b[2] and b[1] <= sy <= b[3]:
-            # The envelope opens the menu ON the inbox, or closes it if that
-            # is already what is showing — one button, one obvious meaning.
-            if self.menu_open and getattr(self, "menu_page", "") == "inbox":
+            # THE TROPHY OPENS THE CAREER DASHBOARD, or closes it if that is
+            # already what is showing — one button, one obvious meaning. It used
+            # to open the post directly; the post now lives one row inside the
+            # dashboard, which is the screen this button is actually about.
+            if self.menu_open and getattr(self, "menu_page", "") == "dash":
                 self.menu_open = False
             else:
                 self.menu_open = True
-                self.menu_page = "inbox"
+                self.menu_page = "dash"
                 self._mail_offset = 0
             self._menu_confirm = None
             return True
@@ -2514,6 +2854,22 @@ class PanelsMixin(object):
             save_settings(self.cfg)
 
     def _menu_hit(self, key):
+        # THE NEWS IS THE INBOX WITH THE OTHER FEED SELECTED, and the dashboard
+        # links straight to it — a driver who wants the news should not have to
+        # open the post and then switch tabs.
+        if key == "page_dash":
+            self.menu_page = "dash"
+            return
+        if key == "page_news":
+            self._mail_feed = "news"
+            self._mail_offset = 0
+            self.menu_page = "inbox"
+            return
+        if key == "page_inbox":
+            self._mail_feed = "mail"
+            self._mail_offset = 0
+            self.menu_page = "inbox"
+            return
         if key.startswith("page_"):
             # BACK GOES WHERE HE CAME FROM. The end-of-season page is now
             # reachable from the inbox as well as the career page, and a Back

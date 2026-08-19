@@ -536,13 +536,28 @@ try:
           "and no LETTER is flagged, ever",
           "%d flagged" % len([r for r in _msgs if r.get("hot")]))
 
-    _crows = h._rows_career()
-    check(any(r.get("key") == "page_ladder" and r.get("hot") for r in _crows),
-          "the career page marks it as well")
+    # THE OLD CAREER PAGE IS GONE — it was thirty grey rows of sentences and the
+    # dashboard replaced it. The decision is checked on the dashboard below.
+    # THE DASHBOARD MARKS IT TOO, and the settings row that used to is gone with
+    # the career page — the career is not a setting. The surface that carries the
+    # tell on screen is now the trophy button, which is drawn with a ring around
+    # it whenever a decision is waiting.
+    h.menu_page = "dash"
+    _drows = h._rows_dash()
+    check(any(r.get("key") == "page_career_ladder" and r.get("hot")
+              for r in _drows),
+          "the dashboard marks the decision as well",
+          str([r.get("key") for r in _drows if r.get("hot")]))
+    # ON THE SETTINGS PAGE, which is what this is about — the dashboard itself
+    # links to Manage career and is supposed to.
     h.menu_page = "main"
     _srows = h._menu_rows()
-    check(any(r.get("key") == "page_career" and r.get("hot") for r in _srows),
-          "and so does the settings row that leads to it")
+    check(not any(str(r.get("key", "")).startswith("page_career")
+                  for r in _srows),
+          "and the career has left the settings page entirely",
+          str([r.get("key") for r in _srows]))
+    check(not any(r.get("key") == "page_inbox" for r in _srows),
+          "along with the post, which lives in the dashboard now")
 
     # A DIVISION IS NOT THE SAME SIZE OF COMMITMENT AS THE ONE ABOVE IT.
     #
@@ -849,6 +864,124 @@ if _fc is not None:
           "and the row still switches to the news tab", str(_row.get("key")))
     h._mail_feed = "mail"
     h.menu_page = "main"
+
+# THE CAREER DASHBOARD. Asked for after living with the old career page: "theres
+# literally not much happening there and its all just a bunch of words ... Can we
+# have a career dashboard instead, and then the Email icon lives insde the
+# dashboard instead and then the email icon truns into a Trophy icon".
+_dc = h.season
+if _dc is not None:
+    h.menu_page = "dash"
+    _rows = h._rows_dash()
+    _kinds = [r.get("kind") for r in _rows]
+    check("head" in _kinds, "the dashboard opens with a header card", str(_kinds[:3]))
+    check("tiles" in _kinds, "and the numbers are tiles, not sentences")
+    _head = [r for r in _rows if r.get("kind") == "head"][0]
+    check(_head.get("label") == _dc.me,
+          "the header names the driver", str(_head.get("label")))
+    check(0.0 <= float(_head.get("val") or 0) <= 1.0,
+          "with a season-progress ring inside 0..1", str(_head.get("val")))
+    check("/" in str(_head.get("ring")) or str(_head.get("ring")).isdigit(),
+          "and the rounds written in it", str(_head.get("ring")))
+    _tiles = [r for r in _rows if r.get("kind") == "tiles"][0]["tiles"]
+    check(len(_tiles) == 4, "four of them", str(len(_tiles)))
+    check([t["label"] for t in _tiles] == ["champ", "points", "wins", "podiums"],
+          "and they are the four facts he asked the old page for",
+          str([t["label"] for t in _tiles]))
+    # THE POST LIVES IN HERE NOW, both feeds, with their counts.
+    _keys = [r.get("key") for r in _rows]
+    check("page_inbox" in _keys and "page_news" in _keys,
+          "the post and the news are rows on the dashboard", str(_keys))
+    # ...AND THE HOUSEKEEPING IS NOT, because the first version of this page came
+    # out taller than the screen, which defeats the point of a dashboard.
+    check("page_career_delete" not in _keys and "career_close" not in _keys,
+          "while deleting and closing a career are one row further in",
+          str(_keys))
+    check("page_career" in _keys, "which the dashboard links to")
+    _mrows = h._rows_manage()
+    _mkeys = [r.get("key") for r in _mrows]
+    for _k in ("career_quali", "page_career_nation", "career_close",
+               "page_career_delete"):
+        check(_k in _mkeys, "manage career holds %s" % _k, str(_mkeys))
+    check(any(r.get("key") == "page_dash" for r in _mrows),
+          "and gets back to the dashboard", str(_mkeys[-2:]))
+    # A LOGO IS OPTIONAL AND ITS ABSENCE IS NOT A GAP. The marks are the
+    # player's own files and are not shipped.
+    check("logo" in _head, "the header asks for a division mark")
+    # EVERY ROW THE PAGE DRAWS HAS A KIND THE RENDERER KNOWS.
+    _known = {"head", "tiles", "bar", "band", "gap", "info", "action", "nav",
+              "toggle", "slider", "text", "image", "logo"}
+    check(all(k in _known for k in _kinds),
+          "and nothing on it is a kind the renderer cannot draw",
+          str([k for k in _kinds if k not in _known]))
+    h.menu_page = "main"
+
+# THE TROPHY IS PERMANENT, AND THAT IS A ROUTE-TO-THE-PRODUCT PROBLEM RATHER
+# THAN A COSMETIC ONE.
+#
+# The envelope was hidden whenever no career existed, which was reasonable while
+# the way to START one was Settings -> Career -> New career. Moving the career out
+# of settings deleted that row and left the overlay with NO WAY IN: no button to
+# click, and a player looking at a settings page that no longer mentions careers.
+# He hit it within minutes: "now we have moved the career so there is no way to
+# activate the email icon ... must be permantly there".
+
+
+class _BtnHost(PanelsMixin):
+    """Enough host to run the button's drawing code and record what it did."""
+
+    def __init__(self, career):
+        self.season = career
+        self.menu_open = False
+        self.menu_page = "main"
+        self.game_rect = (0, 0, 1920, 1080)
+        self.cfg = {}
+        self.hidden = []
+        self.drew = 0
+        for n, sz in (("f_small", 10), ("f_row", 10), ("f_tiny", 8)):
+            setattr(self, n, ("Arial", sz))
+
+    def _begin_panel(self, name, x, y, w, h, clickable=False):
+        host = self
+
+        class _C(object):
+            def __getattr__(self_inner, _n):
+                def _draw(*a, **k):
+                    host.drew += 1
+                    return 1
+                return _draw
+
+        class _P(object):
+            def canvas_at(self_inner, ox, oy):
+                return _C()
+        return _P()
+
+    def _hide_panel(self, n):
+        self.hidden.append(n)
+
+
+for _lbl, _car in (("with no career at all", None),
+                   ("with a career loaded", h.season)):
+    _bh = _BtnHost(_car)
+    _bh.draw_inbox_button()
+    check(_bh._inbox_btn_rect is not None,
+          "the trophy is on screen and clickable %s" % _lbl,
+          str(_bh._inbox_btn_rect))
+    check("inboxbtn" not in _bh.hidden,
+          "and is never hidden %s" % _lbl, str(_bh.hidden))
+    check(_bh.drew > 5, "and it actually draws a trophy %s" % _lbl,
+          "%d canvas calls" % _bh.drew)
+
+# ...AND THE DASHBOARD IT OPENS IS USABLE FROM NOTHING, or the button is a door
+# to an empty room.
+_none = _BtnHost(None)
+_nrows = _none._rows_dash()
+_nkeys = [r.get("key") for r in _nrows]
+check("page_career_new" in _nkeys,
+      "with no career, the dashboard offers to start one", str(_nkeys))
+check("page_career_load" in _nkeys, "and to load one")
+check(any(r.get("hot") for r in _nrows),
+      "and the way in is marked, because it is the only thing to do")
 
 print("\n" + ("FAILED: %d" % len(fails) if fails else "ALL PASSED"))
 root.destroy()
