@@ -3902,6 +3902,52 @@ attribute on a circuit must never be why the booth stops working, and `Track` is
 not the only thing that has ever been handed to that method — two test fixtures
 had their own.
 
+### ...AND THE FRAME NEVER REACHED IT. THE THIRD CAUSE OF ONE SYMPTOM
+
+The user, after the second fix: *"the prompt only comes up after I press drive,
+and it's the same basically as before, which tells me the overlay doesn't pick it
+up until you're out on track."* He was right for the third time, and he had
+correctly identified the layer each time.
+
+**`draw_status` CLAIMS THE WHOLE TICK WHENEVER THE SESSION IS NOT LIVE.** Its
+not-live branch draws the menu furniture and returns — so in the garage
+`update_booth` was never CALLED AT ALL, and every clever thing done inside it was
+irrelevant. Moving the arming above the on-air gate fixed nothing, because the
+gate above THAT was the frame itself.
+
+```python
+if self.draw_status(s, plugin):
+    self.draw_menu_button() ... self.draw_settings()
+    return                     # <- the career prompt is thirty lines below here
+```
+
+That branch now also runs `update_booth`, `_test_watch` and
+`draw_career_prompt`. Calling the booth there is safe by construction: it returns
+at its own on-air gate before anything can be SPOKEN, which is what that gate has
+always been for — so the cost is one arming decision and the benefit is a prompt
+in the pit screen.
+
+**THE SAME SYMPTOM HAD THREE INDEPENDENT CAUSES**, stacked, and each fix exposed
+the next:
+
+| | cause | symptom |
+|---|---|---|
+| 1 | the round was matched under the on-air gate | prompt appeared as the lights went out |
+| 2 | the armed flag was set before the data arrived | no prompt at all; OFF-CAREER on round one |
+| 3 | the frame returned before reaching the card | prompt only after pressing Drive |
+
+**AND THE PREVIEW WAS COMPLICIT IN THE THIRD.** `promptshot.py` called
+`draw_career_prompt` directly, which passed while the game showed nothing —
+exactly the failure it was written to prevent, one layer up. It now drives the
+frame's not-live branch, **read out of `factor_tv.py`'s own source** rather than
+copied by hand, and asserts that the `career` panel is among the ones drawn. It
+was checked by deleting the call and confirming the preview fails: a test that
+cannot fail is not a test.
+
+One trap while writing that: splitting the source on `"return"` cut the branch
+short inside a COMMENT containing "returns", found no calls, and reported a
+working frame as broken. Split on the statement, not the word.
+
 ### EVERY OVERTAKE CALL IN THE PRODUCT WAS DEAD — one expression
 
 Reported as *"the overtaking priority system isn't working at all"*. He drove

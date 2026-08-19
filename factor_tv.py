@@ -563,6 +563,24 @@ class Overlay(DrawMixin, PanelsMixin, DashMixin, BoothMixin, RadioMixin,
             self.draw_mode_badge()
             self.draw_division_logo()
             self.draw_settings()
+            # THE GARAGE IS PART OF THE WEEKEND, AND THIS EARLY RETURN WAS WHY THE
+            # PROMPT NEVER APPEARED THERE.
+            #
+            # `draw_status` claims the frame whenever the session is not live —
+            # which includes the pit screen, where a driver sits deciding what to
+            # do. So `update_booth` was never CALLED in the garage, and moving the
+            # arming inside it earlier did nothing: the whole tick was skipped.
+            # The user, twice: *"the prompt only comes up after I press drive ...
+            # which tells me the overlay doesn't pick it up until you're out on
+            # track"*. He was right both times.
+            #
+            # `update_booth` returns at its own on-air gate before anything can be
+            # SPOKEN, so calling it here costs one arming decision and cannot
+            # produce a word of commentary over a loading screen — which is what
+            # that gate has always been for.
+            self.update_booth(s)
+            self._test_watch(s)
+            self.draw_career_prompt(s)
             self._sweep_panels()
             return
 

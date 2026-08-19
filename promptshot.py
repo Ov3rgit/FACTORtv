@@ -28,6 +28,7 @@ pixels — the same method `mailshot.py`, `menushot.py` and `dashshot.py` use, f
 the same reason: re-drawing the card in PIL would let the preview agree with me
 rather than with the overlay.
 """
+import io
 import os
 import sys
 import tempfile
@@ -242,6 +243,39 @@ def main():
         def _short_track(self, n):
             return n
 
+        def _sweep_panels(self):
+            pass
+
+        def _test_watch(self, s):
+            pass
+
+        def _garage_frame(self, s):
+            """The frame's not-live branch, in the order `factor_tv` runs it.
+
+            READ OUT OF THE REAL SOURCE, not copied by hand: a preview that
+            hard-codes the order is a preview that keeps passing after the frame
+            changes. If `factor_tv` stops calling the prompt here, this fails.
+            """
+            import re
+            src = io.open(os.path.join(_DIR, "factor_tv.py"),
+                          encoding="utf-8").read()
+            branch = src.split("if self.draw_status(s, plugin):")[1]
+            # THE STATEMENT, NOT THE WORD. Splitting on "return" cut the
+            # branch off inside a COMMENT containing "returns", which found no
+            # calls at all and reported the frame as broken when it was not.
+            branch = branch.split(chr(10) + " " * 12 + "return")[0]
+            calls = re.findall(r"self\.(draw_\w+|update_booth|_test_watch)\(",
+                               branch)
+            for name in calls:
+                fn = getattr(self, name, None)
+                if fn is None:
+                    continue
+                try:
+                    fn(s) if name != "draw_settings" else fn()
+                except TypeError:
+                    fn()
+            return calls
+
     host = Host()
     cast_mod.set_era(era_mod.classify("Tatuus_F4-T014", ""))
 
@@ -265,7 +299,26 @@ def main():
     info = host.season_prompt(warm)
     print("prompt:", info)
 
-    host.draw_career_prompt(warm)
+    # THE FRAME MUST DRAW IT, NOT JUST THE PANEL METHOD.
+    #
+    # Calling `draw_career_prompt` directly is what this file did first, and it
+    # PASSED while the feature was still broken in the game — because the real
+    # frame short-circuits in the garage (`draw_status` claims the tick when the
+    # session is not live) and never reached the card at all. So the check is now
+    # made through the same gate the game goes through.
+    drew = []
+    _real_begin = host._begin_panel
+
+    def _spy(name, x, y, w, h, clickable=False):
+        drew.append(name)
+        return _real_begin(name, x, y, w, h, clickable)
+    host._begin_panel = _spy
+    host._garage_frame(warm)
+    host._begin_panel = _real_begin
+    print("panels the frame drew in the garage:", sorted(set(drew)))
+    if "career" not in drew:
+        print("FAILED: the frame never reached the prompt in the garage")
+        return 1
     root.attributes("-topmost", True)
     root.lift()
     root.update_idletasks()
