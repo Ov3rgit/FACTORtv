@@ -1734,9 +1734,23 @@ class PanelsMixin(object):
                                   or "any circuit")[:20]})
             rows.append({"label": "Round %d counts" % nxt["n"],
                          "key": "roundcount", "kind": "toggle", "val": counts})
+            # THE KEY IS `sim_round`, WHICH IS THE ONE THE HANDLER KNOWS. The
+            # dashboard shipped asking for `confirm:simulate` — a pattern I
+            # invented and nothing dispatches — so the row drew, highlighted on
+            # hover and did nothing at all. He found it in one press.
+            #
+            # AND IT SAYS WHY WHEN IT CANNOT. `_sim_blocked` returns a REASON,
+            # for exactly the complaint that built it: a button that is refused
+            # silently is worse than one that is not there.
+            _why = self._sim_blocked(car)
+            _finale = bool(total and nxt.get("n") == total)
             rows.append({"label": "Simulate this round",
-                         "key": "confirm:simulate", "kind": "action",
-                         "note": "round %d" % nxt["n"]})
+                         "key": None if _why else "sim_round",
+                         "kind": "info" if _why else "action",
+                         "note": (_why if _why
+                                  else ("decides the title" if _finale
+                                        else "round %d" % nxt["n"])),
+                         "danger": _finale and not _why})
         else:
             # THE SEASON IS OVER AND THE DECISION IS THE PAGE. `_ladder_waiting`
             # returns the evaluate dict rather than rows, so the row is built
@@ -1800,15 +1814,23 @@ class PanelsMixin(object):
         rows.append({"label": "Nationality", "key": "page_nation",
                      "kind": "action", "note": car.nationality or "-"})
         if car.rounds:
-            rows.append({"label": "Undo last result", "key": "confirm:undo",
+            # `drop_last`, for the same reason: it is the key the handler knows,
+            # and it puts the confirmation up itself.
+            _last = sorted(car.rounds, key=lambda r: r.get("when", 0))[-1]
+            rows.append({"label": "Undo last result", "key": "drop_last",
                          "kind": "action", "danger": True,
-                         "note": "round %d" % car.rounds[-1].get("n", 0)})
+                         "note": "round %d" % _last.get("n", 0)})
         rows.append({"kind": "band", "label": "Other careers"})
         rows.append({"label": "New career", "key": "page_new",
                      "kind": "nav", "note": ">"})
         rows.append({"label": "Load career", "key": "page_load",
                      "kind": "nav", "note": ">"})
-        rows.append({"label": "Close career", "key": "career_close",
+        # `career_none` IS THE ACTION'S NAME. `career_close` was never handled
+        # anywhere: the row raised a KeyError out of `_menu_toggle`, the overlay
+        # swallowed it, and Close career had simply never worked. Found by the
+        # action-key audit rather than by anybody pressing it, which is the whole
+        # argument for the audit.
+        rows.append({"label": "Close career", "key": "career_none",
                      "kind": "action", "note": "keeps the file"})
         rows.append({"label": "Delete career", "key": "page_delete",
                      "kind": "nav", "danger": True, "note": ">"})

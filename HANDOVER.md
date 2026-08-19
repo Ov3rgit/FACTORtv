@@ -3622,6 +3622,33 @@ tutorial's pointer, accent for a season waiting to be decided.
 **The lesson for any future mark on a corner control:** the canvas is not the
 screen. A panel is a window, and a window clips.
 
+### A DEAD BUTTON, AND THE AUDIT THAT FOUND A SECOND ONE
+
+*"the simulate rounds button isnt working"*. The dashboard asked for
+`confirm:simulate` — a key pattern I invented that nothing dispatches. The real
+keys are `sim_round` and `drop_last`, and `sim_round` also puts up its own
+confirmation and refuses with a REASON (`_sim_blocked`), which the dashboard was
+not showing either. Both rows drew, both highlighted, neither did anything.
+
+He guessed it was because he had not raced in Formula 2 yet. It was not: in his
+overlay the grid resolves — `Formula 2 2019` is a class the store has seen, with
+twelve drivers at his rung — and a copy of his save simulates round three as P4
+the moment the key is right. **My first probe said "race them once first" only
+because the harness passed `career=None`**, which forces an empty grid. Worth
+remembering: a stub that omits a dependency does not prove a refusal.
+
+**THE PAGE AUDIT COULD NOT CATCH THIS** — it validates `page_` keys against the
+router, and this was an action. So there is now a second audit: every action key
+any page offers must appear in the click handler or the toggle table. It
+immediately found **"Close career", dead since before the dashboard existed** —
+the row said `career_close`, the action is `career_none`, and the KeyError out of
+`_menu_toggle` was swallowed by the overlay's own exception guard.
+
+That is the argument for the audit in one line: **nobody had ever pressed Close
+career, so nobody knew.** The guard understands the three dispatch shapes — a
+literal key, a `prefix:` split into an act, and a slider whose key is a name
+rather than a command.
+
 ### TWO BARS ON ONE SEASON, AND THE SCREEN READ THE WRONG ONE
 
 *"im in F2 and on the progress line it says P2 as the goal the achieve to prgress

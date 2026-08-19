@@ -894,13 +894,13 @@ if _dc is not None:
           "the post and the news are rows on the dashboard", str(_keys))
     # ...AND THE HOUSEKEEPING IS NOT, because the first version of this page came
     # out taller than the screen, which defeats the point of a dashboard.
-    check("page_delete" not in _keys and "career_close" not in _keys,
+    check("page_delete" not in _keys and "career_none" not in _keys,
           "while deleting and closing a career are one row further in",
           str(_keys))
     check("page_career" in _keys, "which the dashboard links to")
     _mrows = h._rows_manage()
     _mkeys = [r.get("key") for r in _mrows]
-    for _k in ("career_quali", "page_nation", "career_close",
+    for _k in ("career_quali", "page_nation", "career_none",
                "page_delete"):
         check(_k in _mkeys, "manage career holds %s" % _k, str(_mkeys))
     check(any(r.get("key") == "page_dash" for r in _mrows),
@@ -1125,6 +1125,65 @@ if h.season is not None:
           "and points are a number even when the number is nothing",
           str(_season_t.get("points")))
     h.menu_page = "main"
+
+# AND EVERY ACTION KEY HAS TO BE ONE THE HANDLER KNOWS.
+#
+# The page audit above checks `page_` keys only, and the dashboard shipped with
+# `confirm:simulate` and `confirm:undo` — a pattern I invented, that nothing
+# dispatches. The rows drew, they highlighted, and they did nothing. He found the
+# first one by pressing it: "the simulate rounds button isnt working". The real
+# keys are `sim_round` and `drop_last`.
+#
+# SO THE HANDLER IS THE AUTHORITY, as the router is for pages: every key any page
+# offers must appear in the click code or in the toggle table.
+_hsrc = _io2.open(_op.__file__, encoding="utf-8").read()
+_lit = set(_re.findall(r'key == "([^"]+)"', _hsrc))
+_lit |= set(_re.findall(r'key in \(([^)]*)\)', _hsrc)
+            and _re.findall(r'"([^"]+)"',
+                            " ".join(_re.findall(r'key in \(([^)]*)\)',
+                                                 _hsrc))) or [])
+_pre = set(_re.findall(r'key\.startswith\("([^"]+)"\)', _hsrc))
+# The toggle table maps a key to the attribute it flips.
+_t0 = _hsrc.index("def _menu_toggle")
+_tbl = set(_re.findall(r'"([a-z_]+)":\s*"[a-z_]+"', _hsrc[_t0:_t0 + 4000]))
+_known = _lit | _tbl
+check(len(_known) > 20, "the click handler's own keys can be read",
+      "%d keys, %d prefixes" % (len(_known), len(_pre)))
+
+_PAGES2 = ("main", "dash", "career", "career_new", "career_load",
+           "career_delete", "career_nation", "career_path", "career_plen",
+           "career_ladder", "career_nextlen", "inbox", "record", "standings",
+           "results", "divisions", "legal", "confirm")
+_dead = []
+for _pg in _PAGES2:
+    h.menu_page = _pg
+    try:
+        _rows = h._menu_rows()
+    except Exception:
+        continue
+    for _r in _rows:
+        _k = _r.get("key")
+        if not _k or _r.get("kind") in ("info", "slider"):
+            # An `info` row is not clickable by design, and a SLIDER's key is
+            # not a command: the click handler rewrites it as `slider:name|a|b`
+            # and `_menu_slide` takes the name.
+            continue
+        _k = str(_k)
+        if _k.startswith("page_") or _k.startswith("slider:"):
+            continue          # covered by the router audit above
+        if ":" in _k:
+            # ANY key with a colon is split and dispatched by `_menu_action`, so
+            # what has to exist is the ACT before it — `del:karting` needs a
+            # `del` branch, not a `del:karting` one.
+            _act = _k.split(":", 1)[0]
+            if ('act == "%s"' % _act) in _hsrc:
+                continue
+        if _k in _known or any(_k.startswith(pp) for pp in _pre):
+            continue
+        _dead.append("%s -> %s" % (_pg, _k))
+h.menu_page = "main"
+check(not _dead, "and every action a page offers is one it can actually do",
+      "; ".join(sorted(set(_dead))[:5]))
 
 print("\n" + ("FAILED: %d" % len(fails) if fails else "ALL PASSED"))
 root.destroy()
