@@ -1181,5 +1181,57 @@
     "{seat} leaves with a record that will outlast the manner of his going. That is not much comfort in the week it happens, and it is usually the truth."
    ]
   }
+ ],
+ "news_prog_signed": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} joins {prog}",
+   "body": [
+    "{drv} will race for {f3team} in the {year} {champ} season with the backing of {prog}, ending a winter of speculation about which of the three junior programmes would take him.",
+    "The car is the same for everybody on that grid, which is what makes the category worth watching and what makes the choice he has just made interesting. A programme does not make a driver faster. It decides who is looking when he is."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{prog} confirm {drv} at {f3team}",
+   "body": [
+    "It is official: {drv} is a {prog} driver, and he takes a {f3team} seat for the {year} {champ} campaign.",
+    "There were three doors and they were not equivalent, whatever the press releases say. {prog} runs cars in the championship above this one as well, and every driver who has ever signed one of these deals has done the same arithmetic he has just done."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Junior programme decided: {drv} to {f3team}",
+   "body": [
+    "{drv} has signed with {f3team} for the {year} {champ} season, and the name that matters on the paperwork is {prog}. The deal was confirmed after a winter in which all three of the sport's junior programmes were understood to be talking to him.",
+    "The seat comes with a level of attention that the same seat without a programme would not carry, and that is the deal on both sides of it. He gets the machinery, the engineers and the introductions; they get first claim on him and a say in what happens next. Every driver who has ever signed one of these has done the same arithmetic."
+   ]
+  }
+ ],
+ "news_prog_callup": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{f2team} put {drv} in the car for the rest of the year",
+   "body": [
+    "{drv} moves up to {champ} with immediate effect, taking a {f2team} seat for the remainder of the {year} season after the team changed its driver line-up. He arrives with the championship already under way and nothing on the board.",
+    "It is worth being precise about what this is. He has not won a title and he has not been promoted on results - a seat came free and the programme put its own driver in it, which is a vote of confidence and a deadline in the same sentence. His Formula 3 season ends where it stands."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "Mid-season change hands {drv} a {champ} debut",
+   "body": [
+    "A line-up change at {f2team} has opened a {champ} seat and {prog} have filled it from within, with {drv} in the car from the next round. The team has not commented beyond confirming the decision was about form across the season.",
+    "He starts from zero against drivers who have been scoring since March, in a car he has never raced. The arithmetic is unkind and everybody involved knows it - which is rather the point of putting a junior in the seat now rather than in January."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{drv} steps up early, and not by winning",
+   "body": [
+    "{drv} is a {champ} driver from the next round, in the {car} for {f2team}, after the team decided to make a change with the {year} season part-run.",
+    "There is no trophy attached to this and nobody is pretending otherwise. What there is instead is a set of rounds in the best car he has ever been given and a paddock that will draw its conclusions by December."
+   ]
+  }
  ]
 }

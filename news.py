@@ -306,6 +306,20 @@ def refresh(career, era=None, now=None):
         new += _period(career, era, n, when, base)
         new += _trivia(career, era, n, when, base, sn)
 
+    # SIGNING WITH A PROGRAMME IS NEWS, and it was not being reported: "there
+    # was no news report about the choosing of the academy i went with". Also
+    # outside the loop, because it happens BEFORE round one — a piece that
+    # waited for a race would announce the signing after the season had
+    # started, which is not how a signing is covered.
+    new += _prog_signing(career, when=now)
+    # THE CALL-UP IS THE BIGGEST MOVE IN THE ARC and the feed was silent on it.
+    # It cannot go through `_arrival`, which fires on round one: a called-up
+    # season has its first two rounds already gone as absences, so round one is
+    # never new. It also must not reuse `news_arrival_promoted`, which says the
+    # seat "was earned on results rather than granted" — true of a promotion and
+    # the exact opposite of what happened here.
+    new += _prog_callup(career, when=now)
+
     # THE YEAR OUT. Outside the per-round loop, because there are no rounds
     # in a development year — that is the whole point of it.
     new += _dev_year(career, when=now)
@@ -553,6 +567,78 @@ def _finale(career, n, when, kw, base, sn):
     # into: a rotation keyed on something that does not vary is not a rotation.
     return [_post(career, kind, "finale:%s" % base, k, when=when, rnd=n,
                   variant=n + sn)]
+
+
+def _prog_callup(career, when=None):
+    """ONE piece when the seat above opens mid-season and he is put in it.
+
+    WHAT IT MAY NOT SAY. He did not earn this on results and he has not won
+    anything — he is a mid-season replacement who starts on nothing with two
+    rounds already run. The same restraint the letters follow: this is a
+    promotion in machinery, not an achievement, and the piece is about a team
+    making a change.
+
+    NOBODY IS NAMED. The driver who lost the seat is not identified, because the
+    Formula 2 2019 grid is a real one and "dropped for form" is a claim about a
+    real person's competence. The story is the vacancy, not the man.
+    """
+    try:
+        import programme as prog_mod
+    except Exception:
+        return []
+    if career.data.get("arrived_by") != "callup":
+        return []
+    key, block = prog_mod.signed(career)
+    if not block:
+        return []
+    facts = prog_mod.rung_facts(career, prog_mod.F2_KEY)
+    k = {"drv": career.me or "",
+         "prog": block.get("name", ""),
+         "f2team": block.get("f2_team", ""),
+         "f3team": block.get("f3_team") or block.get("f2_team", ""),
+         "champ": facts.get("champ", ""),
+         "year": facts.get("year", ""),
+         "car": facts.get("car", ""),
+         "series": facts.get("champ", "")}
+    return [_post(career, "news_prog_callup", "progcallup:%s" % key, k,
+                  when=when)]
+
+
+def _prog_signing(career, when=None):
+    """ONE piece when he signs with a junior programme, before he has raced.
+
+    Asked for: *"also there was no news report about the choosing of the
+    academy i went with"* — and he was right, the feed covered his arrival on
+    the rung and the seat above it and said nothing about the decision that
+    connects them.
+
+    IT IS ABOUT THE PROGRAMME, NOT THE CAR. Everybody on that grid has the same
+    machinery, so the story of the signing is whose junior programme now has
+    his name on a list, which is exactly the thing the player chose.
+
+    NOTHING IS CLAIMED ABOUT THE DRIVER AHEAD OF HIM. The piece names the
+    programme, the team and the championship — all of which are what they are —
+    and says nothing about anybody's prospects, including his own.
+    """
+    try:
+        import programme as prog_mod
+    except Exception:
+        return []
+    key, block = prog_mod.signed(career)
+    if not block:
+        return []
+    facts = prog_mod.rung_facts(career, prog_mod.F3_KEY)
+    k = {"drv": career.me or "",
+         "prog": block.get("name", ""),
+         "f3team": block.get("f3_team") or block.get("f2_team", ""),
+         "f2team": block.get("f2_team", ""),
+         "f1team": block.get("f1_team", ""),
+         "champ": facts.get("champ", ""),
+         "year": facts.get("year", ""),
+         "car": facts.get("car", ""),
+         "series": facts.get("champ", "")}
+    return [_post(career, "news_prog_signed", "progsigned:%s" % key, k,
+                  when=when)]
 
 
 def _dev_year(career, when=None):

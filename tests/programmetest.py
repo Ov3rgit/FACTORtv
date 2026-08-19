@@ -502,6 +502,68 @@ check(early.match("t1", cls="Formula 2 2019",
       "in Formula 2 the seat lock does not apply yet")
 
 
+print("\n7d. THE PLAYER IS TOLD WHICH CAR AND WHICH YEAR HE JUST SIGNED FOR")
+# Reported after he took a seat and could not tell what he had taken: "it wasnt
+# speicifc to what year, there are so many f3 years so which car am i talking
+# lol?" The letter said "the Formula 2 season" while offering a Formula 3 drive,
+# and named no car at all.
+facts = P.rung_facts(f3_career(), P.F3_KEY)
+check(facts.get("champ") == "Formula 3",
+      "the championship is named", str(facts.get("champ")))
+check(facts.get("year") == "2019",
+      "the year is READ off the content, never invented", str(facts.get("year")))
+check(facts.get("car") and facts.get("mod"),
+      "and so are the car and the mod it lives in", str(facts))
+signing = f3_career()
+inbox.refresh(signing)
+body = " ".join(sum((m["body"] for m in inbox.messages(signing)
+                     if m["kind"] == "prog_offer"), []))
+check(facts["mod"] in body, "the offer letter names the mod", body[:80])
+check("three seats on the table for the 2019 Formula 3" in body,
+      "the year and the category, and no longer a Formula 2 season it cannot give")
+seats = P.offer(signing)
+check(all(x.get("f3_team") for x in seats),
+      "and every seat on offer carries its Formula 3 team", str(len(seats)))
+
+print("\n7e. THE FEED COVERS THE SIGNING AND THE CALL-UP")
+# "also there was no news report about the choosing of the academy i went with"
+import news as N
+sc = f3_career()
+inbox.refresh(sc)
+P.accept(sc, "ferrari")
+N.refresh(sc)
+pieces = [m for m in inbox.messages(sc) if m["kind"] == "news_prog_signed"]
+check(pieces, "signing with a programme is reported")
+if pieces:
+    sbody = " ".join(pieces[0]["body"]) + pieces[0]["subject"]
+    check("Ferrari Driver Academy" in sbody and "Prema" in sbody,
+          "and it names the programme and the team he chose", sbody[:70])
+N.refresh(sc); N.refresh(sc)
+check(len([m for m in inbox.messages(sc)
+           if m["kind"] == "news_prog_signed"]) == 1,
+      "exactly once, however often the feed is asked")
+# THE CALL-UP cannot go through `_arrival`, which fires on round one: a
+# called-up season has its first two rounds already gone as absences. It also
+# must not borrow `news_arrival_promoted`, which says the seat was earned on
+# results — true of a promotion, the opposite of what happened here.
+called = to_f2(f3_career(rounds=10), "ferrari")
+N.refresh(called)
+cu = [m for m in inbox.messages(called) if m["kind"] == "news_prog_callup"]
+check(cu, "so is the mid-season call-up", str(called.data.get("arrived_by")))
+if cu:
+    cbody = (" ".join(cu[0]["body"]) + " " + cu[0]["subject"]).lower()
+    # THE CLAIM, NOT THE WORD. "the championship already under way" is a fine
+    # sentence; "he has won the championship" is the lie the user warned about:
+    # "if i meet the requirements then the commentator mustnt say He has won the
+    # F2 championship".
+    for lie in ("has won", "won the", "champion of", "title win", "victory"):
+        check(lie not in cbody,
+              "and it never claims he won anything: %s" % lie, cbody[:60])
+    check("earned on results" not in cbody,
+          "nor claims he earned the seat, which he did not")
+    for real in ("correa", "hubert", "latifi", "ghiotto", "aitken", "mazepin"):
+        check(real not in cbody, "and it names no real driver: %s" % real)
+
 print("\n8. NOTHING ABOUT IT SURVIVES A CAREER THAT DID NOT EARN IT")
 fresh = f2_career()
 check(P.state(fresh) == P.OFFERED and not P.signed(fresh)[0],

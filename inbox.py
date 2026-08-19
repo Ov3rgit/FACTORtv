@@ -798,6 +798,20 @@ def _programme_mail(career, base, kw, now):
             # `{team}` is the `from` line rather than a slot in the prose.
             "team": block.get("f1_team", ""),
         })
+    # WHICH CAR, AND WHICH YEAR. He took one of the three seats and could not
+    # tell what he had taken: "it wasnt speicifc to what year, there are so
+    # many f3 years so which car am i talking lol?" Both letters now name the
+    # championship, the year and the car exactly as his own game lists it, and
+    # the call-up names the car he is moving INTO, because that letter changes
+    # which one he loads.
+    _f3 = prog_mod.rung_facts(career, prog_mod.F3_KEY)
+    _f2 = prog_mod.rung_facts(career, prog_mod.F2_KEY)
+    k.setdefault("champ", _f3.get("champ", ""))
+    k.setdefault("year", _f3.get("year", ""))
+    k.setdefault("car", _f3.get("car", ""))
+    k.setdefault("mod", _f3.get("mod", ""))
+    k.setdefault("f2car", _f2.get("car", ""))
+    k.setdefault("f2mod", _f2.get("mod", ""))
     if st == prog_mod.OFFERED and prog_mod.offer(career):
         out.append(_post(career, _compose_any(
             "prog_offer", "prog:offer:%s" % base, k, when=now)))

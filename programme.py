@@ -62,6 +62,7 @@ DATA = os.path.join(_DIR, "lines_data", "programmes.json")
 #   * academies sign drivers INTO F3 and prove them in F2, which is the real
 #     ladder rather than a compressed version of it.
 F3_KEY = "f3"
+_YEAR = __import__("re").compile(r"(?:19|20)[0-9][0-9]")
 F2_KEY = "f2"
 F1_KEY = "f1"
 
@@ -227,6 +228,69 @@ def signed(career):
     b = _block(career)
     k = b.get("key")
     return (k, get(k)) if k else (None, None)
+
+
+def rung_facts(career, key=None):
+    """What to CALL the seat he is being offered: {"champ", "car", "year"}.
+
+    Asked for after he took a seat and could not tell what he had taken:
+    *"it wasnt speicifc to what year, there are so many f3 years so which car
+    am i talking lol?"* — a fair complaint about a letter that said "the
+    Formula 2 season" while offering a Formula 3 drive, and named no car at
+    all.
+
+    THE CAR NAME COMES OFF HIS OWN DISK, through `ladder.tier_cars`, which is
+    the same source the eligible-machinery letter uses. The question he is
+    really asking is "what do I select in the game", and only the folders he
+    actually owns can answer that. Nothing installed means no car named,
+    because a letter that names a car he does not have is worse than a letter
+    that names none.
+
+    THE YEAR IS READ, NEVER PICKED. It comes out of the mod alias of the rung
+    the call-up leads to — `f 2 2019` says 2019 in the content itself — so the
+    story's year is whatever the cars in the game actually are. No year in the
+    aliases, no year in the letter.
+    """
+    out = {"champ": "", "car": "", "year": "", "mod": ""}
+    if career is None or not getattr(career, "on_ladder", False):
+        return out
+    try:
+        import ladder as ladder_mod
+    except Exception:
+        return out
+    prog = career.ladder
+    if prog is None:
+        return out
+    tiers = list(ladder_mod.tiers(prog.path) or [])
+    key = key or (prog.tier() or {}).get("key") or ""
+    tier = None
+    for t in tiers:
+        if t.get("key") == key:
+            tier = t
+            break
+    if tier is None:
+        return out
+    out["champ"] = tier.get("name", "") or ""
+    try:
+        cars = ladder_mod.tier_cars(tier) or []
+    except Exception:
+        cars = []
+    # ONE CAR IS THE ANSWER, several is a list, none is a silence.
+    out["car"] = ", ".join(nice for nice, _folder in cars[:3])
+    # AND THE MOD IT LIVES IN, because "Formula 3" is what the car is called
+    # and "SMMG Formula 3 Series" is where he has to look to find it. On this
+    # rung those two strings are nearly the same word, which is exactly why
+    # the letter needs both to be of any use.
+    out["mod"] = cars[0][1] if cars else ""
+    for t in tiers:
+        if t.get("key") != F2_KEY:
+            continue
+        for alias in t.get("mods", ()):
+            m = _YEAR.search(alias.replace(" ", ""))
+            if m:
+                out["year"] = m.group(0)
+                break
+    return out
 
 
 def offer(career):

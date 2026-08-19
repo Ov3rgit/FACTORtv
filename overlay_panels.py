@@ -1737,11 +1737,16 @@ class PanelsMixin(object):
                 _key, _have = prog_mod.signed(car)
             except Exception:
                 seats, _have = [], None
+            # THE F3 TEAM, because the seat on offer is the Formula 3 one.
+            # These rows said `f2_team` from when the arc started a rung
+            # higher, and they are the same three names in both championships,
+            # so nothing looked wrong while being wrong.
             if _have:
-                rows.append({"label": "Signed: %s" % _have.get("f2_team", ""),
+                rows.append({"label": "Signed: %s" % (_have.get("f3_team")
+                                                      or _have.get("f2_team", "")),
                              "kind": "info", "note": "agreed"})
             for _s in seats:
-                rows.append({"label": _s.get("f2_team", ""),
+                rows.append({"label": _s.get("f3_team") or _s.get("f2_team", ""),
                              "key": "progpick:%s" % _s.get("key", ""),
                              "kind": "action",
                              "note": _s.get("name", "")[:22]})

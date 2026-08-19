@@ -510,8 +510,9 @@
    "from": "Your agent",
    "subject": "Three doors, and you pick one",
    "body": [
-    "I have three seats on the table for the Formula 2 season and I am not going to pretend they are equivalent. Each of these teams is backed by a Formula One junior programme, and the programme is what you are really choosing - the car is a consequence.",
-    "Prema Racing, backed by the Ferrari Driver Academy. ART Grand Prix, with the Mercedes junior programme behind them. Carlin, who have run Red Bull juniors for years. Any of the three will put you in a competitive car; only one of them can put you where you are trying to go.",
+    "I have three seats on the table for the {year} {champ} season and I am not going to pretend they are equivalent. Each of these teams is backed by a Formula One junior programme, and the programme is what you are really choosing - the car is a consequence.",
+    "The car is the {car}, out of {mod}. Same machinery for everybody on the grid, which is the point of the category and the reason nobody will have anywhere to hide.",
+    "Prema Racing, backed by the Ferrari Driver Academy. ART Grand Prix, with the Mercedes junior programme behind them. Carlin, who have run Red Bull juniors for years. All three of them run cars in Formula 2 as well, and that is the part I want you thinking about: the seat you take here is the queue you join for the one above it.",
     "Take your time and then do not take too much of it. These seats do not stay open, and the people offering them are talking to other drivers this week."
    ]
   }
@@ -519,9 +520,10 @@
  "prog_signed": [
   {
    "from": "Your agent",
-   "subject": "Signed - {f2team}",
+   "subject": "Signed - {f3team}",
    "body": [
-    "It is done. You are with {f2team} for the season, and that puts {prog} behind you. I want you to understand exactly what that means, because it is not the good news everybody will tell you it is.",
+    "It is done. You are with {f3team} for the {year} {champ} season, and that puts {prog} behind you. I want you to understand exactly what that means, because it is not the good news everybody will tell you it is.",
+    "Practically: you are in the {car}, and you will find it in the game under {mod}. Set up the season however you like - that part is yours.",
     "It means you are being watched by people who can end this. A driver with no programme has a bad season and gets another one; a driver with a programme has a bad season and gets a conversation. What you have bought yourself is attention, and attention runs both ways.",
     "Win it. That is the whole brief and I am not going to dress it up."
    ]
@@ -534,6 +536,7 @@
    "body": [
     "We have made a change in our Formula 2 line-up and the seat is yours for the rest of the season. You will make your debut at the next round. Your Formula 3 campaign ends here — you do not go back, whatever happens between now and December.",
     "You should understand what has happened, because it will happen to you one day if you let it. The decision was about form over a season, not about one bad afternoon, and it was made by people who had watched every lap. That is the standard the seat is held to, and from the next round it is the standard you are held to.",
+    "The car is the {f2car}, which you will find under {f2mod}. It is a different animal to the one you have been driving and you get no test in it.",
     "Get your things to the factory this week. The car will not wait for you to be ready for it."
    ]
   },
@@ -543,6 +546,7 @@
    "body": [
     "Effective immediately you are promoted to our Formula 2 entry with {f2team} for the remainder of the season. The Formula 3 programme is closed: you will not be returning to it, and the results you have there stand as they are.",
     "The seat became available because the team has changed its driver, and the reasons are the team's own. What matters to you is the timescale: you have the rest of this season to show that the decision to put you in the car was the right one, in a category where everybody on the grid was the best in the world at the one you have just left.",
+    "You will be in the {f2car} - {f2mod} in the garage. Nobody expects you to be on the pace in it immediately, but everybody will be watching to see how long you take.",
     "You will be at the factory on Wednesday for a seat fit. Come prepared to listen more than you talk."
    ]
   },
@@ -552,6 +556,7 @@
    "body": [
     "The Formula 2 seat at {f2team} is available and the academy has put your name to it. You race the remaining rounds of the season in it, starting at the next event, and your Formula 3 year finishes today with whatever is already on the board.",
     "This is earlier than we planned and it is not a favour. A team that has just changed one driver has no patience left for a second mistake, so the first thing asked of you is not speed but reliability — be where you are meant to be, do what the engineers ask, and finish races.",
+    "For the paperwork: the {f2car}, listed under {f2mod}. Load it and sit in it before you do anything else.",
     "Congratulations. Say very little about it publicly until the entry is confirmed."
    ]
   }
