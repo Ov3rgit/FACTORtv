@@ -45,7 +45,7 @@ ASSET_EXT = (".ttf", ".wav")
 
 # Named top-level files that are neither code nor obviously an asset.
 EXTRA = ("requirements.txt", "README.md", "SETUP.md", "THIRD_PARTY.md",
-         ".gitignore")
+         "RELEASE_NOTES.md", ".gitignore")
 
 # Whole directories that ship as they are.
 # THE ARTWORK SHIPS. The user's call, and the release is free: the division
