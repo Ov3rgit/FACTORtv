@@ -193,17 +193,24 @@ def refresh(career, now=None):
 
 
 def _post(career, kind, mid, when, pool=None, body=None, subject=None,
-          sender=None):
+          sender=None, kw=None):
     """Compose through the inbox so a beat is indistinguishable from a
-    licensing statement — same shape, same renderer, same archive."""
+    licensing statement — same shape, same renderer, same archive.
+
+    `kw` is almost always empty and that is the point: she writes about him, not
+    about his results, and a letter full of slots would be a scoreboard from
+    somebody who does not read them. The exception is a championship — she is
+    told WHICH one, because "you've won the whole thing" is how it sounded in a
+    pub and is not something the product should leave a reader to guess at.
+    """
     if body is not None:
         tpl = [{"from": sender or "", "subject": subject or "",
                 "body": list(body)}]
     else:
         tpl = pool if pool is not None else _pool(kind)
     return inbox._post(career, inbox._compose(
-        kind, mid, {}, when=when, feed=("news" if kind.startswith("ending_")
-                                        else "mail"), pool=tpl))
+        kind, mid, kw or {}, when=when,
+        feed=("news" if kind.startswith("ending_") else "mail"), pool=tpl))
 
 
 def _season_no(career):
@@ -384,8 +391,13 @@ def _milestones(career, st, now):
            if h.get("pos") == 1]
     if won and "first_title" not in done:
         done.append("first_title")
+        # SHE NAMES IT, because he read her letter next to a dashboard that said
+        # Formula One and could not tell what she thought he had won. Her voice
+        # does not change: the division arrives secondhand, from the man in the
+        # pub, which is exactly how she would have heard it.
         out.append(_post(career, "milestone_first_title",
-                         "milestone:first_title", now))
+                         "milestone:first_title", now,
+                         kw={"won": (won[-1].get("name") or "")}))
     if len(won) > 1 and "promoted" not in done:
         done.append("promoted")
         out.append(_post(career, "milestone_promoted", "milestone:promoted",
@@ -658,7 +670,20 @@ def validate():
             # RULE 3, MECHANICALLY. A slot is a way for a letter to fail to
             # send, and the personal thread is the one thing here that must
             # never fail to send because a fact was missing.
-            if "{" in " ".join(body + [tpl.get("subject", "")]):
+            #
+            # ONE EXCEPTION, NAMED HERE RATHER THAN WAIVED. `{won}` is the
+            # championship in her first-title letter: the player read "you've
+            # won the whole thing" beside a dashboard that said Formula One and
+            # could not tell what she thought he had won. The slot is safe
+            # because the ONLY caller fills it from `ladder_history`, and a
+            # letter about a first championship cannot be sent without one — but
+            # it is allowed by name, in one pool, so the rule still holds
+            # everywhere else.
+            ALLOWED = {"milestone_first_title": ("{won}",)}
+            text = " ".join(body + [tpl.get("subject", "")])
+            for _ok in ALLOWED.get(kind, ()):
+                text = text.replace(_ok, "")
+            if "{" in text:
                 errs.append("%s: takes a slot" % where)
     if len(bs) < 6:
         errs.append("only %d beats — the thread has to span a career" % len(bs))

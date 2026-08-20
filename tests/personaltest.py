@@ -109,6 +109,27 @@ slotted = [i for i, b in enumerate(personal.beats())
            if "{" in " ".join(b["body"] + [b["subject"]])]
 check(not slotted, "and not one beat can fail for want of a fact", str(slotted))
 
+# AND THE ONE SLOT SHE IS ALLOWED IS ALWAYS FILLED.
+#
+# Rule 3 says her letters take no slots, because a slot is a way for a letter to
+# fail to send. `{won}` is the single exception — the championship in her
+# first-title letter — added because "you've won the whole thing" read beside a
+# dashboard saying Formula One left the player unsure what she thought he had
+# won. It is safe only while the caller cannot forget to fill it, so THAT is what
+# is tested rather than the rule being waived.
+_wc = _career(arcs=("touring",))
+_wc.data["ladder_history"] = [{"name": "Formula 4", "tier": "f4", "pos": 1,
+                               "rounds": 5, "when": 1}]
+personal.refresh(_wc)
+_first = [m for m in inbox.messages(_wc)
+          if m["kind"] == "milestone_first_title"]
+check(_first, "her first-title letter arrives")
+if _first:
+    _txt = " ".join(_first[0]["body"]) + _first[0]["subject"]
+    check("{" not in _txt, "with nothing unfilled in it", _txt[:60])
+    check("Formula 4" in _txt,
+          "and it names the championship she was told about", _txt[:70])
+
 print("\n2. THE ILLNESS IS NEVER THE SUBJECT OF A SENTENCE")
 # A beat that says "Dad is unwell" has told the player what to feel, and he
 # will feel nothing. It arrives in subordinate clauses or not at all.

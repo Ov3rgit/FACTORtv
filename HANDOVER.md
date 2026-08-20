@@ -3622,6 +3622,64 @@ tutorial's pointer, accent for a season waiting to be decided.
 **The lesson for any future mark on a corner control:** the canvas is not the
 screen. A panel is a window, and a window clips.
 
+## THE ARC WAS NEVER WIRED UP — five reports, one root cause
+
+He won Formula 2, moved into Formula One, and reported: no letter about replacing
+Bottas, no news story about a seat that big changing hands, no mention that he
+must drive the Mercedes, and the dashboard calling him CHAMPION of a championship
+he had not won.
+
+**`apply_verdict` AND `take_deal` WERE CALLED BY NOTHING BUT THE TEST SUITE.**
+Every piece of the arc past Formula 2 existed and none of it was reachable by
+playing: the programme could not leave `signed`, so no development year, no seat,
+no `prog_won`, no `news_seat_taken`. The tests passed because they called the
+functions themselves — which proves the function works and says nothing about
+whether the product ever calls it.
+
+**That is the third distinct shape of this failure in two days.** A dead
+navigation key, a dead action key, and now a whole feature nothing invokes. The
+audits added for the first two check that a button's key is dispatched; nothing
+checks that a state machine's transitions are ever driven. If a fourth turns up,
+that is the guard to write.
+
+### AND IT FAILED A SECOND TIME FOR A SECOND REASON
+
+With the verdict applied, the letter still did not arrive: `prog_won` fills a
+position slot from `career.my_position()`, and by then the ladder had promoted him
+into an empty Formula One season — no rounds, no position, empty slot, and the
+inbox DROPS a letter with a missing fact. The biggest letter in the arc was being
+discarded for want of a number it was asking the wrong season for. It reads the
+archived season now.
+
+`season_verdict` can also recover from `ladder_history`, because the ladder
+promotes on its own rules and archives the season as it goes — so a verdict that
+was not banked before the promotion had nowhere left to look.
+
+### THE REST OF THE LIST
+
+  * **"CHAMPION" beside the division.** `status()` is a CAREER standing, and the
+    header printed it straight after the division, so a Formula 2 champion in a
+    Formula One car read as the Formula One champion. A standing is now named with
+    the championship it was won in — "Formula 2 champion" — or not shown.
+  * **The F1 mark had a plate.** `_logo_ink` used an absolute threshold, and the
+    Formula One mark measures 0.40: dark in the abstract, and still LIGHTER than
+    the card it sits on. Plating is decided by contrast against the actual ground
+    now, so only karting gets one.
+  * **The top-right mark was clipped.** `place()` clamps a panel back onto the
+    desktop; `canvas_at` translated the drawing by the origin the CALLER asked
+    for. A clamped window therefore drew its contents offset by however far it
+    moved, cutting off exactly the edge that had been hanging off the screen. It
+    draws at the placed origin now — a whole-class fix, not just this mark.
+  * **The homologation list never said which entry was his.** The FIA does not
+    care which of a category's cars a competitor enters and a team cares about
+    nothing else, so the TEAM now writes: the entrant on the junior arc, and at
+    Mercedes the second car, "the one Valtteri Bottas was in".
+  * **Mel said "you've won the whole thing".** True and ambiguous. She names the
+    division now, secondhand from the man in the pub, which is how she would have
+    heard it. It needed the ONE slot her letters are allowed — declared by name in
+    `validate` rather than the rule being waived, with a test that the caller
+    cannot forget to fill it.
+
 ## THE SEAT GATE — a rival's car is not a round of his season
 
 He went looking for this one on purpose: *"i started the next quakyfying session
