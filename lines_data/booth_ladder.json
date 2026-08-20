@@ -635,23 +635,32 @@
  ],
  "prog_debut": [
   {
-   "t": "This is his first Grand Prix. {drv} takes the {f1team} seat, alongside {lead}, and a year of waiting ends right here.",
-   "i": 3
+   "t": "This is his first Grand Prix. {drv} has taken {seat}'s seat at {f1team} for the {series} season, alongside {lead}, and a year of waiting ends right here.",
+   "i": 3,
+   "who": "PLAY"
   },
   {
-   "t": "A Formula 2 champion, a year in development, and now the other side of {lead}'s garage. That is the whole climb, in one sentence.",
-   "i": 3
+   "t": "A Formula 2 champion, a year in development, and now the seat {seat} was in. That is the whole climb, in one sentence.",
+   "i": 3,
+   "who": "PLAY"
   },
   {
-   "t": "{drv} arrives at {f1team} the long way round — a title, a year out of the car, and a seat nobody handed him.",
-   "i": 3
+   "t": "{drv} arrives at {f1team} the long way round - a title, a year out of the car, and the drive {seat} lost.",
+   "i": 3,
+   "who": "PLAY"
   },
   {
-   "t": "He spent a season out of a racing car for this. Now he is in one, and it is a {f1team}, and the man he is measured against is {lead}.",
-   "i": 3
+   "t": "He spent a season out of a racing car for this. Now he is in one, it is a {f1team}, and the man he is measured against is {lead}.",
+   "i": 3,
+   "who": "PLAY"
   }
  ],
  "prog_measured": [
+  {
+   "t": "{drv} is in {seat}'s old car and everybody is still calling it that. The only thing that stops them is results.",
+   "i": 1,
+   "who": "PLAY"
+  },
   {
    "t": "There is nowhere to hide in this seat. {lead} is in the same car, and that is the only comparison anybody at {f1team} will make.",
    "i": 2

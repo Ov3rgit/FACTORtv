@@ -2794,7 +2794,11 @@ class BoothMixin(object):
         r = career.resume() or {}
         ev = career.evaluate() or {}
         nat = career.nationality
-        kw = self._kw(s, drv=me, cat="_career", series=ev.get("tier_name", ""),
+        try:
+            _series = self._series_name(s) or ev.get("tier_name", "")
+        except Exception:
+            _series = ev.get("tier_name", "")
+        kw = self._kw(s, drv=me, cat="_career", series=_series,
                       nat=nations_mod.demonym(nat),
                       adj=nations_mod.adjective(nat),
                       below=r.get("reigning", ""),
@@ -2841,7 +2845,13 @@ class BoothMixin(object):
                        "f1team": pblock.get("f1_team", ""),
                        "lead": (mate.display_name if mate is not None
                                 else pblock.get("f1_lead", "")),
-                       "f2team": pblock.get("f2_team", "")})
+                       "f2team": pblock.get("f2_team", ""),
+                       # WHOSE SEAT IT WAS. The booth had the team and the
+                       # team-mate and not the man who lost the drive — so it
+                       # could describe the arrival and never say what it
+                       # actually was. Asked for directly: *"the commentators
+                       # must aslo say exactly who i replaced"*.
+                       "seat": pblock.get("f1_seat", "")})
             # THE SEAT UNDER PRESSURE, ON AIR.
             #
             # The call-up is built up in the post and in the news feed, and the

@@ -3655,6 +3655,60 @@ called the transition itself. A test that drives the state machine directly
 proves the machine works. Only a test that goes through the product's own doors
 proves the product does.
 
+## NAMING THE MAN WHOSE SEAT IT WAS
+
+*"the commentators must aslo say exactly who i replaced"*, and they could not: the
+booth's programme slots carried the team, the programme and the team-mate, and not
+the driver who lost the drive. So the biggest arrival in the product was described
+without ever saying what it was. `seat` is in the slots now and the debut lines use
+it — *"has taken Valtteri Bottas's seat at Mercedes for the 2021 Formula One
+season"* — and one `prog_measured` line keeps it alive all year: *"he is in
+Bottas's old car and everybody is still calling it that."*
+
+`{series}` in career lines now comes from `_series_name` rather than the bare
+`tier_name`, so every one of them can carry the season year. That is what makes
+the arc audible as 2019, 2020, 2021 rather than as three championships.
+
+### THE SEAT CHANGING HANDS IS TWO STORIES
+
+One was not enough: *"the first one is fine but we need a second one after the
+second round of development that confirms bottas is losing his seat and why"*.
+`news_seat_taken` is the seat coming under review, early in the year;
+`news_seat_confirmed` is the team signing it, after the second test day, with the
+reason on the record.
+
+**NOBODY'S DRIVING IS CRITICISED IN EITHER.** The reason given is the one a team
+actually gives — a junior they have had since Formula 3 is a known quantity and the
+second car is where they find out — and both pieces say outright that the man
+leaving has not been called insufficient. The grid is real; the one thing this
+product may never do is state something false about a real driver.
+
+## HER MILESTONES ARE RANKED, AND ONE ARRIVES AT A TIME
+
+He asked the question that found the hole: *"lets say i dont win any championships
+and F1 is my first one then how will this read?"* — and the generic first-title
+letter has the man in the pub naming the championship *"as though that would mean
+something to me"*, which is wrong about the only rung she had ever heard of.
+
+So the top rung has its own letter, and the nine independent `if`s became a ranked
+list that sends the FIRST one owed and keeps the rest for the next refresh. A
+career arriving with several true at once — an old save, or the recovery paths that
+read a verdict out of the archive — used to get three letters from her in one
+afternoon, which is the thing the offer logic already refuses to do.
+
+The order matters and a test caught me getting it wrong: **finishing a ladder
+outranks a first title**, because when a career's first championship is also the
+one that completes the path, the arc letter is the one worth sending.
+
+### AND SHE STOPPED ASSUMING WHERE HE LIVES
+
+Her year-out letter said *"you are home more, which I am not going to pretend I
+mind"* — and the product never says where he spends that year. The development
+letters put him in a simulator and at a factory; whether either is near home is
+not established. She asks now instead: *"does this mean you are around more this
+year, or is it the same amount of away with different rooms in it?"* Truer to her,
+and it invents nothing.
+
 ## MEL LEARNS THE SPORT SLOWLY, AND NEVER ITS STRUCTURE
 
 He caught the first draft of her Formula 2 letter saying *"there is exactly one

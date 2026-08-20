@@ -1439,5 +1439,25 @@
     "History is genuinely split on whether this works. Drivers who have taken a development year describe it as the most useful twelve months of their careers, and the drivers it went wrong for do not tend to be asked. Either way the year is not the test. Next season is."
    ]
   }
+ ],
+ "news_seat_confirmed": [
+  {
+   "from": "FACTORtv News",
+   "subject": "{f1team} confirm the change: {seat} out, {drv} in",
+   "body": [
+    "What was reported earlier in the year as a decision under review is now a signed one. {f1team} have confirmed that {seat} does not continue beyond this season and that {drv} takes the car, having spent the year on their development programme.",
+    "The team's reasoning, as far as it has been put on the record, is about the next three years rather than the last one: a junior who has been in their system since Formula 3 is a known quantity to them in a way that a signing from outside is not, and the second seat is where teams find that out. Nobody at {f1team} has criticised the driver leaving it.",
+    "That is the part worth holding on to when the season starts. He has not been given this car because somebody was not good enough. He has been given it because they want to know what he is, and there is exactly one way to find out."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "It is official: {drv} replaces {seat} at {f1team}",
+   "body": [
+    "{f1team} have made it formal. {seat} leaves the seat at the end of the season and {drv} fills it, completing a move that has been an open secret since the middle of the year.",
+    "The team have framed it as the point of having a junior programme at all. They have had this driver since Formula 3, they moved him into Formula 2 mid-season when a seat came free, they put him through a year of testing rather than throwing him in, and this is the end of that sentence. It is a very deliberate way to fill a car.",
+    "For the driver leaving, the team have said only that the decision was about where they are going rather than about where he has been, which is the kindest true thing anybody says in this situation and is usually both."
+   ]
+  }
  ]
 }

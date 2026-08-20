@@ -405,71 +405,89 @@ def _milestones(career, st, now):
     # programme's podium bar and be promoted without winning anything, and
     # telling his sister he is champion would be the one lie this product must
     # never tell.
-    _f2 = [h for h in won if h.get("tier") == "f2"]
-    if not _f2:
-        try:
-            import programme as _pg2
-            if (_pg2.on_f2(career) and career.season_done()
-                    and career.my_position() == 1):
-                _f2 = [{"tier": "f2", "name": "Formula 2"}]
-        except Exception:
-            pass
-    if _f2 and "f2_champion" not in done:
-        done.append("f2_champion")
-        done.append("first_title")          # ...it was the same championship
-        out.append(_post(career, "milestone_f2_champion",
-                         "milestone:f2_champion", now))
-    # THE ONLY RUNG SHE HAD HEARD OF BEFORE HE LEFT. Her ordinary "moving up"
-    # letter is about not being able to tell the categories apart, which is the
-    # wrong letter for this one.
+    # THE TOP RUNG IS ITS OWN LETTER, and it has to be, for a reason he found by
+    # asking the right question: *"lets say i dont win any championships and F1 is
+    # my first one then how will this read?"*
+    #
+    # The generic first-title letter has the man in the pub naming the
+    # championship "as though that would mean something to me" — and Formula One
+    # is the ONE result that would. It is the only rung she had heard of before he
+    # left, so it is the only one she can react to without being told what it is
+    # worth. Sending her puzzled letter about it would be the character breaking
+    # at the biggest moment in the product.
+    #
+    # It stands in for the first-title AND the finished-ladder letters, because
+    # all three would otherwise arrive on the same afternoon from the same person.
+    # ONE LETTER AT A TIME, BIGGEST FIRST.
+    #
+    # These were nine independent `if`s, and a career that arrives with several
+    # of them true at once — an old save, or the recovery paths that read a
+    # verdict out of the archive — got three letters from her in one afternoon.
+    # The offer logic already refuses to land on top of one of her letters for
+    # exactly this reason: two in one day is a writer arranging a plot rather
+    # than a sister sending an email.
+    #
+    # So they are ranked and the first one owed is the only one sent. The rest
+    # keep their turn and arrive on the next refresh, which reads as separate
+    # letters because that is what they are.
+    _top = ""
+    try:
+        _ts = ladder_mod.tiers(career.ladder.path) if career.ladder else []
+        _top = (_ts[-1] or {}).get("key", "") if _ts else ""
+    except Exception:
+        _top = ""
     try:
         import programme as _prog
-        _seat = _prog.state(career) == _prog.SEAT
-        _dev = _prog.state(career) == _prog.DEV
-        _st_now = _prog.state(career)
+        _st = _prog.state(career)
     except Exception:
-        _seat = _dev = False
-    if _seat and "f1_seat" not in done:
-        done.append("f1_seat")
-        done.append("promoted")             # she has just written about it
-        out.append(_post(career, "milestone_f1_seat", "milestone:f1_seat", now))
-    # AND THE YEAR HE DOES NOT DRIVE, which is the only part of this she is
-    # equipped to understand without looking anything up.
-    # SHE WRITES WHEN IT GOES WRONG TOO, and that was the loudest silence in the
-    # arc. A programme keeping him on for one more attempt, or letting him go
-    # altogether, is exactly the part of this she would write about — she has
-    # never cared which category he was in, only what it was doing to him.
-    try:
-        _retry = _prog.state(career) == _prog.RETRY
-        _gone = _prog.state(career) == _prog.DROPPED
-    except Exception:
-        _retry = _gone = False
-    if _retry and "retry" not in done:
-        done.append("retry")
-        out.append(_post(career, "milestone_retry", "milestone:retry", now))
-    if _gone and "dropped" not in done:
-        done.append("dropped")
-        out.append(_post(career, "milestone_dropped", "milestone:dropped", now))
-    if _dev and "year_out" not in done:
-        done.append("year_out")
-        out.append(_post(career, "milestone_year_out", "milestone:year_out",
-                         now))
-    if won and "first_title" not in done:
-        done.append("first_title")
-        # SHE NAMES IT, because he read her letter next to a dashboard that said
-        # Formula One and could not tell what she thought he had won. Her voice
-        # does not change: the division arrives secondhand, from the man in the
-        # pub, which is exactly how she would have heard it.
-        out.append(_post(career, "milestone_first_title",
-                         "milestone:first_title", now,
-                         kw={"won": (won[-1].get("name") or "")}))
-    if len(won) > 1 and "promoted" not in done:
-        done.append("promoted")
-        out.append(_post(career, "milestone_promoted", "milestone:promoted",
-                         now))
-    if career.arcs_won and "arc" not in done:
-        done.append("arc")
-        out.append(_post(career, "milestone_arc", "milestone:arc", now))
+        _st = ""
+
+    def _won_on(key):
+        return [h for h in won if key and h.get("tier") == key]
+
+    # (mark, kind, id, also-marked, slots) in order of how big it is.
+    _cands = [
+        # THE TOP RUNG IS ITS OWN LETTER. The generic first-title letter has the
+        # man in the pub naming the championship "as though that would mean
+        # something to me" — and Formula One is the ONE result that would. It is
+        # the only rung she had heard of before he left. Asked directly: *"lets
+        # say i dont win any championships and F1 is my first one then how will
+        # this read?"*
+        ("f1_champion", "milestone_f1_champion", "milestone:f1_champion",
+         ("first_title", "arc"), None) if _won_on(_top) else None,
+        ("f2_champion", "milestone_f2_champion", "milestone:f2_champion",
+         ("first_title",), None) if _won_on("f2") else None,
+        ("f1_seat", "milestone_f1_seat", "milestone:f1_seat",
+         ("promoted",), None) if _st == "seat" else None,
+        ("dropped", "milestone_dropped", "milestone:dropped", (), None)
+        if _st == "dropped" else None,
+        ("retry", "milestone_retry", "milestone:retry", (), None)
+        if _st == "retry" else None,
+        ("year_out", "milestone_year_out", "milestone:year_out", (), None)
+        if _st == "dev" else None,
+        # FINISHING A LADDER OUTRANKS A FIRST TITLE, and when a career's first
+        # championship is also the one that completes the path, the arc letter is
+        # the one worth sending. `personaltest` caught the ranking the other way
+        # round, which is the test doing its job.
+        ("arc", "milestone_arc", "milestone:arc", (), None)
+        if career.arcs_won else None,
+        ("first_title", "milestone_first_title", "milestone:first_title", (),
+         {"won": (won[-1].get("name") or "")}) if won else None,
+        ("promoted", "milestone_promoted", "milestone:promoted", (), None)
+        if len(won) > 1 else None,
+    ]
+    for _c in _cands:
+        if not _c:
+            continue
+        mark, kind, mid, also, kw = _c
+        if mark in done:
+            continue
+        done.append(mark)
+        for _extra in also:
+            if _extra not in done:
+                done.append(_extra)
+        out.append(_post(career, kind, mid, now, kw=kw))
+        break
     return [m for m in out if m]
 
 

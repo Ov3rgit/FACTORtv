@@ -117,7 +117,10 @@ check(not slotted, "and not one beat can fail for want of a fact", str(slotted))
 # dashboard saying Formula One left the player unsure what she thought he had
 # won. It is safe only while the caller cannot forget to fill it, so THAT is what
 # is tested rather than the rule being waived.
-_wc = _career(arcs=("touring",))
+# NO ARC ALREADY WON, because finishing a ladder outranks a first title and
+# would legitimately take this refresh — the ranking is the point of that, and a
+# fixture that trips it is testing the wrong thing.
+_wc = _career()
 _wc.data["ladder_history"] = [{"name": "Formula 4", "tier": "f4", "pos": 1,
                                "rounds": 5, "when": 1}]
 personal.refresh(_wc)

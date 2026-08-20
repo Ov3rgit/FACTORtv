@@ -966,6 +966,33 @@ def _dev_year(career, when=None):
         if m:
             out.append(m)
 
+    # AND THE CONFIRMATION, after the second test day.
+    #
+    # The first piece is the seat coming under review; this is the team signing
+    # it, with the reason on the record. He asked for both: *"the first one is
+    # fine but we need a second one after the second round of development that
+    # confirms bottas is losing his seat and why"*.
+    #
+    # NOBODY'S DRIVING IS CRITICISED IN IT. The reason given is the one a team
+    # actually gives — a junior they have had since Formula 3 is a known quantity
+    # and the second car is where they find out — because the grid is real and the
+    # only thing this product may never do is state something false about a real
+    # driver.
+    try:
+        _outings = int((prog_mod.test_state(career) or {}).get("n") or 0)
+    except Exception:
+        _outings = 0
+    if _outings >= 2:
+        k2 = {"drv": career.me or "",
+              "f1team": block.get("f1_team", ""),
+              "seat": block.get("f1_seat", ""),
+              "lead": block.get("f1_lead", ""),
+              "series": block.get("f1_team", "")}
+        m = _post(career, "news_seat_confirmed", "seatconfirmed:%s" % key, k2,
+                  when=when)
+        if m:
+            out.append(m)
+
     if read < max(1, total - 1):
         return out
     k = {"drv": career.me or "", "f1team": block.get("f1_team", ""),
