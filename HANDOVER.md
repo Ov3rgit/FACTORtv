@@ -3655,6 +3655,73 @@ called the transition itself. A test that drives the state machine directly
 proves the machine works. Only a test that goes through the product's own doors
 proves the product does.
 
+## MEL LEARNS THE SPORT SLOWLY, AND NEVER ITS STRUCTURE
+
+He caught the first draft of her Formula 2 letter saying *"there is exactly one
+category above this one. One."* &mdash; and was right to: *"she sounds very clued up
+about the sports whereas she shouldnt know too much about it but learn more about
+motorsports as the carrer advances"*.
+
+**She is the one voice in this product with no expertise, and that is the whole
+job she does.** Everything else &mdash; the booth, the engineer, the news, the team
+&mdash; is fluent. She is what the career sounds like to somebody who loves him and
+does not follow it, and the moment she can explain the ladder she stops being that.
+
+The curve her letters follow:
+
+  * **Karting, Formula 4** &mdash; she knows nothing and says so. *"I don't understand a
+    single part of how it works and I'm not going to pretend to."*
+  * **Formula 2** &mdash; she knows the FACT and not what it means. The significance
+    arrives secondhand, from a man at work she does not entirely trust: *"oh, that
+    is basically the one below the top"*, and she has no idea whether he is right.
+  * **Formula One** &mdash; the only rung she had heard of before he left, because
+    everybody has. *"I have heard of it my entire life without ever once watching
+    it, which I realise is going to have to change now."*
+  * **After that** &mdash; she picks up words, never the shape. She may know what a
+    podium is by the end. She never knows how many categories there are.
+
+**Two rules for writing her:** a fact about racing reaches her from a person, never
+from her own understanding; and every letter turns to family before it ends &mdash;
+Dad, the pub, the pharmacy, the spare room. That is what she is actually writing
+about.
+
+## MEL LEARNS THE SPORT SLOWLY, AND NEVER ITS STRUCTURE
+
+He caught the first draft of her Formula 2 letter saying *"there is exactly one
+category above this one. One."* and was right to: *"she sounds very clued up about
+the sports whereas she shouldnt know too much about it but learn more about
+motorsports as the carrer advances"*.
+
+**She is the one voice in this product with no expertise, and that is the whole
+job she does.** The booth, the engineer, the news feed and the team are all
+fluent. She is what a career sounds like to somebody who loves him and does not
+follow it — and the moment she can explain the ladder, she stops being that.
+
+The curve her letters follow:
+
+  * **Karting, Formula 4** — she knows nothing and says so. *"I don't understand a
+    single part of how it works and I'm not going to pretend to."*
+  * **Formula 2** — she knows the FACT and not what it means. The significance
+    arrives secondhand from a man at work she does not entirely trust: *he told me
+    it is basically the one below the top... I have no idea whether he is right.*
+  * **Formula One** — the only rung she had heard of before he left, because
+    everybody has. *"I have heard of it my entire life without ever once watching
+    it, which I realise is going to have to change now."*
+  * **After that** — she picks up words, never the shape. She might know what a
+    podium is by the end. She never learns how many categories there are.
+
+**Two rules for writing her.** A fact about racing reaches her from a PERSON,
+never from her own understanding. And every letter turns to family before it ends
+— Dad, the pub, the pharmacy, the spare room — because that is what she is
+actually writing about.
+
+### AND A DATA FILE IS EDITED AS DATA
+
+The first attempt at normalising her quote marks ran a text substitution over the
+raw JSON and injected unescaped double quotes into string values, breaking
+`personal.json` for four suites in one command. `json.load`, edit, `json.dump` —
+the parser knows how to escape and a regex does not.
+
 ## THE ARC WAS NEVER WIRED UP — five reports, one root cause
 
 He won Formula 2, moved into Formula One, and reported: no letter about replacing
