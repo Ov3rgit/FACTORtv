@@ -498,6 +498,42 @@ def refresh(career, now=None):
                  if _fp and _prior_eligible(career, base, _fp) else "eligible")
         new.append(_post(career, _compose_any(
             _kind, "eligible:%s:%s" % (base, _fp), kw, variant=sn, when=now)))
+        # WHICH ONE OF THEM IS HIS.
+        #
+        # The homologation notice lists every legal car in the category and says
+        # nothing about the entry he is contracted to — and on the junior arc
+        # that is the whole game. He asked for it twice: *"the division Fia email
+        # isnt specic on the fact that i need to choose the mercedes and
+        # specificlaly bottas"*.
+        #
+        # It is a TEAM letter rather than an FIA one, because the FIA does not
+        # care which of a category's cars a competitor enters and a team cares
+        # about nothing else. Sent only when the restriction is real — no seat,
+        # no letter.
+        _seat_note = None
+        try:
+            # IMPORTED HERE. `_programme_mail` has its own import much
+            # further down the file, and reaching for that name from up
+            # here raises a NameError straight into this except — so the
+            # letter was silently never sent, which is the same failure
+            # the arc itself has just been rescued from.
+            import programme as _pgm
+            _pt = career._programme_team()
+            _f1seat = (_pgm.seat(career)
+                       if _pgm.state(career) == _pgm.SEAT else None)
+        except Exception:
+            _pt, _f1seat = "", None
+        if _f1seat:
+            _t, _mine, _mate = _f1seat
+            _seat_note = ("eligible_seat_f1",
+                          dict(kw, team=_t, seat=_mine, lead=_mate))
+        elif _pt:
+            _seat_note = ("eligible_seat", dict(kw, team=_pt))
+        if _seat_note:
+            new.append(_post(career, _compose_any(
+                _seat_note[0], "eligseat:%s" % base, _seat_note[1],
+                variant=sn, when=now)))
+
         # A seat letter is for a rung he has ARRIVED at. The bottom of a path
         # is where everybody starts and nobody is welcomed to it.
         if ev.get("index"):
@@ -855,6 +891,21 @@ def _programme_mail(career, base, kw, now):
     # NOBODY IS NAMED. "Dropped for form" is a claim about a real person's
     # competence and the Formula 2 2019 grid is a real one, so the letter says the
     # team has made a change and never says who.
+    # BANK THE VERDICT BEFORE WRITING ABOUT IT.
+    #
+    # `apply_verdict` was called by NOTHING IN THE PRODUCT — only by the test
+    # suite, which called it itself and therefore proved only that the function
+    # worked. So the programme could never leave `signed`: no development year,
+    # no Formula One seat, no letter about the seat changing hands, and none of
+    # it reachable by playing. The pieces all existed and nothing invoked them.
+    #
+    # Here, because this runs on every refresh and already moves the arc on with
+    # `take_callup` — one place that advances the story, not two.
+    try:
+        prog_mod.apply_verdict(career)
+    except Exception:
+        pass
+
     if prog_mod.callup_ready(career):
         m = _post(career, _compose_any(
             "prog_callup", "prog:callup:%s" % key, k, when=now))
@@ -877,7 +928,18 @@ def _programme_mail(career, base, kw, now):
         # along the story of being promoted."* A driver called up mid-season
         # clears a PODIUM bar, so unless he genuinely finished first the wording
         # comes from its own pool, which says so in as many words.
+        # THE POSITION IS THE ONE HE FINISHED THE PROGRAMME'S SEASON IN, and
+        # once the ladder has promoted him `my_position()` is about the NEW
+        # season — which has no rounds, so it is None, so the slot is empty, so
+        # the whole letter is DROPPED for want of a fact. That is why the biggest
+        # letter in the arc never arrived: it was written about a championship
+        # and asked the wrong season for the result.
         _pos = career.my_position() or 0
+        if not _pos:
+            for _h in reversed(career.data.get("ladder_history") or ()):
+                if _h.get("tier") == prog_mod.F2_KEY:
+                    _pos = int(_h.get("pos") or 0)
+                    break
         _called = bool((career.data.get("programme") or {}).get("called"))
         _kind = ("prog_won_callup" if _called and _pos != 1 else "prog_won")
         out.append(_post(career, _compose_any(

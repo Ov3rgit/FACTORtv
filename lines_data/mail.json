@@ -802,5 +802,41 @@
     "One practical note: you have no test in this car and there will not be one. The first time you drive it in anger is Friday practice, and everybody who matters knows that, so nobody sensible is expecting miracles on the first weekend."
    ]
   }
+ ],
+ "eligible_seat": [
+  {
+   "from": "Race Team — Sporting",
+   "subject": "Your entry — {team}",
+   "body": [
+    "The homologation notice you have just had lists every car eligible for the {series} championship, which is not the same thing as the car you are entered in. Yours is the {team} entry, and only that one.",
+    "It matters for a practical reason as well as a contractual one. If you load somebody else's car, the timing screens will show you in it and the championship will not — the round does not count towards your season, and nobody in this building will be able to do anything about it afterwards."
+   ]
+  },
+  {
+   "from": "Race Team — Team Manager",
+   "subject": "One line worth reading twice",
+   "body": [
+    "Every car on the entry list is legal for {series}. Exactly one of them is yours: the {team} car. Select it and nothing else on a race weekend.",
+    "This is the part drivers get wrong when they are used to picking whatever they fancy in a practice session. A weekend in the wrong car is a weekend that does not exist as far as your championship is concerned."
+   ]
+  }
+ ],
+ "eligible_seat_f1": [
+  {
+   "from": "{team}",
+   "subject": "The car with your name on it",
+   "body": [
+    "To be completely clear before the first event: your car is the second {team}, the one {seat} was in. {lead} is in the other one and that entry is not available to you at any point this season.",
+    "Load the wrong side of the garage and you are driving {lead}'s car in a livery with your number on it, which the championship will not count and the press will notice. It has happened. Check the entry before every session."
+   ]
+  },
+  {
+   "from": "{team}",
+   "subject": "Entry confirmation — the second car",
+   "body": [
+    "Your entry for the season is the second {team}, taking over from {seat}. Alongside you is {lead}, whose car is his and stays his.",
+    "The reason this note exists at all: the two cars are identical on every screen except the entry name, so the only way to know you are in the right one is to look. A round driven in the other car is not a round of your championship."
+   ]
+  }
  ]
 }

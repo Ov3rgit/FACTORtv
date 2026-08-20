@@ -124,6 +124,15 @@ MAP_BAKE_STEP = 25
 MAP_SS = 2
 
 
+def _lumin(hexcol):
+    """How light a #rrggbb colour is, 0..1. Rec. 601, like `_logo_ink`."""
+    h = (hexcol or "").lstrip("#")
+    if len(h) != 6:
+        return 0.0
+    r, g, b = (int(h[i:i + 2], 16) for i in (0, 2, 4))
+    return (0.299 * r + 0.587 * g + 0.114 * b) / 255.0
+
+
 def _build_note():
     """The build string for the settings page, short enough for the note column."""
     try:
@@ -1189,8 +1198,18 @@ class PanelsMixin(object):
                     my = ry + (hh - mark.height()) / 2
                     # A DARK MARK GETS SOMETHING LIGHT TO SIT ON, measured rather
                     # than assumed — see `_logo_ink`.
+                    # PLATE IT ONLY IF IT IS DARKER THAN THE CARD IT SITS ON.
+                    #
+                    # An absolute threshold was the wrong test: the Formula One
+                    # mark measures 0.40 — dark, in the abstract — and it is
+                    # still LIGHTER than the card, so it reads perfectly well and
+                    # putting a white tile behind it is the bug he reported
+                    # ("the F1 logo in the dashboard has a bckgound"). What
+                    # matters is contrast against the actual ground, and the
+                    # ground is known here.
                     _lum = self._logo_ink(row["logo"])
-                    if _lum is not None and _lum < 0.42:
+                    _card = _lumin(shade(TH.panel, 1.18))
+                    if _lum is not None and _lum < _card + 0.10:
                         c.create_rectangle(x0 + UI(9), my - UI(3),
                                            x0 + UI(15) + mark.width(),
                                            my + mark.height() + UI(3),
@@ -1616,10 +1635,36 @@ class PanelsMixin(object):
                 else None
         except Exception:
             _mark = None
+        # WHAT HE IS CHAMPION *OF*, or nothing at all.
+        #
+        # `status()` is a CAREER standing — "champion" means he has won a title
+        # somewhere — and the header printed it straight after the division, so a
+        # man who had won Formula 2 and moved up read as "Formula One CHAMPION".
+        # He caught it: *"they are calling me champion ... when ive only won F2,
+        # but it reads as champion of the division when i havent reached the peak
+        # yet"*.
+        #
+        # A STANDING NEXT TO A DIVISION IS READ AS BELONGING TO IT. So the title
+        # is named with the championship it was won in, and when that cannot be
+        # named the word is not used at all.
+        _stand = ""
+        try:
+            _st = (car.status() or ("", ""))[0]
+            if _st in ("champion", "multi", "legend"):
+                _won = [h.get("name") for h in
+                        (car.data.get("ladder_history") or ())
+                        if int(h.get("pos") or 0) == 1]
+                if _won:
+                    _stand = ("%s champion" % _won[-1][:14] if len(_won) == 1
+                              else "%d-time champion" % len(_won))
+            elif _st:
+                _stand = _st.upper()
+        except Exception:
+            _stand = ""
         rows.append({"label": car.me or "Driver", "kind": "head",
                      "logo": _mark,
-                     "note": "%s%s" % (div, "  ·  %s" % car.status()[0].upper()
-                                       if car.status() else ""),
+                     "note": "%s%s" % (div, "  ·  %s" % _stand if _stand
+                                       else ""),
                      "val": (float(done) / total) if total else 0.0,
                      "ring": ("%d/%d" % (done, total)) if total else str(done)})
 
@@ -1708,6 +1753,23 @@ class PanelsMixin(object):
                          "val": (1.0 if _in else
                                  (max(0.08, float(_need) / pos) if pos else 0.0)),
                          "good": _in, "hot": not _in})
+
+        # -- THE ARC'S OWN DECISION ------------------------------------------
+        #
+        # `take_deal` existed and NOTHING CALLED IT — the seat could be won and
+        # never accepted, so the development year and the Formula One drive were
+        # unreachable by playing. It goes here, above the post, because it is the
+        # one thing on this screen that the career cannot continue without.
+        try:
+            import programme as _pg2
+            if _pg2.state(car) == _pg2.WON:
+                _blk = _pg2.signed(car)[1] or {}
+                rows.append({"label": "Accept the %s seat"
+                                      % (_blk.get("f1_team") or "Formula One"),
+                             "key": "confirm_deal", "kind": "action",
+                             "hot": True, "note": "a year out first >"})
+        except Exception:
+            pass
 
         # -- THE POST, INSIDE THE DASHBOARD ---------------------------------
         #
@@ -3026,6 +3088,22 @@ class PanelsMixin(object):
             if key == "confirm_yes" and act:
                 self._menu_action(act, arg)
             return
+        if key == "confirm_deal":
+            car = getattr(self, "season", None)
+            try:
+                import programme as prog_mod
+                blk = prog_mod.signed(car)[1] or {}
+            except Exception:
+                blk = {}
+            if car is not None and blk:
+                # THE COST IS THE POINT OF THE BEAT, so it is said out loud
+                # before he agrees to it.
+                self._menu_confirm = (
+                    "Take the %s seat? You sit out %s and start in 2021."
+                    % (blk.get("f1_team") or "the", prog_mod.TEST_YEAR),
+                    "deal_now", None)
+                self.menu_page = "confirm"
+            return
         if key == "sim_round":
             car = getattr(self, "season", None)
             nxt = car.next_round() if car is not None else None
@@ -3363,6 +3441,15 @@ class PanelsMixin(object):
             self.season = None
             self.cfg["career"] = ""
             save_settings(self.cfg)
+
+        elif act == "deal_now":
+            car = getattr(self, "season", None)
+            try:
+                import programme as prog_mod
+                prog_mod.take_deal(car)
+            except Exception:
+                pass
+            self.menu_page = "dash"
 
         elif act == "drop_last":
             car = getattr(self, "season", None)

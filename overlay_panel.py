@@ -160,7 +160,20 @@ class Panel(object):
         return self.cv
 
     def canvas_at(self, x, y):
-        """A TCanvas translated to this panel's origin."""
+        """A TCanvas translated to this panel's ACTUAL origin.
+
+        THE CALLER PASSES WHERE IT WANTED THE PANEL. `place` may have clamped
+        that back onto the desktop — and translating the drawing by the REQUESTED
+        origin then offsets every item by however far the window moved, which
+        clips precisely the edge that was hanging off the screen.
+
+        On screen that does not look like a window that moved. It looks like a
+        badly cropped picture, which is how it was reported: *"the logo in top
+        right isnt cropped right"*.
+        """
+        geo = getattr(self, "_geo", None)
+        if geo:
+            return TCanvas(self.cv, geo[0], geo[1])
         return TCanvas(self.cv, x, y)
 
     def hide(self):

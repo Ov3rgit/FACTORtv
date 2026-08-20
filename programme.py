@@ -390,6 +390,27 @@ def season_verdict(career):
     b = _block(career)
     if b.get("stage") not in (SIGNED, RETRY):
         return None
+    # THE LADDER CAN MOVE HIM BEFORE ANYBODY ASKS. Winning Formula 2 promotes him
+    # on the ladder's own rules, which archives the season — and if the verdict
+    # had not been banked by then, `on_f2` is false for ever and the arc is
+    # stranded at `signed` forever after. That is exactly what happened to him:
+    # champion of Formula 2, in a Formula One car, with the programme still
+    # thinking he was mid-season.
+    #
+    # So a season that has GONE is judged from the record it left behind.
+    if not on_f2(career):
+        for h in reversed(career.data.get("ladder_history") or ()):
+            if h.get("tier") != F2_KEY:
+                continue
+            pos = int(h.get("pos") or 0)
+            if not pos:
+                return None
+            bar = CALLUP_BAR if called_up(career) else 1
+            if pos <= bar:
+                return WON
+            return RETRY if int(b.get("attempts") or 1) < MAX_ATTEMPTS \
+                else DROPPED
+        return None
     # ONLY THE FORMULA 2 SEASON IS JUDGED. The arc now begins on the F3 rung, and
     # without this an F3 season that ran its full length — a call-up he never got
     # because the season was too short, say — would be marked against the
