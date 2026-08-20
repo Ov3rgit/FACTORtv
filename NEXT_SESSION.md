@@ -2,120 +2,113 @@
 
 ---
 
-**FIRST, BEFORE ANYTHING ELSE: read `_session_log.txt` in full.** It is deleted
-between runs, so if it exists it is the record of the last time the overlay was
-actually driven. Every hard bug in this project was found there and none by a
-test suite; when the log and your model of the system disagree, the log is
-right. Then read `HANDOVER.md` in full — it is long and nearly every question
-you are about to have is answered in it.
+**FIRST, BEFORE ANYTHING ELSE: read `_session_log.txt` in full.** It is the record
+of the last time the overlay was actually driven, and its first line now names the
+BUILD it came from. Every hard bug in this project was found in that file and
+almost none by a test suite; when the log and your model of the system disagree,
+the log is right. Then read `HANDOVER.md` — it is ~5,900 lines and nearly every
+question you are about to have is answered in it. The newest sections are at the
+top of the "what changed" run and are the ones that matter.
 
-**A very large amount was built on 2026-08-19 and NONE of it has been heard.**
-The pass stings, the battle layers, the title arithmetic, the team-mate
-comparison, the junior programme, the division-aware lines, the pictures and
-the letterheads are all verified by twenty-five green suites and rendered
-previews, and by nothing else. Ask for `python testrun.py` early.
+**Then check the build stamp.** `python tools_stamp.py --show` says what this
+working copy would be stamped; `version.stamped()` says what it currently claims.
+The shipped zips on the GitHub release carry the stamp of the commit they were
+built from, so a bug report can always be matched to code.
 
-## What you are building: NON-OVERLAPPING ARCS
+---
 
-Formula 2 and Formula One now behave the way the user wants every path's last
-two divisions to behave:
+## WHERE THE PROJECT IS (end of 2026-08-20)
 
-* the booth names the season — *"the 2019 Formula 2 season"*, *"the 2021
-  Formula One season"* — because a championship is his to be told about, which
-  is the same exception `season_launch` has always made;
-* the rung locks that season, so racing the 2025 mod is not a round of it;
-* a junior-programme arc runs across the two, ending in a specific seat.
+**26 test suites, green twice in a row. Both archives shipped and byte-verified.**
+The tester (Paul Van Rooyen in the release, Dante Kandasamy / Over Boy in the
+author's copy) has the standalone exe from
+`https://github.com/Ov3rgit/FACTORtv/releases/tag/v0.0.1-beta`.
 
-He wants the same shape on Endurance, Touring, Stock Car and Road to Indy, with
-the mod years chosen so **no two arcs occupy the same period** — his example is
-a 2012 GT3 season into a 2017 WEC one.
+The user is **starting a fresh playthrough of the junior single-seater arc** and
+will report against it. He has asked, more than once and in these words, for the
+thing to keep in mind:
 
-### The machinery is already built and is pure data
+> *"the commentary is the actual main gameplay, and most of what happens in the arc
+> needs to happen or be said on track"*
 
-In `lines_data/ladders.json`, per rung:
+An arc beat that exists only as an email is not finished.
 
-```json
-"year_name": true          the booth says the year
-"years": [2017, 2017]      only that season counts as a round
-"ui": {"alias": ["What the game actually calls it"]}
-```
+### The junior arc, end to end, all built
 
-`ladder.named_year()` reads the first, `season.match()` reads the second, and
-`ladder.tier_cars()` reads the third. **No code change is needed to add a
-path.**
+F3 2019 → mid-season call-up → F2 2019 → the seat won → 2020 development year →
+2021 in Bottas's Mercedes. Every beat has a voice: the booth, the engineer, the
+agent/team/FIA post, the news feed, and Mel. There is a design document for it —
+an artifact titled **The Junior Arc** — laying out every beat in firing order; ask
+the user for the link if you need it.
 
-### Start by asking him two things
+### What was fixed on 2026-08-20, and what it taught
 
-1. **Which years he has settled on**, per path. Two collisions already exist
-   and are the reason this is worth doing: Road to Indy runs backwards (2018
-   Indy Lights into a 2014 IndyCar) and Touring's 2020 → 2021 sits on top of
-   the single-seater arc. The table of what is installed is in the OPEN
-   QUESTIONS section of the handover.
-2. **What the game lists** for any multi-season mod, in its own words. The
-   `.mas` archives are compressed and cannot be read, so a mod's real names
-   only ever come from him or from a result file. This has bitten three times
-   in one session — "Kart Cup 2014" was not on the menu, the car he needed was
-   called "Kart Junior".
+Read these in `HANDOVER.md` before touching the arc. They are the session's real
+output, more than the features:
 
-Do not edit `ladders.json` before both answers. A wrong `years` lock stops a
-career counting, which is the worst failure that module has.
+  * **`apply_verdict` and `take_deal` were called by NOTHING but the test suite.**
+    The whole arc past Formula 2 was unreachable by playing. Every beat had a
+    passing unit test, because each test called the transition it was testing.
+    `programmetest` §7m now walks the arc through `inbox.refresh`, `news.refresh`
+    and the dashboard's click handler and never calls a transition itself. **If a
+    state machine ever gets added, that is the test to write first.**
+  * **Two dead buttons and a dead route**, found by pressing them: `page_career_new`
+    where the router knows `page_new`, and `confirm:simulate` where the handler
+    knows `sim_round`. Both audits now live in `paneltest` — every `page_` key
+    against the router's table, every action key against the click handler. The
+    action audit immediately found "Close career" dead since long before.
+  * **Removing the last route to a feature.** The career left the settings page and
+    took the only door with it: the trophy button was hidden when no career
+    existed, and the way to start one had just been deleted. Check what still
+    *leads* to a feature, not just whether it works.
+  * **Bookkeeping behind an output gate**, four times: qualifying below the on-air
+    gate, a settle needing the winner's flag, a result needing the leader to
+    finish, and the tutorial's "heard" flag behind the green-flag check. Anything
+    that REMEMBERS goes above the gate; anything that SPEAKS goes below.
+  * **A verdict must be judged once.** Applying it on every refresh made the arc
+    reachable and introduced worse: an archived season never changes, so every
+    menu draw judged it again and one missed season became a dropped career in two
+    clicks. The key must identify the SEASON and contain nothing the verdict
+    itself can move (not the attempt counter — applying it increments that; not a
+    timestamp — the store keeps whole seconds).
+  * **A panel is a window, and a window clips.** `place()` clamps a panel onto the
+    desktop; drawing translated by the origin the CALLER asked for cut off exactly
+    the edge that had been hanging off screen.
 
-### Then, and only then
+## HOUSE RULES THAT COST SOMETHING TO LEARN
 
-A second junior-programme arc. `programme.py` is written for the single-seater
-path — three Formula 2 seats leading to a Formula One team — and the stage
-machine is not path-specific, but the CONTENT is. A GT3-to-WEC version needs
-its own seats, its own letters and its own development beat, and all of them
-depend on which seasons exist.
+  * **Read the rendered output, not the test result.** The faults tests cannot see
+    are the ones that matter: a letter offering "the Formula 2 season" on the
+    Formula 3 rung, "the The eighties season", "a ART Grand Prix seat", a bar
+    saying "first is where he needs to finish" when the bar is third. Drive a
+    season and print what it files.
+  * **A test whose setup makes the answer inevitable is worse than no test.** The
+    seat-gate test passed an empty circuit slug, so `match` refused everything and
+    three refusal checks passed without testing anything.
+  * **A stub that omits a dependency does not prove a refusal.** A probe with
+    `career=None` reported "race them once first" and nearly sent the user chasing
+    a blocking rule that did not apply to him.
+  * **Edit a data file as DATA.** A text substitution over raw JSON injected
+    unescaped quotes into string values and broke four suites in one command.
+  * **The shell eats backslashes in heredocs.** Build `"\n"` with `chr(92)`, or use
+    the Write tool. One lost continuation left a 120-character line in `season.py`
+    for two days.
+  * **Mel is the one voice with no expertise** and that is her whole job. A fact
+    about racing reaches her from a person, never from her own understanding, and
+    every letter turns to family before it ends.
 
-## Do not relitigate these
+## WHAT IS PROBABLY NEXT
 
-Every one was decided with the user, most after a live log or a rendered
-preview. They are recorded with their reasoning in `HANDOVER.md`.
-
-* **The seat is a car, not a team.** Once the programme seat is his, a round
-  driven in the other side of the garage does not count.
-* **A simulated round produces positions and points, never events** — and the
-  first two rungs of a path are deliberately generous, because the physics
-  ladder is steep and testing should not require mastering it.
-* **Rivalry is a standings fact**: adjacent in the table, within a win, after
-  four rounds.
-* **Pictures never go on mail; letterheads do.** The inbox LIST stays
-  identical, which is where the story's skim-training happens.
-* **One goodbye per session**, and it is the ending phrase.
-* **The status form is gated on context**, not on frequency, and defaults to
-  the surname.
-
-## The two hardest lessons, still true
-
-1. **A fake cannot falsify a field name** (LAW 0). Anything reading shared
-   memory gets a real-struct test — see `tests/buffertest.py`.
-2. **A pool with no caller is invisible and `lines.py` calls it healthy** (LAW
-   21). This project has now broken it SEVEN times, twice on 2026-08-19 — once
-   with pools that had shipped unreachable for months, and once with a pool
-   written that same session. `tests/passtest.py` §1b greps for an EMITTING
-   context rather than a mention, because a name in a constants dict fooled the
-   first sweep.
-
-## Run everything, two or three times, after every change
-
-```bash
-for t in flowtest boothtest lifecycletest radiotest rivaltest paneltest eratest tracktest careertest seasontest offtracktest qualitest drivertest humourtest storytest stationtest buffertest laddertest inboxtest newstest personaltest careerboothtest passtest pointstest programmetest; do echo "$t: $(python tests/$t.py 2>&1 | tail -1)"; done
-```
-
-And validate the data: `python lines.py`, `python ladder.py`, `python news.py`,
-`python inbox.py`, `python personal.py`, `python programme.py`,
-`python newsart.py`.
-
-## Seeing it without driving
-
-```bash
-python newsshot.py     # news articles with his own photographs
-python mailshot.py     # a letter, with its letterhead
-python podiumshot.py   # the end-of-session result card
-python preview.py --live   # the booth, out loud
-```
-
-All of them draw with the REAL panel and screenshot it. Never re-draw a layout
-in PIL to preview it — the preview must not be able to drift from what the
-overlay renders.
+1. **He is playing the arc now.** Expect reports. Ask for `_session_log.txt` and
+   his `careers/*.json` before theorising.
+2. **The next division's arc.** He wants to build one, which is why the design
+   document exists. Everything hangs off four triggers — a rung, a programme
+   stage, a round number, and a measurement off the standings — so a new path
+   needs its own teams, bar and voice, not new machinery. Carry over the discipline
+   that every beat is driven by a STAGE rather than a date.
+3. **Open question he raised and has not decided:** the 2020 development year has
+   no on-track voice at all, because commentary is off in practice and he races
+   nothing else. The 2021 opening lines carry it instead. Worth deciding
+   deliberately if he wants the year audible.
+4. **`careers/` is gitignored.** His live career is repaired and mid-arc; do not
+   edit it without asking, and copy it to a temp dir before experimenting.
