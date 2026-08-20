@@ -318,6 +318,7 @@ def refresh(career, era=None, now=None):
     # never new. It also must not reuse `news_arrival_promoted`, which says the
     # seat "was earned on results rather than granted" — true of a promotion and
     # the exact opposite of what happened here.
+    new += _prog_rumour(career, when=now)
     new += _prog_callup(career, when=now)
 
     # THE VERDICT AND THE CHASE. The highest-stakes moment in the arc — the bar
@@ -720,10 +721,18 @@ def _prog_verdict(career, when=None):
         kind = "news_prog_missed"
     else:
         kind = "news_prog_dropped"
-    # KEYED ON THE STAGE as well as the programme, because a career that misses
-    # the bar and then clears it on the second attempt has two of these to file
-    # and they are different stories.
-    return [_post(career, kind, "progverdict:%s:%s" % (key, st), k, when=when)]
+    # KEYED ON THE VERDICT, not on the stage.
+    #
+    # It was the stage, so WON, DEV and SEAT each filed their own copy — and
+    # those three are one outcome seen from three moments, so the same "he won
+    # Formula 2" story went out three times as he moved through the development
+    # year. A missed season followed by a cleared one is genuinely two stories,
+    # which is what the key has to tell apart.
+    _verdict = {prog_mod.WON: "won", prog_mod.DEV: "won",
+                prog_mod.SEAT: "won", prog_mod.RETRY: "retry",
+                prog_mod.DROPPED: "dropped"}.get(st, st)
+    return [_post(career, kind, "progverdict:%s:%s" % (key, _verdict), k,
+                  when=when)]
 
 
 def _prog_chase(career, when=None):
@@ -785,6 +794,38 @@ def _prog_chase(career, when=None):
         k["gap"] = _spoken_count(max(0, third[1] - mine))
         k["rival"] = third[0]
     return [_post(career, kind, "progchase:%s" % key, k, when=when)]
+
+
+def _prog_rumour(career, when=None):
+    """The paddock talking about a seat before it changes hands.
+
+    Asked for: *"a news report like 'Rumors in the paddock suggest that the
+    Mercedes junior team might be looking to call one of there two drivers from
+    F3 up'"*. Two pieces, escalating with `rumour_due`, and NOBODY IS NAMED as
+    the driver under pressure — the same restraint the call-up itself keeps,
+    because the Formula 2 grid is a real one.
+    """
+    try:
+        import programme as prog_mod
+    except Exception:
+        return []
+    n = prog_mod.rumour_due(career)
+    if not n:
+        return []
+    _key, block = prog_mod.signed(career)
+    if not block:
+        return []
+    out = []
+    for i in range(n):
+        k = {"drv": career.me or "", "prog": block.get("name", ""),
+             "f2team": block.get("f2_team", ""),
+             "f3team": block.get("f3_team") or block.get("f2_team", ""),
+             "series": "Formula 2"}
+        m = _post(career, "news_prog_rumour", "progrumour:%d" % (i + 1), k,
+                  when=when, variant=i)
+        if m:
+            out.append(m)
+    return out
 
 
 def _prog_callup(career, when=None):
@@ -909,6 +950,19 @@ def _dev_year(career, when=None):
               "series": block.get("f1_team", "")}
         m = _post(career, "news_seat_taken", "seattaken:%s" % key, k0,
                   when=when)
+        if m:
+            out.append(m)
+
+    # THE SEASON HAPPENING WITHOUT HIM, once, in the middle of the year.
+    #
+    # A development year with nothing in the feed reads as a gap in the product
+    # rather than as a gap in his career. One piece makes the silence deliberate:
+    # the championship he left is being won by somebody else and the paddock has
+    # stopped saying his name, which is the actual cost of the deal he took.
+    if 2 <= read <= max(2, total - 2):
+        m = _post(career, "news_dev_absent", "devabsent:%s" % key,
+                  {"drv": career.me or "", "f1team": block.get("f1_team", ""),
+                   "series": block.get("f1_team", "")}, when=when)
         if m:
             out.append(m)
 

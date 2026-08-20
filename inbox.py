@@ -906,6 +906,14 @@ def _programme_mail(career, base, kw, now):
     except Exception:
         pass
 
+    # THE BUILD-UP TO THE CALL. Two letters and two stories, escalating, before
+    # the seat changes hands — an event nobody saw coming is not a narrative.
+    _rum = prog_mod.rumour_due(career)
+    for _i in range(_rum):
+        out.append(_post(career, _compose_any(
+            "prog_rumour", "prog:rumour:%d" % (_i + 1), k,
+            variant=_i, when=now)))
+
     if prog_mod.callup_ready(career):
         m = _post(career, _compose_any(
             "prog_callup", "prog:callup:%s" % key, k, when=now))
@@ -987,9 +995,26 @@ def _programme_mail(career, base, kw, now):
         # LAW 21, which this project has broken four times. A literal tuple
         # costs nothing and can be seen.
         read, _total = prog_mod.dev_letters(career)
-        n = min(read + 1, len(DEV_KINDS))
+        # ...AND THE TRICKLE IS PACED BY THE WORK, NOT BY THE MENU.
+        #
+        # One letter per refresh sounds slow and is not: a refresh happens every
+        # time he opens the career screen, so five clicks delivered the entire
+        # development year in about ten seconds. The year is the one beat in this
+        # arc whose whole content is that it takes a year.
+        #
+        # So the letters are capped by the OUTINGS he has actually driven —
+        # accepting the deal buys two, and each test day buys one more, which
+        # lands the fifth exactly as the third test is done and the seat opens.
+        # A year measured in the work he does in it is the only clock a product
+        # with no calendar has.
+        _tst = prog_mod.test_state(career) or {}
+        _allowed = min(len(DEV_KINDS), int(_tst.get("n") or 0) + 2)
+        n = min(read + 1, _allowed)
+        if read >= _allowed:
+            n = 0
         m = _post(career, _compose_any(
-            DEV_KINDS[n - 1], "prog:dev:%s:%d" % (key, n), k, when=now))
+            DEV_KINDS[n - 1], "prog:dev:%s:%d" % (key, n), k,
+            when=now)) if n else None
         if m:
             out.append(m)
             prog_mod.advance_dev(career)

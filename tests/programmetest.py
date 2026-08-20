@@ -270,6 +270,13 @@ r = to_f2(f2_career(), "red_bull")
 season(r, 4)
 check(P.apply_verdict(r) == P.RETRY, "a missed season keeps the seat open")
 check(r.data["programme"]["attempts"] == 2, "and is counted")
+# A SECOND ATTEMPT IS A NEW SEASON, and starting one archives the last — which
+# is how the product does it, and how a verdict tells the two apart. Clearing the
+# rounds alone produced a season the game cannot produce: one that vanished
+# without ever being recorded.
+r.data.setdefault("ladder_history", []).append(
+    {"path": "single_seater", "tier": "f2", "name": "Formula 2", "pos": 4,
+     "rounds": len(r.rounds), "when": 1})
 r.data["rounds"] = []; r.save()
 season(r, 4)
 check(P.apply_verdict(r) == P.DROPPED, "a second one ends it")
@@ -1017,6 +1024,46 @@ check((_w.evaluate() or {}).get("promoted"),
       "and only NOW does the ladder open Formula One")
 _seat = P.seat(_w)
 check(_seat and _seat[1], "the seat names the man he replaces", str(_seat))
+
+print("\n7n. A SEASON IS JUDGED ONCE, HOWEVER OFTEN THE MENU IS OPENED")
+# `apply_verdict` runs on every inbox refresh now, which is what finally made the
+# arc reachable — and it introduced a much worse bug than the one it fixed. The
+# verdict can be recovered from `ladder_history`, an archived season never
+# changes, so every refresh judged it again and `attempts` climbed once per menu
+# draw: ONE missed season became a dropped career in two clicks.
+#
+# Two wrong keys before the right one, and both are worth remembering. Keying on
+# the attempt number is self-defeating, because applying a verdict increments it.
+# Keying on the first round's timestamp fails at speed, because `when` is whole
+# seconds. The key has to identify the SEASON and contain nothing the verdict
+# itself can move.
+_j = to_f2(f2_career(), "mercedes")
+season(_j, 5)                                    # a missed season
+inbox.refresh(_j)
+_stage1 = P.state(_j)
+_tries1 = (_j.data.get("programme") or {}).get("attempts")
+check(_stage1 == P.RETRY, "one missed season is a retry", str(_stage1))
+for _ in range(12):
+    inbox.refresh(_j)
+check(P.state(_j) == P.RETRY,
+      "and twelve more refreshes do not turn it into anything else",
+      P.state(_j))
+check((_j.data.get("programme") or {}).get("attempts") == _tries1,
+      "with the attempt counted exactly once",
+      "%s then %s" % (_tries1,
+                      (_j.data.get("programme") or {}).get("attempts")))
+# ...AND THE SAME AFTER THE LADDER HAS ARCHIVED THE SEASON, which is the path
+# that made this possible: an archived record is the same record for ever.
+_j.data.setdefault("ladder_history", []).append(
+    {"path": "single_seater", "tier": "f2", "name": "Formula 2", "pos": 5,
+     "rounds": 5, "when": 2})
+_j.data["rounds"] = []
+_j.save()
+_after = P.state(_j)
+for _ in range(8):
+    inbox.refresh(_j)
+check(P.state(_j) == _after,
+      "an archived season is not re-judged either", P.state(_j))
 
 print("\n8. NOTHING ABOUT IT SURVIVES A CAREER THAT DID NOT EARN IT")
 fresh = f2_career()

@@ -765,6 +765,13 @@ class RadioMixin(object):
         # not driven.
         try:
             import programme as prog_mod
+            # HIS FIRST FORMULA ONE SESSION. The man on the pit wall had the
+            # ordinary greeting for the biggest morning of his career, which is
+            # the one place a stock line is actually wrong.
+            if (prog_mod.state(career) == prog_mod.SEAT
+                    and not [r for r in career.rounds
+                             if not r.get("absent")]):
+                return "eng_f1_debut", kw
             if prog_mod.called_up(career):
                 driven = [r for r in career.rounds if not r.get("absent")]
                 if not driven:

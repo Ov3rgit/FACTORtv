@@ -151,6 +151,38 @@ CALLED = "called"       # the F2 seat is his, mid-season, and he is in it
 CALLUP_BAR = 3
 
 
+def rumour_due(career):
+    """How much of the call-up rumour is owed: 0, 1 or 2.
+
+    THE CALL-UP USED TO ARRIVE WITH NO WARNING. He asked for the build-up in as
+    many words — *"after the first race there should be an email from my agent
+    saying a seat call up might be on the cards"* — and he is right that an event
+    nobody saw coming is not a narrative.
+
+    Two beats, and they ESCALATE rather than repeat: after his first round it is
+    people asking questions, and on the round before the seat actually changes it
+    is a decision expected before the next race. A rumour that says the same
+    thing twice is an echo, which is worse than one beat.
+
+    Counted from rounds RACED rather than from a date, like everything else in
+    this arc, so a player who simulates is told the same story as one who drives.
+    """
+    if career is None:
+        return 0
+    b = _block(career)
+    if b.get("stage") != SIGNED or b.get("called"):
+        return 0
+    if not on_f3(career):
+        return 0
+    done = len({r.get("n") for r in career.rounds if r.get("n")})
+    when = career.callup_round() or 0
+    if not when or done < 1:
+        return 0
+    # The second beat lands on the round BEFORE the call, so the two never
+    # arrive together — and a season too short for that gets one beat, not none.
+    return 2 if (when > 1 and done >= when - 1) else 1
+
+
 def callup_ready(career):
     """Should the call-up letter go out now?
 
@@ -430,16 +462,59 @@ def season_verdict(career):
     return RETRY if int(b.get("attempts") or 1) < MAX_ATTEMPTS else DROPPED
 
 
+def _judged_key(career):
+    """Which season a verdict would be about, as a stable id.
+
+    A season is judged ONCE. It used to be judged on every inbox refresh, which
+    was harmless while the verdict could only be read from a live season — the
+    stage moved to RETRY and the live season was still there to be re-judged to
+    the same answer. Recovering a verdict from `ladder_history` broke that: the
+    archived season never changes, so every refresh judged it again, and
+    `attempts` climbed one per menu draw. Two refreshes turned one missed season
+    into a dropped career.
+    """
+    # IT IDENTIFIES THE SEASON, AND NOTHING THAT THE VERDICT ITSELF CHANGES.
+    #
+    # The attempt counter looked like the obvious discriminator and is exactly
+    # wrong: applying a verdict increments it, so the key moved and the next
+    # refresh judged the same season again — one missed season became a dropped
+    # career, which is the bug this guard exists to stop.
+    #
+    # The first round's timestamp is the season's own identity. Two attempts at
+    # the same rung are two different sets of rounds however alike they look, and
+    # nothing downstream of a verdict touches them.
+    b = _block(career)
+    if on_f2(career):
+        # HOW MANY SEASONS HAVE BEEN ARCHIVED, plus how many rounds this one has.
+        #
+        # A timestamp was the first attempt and is not reliable: `when` is whole
+        # seconds, so two seasons raced inside one second are indistinguishable.
+        # Starting a season is what archives the last one, so the length of
+        # `ladder_history` is a monotonic season counter that nothing downstream
+        # of a verdict touches.
+        return "live:%d:%d" % (len(career.data.get("ladder_history") or ()),
+                               len(career.rounds))
+    for h in reversed(career.data.get("ladder_history") or ()):
+        if h.get("tier") == F2_KEY:
+            return "hist:%s" % (h.get("when") or h.get("rounds") or "?")
+    return ""
+
+
 def apply_verdict(career):
     """Bank the verdict at the end of an F2 season. Returns the new stage.
 
-    Called once, when the season is complete — idempotent, because it only
-    ever moves a stage forward and each move is recorded.
+    ONCE PER SEASON, recorded by `judged`, because this is called on every inbox
+    refresh and a verdict is not a thing that can be arrived at twice.
     """
     v = season_verdict(career)
     if v is None:
         return None
     b = dict(_block(career))
+    seen = _judged_key(career)
+    if seen and b.get("judged") == seen:
+        return b.get("stage")
+    if seen:
+        b["judged"] = seen
     if v == WON:
         b["stage"] = WON
     elif v == RETRY:

@@ -358,6 +358,9 @@ def pretty_mod(folder):
 YEAR_RUNGS = frozenset(("f2", "f1"))
 
 
+_YEAR_IN = re.compile(r"(?:19|20)[0-9][0-9]")
+
+
 def named_year(tier, era):
     """The year to put in front of this rung's name, or None.
 
@@ -382,8 +385,47 @@ def named_year(tier, era):
         wants = tier.get("key") in YEAR_RUNGS
     if not wants:
         return None
+    # THE RUNG'S OWN DECLARATION COMES FIRST. `ladders.json` names the mod this
+    # rung is made of — `f 1 am 2021` — and that is this project committing to a
+    # season, which beats anything inferred from a live class. It matters for the
+    # team-named case: a 2021 Formula One field reports the player's class as
+    # "Mercedes", states no year anywhere, and the era rule falls back to a
+    # default that is simply wrong.
+    #
+    # A rung can only match the mod it names (see `Season.match`'s year lock), so
+    # taking the year from the rung is not an assumption about what he loaded.
+    declared = " ".join(list(tier.get("mods", ()) or ())
+                        + [n for names in (tier.get("ui") or {}).values()
+                           for n in names])
+    m = _YEAR_IN.search(declared)
+    if m:
+        return int(m.group(0))
     year = getattr(era, "year", None)
-    return int(year) if year else None
+    if not year:
+        return None
+    # THE YEAR HAS TO BE ONE THE GAME SAID, not one this file assumed.
+    #
+    # Every era rule carries a DEFAULT year for its skin and its tyres — junior
+    # formula is 2018 — and that default is a modelling assumption, not a claim
+    # about which season anybody is racing. Speaking it aloud turns it into one:
+    # a generic Formula 3 mod would be announced as "the 2018 Formula 3 season",
+    # which is invented, and inventing a fact about his career is the one thing
+    # this product may not do.
+    #
+    # So it is corroborated against the class the game reported. `SMMGF3_2019`,
+    # `F2_2019` and `Formula One 2021` all say their year out loud; a mod that
+    # does not gets its name without one, which is the honest silence this
+    # module's own docstring already promises.
+    # TWO PLACES MAY STATE IT, and both are somebody committing to the season
+    # rather than this code guessing at one:
+    #
+    #   * the CLASS THE GAME REPORTED — `SMMGF3_2019`, `F2_2019`;
+    #   * the RUNG'S OWN CONTENT in `ladders.json` — the 2021 Formula One rung
+    #     names the mod `f 1 am 2021`, which matters because a team-named mod
+    #     reports the player's class as "Mercedes" and states no year at all.
+    said = " ".join(list(getattr(era, "field_classes", ()) or ())
+                    + [getattr(era, "raw_class", "") or ""])
+    return int(year) if str(int(year)) in said else None
 
 
 def tier_cars(tier, mods=None):

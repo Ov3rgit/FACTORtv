@@ -1985,5 +1985,23 @@
    "t": "We need {bar} by the end of the year. Nothing today has to be heroic.",
    "i": 0
   }
+ ],
+ "eng_f1_debut": [
+  {
+   "t": "Right. Same job as always, bigger noise outside. Radio check when you are ready.",
+   "i": 0
+  },
+  {
+   "t": "First one of these for you. Do not do anything you would not have done in Formula 2 and we will be fine.",
+   "i": 0
+  },
+  {
+   "t": "You have waited a year for this session. Nothing about the next hour rewards being in a hurry.",
+   "i": 0
+  },
+  {
+   "t": "Welcome to the big one. Talk to me early and often — I would rather hear too much than find out at the stop.",
+   "i": 0
+  }
  ]
 }

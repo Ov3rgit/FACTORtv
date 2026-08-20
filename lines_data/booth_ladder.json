@@ -769,5 +769,34 @@
    "i": 3,
    "who": "ANALYST"
   }
+ ],
+ "prog_rumour_air": [
+  {
+   "t": "There is a Formula 2 seat under pressure in this programme, and {drv} is one of two names being mentioned for it. Everybody in this category knows it, including him.",
+   "i": 2,
+   "who": "PLAY"
+  },
+  {
+   "t": "Worth knowing what is riding on this for {drv}: {prog} are looking at their Formula 2 line-up, and they are looking at these cars for the replacement.",
+   "i": 2,
+   "who": "PLAY"
+  },
+  {
+   "t": "A driver who knows he is being watched drives differently. Some of them get quicker and some of them get careful, and you can usually tell inside three laps which one you are looking at.",
+   "i": 1,
+   "who": "ANALYST"
+  },
+  {
+   "t": "{prog} have a decision to make above this category, and the two candidates are both on this grid. Neither of them is going to say a word about it.",
+   "i": 2,
+   "who": "PLAY"
+  }
+ ],
+ "prog_seat_debut_air": [
+  {
+   "t": "This is it, then. A year of testing, a year of waiting, and {drv} rolls out of the {f1team} garage in a car that is his.",
+   "i": 3,
+   "who": "PLAY"
+  }
  ]
 }

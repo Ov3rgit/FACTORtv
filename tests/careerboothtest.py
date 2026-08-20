@@ -187,7 +187,9 @@ _F1_2021 = ["Alfa Romeo", "Alpha Tauri", "Alpine", "Aston Martin", "Ferrari",
 for _tier, _cls, _classes, _want in (
         (0, "Kart F1", ["Kart F1"], "Karting"),
         (1, "Tatuus F4", ["Tatuus F4"], "Formula 4"),
-        (2, "Formula 3 2019", ["Formula 3 2019"], "Formula 3"),
+        # FORMULA 3 CARRIES ITS YEAR NOW — the junior arc runs 2019, 2020, 2021
+        # and the booth says so on all three of its rungs.
+        (2, "Formula 3 2019", ["Formula 3 2019"], "2019 Formula 3"),
         (3, "Formula 2 2019", ["Formula 2 2019"], "2019 Formula 2"),
         (4, "Mercedes", _F1_2021, "2021 Formula One")):
     _c = S.create("open", me=ME, rounds=5, ladder_path="single_seater",
@@ -195,18 +197,35 @@ for _tier, _cls, _classes, _want in (
     _got = Booth(_c)._series_name(_YS(_cls, _classes))
     check(_got == _want, "%s is called %r" % (_cls, _want), _got)
 
-# ...AND THE JUNIOR RUNGS STAY YEAR-FREE. Down there a year would be the
-# MOD's rather than the story's, which is the layout rule again.
+# FORMULA 3 NOW CARRIES ITS YEAR TOO, and karting and Formula 4 still do not.
+#
+# The rule used to be "the last two rungs", on the reasoning that further down a
+# year would be the MOD's rather than the story's. The junior arc changed that:
+# he asked for it directly — *"I need the commentators to be aware of the year
+# and season cos 2019, TO 2020 DEVELOPMENT TO 2021 IN THE SEAT deserves the
+# commentary arc to go along with it"* — and the three rungs of that arc are the
+# three that carry a year.
+#
+# The old reasoning is still honoured, by `named_year` rather than by the rung
+# list: a year is spoken only when the CLASS THE GAME REPORTED contains it. Every
+# era rule has a default year for its skin and tyres, and speaking that default
+# would invent a season nobody is racing.
 _junior = [Booth(S.create("open", me=ME, rounds=5, ladder_path="single_seater",
                           tier_index=_t))._series_name(_YS(_c2, [_c2]))
-           for _t, _c2 in ((0, "Kart F1"), (1, "Tatuus F4"),
-                           (2, "Formula 3 2019"))]
+           for _t, _c2 in ((0, "Kart F1"), (1, "Tatuus F4"))]
 # A YEAR, NOT ANY DIGIT. "Formula 4" and "Formula 3" have a number in the
 # NAME of the championship — checking for digits called both of them dated,
 # which is the sort of test that fails while the code is right.
 import re as _re3
 check(not any(_re3.search(r"(19|20)\d\d", n) for n in _junior),
-      "no year below Formula 2", str(_junior))
+      "no year on karting or Formula 4", str(_junior))
+# AND NO YEAR ANYWHERE IT WAS NOT SAID. A Formula 3 mod whose class carries no
+# year is named without one, rather than being given the era rule's default.
+_bare = Booth(S.create("open", me=ME, rounds=5, ladder_path="single_seater",
+                       tier_index=2))._series_name(_YS("Formula 3",
+                                                       ["Formula 3"]))
+check(not _re3.search(r"(19|20)\d\d", _bare),
+      "and none invented for a mod that does not state one", _bare)
 
 
 print("\n1b. THE CHAMPIONSHIP NAMES ITSELF, THE CAR NEVER NAMES IT")

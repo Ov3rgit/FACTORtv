@@ -838,5 +838,25 @@
     "The reason this note exists at all: the two cars are identical on every screen except the entry name, so the only way to know you are in the right one is to look. A round driven in the other car is not a round of your championship."
    ]
   }
+ ],
+ "prog_rumour": [
+  {
+   "from": "Your agent",
+   "subject": "Something I am hearing already",
+   "body": [
+    "One round in and I am being asked questions I am not going to pretend I can answer. The Formula 2 side of your programme has a driver who is not scoring, and people whose job it is to make that somebody's problem have started saying your name in rooms you are not in.",
+    "I want to be careful with you here. This is not an offer, it is not a promise, and if you drive the next three weekends thinking about it you will drive them badly. Nothing about your job has changed.",
+    "But you should know it is being discussed sooner than either of us expected, because when it arrives it will arrive fast and I would rather you were not surprised."
+   ]
+  },
+  {
+   "from": "Your agent",
+   "subject": "It has gone past talk",
+   "body": [
+    "The thing I told you not to think about has moved on. It is no longer a question of whether the seat changes hands, it is a question of when and of who gets it, and there are two names and you are one of them.",
+    "A decision is expected before the next round. I have said nothing on your behalf beyond confirming you are available, which you are, because that is the only sentence in this that costs you nothing.",
+    "Race the weekend in front of you. That is not me being wise, it is the only variable you actually control."
+   ]
+  }
  ]
 }

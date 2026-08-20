@@ -389,6 +389,71 @@ def _milestones(career, st, now):
     # and by a distance the one that mattered most at the time.
     won = [h for h in (career.data.get("ladder_history") or [])
            if h.get("pos") == 1]
+    # HER LETTERS KNOW WHICH RUNG IT WAS.
+    #
+    # He read the generic first-title letter after winning Formula 2 and wanted
+    # what she would actually have said: *"I heard youre an F2 champion now...
+    # guess you're one step away from completing your dreams"*. She gets that
+    # letter, and the generic one stands down — two letters about the same
+    # championship from the same person is a writer, not a sister.
+    # THE SEASON MAY NOT BE ARCHIVED YET. The ladder now holds a programme driver
+    # at Formula 2 until the seat is his, so the championship he has just won is
+    # still the CURRENT season and `ladder_history` knows nothing about it. Her
+    # letter has to read both places or it arrives a year late.
+    #
+    # AND IT HAS TO BE A CHAMPIONSHIP. A called-up driver can clear the
+    # programme's podium bar and be promoted without winning anything, and
+    # telling his sister he is champion would be the one lie this product must
+    # never tell.
+    _f2 = [h for h in won if h.get("tier") == "f2"]
+    if not _f2:
+        try:
+            import programme as _pg2
+            if (_pg2.on_f2(career) and career.season_done()
+                    and career.my_position() == 1):
+                _f2 = [{"tier": "f2", "name": "Formula 2"}]
+        except Exception:
+            pass
+    if _f2 and "f2_champion" not in done:
+        done.append("f2_champion")
+        done.append("first_title")          # ...it was the same championship
+        out.append(_post(career, "milestone_f2_champion",
+                         "milestone:f2_champion", now))
+    # THE ONLY RUNG SHE HAD HEARD OF BEFORE HE LEFT. Her ordinary "moving up"
+    # letter is about not being able to tell the categories apart, which is the
+    # wrong letter for this one.
+    try:
+        import programme as _prog
+        _seat = _prog.state(career) == _prog.SEAT
+        _dev = _prog.state(career) == _prog.DEV
+        _st_now = _prog.state(career)
+    except Exception:
+        _seat = _dev = False
+    if _seat and "f1_seat" not in done:
+        done.append("f1_seat")
+        done.append("promoted")             # she has just written about it
+        out.append(_post(career, "milestone_f1_seat", "milestone:f1_seat", now))
+    # AND THE YEAR HE DOES NOT DRIVE, which is the only part of this she is
+    # equipped to understand without looking anything up.
+    # SHE WRITES WHEN IT GOES WRONG TOO, and that was the loudest silence in the
+    # arc. A programme keeping him on for one more attempt, or letting him go
+    # altogether, is exactly the part of this she would write about — she has
+    # never cared which category he was in, only what it was doing to him.
+    try:
+        _retry = _prog.state(career) == _prog.RETRY
+        _gone = _prog.state(career) == _prog.DROPPED
+    except Exception:
+        _retry = _gone = False
+    if _retry and "retry" not in done:
+        done.append("retry")
+        out.append(_post(career, "milestone_retry", "milestone:retry", now))
+    if _gone and "dropped" not in done:
+        done.append("dropped")
+        out.append(_post(career, "milestone_dropped", "milestone:dropped", now))
+    if _dev and "year_out" not in done:
+        done.append("year_out")
+        out.append(_post(career, "milestone_year_out", "milestone:year_out",
+                         now))
     if won and "first_title" not in done:
         done.append("first_title")
         # SHE NAMES IT, because he read her letter next to a dashboard that said

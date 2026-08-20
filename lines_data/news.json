@@ -1403,5 +1403,41 @@
     "It is a bonus rather than a step, and the distinction matters to the people who organise these things. Nothing that happens in those cars will change a single line of his record. That tends to be exactly why drivers describe the experience the way they do - it is the only racing they ever do with nothing whatsoever at stake except how it feels."
    ]
   }
+ ],
+ "news_prog_rumour": [
+  {
+   "from": "FACTORtv News",
+   "subject": "Paddock talk: a Formula 2 seat under pressure",
+   "body": [
+    "Rumours in the paddock suggest {prog} is weighing a change to its Formula 2 line-up, and that it would rather promote from its own Formula 3 cars than look outside them. The team has said nothing, which in this paddock is not the same thing as a denial.",
+    "Nothing about this is unusual and that is rather the point of a junior programme: it exists to have somebody ready. What is unusual is how early in the season it is being talked about, and any driver in one of those cars who says he has not heard about it is being polite."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "{prog} expected to decide before the next round",
+   "body": [
+    "The Formula 2 seat that has been the subject of paddock talk for a fortnight is now understood to be decided before the next round, with {prog} choosing between drivers already inside the programme. Neither the team nor the drivers are commenting.",
+    "For whoever gets it, the arithmetic is unkind and everybody involved knows it: a mid-season arrival scores from the day he arrives and not before, against a field that has been scoring since the opening weekend. For whoever does not, it is a Formula 3 season to finish with the whole paddock knowing he was second choice."
+   ]
+  }
+ ],
+ "news_dev_absent": [
+  {
+   "from": "FACTORtv News",
+   "subject": "The season carrying on without {drv}",
+   "body": [
+    "Halfway through a year in which {drv} does not appear on a single entry list, the championship he left is being won by somebody else and the paddock has largely stopped mentioning him. That is not a slight. It is simply what a development year looks like from the outside.",
+    "Inside the team it looks different: mileage nobody sees, a simulator, and a seat that is being kept warm on purpose. The risk is the one every driver in this position describes afterwards — a year is long enough for a reputation to go quiet, and reputations are harder to restart than careers."
+   ]
+  },
+  {
+   "from": "FACTORtv News",
+   "subject": "A year out: what it costs and what it buys",
+   "body": [
+    "{drv} has not raced since December and will not race again until next season, which makes him the most discussed driver on no entry list anywhere. The programme's position has not changed and neither has his: he is preparing rather than competing.",
+    "History is genuinely split on whether this works. Drivers who have taken a development year describe it as the most useful twelve months of their careers, and the drivers it went wrong for do not tend to be asked. Either way the year is not the test. Next season is."
+   ]
+  }
  ]
 }

@@ -270,6 +270,9 @@ PRIORITY = {
     # HIS FIRST SESSION IN A CAR HE WAS PUT INTO outranks the ordinary
     # programme line the way a debut does, and the last round with the seat on
     # it outranks everything — it is what the afternoon is for.
+    # A SEAT THAT MIGHT BE HIS is worth more than the standing fact that a
+    # programme is watching him, and less than the day it actually happens.
+    "prog_rumour_air": 38,
     "prog_callup_debut": 46, "prog_callup_stake": 30,
     "prog_callup_last": 44,
     # The chase itself is a standings fact with a career on it: worth more than
@@ -408,6 +411,8 @@ LADDER_CATS = (# THE JUNIOR PROGRAMME IS A CAREER LINE. "There is a Formula
                # in a product where the commentary IS the gameplay.
                "prog_callup_debut", "prog_callup_stake", "prog_callup_last",
                "prog_bar_chase", "prog_bar_hold",
+               # The seat under pressure, before it changes hands.
+               "prog_rumour_air",
                "ladder_first_race", "ladder_reigning", "ladder_climb",
                "ladder_record", "ladder_arc", "ladder_promotion",
                "ladder_last_chance", "ladder_title_run",
@@ -2837,6 +2842,18 @@ class BoothMixin(object):
                        "lead": (mate.display_name if mate is not None
                                 else pblock.get("f1_lead", "")),
                        "f2team": pblock.get("f2_team", "")})
+            # THE SEAT UNDER PRESSURE, ON AIR.
+            #
+            # The call-up is built up in the post and in the news feed, and the
+            # booth knew nothing about it — in a product where the commentary IS
+            # the game. Two drivers in this category are candidates for a Formula
+            # 2 seat and everybody in the paddock knows; the people describing
+            # the race should be among them.
+            #
+            # It outranks the ordinary stake line while the rumour is live, and
+            # stops the moment the seat changes hands.
+            if prog_mod.rumour_due(career):
+                return "prog_rumour_air", kw
             if pstate in (prog_mod.SIGNED, prog_mod.RETRY):
                 # A REPLACEMENT DRIVER IS NOT AUDITIONING FOR THE SAME THING.
                 # He was put in the car mid-season with rounds already gone and
