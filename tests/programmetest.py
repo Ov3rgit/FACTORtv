@@ -922,6 +922,102 @@ check(_plain._programme_team() == "",
 check(_plain.match("montreal", cls=_cls, team="DAMS"),
       "so any car in the category counts for it")
 
+print("\n7m. THE WHOLE ARC, DRIVEN THROUGH THE PRODUCT'S OWN DOORS")
+# THE TEST THAT WAS MISSING, and its absence is the reason he played an arc that
+# stopped dead. Every piece of this was unit-tested — and every one of those tests
+# called `apply_verdict` and `take_deal` ITSELF, which proves the function works
+# and says nothing whatever about whether the game ever calls it. It did not. The
+# programme could never leave `signed`.
+#
+# So this walks the arc using ONLY what a player touches: `inbox.refresh`,
+# `news.refresh`, and the dashboard's own click handler. Nothing here reaches into
+# `programme` to move the story on. If a transition is ever unwired again, this
+# fails.
+import news as _N
+import career as _C
+import overlay_panels as _OP
+
+
+class _Host(_OP.PanelsMixin):
+    def _hide_panel(self, n):
+        pass
+
+
+def _tick(c, n=3):
+    for _ in range(n):
+        inbox.refresh(c)
+        _N.refresh(c)
+
+
+_w = S.create("open", me=ME, rounds=6, ladder_path="single_seater",
+              tier_index=F3_TIER)
+_tick(_w)
+P.accept(_w, "mercedes")          # his own click, on the letter
+_tick(_w)
+# -- Formula 3, and the call-up that moves him -----------------------------
+_n = 0
+while not P.called_up(_w) and _n < 6:
+    _n += 1
+    race(_w, 2, _n)
+    _tick(_w, 2)
+check(_n == 3 and P.on_f2(_w),
+      "three Formula 3 rounds and the letter moves him up",
+      "%d rounds, now on %s" % (_n, (_w.ladder.tier() or {}).get("name")))
+# -- he wins Formula 2 -----------------------------------------------------
+while not _w.season_done():
+    race(_w, 1, len(_w.rounds) + 1)
+    _tick(_w, 2)
+check(_w.my_position() == 1, "he wins the championship",
+      "P%s" % _w.my_position())
+# THE VERDICT IS BANKED BY THE PRODUCT, not by this test.
+check(P.state(_w) == P.WON,
+      "and refreshing his post is what banks the verdict", P.state(_w))
+check([m for m in inbox.messages(_w) if m["kind"] in ("prog_won",
+                                                      "prog_won_callup")],
+      "so the letter offering the seat actually arrives")
+# -- and the ladder does NOT let him into Formula One yet -------------------
+_ev = _w.evaluate() or {}
+check(_ev.get("earned"), "the standings have earned him the rung")
+check(not _ev.get("promoted"),
+      "but the programme holds it: he owes them a development year",
+      str(_ev.get("promoted")))
+check(_ev.get("held"), "and the career screen can say why")
+# -- he accepts, THROUGH THE DASHBOARD -------------------------------------
+_h = _Host()
+_h.season = _w
+_h.career = _C.History()
+_h.season_record = True
+_h.menu_open = True
+_h.menu_page = "dash"
+_h._menu_confirm = None
+_deal = [r for r in _h._rows_dash() if r.get("key") == "confirm_deal"]
+check(_deal, "the dashboard offers the seat", str([r.get("label")
+                                                  for r in _deal]))
+_h._menu_hit("confirm_deal")
+check(_h._menu_confirm, "behind a confirmation, because it costs a year",
+      str((_h._menu_confirm or ("",))[0])[:48])
+_h._menu_hit("confirm_yes")
+check(P.state(_w) == P.DEV, "and taking it starts the year out", P.state(_w))
+_tick(_w, 4)
+# -- the year out is a year OUT ---------------------------------------------
+_was = _w.ladder.reached
+_w.ladder.reached = 4
+check(_w.match("montreal", cls="Formula One 2021", team="Mercedes") is None,
+      "a Formula One round during it counts for nothing")
+_w.ladder.reached = _was
+check([m for m in inbox.messages(_w) if m["kind"] == "news_seat_taken"],
+      "and the seat changing hands is a news story on its own")
+# -- three outings, and the seat is his ------------------------------------
+for _slug in ("barcelona", "silverstone", "bahrain"):
+    P.test_tick(_w, _slug, laps=40)
+    _tick(_w, 3)
+check(P.state(_w) == P.SEAT, "three test days and the seat is his",
+      P.state(_w))
+check((_w.evaluate() or {}).get("promoted"),
+      "and only NOW does the ladder open Formula One")
+_seat = P.seat(_w)
+check(_seat and _seat[1], "the seat names the man he replaces", str(_seat))
+
 print("\n8. NOTHING ABOUT IT SURVIVES A CAREER THAT DID NOT EARN IT")
 fresh = f2_career()
 check(P.state(fresh) == P.OFFERED and not P.signed(fresh)[0],

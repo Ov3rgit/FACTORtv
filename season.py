@@ -780,6 +780,19 @@ class Career(object):
             want = self._programme_team()
             if want and team and not _same_team(team, want):
                 return None
+            # A DEVELOPMENT YEAR HAS NO ROUNDS IN IT.
+            #
+            # The letter says it in as many words: he does not step into the car
+            # next season, he spends the year in a simulator and starts in 2021.
+            # A Formula One round banked during it would be the story's own
+            # premise contradicted by the championship table underneath it.
+            try:
+                import programme as _pg
+                if (_pg.state(self) == _pg.DEV
+                        and (self.ladder.tier() or {}).get("key") == "f1"):
+                    return None
+            except Exception:
+                pass
 
         locked = self.data.get("cls")
         members = self.data.get("cls_any") or []
@@ -1527,6 +1540,28 @@ class Career(object):
         st = self.title_state(upto)
         return (st or {}).get("my_place")
 
+    def _programme_holds(self):
+        """Is the junior programme not finished with him yet? True/False.
+
+        True between winning the championship and being handed the seat — the
+        development year, which is a year OUT of a racing car and the beat the
+        whole arc is built around. False for every career that is not on the arc,
+        which is why this is safe to ask on every menu draw.
+        """
+        try:
+            import programme as prog_mod
+        except Exception:
+            return False
+        st = prog_mod.state(self)
+        if st in (prog_mod.WON, prog_mod.DEV):
+            # ...but only where the seat he is waiting for is the NEXT rung. A
+            # programme driver still climbing to Formula 2 is promoted by the
+            # ladder like anybody else.
+            p = self.ladder
+            nxt = (p.next_tier() or {}) if p is not None else {}
+            return nxt.get("key") == "f1"
+        return False
+
     def evaluate(self, mods=None):
         """Where this ladder season stands, and what it opens. Writes nothing.
 
@@ -1567,7 +1602,20 @@ class Career(object):
             # season is done. Keeping them one field would mean the menu could
             # not say "as it stands, that is enough" before the last round.
             "earned": p.earned(pos),
-            "promoted": bool(done and p.earned(pos)),
+            # THE PROGRAMME HOLDS THE DOOR, and this is the whole point of the
+            # arc he asked for: *"oh yes i wa ssuposed to do a year of
+            # development"*. Winning Formula 2 promotes a driver on the ladder's
+            # own rules — and a driver on a junior programme has been told, in
+            # writing, that he sits out a year first. Two rulebooks agreed by
+            # accident and the ladder's was quicker, so he was in a Formula One
+            # car with the story still owing him 2020.
+            #
+            # The ladder does not argue with the story: while a programme is
+            # between the championship and the seat, the next rung is simply not
+            # open yet.
+            "promoted": bool(done and p.earned(pos)
+                             and not self._programme_holds()),
+            "held": self._programme_holds(),
             # FINISHING A PATH IS WINNING ITS LAST CHAMPIONSHIP. Reaching the
             # top rung is not it — see `ladder.ARC_WIN`.
             "arc_done": bool(done and p.won_arc(pos)),

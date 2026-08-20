@@ -3622,6 +3622,39 @@ tutorial's pointer, accent for a season waiting to be decided.
 **The lesson for any future mark on a corner control:** the canvas is not the
 screen. A panel is a window, and a window clips.
 
+## THE LADDER NOW HOLDS THE DOOR FOR THE PROGRAMME
+
+*"oh yes i wa ssuposed to do a year of development"*.
+
+Winning Formula 2 promoted him to Formula One on the LADDER's own rules, while the
+programme had told him in writing that he sits out a year first. **Two rulebooks
+agreeing by accident, and the ladder's was quicker** — so he was in a Formula One
+car with the story still owing him 2020, and the development year, the test
+programme and the whole Bottas beat were skipped.
+
+Two gates, both in `season.py`:
+
+  * `_programme_holds()` — `evaluate()` reports `earned` but NOT `promoted` while
+    a programme sits between the championship and the seat, and `held` says why
+    so a screen can explain it. Only when the next rung is Formula One: a
+    programme driver still climbing to F2 is promoted like anybody else.
+  * A DEVELOPMENT YEAR HAS NO ROUNDS IN IT. `match` refuses a Formula One round
+    while the stage is DEV. The letter says he does not step into the car until
+    2021, and a round banked during that year would be the story's own premise
+    contradicted by the table underneath it.
+
+### AND THE TEST THAT SHOULD HAVE EXISTED ALL ALONG
+
+`programmetest` §7m walks the arc from the Formula 3 offer to the seat using ONLY
+what a player touches — `inbox.refresh`, `news.refresh`, and the dashboard's click
+handler. It never calls `apply_verdict` or `take_deal`.
+
+**That is the whole lesson of this session.** Every beat of this arc had a unit
+test, every one of them passed, and the arc was unreachable — because each test
+called the transition itself. A test that drives the state machine directly
+proves the machine works. Only a test that goes through the product's own doors
+proves the product does.
+
 ## THE ARC WAS NEVER WIRED UP — five reports, one root cause
 
 He won Formula 2, moved into Formula One, and reported: no letter about replacing
