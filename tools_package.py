@@ -67,7 +67,7 @@ REPO_ONLY = ("HANDOVER.md", "NEXT_SESSION.md")
 # Never, whatever else matches.
 NEVER = (
     "_settings.json", "_career.json", "_career.json.v6bak", "_bag.json",
-    "_modnames.json", "_session_log.txt", "_transcript.log",
+    "_modnames.json", "_session_log.txt", "_transcript.log", "_intro_done",
     "_career_preview.txt", "_menu_old.txt",
 )
 NEVER_DIRS = ("careers", "stings", "_voice_cache", "_voice_tmp", "__pycache__",

@@ -266,6 +266,18 @@ class RadioMixin(object):
         """
         import tutorial as tut
         cfg = getattr(self, "cfg", None)
+        # SAY WHAT WAS DECIDED, ONCE PER RUN. This was reported three times and
+        # each time the only way to tell whether the record had been read or
+        # written was to open two files and compare timestamps. LAW 23: the log
+        # is only worth reading if the answer is in it.
+        if not getattr(self, "_tut_logged", False):
+            self._tut_logged = True
+            try:
+                self._log("INTRO", "heard already=%s (marker=%s flag=%s)"
+                          % (tut.done(cfg), os.path.exists(tut.MARK),
+                             (cfg or {}).get(tut.FLAG)))
+            except Exception:
+                pass
         if cfg is None or tut.done(cfg):
             return
         if not getattr(self, "radio_enabled", True):

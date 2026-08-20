@@ -2988,26 +2988,17 @@ class PanelsMixin(object):
             self.menu_page = "main"
             self._menu_confirm = None
             return True
-        # THE INTRODUCTION SURVIVES THE BUTTONS IT IS POINTING AT.
+        # NOTHING HERE STOPS THE INTRODUCTION ANY MORE.
         #
-        # It said "any click ends it" and it meant it, including the click it had
-        # just asked for: the script says *open the trophy and start a career*,
-        # so following the instruction cancelled the lesson. He put it plainly —
-        # *"you said it was a click to end it, but i need to click the trophy
-        # thing whcih i do then it ends it, so i dont know what you mean"*.
+        # It was: any click except the two buttons it points at. That rule cost
+        # more than it bought — it made the one feature whose whole job is to
+        # explain the interface end the moment somebody used the interface, and
+        # it left the "he has heard it" record depending on which click happened
+        # first. His instruction: *"just have it play ine once full, no ability
+        # skip or anything"*.
         #
-        # Opening the menu or the trophy IS the tutorial working. Anything else —
-        # a row, a toggle, a page — is a man who has started doing something of
-        # his own, and being talked at through that is the tutorial nobody
-        # finishes. So the two button branches above return before ever reaching
-        # this, and everything below it stops the talking.
-        if getattr(self, "_tut_i", 0) and not getattr(self, "_tut_done_seen",
-                                                      False):
-            try:
-                self.tutorial_stop()
-                self._tut_done_seen = True
-            except Exception:
-                pass
+        # Nine short lines, once per machine, and then never again. A player who
+        # does not want to listen can carry on clicking through it.
         if not self.menu_open:
             return False
         for key, x0, y0, x1, y1 in getattr(self, "_menu_hits", ()):

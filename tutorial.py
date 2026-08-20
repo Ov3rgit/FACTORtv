@@ -21,13 +21,16 @@ switches are is a thing that happens on a first day.
 
 THE RULES THIS MODULE EXISTS TO HOLD
 ------------------------------------
-* ONCE. A flag in `_settings.json`, so it survives a restart, and a settings row
-  can hand it back to anybody who wants it again.
+* ONCE PER MACHINE, recorded in a marker file that nothing else writes, plus a
+  settings flag for installs older than the marker. A settings row hands it back
+  to anybody who wants it again.
 * NEVER ON TRACK. It runs in the garage or on the menu. An introduction talking
   over a green flag is worse than no introduction, and this product has spent a
   lot of effort keeping the engineer off the grid.
-* SKIPPABLE, and skipping it counts as having heard it. A player who clicks to
-  make it stop has told you something.
+* NO SKIP. It was skippable on any click, which made the one feature whose job is
+  to explain the interface stop the moment somebody used the interface — and left
+  the "heard it" record depending on which click came first. His call: *"just have
+  it play ine once full, no ability skip or anything"*. Nine short lines, once.
 * ONE LINE AT A TIME, gated on the speech actually finishing rather than on a
   timer, or nine lines arrive as one noise.
 
@@ -44,6 +47,21 @@ PATH = os.path.join(_DIR, "lines_data", "tutorial.json")
 # The flag's name in `_settings.json`. Kept here so the overlay, the settings
 # page and the tests cannot disagree about the spelling of it.
 FLAG = "intro_done"
+
+# ...AND A FILE THAT ONLY THIS FEATURE EVER TOUCHES.
+#
+# `_settings.json` was the wrong home for "he has heard it". Every toggle in the
+# product writes that file WHOLE, from one process's in-memory copy — so a second
+# overlay instance holding an older copy silently reverts anything the first one
+# recorded. That is exactly what happened: the introduction completed, wrote the
+# flag, and a still-running instance from before the fix wrote its own settings
+# back over it, taking the flag with it and reverting the volume to 0.35 in the
+# same stroke. He reported it three times and was right every time.
+#
+# A marker file cannot be clobbered by an unrelated save, because nothing else
+# writes it and it is only ever CREATED. The settings flag stays as a secondary
+# record so an existing install is not asked to sit through it again.
+MARK = os.path.join(_DIR, "_intro_done")
 
 # Marks a step can point at. A step naming anything else marks nothing, which is
 # a silence rather than a fault — the same rule the line data follows everywhere.
@@ -78,24 +96,53 @@ def steps(force=False):
 
 
 def done(cfg):
-    """Has this machine heard it? Missing flag means no, which is the default
-    state of a fresh install and the only sensible reading of an absent key."""
+    """Has this machine heard it?
+
+    EITHER RECORD IS ENOUGH. The marker file is the durable one; the settings flag
+    is what installs from before the marker existed have. Absent from both means a
+    fresh machine, which is the only sensible reading of nothing at all.
+    """
     try:
+        if os.path.exists(MARK):
+            return True
         return bool((cfg or {}).get(FLAG))
     except Exception:
         return True          # cannot tell -> do not talk at somebody
 
 
 def mark_done(cfg):
-    """Record that it has been heard, or skipped. Returns True if it changed."""
-    if cfg is None or cfg.get(FLAG):
-        return False
-    cfg[FLAG] = True
-    return True
+    """Record that it has been heard. Returns True if the settings need saving.
+
+    THE MARKER IS WRITTEN FIRST AND UNCONDITIONALLY, because it is the record that
+    survives; the settings flag is set as well and its save is somebody else's
+    job. A failure to write either must not raise into the frame loop.
+    """
+    wrote = False
+    try:
+        if not os.path.exists(MARK):
+            with io.open(MARK, "w", encoding="utf-8") as f:
+                f.write("The introduction has been played. Delete this file to "
+                        "hear it again, or use Play the introduction in the "
+                        "settings menu.\n")
+    except Exception:
+        pass
+    if cfg is not None and not cfg.get(FLAG):
+        cfg[FLAG] = True
+        wrote = True
+    return wrote
 
 
 def replay(cfg):
-    """Hand it back. Returns True if there was anything to hand back."""
+    """Hand it back. Returns True if there was anything to hand back.
+
+    BOTH RECORDS GO, or the marker would refuse a replay the player just asked
+    for.
+    """
+    try:
+        if os.path.exists(MARK):
+            os.remove(MARK)
+    except Exception:
+        pass
     if cfg is None:
         return False
     cfg[FLAG] = False

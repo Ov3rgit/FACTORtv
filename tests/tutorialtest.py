@@ -22,6 +22,13 @@ import cast as cast_mod                                    # noqa: E402
 import overlay_radio as R                                  # noqa: E402
 import tutorial as T                                       # noqa: E402
 
+# THE MARKER IS A REAL FILE, so it is pointed somewhere disposable before a
+# single check runs. Without this the first fixture that finishes the script
+# writes `_intro_done` into the working copy, every later fixture reads "already
+# heard", and ten checks fail for a reason that has nothing to do with the code.
+import tempfile as _tf                                     # noqa: E402
+T.MARK = os.path.join(_tf.mkdtemp(prefix="factortv_intro_"), "_intro_done")
+
 fails = []
 
 
@@ -56,6 +63,12 @@ class Host(R.RadioMixin):
     """Enough overlay to run the introduction and record what it did."""
 
     def __init__(self):
+        # EACH FIXTURE IS A DIFFERENT MACHINE. The marker is machine-wide by
+        # design — that is the whole point of it — so a suite of independent
+        # fixtures needs an independent one each, or the first script to finish
+        # silences every fixture after it.
+        T.MARK = os.path.join(_tf.mkdtemp(prefix="factortv_intro_"),
+                              "_intro_done")
         self.cfg = {}
         self.tts = _TTS()
         self.radio_enabled = True
@@ -184,20 +197,33 @@ check("menu" in seen, "and so is the menu")
 check(h5._tut_point == "", "and nothing is left marked at the end",
       repr(h5._tut_point))
 
-print("\n6. A CLICK ENDS IT, AND THAT COUNTS AS HEARD")
+print("\n6. NOTHING SKIPS IT")
+# It used to stop on any click except the two buttons it points at, and that rule
+# cost more than it bought: the one feature whose job is to explain the interface
+# ended the moment somebody used the interface, and the "heard it" record then
+# depended on which click came first. His call: *"just have it play ine once full,
+# no ability skip or anything"*.
 h6 = Host()
 h6.update_tutorial(None)
 check(len(h6.tts.said) == 1, "one line has been said")
-h6.tutorial_stop()
 h6.tts.speaking = False
 _run(h6, None)
-check(len(h6.tts.said) == 1, "and skipping stops the rest of it",
-      "%d said" % len(h6.tts.said))
-check(T.done(h6.cfg), "a player who skipped it has told you something",
-      str(h6.cfg))
+check(len(h6.tts.said) == len(T.steps()),
+      "and it plays all the way to the end regardless",
+      "%d of %d" % (len(h6.tts.said), len(T.steps())))
+check(T.done(h6.cfg), "then records itself heard", str(h6.cfg))
 check(h6._tut_point == "", "and no button is left glowing")
+# AND THE CLICK HANDLER NO LONGER TOUCHES IT. Checked in the source rather than
+# by clicking, because the point is that the hook is gone.
+import io as _io3                                          # noqa: E402
+import overlay_panels as _op3                              # noqa: E402
+_src3 = _io3.open(_op3.__file__, encoding="utf-8").read()
+_click = _src3[_src3.index("def menu_click"):
+               _src3.index("def _menu_slide")]
+check("tutorial_stop" not in _click,
+      "no click path stops the introduction any more")
 
-print("\n6b. ...BUT NOT THE BUTTONS IT IS TELLING HIM TO PRESS")
+print("\n6b. AND USING THE INTERFACE DOES NOT STOP IT EITHER")
 # The contradiction he found: the script says *open the trophy and start a
 # career*, and "any click ends it" included that one — so following the
 # instruction cancelled the lesson. "you said it was a click to end it, but i
@@ -211,6 +237,9 @@ import overlay_panels as _P
 
 class _ClickHost(_P.PanelsMixin, R.RadioMixin):
     def __init__(self):
+        # A DIFFERENT MACHINE AGAIN - see `Host`.
+        T.MARK = os.path.join(_tf.mkdtemp(prefix="factortv_intro_"),
+                              "_intro_done")
         self.cfg = {}
         self.tts = _TTS()
         self.radio_enabled = True
@@ -264,10 +293,10 @@ _pump(hr, 2)
 _n2 = len(hr.tts.said)
 hr.menu_click(10, 10)
 _pump(hr, 12)
-check(len(hr.tts.said) == _n2,
-      "but clicking a menu row does end it, as it always did",
+check(len(hr.tts.said) > _n2,
+      "and nor does clicking a menu row, which used to end it",
       "%d then %d" % (_n2, len(hr.tts.said)))
-check(T.done(hr.cfg), "and that still counts as heard", str(hr.cfg))
+check(T.done(hr.cfg), "it finishes and records itself", str(hr.cfg))
 
 print("\n7. NO ENGINEER, NO LESSON — AND IT STAYS OWED")
 # Somebody who has switched the engineer off has said something; shouting the
@@ -284,6 +313,39 @@ _run(h7, None)
 check(len(h7.tts.said) == len(T.steps()),
       "so it is still there when he turns him back on",
       "%d lines" % len(h7.tts.said))
+
+print("\n7b. THE RECORD SURVIVES SOMETHING ELSE REWRITING THE SETTINGS")
+# THE BUG HE REPORTED THREE TIMES. "he has heard it" lived only in
+# `_settings.json`, and every toggle in the product writes that file WHOLE from
+# one process's in-memory copy — so a second overlay instance holding an older
+# copy reverted it, along with his volume, and the introduction played on every
+# launch for two days.
+#
+# A marker file cannot be clobbered by an unrelated save, because nothing else
+# writes it and it is only ever created.
+import os as _os4                                          # noqa: E402
+hm = Host()
+_run(hm, None)
+check(len(hm.tts.said) == len(T.steps()), "it plays through once")
+check(_os4.path.exists(T.MARK), "and leaves a marker of its own", T.MARK)
+# NOW SOMETHING ELSE WRITES THE SETTINGS FROM A STALE COPY, exactly as a second
+# instance would: the flag is gone.
+hm.cfg = {"volume": 0.35}
+check(T.done(hm.cfg),
+      "and it still knows, with the settings flag wiped", str(hm.cfg))
+_same_machine = T.MARK
+hm2 = Host()
+T.MARK = _same_machine          # ...the same machine, a later launch
+hm2.cfg = {"volume": 0.35}
+_run(hm2, None)
+check(not hm2.tts.said,
+      "so a fresh launch after that stays silent", str(len(hm2.tts.said)))
+# A REPLAY CLEARS BOTH, or the marker would refuse what he just asked for.
+hm2.tutorial_replay()
+check(not _os4.path.exists(T.MARK), "replay removes the marker too")
+_run(hm2, None)
+check(len(hm2.tts.said) == len(T.steps()), "and it plays again",
+      "%d lines" % len(hm2.tts.said))
 
 print("\n8. IT CAN BE ASKED FOR AGAIN")
 h8 = Host()

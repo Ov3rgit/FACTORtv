@@ -40,3 +40,6 @@ dist_exe/
 # build has already fallen into once each, and rebuilding without it means
 # finding them again.
 !factortv.spec
+
+# The introduction has been played on this machine (see tutorial.py).
+_intro_done

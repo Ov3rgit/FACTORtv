@@ -3655,6 +3655,43 @@ called the transition itself. A test that drives the state machine directly
 proves the machine works. Only a test that goes through the product's own doors
 proves the product does.
 
+## THE INTRODUCTION PLAYED EVERY LAUNCH FOR TWO DAYS — the record was in the wrong file
+
+Reported three times. Twice I "fixed" it and twice it came back, which should have
+been the tell: the logic was right and the STORAGE was wrong.
+
+`_settings.json` was the wrong home for "he has heard it". **Every toggle in the
+product writes that file WHOLE, from one process's in-memory copy** — so a second
+overlay instance holding an older copy silently reverts anything another one
+recorded. His 22:24 run predated the completion fix; when it wrote its settings
+back it took the flag with it *and* reverted the volume from 0.65 to 0.35 in the
+same stroke. Both symptoms, one cause.
+
+It was still happening while I was diagnosing it: the file read `intro_done: true`
+at the start of the exchange and `None` twenty minutes later, with nothing but a
+running overlay in between.
+
+**`_intro_done` is a marker file that only this feature writes and that is only
+ever CREATED.** An unrelated wholesale save cannot lose it. The settings flag stays
+as a secondary record so installs older than the marker are not asked to sit
+through it again, and `replay` clears both.
+
+  * The suite points `T.MARK` at a temp path per fixture, because the marker is
+    machine-wide BY DESIGN and a suite of independent fixtures each need their own
+    machine — without that, the first fixture to finish the script silenced the
+    other ten.
+  * `_intro_done` is in `.gitignore` and in the packager's NEVER list. It is his
+    state, not content.
+
+### AND IT NO LONGER SKIPS
+
+*"just have it play ine once full, no ability skip or anything"*. The skip rule was
+already the second thing he had to correct about it — first it cancelled on the
+click it had just asked him to make, then the "heard it" record depended on which
+click came first. **A feature whose whole job is to explain the interface should
+not end the moment somebody uses the interface.** Nine short lines, once per
+machine.
+
 ## NAMING THE MAN WHOSE SEAT IT WAS
 
 *"the commentators must aslo say exactly who i replaced"*, and they could not: the
